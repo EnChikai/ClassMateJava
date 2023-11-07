@@ -90,35 +90,14 @@ a {
 				</div>
 			</th>
 			<td style="background: white; vertical-align: top;" rowspan='5'>
-<%-- <% ============================================================================= %> --%>
+<%-- <% ============================================================================= %> --%>			
 			
-			<table id="profile" >
-			<tr>
-			<th class="profileTh">
-				<div id="img" >
-				<img title="미졌습니까? 휴먼?" alt="관리자 이미지" src="/resources/img/sample_img.png" width="130" height="150">
-				</div>
-			</th>
-			</tr>
 			
-			<tr>
-				<td id="helloAdmin" class="profileTd">
-				관리자(   )님<br>
-				반갑습니다
-				</td>
-			</tr>
+			
+			
+			
 			
 <%-- <% ============================================================================= %> --%>			
-			<tr>
-				<td class="profileTd">
-				<div id="logout">
-				직급: (   ) 
-					<a style="text-decoration: underline; color: red; " href="../board/board">로그아웃</a>
-				</div>
-				</td>
-			</tr>
-			</table>
-			
 			</td>
 		</tr>
 		<tr>

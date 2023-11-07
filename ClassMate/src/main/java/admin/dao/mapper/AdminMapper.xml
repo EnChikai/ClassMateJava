@@ -6,4 +6,8 @@
   
   <mapper namespace="admin.dao.face.adminDao">
   
+    <select id="userInfoCntAll" parameterType="int">
+  	SELECT count(*) FROM user_info
+  	</select>
+  	
   </mapper>
