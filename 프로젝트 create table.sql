@@ -12,10 +12,10 @@ CREATE TABLE sub_category(
 
 CREATE TABLE user_info(
     user_no NUMBER CONSTRAINT user_info_PK PRIMARY KEY NOT NULL
-    , user_id VARCHAR2(100) NOT NULL
+    , user_id VARCHAR2(100) NOT NULL UNIQUE
     , user_pw VARCHAR2(100) NOT NULL
     , user_gender VARCHAR2(10)
-    , user_birthday DATE DEFAULT SYSDATE
+    , user_birthday DATE
     , user_phone VARCHAR2(50)
     , user_name VARCHAR2(50)
     , user_email VARCHAR2(100)
@@ -167,7 +167,7 @@ CREATE TABLE free_board(
     , user_no NUMBER NOT NULL
     , CONSTRAINT user_info_FK_free_board FOREIGN KEY(user_no) REFERENCES user_info(user_no)
     , free_head VARCHAR(30)
-    , free_date DATE
+    , free_date DATE DEFAULT SYSDATE
     , free_hit NUMBER
     , free_name VARCHAR(500)
     , free_content LONG
@@ -229,4 +229,4 @@ CREATE TABLE general_question(
     , qa_answer VARCHAR2(4000)
 );
 
---commit;
+commit;
