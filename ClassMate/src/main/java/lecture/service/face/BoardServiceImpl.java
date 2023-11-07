@@ -1,4 +1,4 @@
-package board.service.impl;
+package lecture.service.face;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

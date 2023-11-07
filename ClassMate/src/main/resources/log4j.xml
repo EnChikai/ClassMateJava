@@ -23,6 +23,13 @@
 		<level value="trace" />
 	</logger>
 	
+	<logger name="class">
+		<level value="info" />
+	</logger>
+	
+	<logger name="class.dao">
+		<level value="trace" />
+	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
