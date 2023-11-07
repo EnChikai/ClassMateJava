@@ -42,6 +42,7 @@ width: 280px;
 
 #menuTop{
 background: black;
+
 }
 
 .underMenu{
@@ -60,8 +61,9 @@ font-size: 22px;
 padding-right: 17px;
 padding-top: 20px;
 padding-bottom: 20px;
-width: 261px;
+width: 278px;
 }
+
 
 <%-- <% ============================================================================= %> --%>
 
@@ -70,12 +72,6 @@ width: 261px;
 background: rgb(241,196,15) 
 
 }
-
-a {
-  text-decoration: none;
-  color: white;
-}
-
 
 </style>
 
@@ -86,17 +82,37 @@ a {
 		<tr id="menuTop">
 			<th class ="adminPage" style="color: white;">
 				<div class="menuFontPadding">
-				<a href="./main">관리페이지</a>
+				<a style="text-decoration: none; color: white;" href="./main">관리페이지</a>
 				</div>
 			</th>
-			<td style="background: white; vertical-align: top;" rowspan='5'>
+			<td style="background: white; vertical-align: top; text-align: center;" rowspan='6'>
 <%-- <% ============================================================================= %> --%>			
 			
-			${list }
+			<div style="border: 1px solid #ccc;">
+			<div>회원 관리</div>
+			<table class="table table-bordered border-primary table-hover">
 			
+			<tr class="table-primary border-primary">
+				<th>회원 번호</th>
+				<th>회원 아이디</th>
+				<th>회원명</th>
+				<th>가입일</th>
+				<th>강사 여부<br>
+			</tr>
+			
+			<c:forEach items="${list }" var="list"> 
+				<tr>
+					<td>${list.userNo }</td>
+					<td>${list.userId }</td>
+					<td>${list.userName }</td>
+					<td>${list.userDateCreated }</td>
+					<td></td>
+				<tr>
+			</c:forEach>
+			</table>
 			
 			<c:import url=".././layout/pagination.jsp"/>
-			
+			</div>
 			
 <%-- <% ============================================================================= %> --%>			
 			</td>
@@ -104,7 +120,7 @@ a {
 		<tr>
 			<th class="adminPage underMenu">
 				<div class="menuFontPadding changeBack">
-				<a href="./userList">회원 관리</a>
+				<a style="text-decoration: none; color: white;" href="./userList">회원 관리</a>
 				</div>
 			</th>
 			<td>

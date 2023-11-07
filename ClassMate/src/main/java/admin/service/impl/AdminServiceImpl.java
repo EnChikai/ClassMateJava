@@ -20,7 +20,7 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired AdminDao adminDao;
 	
 	@Override
-	public Paging getPaging(Paging param) {
+	public Paging getUserPaging(Paging param) {
 		logger.info("getPaging(Paging param)");
 		
 		//총 게시글 수 조회

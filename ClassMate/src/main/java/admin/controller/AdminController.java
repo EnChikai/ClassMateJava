@@ -39,7 +39,7 @@ public class AdminController {
 		
 		
 		// 페이징 계산
-		paging = adminService.getPaging(paging);
+		paging = adminService.getUserPaging(paging);
 		logger.info("paging : {}", paging);
 				
 		List<UserInfo> list = adminService.userInfoList(paging);
