@@ -60,7 +60,7 @@ font-size: 22px;
 padding-right: 17px;
 padding-top: 20px;
 padding-bottom: 20px;
-width: 261px;
+width: 278px;
 }
 
 <%-- <% ============================================================================= %> --%>
@@ -71,25 +71,19 @@ background: rgb(241,196,15)
 
 }
 
-a {
-  text-decoration: none;
-  color: white;
-}
-
-
 </style>
 
 <div id="adminMenu">
 
-<div >
+<div>
 	<table style="border-spacing: 0;">
 		<tr id="menuTop">
 			<th class ="adminPage" style="color: white;">
 				<div class="menuFontPadding">
-				<a href="./main">관리페이지</a>
+				<a style="text-decoration: none; color: white;" href="./main">관리페이지</a>
 				</div>
 			</th>
-			<td style="background: white; vertical-align: top;" rowspan='5'>
+			<td style="background: white; vertical-align: top;" rowspan='6'>
 <%-- <% ============================================================================= %> --%>
 			
 			<table id="profile" >
@@ -124,7 +118,7 @@ a {
 		<tr>
 			<th class="adminPage underMenu">
 				<div class="menuFontPadding changeBack">
-				<a href="./userList">회원 관리</a>
+				<a style="text-decoration: none; color: white;" href="./userList">회원 관리</a>
 				</div>
 			</th>
 			<td>
