@@ -30,8 +30,6 @@ CREATE TABLE admin(
     admin_no NUMBER CONSTRAINT admin_PK PRIMARY KEY NOT NULL
     , user_no NUMBER NOT NULL
     , CONSTRAINT user_info_FK_admin FOREIGN KEY(user_no) REFERENCES user_info(user_no)
-    , admin_id VARCHAR2(100) NOT NULL
-    , admin_pw VARCHAR2(100) NOT NULL
 );
 
 CREATE TABLE teacher(
