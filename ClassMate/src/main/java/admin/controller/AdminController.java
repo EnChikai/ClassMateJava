@@ -18,7 +18,7 @@ public class AdminController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Autowired AdminService adminService;
+	@Autowired private AdminService adminService;
 	
 	@GetMapping("/admin/main")
 	public void adminMainPageGet() {
