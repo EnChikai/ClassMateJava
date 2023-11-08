@@ -20,11 +20,12 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired AdminDao adminDao;
 	
 	@Override
-	public Paging getUserInfoPaging(Paging param) {
+	public Paging getUserPaging(Paging param) {
 		logger.info("getPaging(Paging param)");
 		
 		//총 게시글 수 조회
 		int totalCount = adminDao.userInfoCntAll();
+		logger.info("totalCount : {}",totalCount);
 		
 		//페이징 객체 생성(페이징 계산)
 		Paging paging = new Paging(totalCount, param.getCurPage());
@@ -36,7 +37,7 @@ public class AdminServiceImpl implements AdminService{
 	public List<UserInfo> userInfoList(Paging paging) {
 		logger.info("userInfoList(Paging param)");
 		
-		List<UserInfo> list = adminDao.selectAll(paging);
+		List<UserInfo> list = adminDao.selectUserAll(paging);
 		logger.info("list : {}",list);
 		
 		if(list != null) {

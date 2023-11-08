@@ -1,34 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+
+
+
+
+<style type="text/css">
+
+.defaultWidth{
+   margin-left: 400px;
+   margin-right: 400px;
+}
+</style>
+
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<div class="defaultWidth" >
 
+
+<h1 style="text-align: center;"><strong>메인입니다.</strong></h1>
+<c:forEach var="list" items="${list }">
+	${list }<br>
+</c:forEach>
+
+</div>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
-
-</body>
-</html>

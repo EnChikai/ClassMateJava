@@ -8,13 +8,13 @@ import web.util.Paging;
 public interface AdminDao {
 
 	/**
-	 * 전체 게시글 수를 조회한다
+	 * 전체 유저 수를 조회한다
 	 * 
 	 * 
-	 * @return 총 게시글 수
+	 * @return 총 유저 수
 	 */
 	public int userInfoCntAll();
 
-	public List<UserInfo> selectAll(Paging paging);
+	public List<UserInfo> selectUserAll(Paging paging);
 	
 }

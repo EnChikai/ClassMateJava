@@ -18,7 +18,7 @@ public interface AdminService {
 	 * @param param - curPage정보를 담고 있는 객체
 	 * @return 페이징 계산이 완료된 객체
 	 */
-	public Paging getUserInfoPaging(Paging param);
+	public Paging getUserPaging(Paging param);
 	
 	public List<UserInfo> userInfoList(Paging param);
 	
