@@ -8,34 +8,20 @@
     $("#modal").fadeIn(300);
     $("." + modalname).fadeIn(300);
 
-    $('html, body').css({ 'overflow': 'hidden', 'height': '100%' });
-    $('#element').on('scroll touchmove mousewheel', function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      return false;
-    });
+
   };
-  function openModal2(modalname) {
+  function openModal2(modalname2) {
     $("#modal2").fadeIn(300);
-    $("." + modalname).fadeIn(300);
+    $("." + modalname2).fadeIn(300);
+    
 
-    $('html, body').css({ 'overflow': 'hidden', 'height': '100%' });
-    $('#element').on('scroll touchmove mousewheel', function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      return false;
-    });
   };
-  function openModal3(modalname) {
+  
+  function openModal3(modalname3) {
     $("#modal3").fadeIn(300);
-    $("." + modalname).fadeIn(300);
+    $("." + modalname3).fadeIn(300);
 
-    $('html, body').css({ 'overflow': 'hidden', 'height': '100%' });
-    $('#element').on('scroll touchmove mousewheel', function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      return false;
-    });
+
   };
 
   // 외부 영역 클릭시 팝업 닫기
@@ -44,23 +30,32 @@
     if (!modal.is(e.target) && modal.has(e.target).length === 0) {
       $("#modal").fadeOut(300);
       modal.fadeOut(300);
+	
+      $(".aa").click(function(){
+     	$('html, body').css({ 'overflow': 'auto', 'height': '100%' });
+    	  
+      })
+      
 
-      $('html, body').css({ 'overflow': 'auto', 'height': '100%' });
-      $('#element').off('scroll touchmove mousewheel');
     }
   });
   
   // 외부 영역 클릭시 팝업 닫기
-  $(document).mouseup(function (e) {
-    var modal = $(".modal-con2"); // 모달 내용에 대한 올바른 클래스
-    if (!modal.is(e.target) && modal.has(e.target).length === 0) {
+   $(document).mouseup(function (e) {
+    var modal2 = $(".modal-con2"); // 모달 내용에 대한 올바른 클래스
+    if (!modal2.is(e.target) && modal2.has(e.target).length === 0) {
       $("#modal2").fadeOut(300);
-      modal.fadeOut(300);
-
+      modal2.fadeOut(300);
+	
+      $(".aa").click(function(){
       $('html, body').css({ 'overflow': 'auto', 'height': '100%' });
-      $('#element').off('scroll touchmove mousewheel');
+
+      })
+      
+      
     }
-  });
+  }); 
+  
   
   // 외부 영역 클릭시 팝업 닫기
   $(document).mouseup(function (e) {
@@ -69,8 +64,12 @@
       $("#modal3").fadeOut(300);
       modal.fadeOut(300);
 
-      $('html, body').css({ 'overflow': 'auto', 'height': '100%' });
-      $('#element').off('scroll touchmove mousewheel');
+     $(".aa").click(function(){
+     $('html, body').css({ 'overflow': 'auto', 'height': '100%' });
+
+      })
+      
+      
     }
   });
 
@@ -78,12 +77,16 @@
 
 <style type="text/css">
 
+html{
+	overflow: auto;
+}
+
 *{margin:0; padding:0;}
 a.button{display:inline-block; text-decoration:none; color:#000;}
 
 #modal{
   display:none;
-  position:fixed; 
+  position:fixed;
   width:100%; height:100%;
   top:0; left:0; 
   background:rgba(0,0,0,0.3);
@@ -649,11 +652,11 @@ ClassMate는 정보주체의 문의에 대해 지체없이 답변 및 처리해�
 	<tr>
 		<td><a href="/main/site" style="text-decoration: none; color: black;">사이트 소개</a></td>
 		<td><div class="vl"></div></td>
-		<td><a href="javascript:openModal('modal1');" class="button modal-open">이용약관</a></td>
+		<td><a href="javascript:openModal('modal1');" class="button modal-open aa">이용약관</a></td>
 		<td><div class="vl"></div></td>
-		<td><a href="javascript:openModal('modal2');" class="button modal-open">개인 정보 처리 방침</a></td>
+		<td><a href="javascript:openModal('modal2');" class="button modal-open aa">개인 정보 처리 방침</a></td>
 		<td><div class="vl"></div></td>
-		<td><a href="javascript:openModal('modal3');" class="button modal-open">위치 기반 서비스 이용 약관</td>
+		<td><a href="javascript:openModal('modal3');" class="button modal-open aa">위치 기반 서비스 이용 약관</td>
 	</tr>
 </table>
 <br><br>
