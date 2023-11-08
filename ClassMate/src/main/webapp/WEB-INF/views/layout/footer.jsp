@@ -647,7 +647,7 @@ ClassMate는 정보주체의 문의에 대해 지체없이 답변 및 처리해�
 
 <table>
 	<tr>
-		<td><a href="./site" style="text-decoration: none; color: black;">사이트 소개</a></td>
+		<td><a href="/main/site" style="text-decoration: none; color: black;">사이트 소개</a></td>
 		<td><div class="vl"></div></td>
 		<td><a href="javascript:openModal('modal1');" class="button modal-open">이용약관</a></td>
 		<td><div class="vl"></div></td>

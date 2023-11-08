@@ -47,7 +47,7 @@ a{
 </head>
 <body>
 <div id="logo">
-<a href="./main"><img src="/resources/img/4.jpg" width="150px;" height="80px;" title="로고"/></a>
+<a href="/main/main"><img src="/resources/img/4.jpg" width="150px;" height="80px;" title="로고"/></a>
 </div>
 <div class="menu">
 <table style="margin-left: auto; margin-right: auto; font-size: 20px;">
@@ -55,7 +55,7 @@ a{
 		<th><a href="">카테고리</a></th>
 		<th><a href="">게시판</a></th>
 		<th>검색</th>
-		<th><a href="./basket">장바구니</a></th>
+		<th><a href="/payment/basket">장바구니</a></th>
 		<th><a href="">ClassMate</a></th>
 	</tr>
 </table>
