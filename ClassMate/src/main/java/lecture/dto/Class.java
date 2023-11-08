@@ -9,6 +9,7 @@ public class Class {
 	private int subCategoryNo;
 	private String teacher;
 	private String className;
+	private Date classDate;
 	private Date classStart;
 	private Date classEnd;
 	private int maxCount;
@@ -23,8 +24,8 @@ public class Class {
 	public Class() {}
 
 	public Class(int classNo, int teacherNo, int mainCategoryNo, int subCategoryNo, String teacher, String className,
-			Date classStart, Date classEnd, int maxCount, int expense, String classInfo, String curriculum, int onOff,
-			String headImg, String content, int deleteBoolean) {
+			Date classDate, Date classStart, Date classEnd, int maxCount, int expense, String classInfo,
+			String curriculum, int onOff, String headImg, String content, int deleteBoolean) {
 		super();
 		this.classNo = classNo;
 		this.teacherNo = teacherNo;
@@ -32,6 +33,7 @@ public class Class {
 		this.subCategoryNo = subCategoryNo;
 		this.teacher = teacher;
 		this.className = className;
+		this.classDate = classDate;
 		this.classStart = classStart;
 		this.classEnd = classEnd;
 		this.maxCount = maxCount;
@@ -48,9 +50,10 @@ public class Class {
 	public String toString() {
 		return "Class [classNo=" + classNo + ", teacherNo=" + teacherNo + ", mainCategoryNo=" + mainCategoryNo
 				+ ", subCategoryNo=" + subCategoryNo + ", teacher=" + teacher + ", className=" + className
-				+ ", classStart=" + classStart + ", classEnd=" + classEnd + ", maxCount=" + maxCount + ", expense="
-				+ expense + ", classInfo=" + classInfo + ", curriculum=" + curriculum + ", onOff=" + onOff
-				+ ", headImg=" + headImg + ", content=" + content + ", deleteBoolean=" + deleteBoolean + "]";
+				+ ", classDate=" + classDate + ", classStart=" + classStart + ", classEnd=" + classEnd + ", maxCount="
+				+ maxCount + ", expense=" + expense + ", classInfo=" + classInfo + ", curriculum=" + curriculum
+				+ ", onOff=" + onOff + ", headImg=" + headImg + ", content=" + content + ", deleteBoolean="
+				+ deleteBoolean + "]";
 	}
 
 	public int getClassNo() {
@@ -99,6 +102,14 @@ public class Class {
 
 	public void setClassName(String className) {
 		this.className = className;
+	}
+
+	public Date getClassDate() {
+		return classDate;
+	}
+
+	public void setClassDate(Date classDate) {
+		this.classDate = classDate;
 	}
 
 	public Date getClassStart() {
