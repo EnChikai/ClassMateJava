@@ -37,21 +37,26 @@ th{
     padding-left: 17px;
 }
 
+a{
+	text-decoration: none;
+	color: black;
+}
+
 </style>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>	
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 <div id="logo">
-<img src="/resources/img/4.jpg" width="150px;" height="80px;" title="로고"/>
+<a href="./main"><img src="/resources/img/4.jpg" width="150px;" height="80px;" title="로고"/></a>
 </div>
 <div class="menu">
 <table style="margin-left: auto; margin-right: auto; font-size: 20px;">
 	<tr>
-		<th>카테고리</th>
-		<th>게시판</th>
+		<th><a href="">카테고리</a></th>
+		<th><a href="">게시판</a></th>
 		<th>검색</th>
-		<th>장바구니</th>
-		<th>ClassMate</th>
+		<th><a href="./basket">장바구니</a></th>
+		<th><a href="">ClassMate</a></th>
 	</tr>
 </table>
 </div>
