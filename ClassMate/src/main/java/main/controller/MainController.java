@@ -26,5 +26,10 @@ public class MainController {
 		
 		
 	}
+	
+	@GetMapping("/site")
+	public void siteIntroduction() {
+		
+	}
 
 }

@@ -8,8 +8,8 @@
 <style type="text/css">
 
 .defaultWidth{
-   margin-left: 300px;
-   margin-right: 300px;
+   margin-left: 400px;
+   margin-right: 400px;
 }
 </style>
 
@@ -19,7 +19,7 @@
 <div class="defaultWidth" >
 
 
-
+<h1 style="text-align: center;"><strong>메인입니다.</strong></h1>
 <c:forEach var="list" items="${list }">
 	${list }<br>
 </c:forEach>
