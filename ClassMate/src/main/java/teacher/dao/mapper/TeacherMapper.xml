@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="teacher.dao.face.TeacherDao">
+
+<sql id="selectClass">
+SELECT class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_start, 
+		class_end, max_count, expense, class_info, curriculum, on_off, content, delete_boolean
+	FROM class
+</sql>
+
+<select id="selectByUserNo" resultType="int" parameterType="int">
+SELECT teacher_no FROM teacher
+	<where>
+		AND user_no = #{userNo}
+	</where>
+</select>
+
+<select id="selectPageList" resultType="Class">
+	SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				<include refid="selectClass" />
+				WHERE teacher_no = #{teacherNo}
+				ORDER BY board_no DESC
+		    ) B
+		) WHERE rnum BETWEEN #{startNo} AND #{endNo}	
+</select>
+
+<select id="selectCntAll" resultType="int" parameterType="int">
+	SELECT count(*) FROM ()
+	<include refid="selectClass" />
+	WHERE teacher_no = #{teacherNo}
+	)
+</select>
+
+<select id="selectByClassNo" resultType="Class" parameterType="Class">
+	<include refid="selectClass" />
+	<where>
+		AND class_no = #{classNo}
+	</where>
+</select>
+
+<insert id="classInsert" parameterType="Class">
+	<selectKey order="BEFORE" resultType="int" keyProperty="classNo">
+			SELECT class_seq.nextval FROM dual
+	</selectKey>
+		INSERT INTO board ( class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_start, 
+		class_end, max_count, expense, class_info, curriculum, on_off, content, delete_boolean )
+		VALUES ( #{classNo}, #{teacherNo}, #{mainCategoryNo}, #{subCategoryNo}, #{teacher}, #{className}, #{classStart},
+		 #{classEnd}, #{maxCount}, #{expense}, #{classInfo}, #{curriculum}, #{onOff}, #{content}, #{deleteBoolean} )
+</insert>
+
+
+</mapper>
