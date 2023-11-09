@@ -1,6 +1,7 @@
 package payment.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import payment.dao.face.PaymentDao;
 import payment.dto.Basket;
 import payment.service.face.PaymentService;
+import user.dto.UserInfo;
 import lecture.dto.Class;
 
 @Service
@@ -25,10 +27,15 @@ public class PaymentServiceImpl implements PaymentService{
 	public Map<String, Object> selectBasket(int userNo) {
 		logger.info("selectBasket(){}",userNo);
 		
+		UserInfo userInfo = paymentDao.selectUser(userNo);
+		logger.info("user:{}",userInfo);
+		
 		List<Basket> basketList = paymentDao.getBasketUserNo(userNo);
 		logger.info("basketList:{}",basketList);
-		logger.info("basketList.get(0):{}",basketList.get(0));
-		logger.info("basketList.get(1):{}",basketList.get(1));
+		
+		for(int i = 1; i<basketList.size(); i++) {
+			logger.info("basketList.get("+i+"):{}",basketList.get(i));
+		}
 		
 		List<Class> classList = new ArrayList<Class>();
 		
@@ -37,7 +44,12 @@ public class PaymentServiceImpl implements PaymentService{
 		}
 		logger.info("classList:{}",classList);
 		
-		return null;
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("userInfo", userInfo);
+		map.put("classList", classList);
+		
+		return map;
 	}
 
 }
