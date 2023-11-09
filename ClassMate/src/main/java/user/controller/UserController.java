@@ -67,7 +67,7 @@ public class UserController {
 			session.invalidate();
 		}
 		
-		return "redirect:./main";
+		return "redirect:/main/main";
 	}
 	
 	@GetMapping("/findUser")

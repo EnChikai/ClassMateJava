@@ -95,6 +95,7 @@ background: rgb(170,170,170)
 </style>
 <c:forEach items="${classList }" var="classList">
 <script type="text/javascript">
+
 //가맹점 코드 초기화
 IMP.init('imp04411553')
 
