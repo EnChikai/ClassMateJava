@@ -67,5 +67,4 @@ margin-bottom: 10px;
 			</table>
 			
 <%-- <% ============================================================================= %> --%>			
-
 <c:import url="/WEB-INF/views/layout/adminFooter.jsp" />

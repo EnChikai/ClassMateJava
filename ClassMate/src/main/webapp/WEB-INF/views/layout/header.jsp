@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html style="overflow: auto; height: 100%;">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -45,9 +45,9 @@ a{
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
-<body>
+<body style="overflow: auto; height: 100%;">
 <div id="logo">
-<a href="/main/main"><img src="/resources/img/4.jpg" width="150px;" height="80px;" title="로고"/></a>
+<a href="/main/main"><img src="/resources/img/logo.jpg" width="150px;" height="80px;" title="로고"/></a>
 </div>
 <div class="menu">
 <table style="margin-left: auto; margin-right: auto; font-size: 20px;">

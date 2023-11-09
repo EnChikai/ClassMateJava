@@ -24,5 +24,4 @@
 		FROM class
 		WHERE class_no = #{classNo}
 	</select>
-
 </mapper>
