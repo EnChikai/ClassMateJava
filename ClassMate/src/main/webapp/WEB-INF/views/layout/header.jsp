@@ -37,7 +37,7 @@ th{
     padding-left: 17px;
 }
 
-a{
+.mainA{
 	text-decoration: none;
 	color: black;
 }
@@ -52,13 +52,22 @@ a{
 <div class="menu">
 <table style="margin-left: auto; margin-right: auto; font-size: 20px;">
 	<tr>
-		<th><a href="">카테고리</a></th>
-		<th><a href="">게시판</a></th>
+		<th><a class="mainA" href="">카테고리</a></th>
+		<th><a class="mainA" href="/board/board">게시판</a></th>
 		<th>검색</th>
-		<th><a href="/payment/basket">장바구니</a></th>
-		<th><a href="">ClassMate</a></th>
+		<th><a class="mainA" href="/payment/basket">장바구니</a></th>
+		<th>ClassMate</th>
 	</tr>
 </table>
+
+<div>
+<ul>
+	<li>마이페이지</li>
+	<li>강사신청</li>
+	<li>1:1문의</li>
+	<li>로그인</li>
+</ul>
+</div>
 </div>
 
 
