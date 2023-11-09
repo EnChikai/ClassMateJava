@@ -48,6 +48,7 @@ public class PaymentServiceImpl implements PaymentService{
 
 		map.put("userInfo", userInfo);
 		map.put("classList", classList);
+		map.put("classListSize", classList.size());
 		
 		return map;
 	}

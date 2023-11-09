@@ -33,14 +33,16 @@ public class PaymentController {
 		
 		//로그인 구현 이후 사용
 //		int userNo = session.getAttribute("userNo");
-		int userNo = 5;
+		int userNo = 4;
 		
 		map = paymentService.selectBasket(userNo);
 		logger.info("user:{}",map.get("userInfo"));
 		logger.info("classList:{}",map.get("classList"));
+		logger.info("classListSize:{}",map.get("classListSize"));
 		
 		model.addAttribute("userInfo",map.get("userInfo"));
 		model.addAttribute("classList",map.get("classList"));
+		model.addAttribute("classListSize",map.get("classListSize"));
 		
 	}
 	
