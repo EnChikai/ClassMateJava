@@ -45,7 +45,15 @@ border-bottom: 2px solid #ccc;
 
 }
 
-#paymentOneBtn{
+#basketTableUnder{
+margin-left:auto; 
+margin-right:auto;
+border-collapse:collapse;    
+border-bottom: 2px solid #ccc;
+ 
+}
+
+.paymentOneBtn{
 background: rgb(250,224,120);
 font-size: 16px;
 width:50px;
@@ -59,7 +67,7 @@ margin-bottom: 5px;
 
 }
 
-#paymentOneBtn:hover:not(.active){
+.paymentOneBtn:hover:not(.active){
 box-shadow: 0 0 0 2px skyblue;
 background: rgb(230,204,100)
 
@@ -85,75 +93,80 @@ background: rgb(170,170,170)
 }
 
 </style>
-
+<c:forEach items="${classList }" var="classList">
 <script type="text/javascript">
+
 //가맹점 코드 초기화
 IMP.init('imp04411553')
 
-function requestPay(){
-
-	console.log()
+$(function(){
+	$("#OneBtn${classList.classNo}").click(function(){
 	
-	IMP.request_pay({
-// 	      pg: "html5_inicis",	//결제 pg 선택
-	      pg: "kakaopay",	//결제 pg 선택
-	      
-	      merchant_uid: "<%=order %>",   // 고유 주문 번호
-	     
-	      name: "노르웨이 회전 의자",	//주문 상품 이름
-	      amount: 100,	//금액,  숫자 타입
-	      
-	      //주문자 정보
-	      buyer_name: "${userInfo.userName}",
-	      buyer_email: "${userInfo.userEmail}",
-	      buyer_tel: "${userInfo.userPhone}"
-	   
-		}, function (data) { // callback
-	      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
-	      
-// 	      console.log(data)
-	      // 결제 정보를 우리가 개발한
-	      //서버로 전송해주어야 한다
-	      //	-> 결제 후 처리
-	      
-	      if(data.success){//결제 성공시
-	    	  alert('결제에 성공했습니다.')
+		var sum = document.getElementById("number${classList.classNo}").value;
+	
+		console.log(sum)
+		
+		IMP.request_pay({
+	// 	      pg: "html5_inicis",	//결제 pg 선택
+		      pg: "kakaopay",	//결제 pg 선택
 		      
-    	     $.ajax({
-  	            type: "POST",
-  	            url: '../payment/basket',
-  	      		dataType: 'json',
-  	            data : {"orderNo": data.merchant_uid
-  	            	, "name" : data.buyer_name
-  	            	, "email" : data.buyer_email
-  	            	, "phone" : data.buyer_tel
-  	            	, "provider": data.pg_provider
-  	            	, "card": data.pay_method
-  	            	, "cardName": data.card_name
-  	            }
-
-  	    	 });
-
- 	    		location.href = '../payment/success';
-	    	 
-	    	  
-	      }else{//결제 실패시
-	    	 alert('결제에 실패했습니다')
-	    	 
-// 	         $.ajax({
-//  	            type: "POST",
-//  	            url: '../payment/basket',
-//  	            data : {"email" : data.buyer_email}
-
-//  	    	 });
-
-// 	    		location.href = '../payment/success';
-	      	
-	      }
-	 });
-}
+		      merchant_uid: "<%=order %>",   // 고유 주문 번호
+		     
+		      name: "${classList.className }",	//주문 상품 이름
+		      amount: sum,	//금액,  숫자 타입
+		      
+		      //주문자 정보
+		      buyer_name: "${userInfo.userName}",
+		      buyer_email: "${userInfo.userEmail}",
+		      buyer_tel: "${userInfo.userPhone}"
+		   
+			}, function (data) { // callback
+		      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+		      
+	// 	      console.log(data)
+		      // 결제 정보를 우리가 개발한
+		      //서버로 전송해주어야 한다
+		      //	-> 결제 후 처리
+		      
+		      if(data.success){//결제 성공시
+		    	  alert('결제에 성공했습니다.')
+			      
+	    	     $.ajax({
+	  	            type: "POST",
+	  	            url: '../payment/basket',
+	  	      		dataType: 'json',
+	  	            data : {"orderNo": data.merchant_uid
+	  	            	, "name" : data.buyer_name
+	  	            	, "email" : data.buyer_email
+	  	            	, "phone" : data.buyer_tel
+	  	            	, "provider": data.pg_provider
+	  	            	, "card": data.pay_method
+	  	            	, "cardName": data.card_name
+	  	            }
+	
+	  	    	 });
+	
+	 	    		location.href = '../payment/success';
+		    	 
+		    	  
+		      }else{//결제 실패시
+		    	 alert('결제에 실패했습니다')
+		    	 
+	// 	         $.ajax({
+	//  	            type: "POST",
+	//  	            url: '../payment/basket',
+	//  	            data : {"email" : data.buyer_email}
+	
+	//  	    	 });
+	
+	// 	    		location.href = '../payment/success';
+		      	
+		      }
+		 })
+	})
+})
 </script>
-
+</c:forEach>
 
 <%-- <% ============================================================================= %> --%>
 
@@ -203,16 +216,36 @@ function requestPay(){
 		</td>
 		<td style="text-align: center;" class="basketTableInfoTd" width="30%">
 			<p><fmt:formatNumber type="number" maxFractionDigits="3" value="${classList.expense }"/>원</p>
+			<input style="display: none;" id="number${classList.classNo}" readonly="readonly" type="text" value="<fmt:formatNumber type="number" maxFractionDigits="3" value="${classList.expense }"/>">
 		</td>
 		<td class="basketTableInfoTd" width="15%">
-			<button onclick="requestPay()" id="paymentOneBtn">구매</button><br>
+			<button type="button" id="OneBtn${classList.classNo}" class="paymentOneBtn">구매</button><br>
 			<button id="deleteBtn">삭제</button>
 		</td>
 	</tr>
 </table>
 </c:forEach>
-</div>
 
+<table id="basketTableInfo">
+	<tr>
+		<td style="text-align: center; padding-left: 11px; padding-top: 10px " width="10%">
+			<input style="width: 20px; height: 20px;" type="checkbox">
+		</td>
+		<td width="20%">
+		</td>
+		<td width="30%">
+		</td>
+		<td width="20%">
+		</td>
+		<td width="30%">
+			<div>총 합계금액 : </div>
+		</td>
+		<td width="15%">
+		</td>
+	</tr>
+</table>
+
+</div>
 
 
 <%-- <% ============================================================================= %> --%>
