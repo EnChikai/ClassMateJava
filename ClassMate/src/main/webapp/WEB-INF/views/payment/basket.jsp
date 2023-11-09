@@ -86,7 +86,6 @@ background: rgb(170,170,170)
 <script type="text/javascript">
 //가맹점 코드 초기화
 IMP.init('imp04411553')
-// IMP.init('imp06064630') //쌤꺼
 
 //결제창 띄우는 함수
 function requestPay(){
@@ -102,11 +101,11 @@ function requestPay(){
 	      amount: 100,	//금액,  숫자 타입
 	      
 	      //주문자 정보
-	      buyer_email: "blood319@naver.com",
-	      buyer_name: "이덕주",
+	      buyer_email: "email@email.com",
+	      buyer_name: "덕주옹",
 	      buyer_tel: "010-6737-5161",
-	      buyer_addr: "서울특별시 노원구 공릉동",
-	      buyer_postcode: "01851"
+	      buyer_addr: "서울특별시 강남구 대치동",
+	      buyer_postcode: "00151"
 	   
 		}, function (rsp) { // callback
 	      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
@@ -193,6 +192,8 @@ function requestPay(){
 	</tr>
 </table>
 </div>
+
+
 
 
 

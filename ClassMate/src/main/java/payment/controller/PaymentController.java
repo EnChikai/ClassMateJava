@@ -25,7 +25,7 @@ public class PaymentController {
 
 			Model model
 			, HttpSession session
-			, Map map
+			, Map<String, Object> map
 			
 			) {
 		logger.info("/payment/basket [GET]");
@@ -34,7 +34,7 @@ public class PaymentController {
 //		int userNo = session.getAttribute("userNo");
 		int userNo = 1;
 		
-//		Map<String, Object> map = paymentService.selectBasket(userNo);
+		map = paymentService.selectBasket(userNo);
 		
 		
 		
