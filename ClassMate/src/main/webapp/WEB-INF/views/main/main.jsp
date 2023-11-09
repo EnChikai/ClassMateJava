@@ -18,6 +18,7 @@
 
 <div class="defaultWidth" >
 
+<img style="height: 300; width: -webkit-fill-available;" src="/resources/img/event.png">
 
 <h1 style="text-align: center;"><strong>메인입니다.</strong></h1>
 <c:forEach var="list" items="${list }">
