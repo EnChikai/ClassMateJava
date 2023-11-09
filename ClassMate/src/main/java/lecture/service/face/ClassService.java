@@ -1,4 +1,4 @@
-package board.service.face;
+package lecture.service.face;
 
 public interface ClassService {
 

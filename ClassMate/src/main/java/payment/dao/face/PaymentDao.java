@@ -12,3 +12,4 @@ public interface PaymentDao {
 	public List<Class> selectClassListByUser(Basket basket);
 
 }
+
