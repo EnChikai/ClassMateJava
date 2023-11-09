@@ -6,7 +6,9 @@
   
  <mapper namespace="board.dao.face.BoardDao">
   
-  
+  <select id="selectFreeAll" resultType="FreeBoard">
+  	SELECT * FROM free_board
+  </select>
   
   
  </mapper>
