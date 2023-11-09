@@ -11,14 +11,8 @@
 	padding: 0px;
 }
 
-.header{
-	width: 100%;
-	height: 100px;
-	margin: 10px auto;
-	
-}
 
-.menu {
+.headerMenu {
 	background-color: #F0C610;
 	height: 60px;
 	margin-bottom: 50px;
@@ -31,13 +25,13 @@
 	
 }
 
-th{
+.headerTh{
     padding-top: 12px;
     padding-right: 17px;
     padding-left: 17px;
 }
 
-.mainA{
+a{
 	text-decoration: none;
 	color: black;
 }
@@ -49,14 +43,14 @@ th{
 <div id="logo">
 <a href="/main/main"><img src="/resources/img/logo.jpg" width="150px;" height="80px;" title="로고"/></a>
 </div>
-<div class="menu">
+<div class="headerMenu">
 <table style="margin-left: auto; margin-right: auto; font-size: 20px;">
 	<tr>
-		<th><a class="mainA" href="">카테고리</a></th>
-		<th><a class="mainA" href="/board/board">게시판</a></th>
-		<th>검색</th>
-		<th><a class="mainA" href="/payment/basket">장바구니</a></th>
-		<th>ClassMate</th>
+		<th class="headerTh"><a href="">카테고리</a></th>
+		<th class="headerTh"><a href="/board/board">게시판</a></th>
+		<th class="headerTh">검색</th>
+		<th class="headerTh"><a href="/payment/basket">장바구니</a></th>
+		<th class="headerTh">ClassMate</th>
 	</tr>
 </table>
 

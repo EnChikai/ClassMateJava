@@ -79,10 +79,6 @@
 
 <style type="text/css">
 
-body{
-	overflow: auto;
-}
-
 *{margin:0; padding:0;}
 a.button{display:inline-block; text-decoration:none; color:#000;}
 
@@ -243,8 +239,8 @@ td{
 
 
 </style>
-<hr style="margin-top: 60px;">
 
+<hr style="margin-top: 60px;">
 <div class="footer">
 
 <div id="modal" class="close"></div>

@@ -12,8 +12,11 @@
    margin-right: 400px;
 }
 
-.class{
-	width: 330px;
+.col{
+	width: 331px;
+    margin-left: 16px;
+    margin-right: 16px
+    
 }
 
 .TOP5{
@@ -21,7 +24,10 @@
 	display: inline-block;
 	padding: 15px;
 	border-radius:5% 5% 0 0;
+	margin-left: 15px;
 }
+
+
 
 </style>
 
@@ -31,23 +37,24 @@
 <div class="defaultWidth" >
 
 <img style="height: 300; width: -webkit-fill-available;" src="/resources/img/event.png">
+
 <br><br><br>
 
 
-<div>
+<div class="container">
 <span class="TOP5"><strong>인기 ON TOP5</strong></span><br>
-<img src="/resources/img/class.png" class="class">
-<img src="/resources/img/class.png" class="class" style="margin-left: 50px;">
-<img src="/resources/img/class.png" class="class" style="float: right;">
+<img class="col" src="/resources/img/class.png">
+<img class="col" src="/resources/img/class.png">
+<img class="col" src="/resources/img/class.png">
 </div>
 
 <br><br><br>
-<div>
-<span class="TOP5"><strong>인기 OFF TOP5</strong></span><br>
 
-<img src="/resources/img/class.png" class="class">
-<img src="/resources/img/class.png" class="class" style="margin-left: 50px;">
-<img src="/resources/img/class.png" class="class" style="float: right;">
+<div class="container">
+<span class="TOP5"><strong>인기 OFF TOP5</strong></span><br>
+<img class="col" src="/resources/img/class.png">
+<img class="col" src="/resources/img/class.png">
+<img class="col" src="/resources/img/class.png">
 </div>
 
 
