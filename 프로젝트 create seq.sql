@@ -70,4 +70,4 @@ CREATE SEQUENCE question_file_seq;
 DROP SEQUENCE general_question_seq;
 CREATE SEQUENCE general_question_seq;
 
---commit;
+commit;
