@@ -179,7 +179,6 @@
     </tr>
 </c:forEach>
 
-
 	
 <c:forEach var="freeList" items="${freeList }">
 	<tr id="boardFree">

@@ -8,9 +8,14 @@
 <tbody>
 
 <div id="freewrite">
+
 <h2>게시글 작성하기</h2>
+<form action="./board" method="post">
+
+
 </div>
 
+</form>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 </tbody>
