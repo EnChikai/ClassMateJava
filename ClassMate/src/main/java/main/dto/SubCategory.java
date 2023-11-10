@@ -3,18 +3,21 @@ package main.dto;
 public class SubCategory {
 	private int subCategoryNo;
 	private int mainCategoryNo;
+	private String subCategoryName;
 	
 	public SubCategory() {}
 
-	@Override
-	public String toString() {
-		return "SubCategory [subCategoryNo=" + subCategoryNo + ", mainCategoryNo=" + mainCategoryNo + "]";
-	}
-
-	public SubCategory(int subCategoryNo, int mainCategoryNo) {
+	public SubCategory(int subCategoryNo, int mainCategoryNo, String subCategoryName) {
 		super();
 		this.subCategoryNo = subCategoryNo;
 		this.mainCategoryNo = mainCategoryNo;
+		this.subCategoryName = subCategoryName;
+	}
+
+	@Override
+	public String toString() {
+		return "SubCategory [subCategoryNo=" + subCategoryNo + ", mainCategoryNo=" + mainCategoryNo
+				+ ", subCategoryName=" + subCategoryName + "]";
 	}
 
 	public int getSubCategoryNo() {
@@ -32,6 +35,13 @@ public class SubCategory {
 	public void setMainCategoryNo(int mainCategoryNo) {
 		this.mainCategoryNo = mainCategoryNo;
 	}
-	
-	
+
+	public String getSubCategoryName() {
+		return subCategoryName;
+	}
+
+	public void setSubCategoryName(String subCategoryName) {
+		this.subCategoryName = subCategoryName;
+	}
+
 }

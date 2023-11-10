@@ -61,5 +61,3 @@
 </div>
 </div>
 </div>	<!-- total box -->
-
-<c:import url="/WEB-INF/views/layout/footer.jsp" />

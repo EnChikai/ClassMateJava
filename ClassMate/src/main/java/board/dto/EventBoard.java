@@ -8,30 +8,32 @@ public class EventBoard {
 	private String eventHead;
 	private Date eventDate;
 	private int eventHit;
-	private String eventHame;
+	private String eventName;
 	private String eventContent;
 	private String eventExist;
+	private String headImg;
 	
 	public EventBoard() {}
 
-	@Override
-	public String toString() {
-		return "EventBoard [eventNo=" + eventNo + ", userNo=" + userNo + ", eventHead=" + eventHead + ", eventDate="
-				+ eventDate + ", eventHit=" + eventHit + ", eventHame=" + eventHame + ", eventContent=" + eventContent
-				+ ", eventExist=" + eventExist + "]";
-	}
-
-	public EventBoard(int eventNo, int userNo, String eventHead, Date eventDate, int eventHit, String eventHame,
-			String eventContent, String eventExist) {
+	public EventBoard(int eventNo, int userNo, String eventHead, Date eventDate, int eventHit, String eventName,
+			String eventContent, String eventExist, String headImg) {
 		super();
 		this.eventNo = eventNo;
 		this.userNo = userNo;
 		this.eventHead = eventHead;
 		this.eventDate = eventDate;
 		this.eventHit = eventHit;
-		this.eventHame = eventHame;
+		this.eventName = eventName;
 		this.eventContent = eventContent;
 		this.eventExist = eventExist;
+		this.headImg = headImg;
+	}
+
+	@Override
+	public String toString() {
+		return "EventBoard [eventNo=" + eventNo + ", userNo=" + userNo + ", eventHead=" + eventHead + ", eventDate="
+				+ eventDate + ", eventHit=" + eventHit + ", eventName=" + eventName + ", eventContent=" + eventContent
+				+ ", eventExist=" + eventExist + ", headImg=" + headImg + "]";
 	}
 
 	public int getEventNo() {
@@ -74,12 +76,12 @@ public class EventBoard {
 		this.eventHit = eventHit;
 	}
 
-	public String getEventHame() {
-		return eventHame;
+	public String getEventName() {
+		return eventName;
 	}
 
-	public void setEventHame(String eventHame) {
-		this.eventHame = eventHame;
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
 	}
 
 	public String getEventContent() {
@@ -97,6 +99,15 @@ public class EventBoard {
 	public void setEventExist(String eventExist) {
 		this.eventExist = eventExist;
 	}
+
+	public String getHeadImg() {
+		return headImg;
+	}
+
+	public void setHeadImg(String headImg) {
+		this.headImg = headImg;
+	}
+
 	
 	
 }

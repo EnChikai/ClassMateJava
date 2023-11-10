@@ -11,6 +11,24 @@
    margin-left: 400px;
    margin-right: 400px;
 }
+
+.col{
+	width: 331px;
+    margin-left: 16px;
+    margin-right: 16px
+    
+}
+
+.TOP5{
+	background-color: #F0C610;
+	display: inline-block;
+	padding: 15px;
+	border-radius:5% 5% 0 0;
+	margin-left: 15px;
+}
+
+
+
 </style>
 
 
@@ -18,11 +36,27 @@
 
 <div class="defaultWidth" >
 
+<img style="height: 300; width: -webkit-fill-available;" src="/resources/img/event.png">
 
-<h1 style="text-align: center;"><strong>메인입니다.</strong></h1>
-<c:forEach var="list" items="${list }">
-	${list }<br>
-</c:forEach>
+<br><br><br>
+
+
+<div class="container">
+<span class="TOP5"><strong>인기 ON TOP5</strong></span><br>
+<img class="col" src="/resources/img/class.png">
+<img class="col" src="/resources/img/class.png">
+<img class="col" src="/resources/img/class.png">
+</div>
+
+<br><br><br>
+
+<div class="container">
+<span class="TOP5"><strong>인기 OFF TOP5</strong></span><br>
+<img class="col" src="/resources/img/class.png">
+<img class="col" src="/resources/img/class.png">
+<img class="col" src="/resources/img/class.png">
+</div>
+
 
 </div>
 

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import payment.service.face.PaymentService;
 
@@ -25,19 +26,56 @@ public class PaymentController {
 
 			Model model
 			, HttpSession session
-			, Map map
+			, Map<String, Object> map
 			
 			) {
 		logger.info("/payment/basket [GET]");
 		
 		//로그인 구현 이후 사용
 //		int userNo = session.getAttribute("userNo");
-		int userNo = 1;
+		int userNo = 4;
 		
-//		Map<String, Object> map = paymentService.selectBasket(userNo);
+		map = paymentService.selectBasket(userNo);
+		logger.info("user:{}",map.get("userInfo"));
+		logger.info("classList:{}",map.get("classList"));
+		logger.info("classListSize:{}",map.get("classListSize"));
 		
-		
+		model.addAttribute("userInfo",map.get("userInfo"));
+		model.addAttribute("classList",map.get("classList"));
+		model.addAttribute("classListSize",map.get("classListSize"));
 		
 	}
+	
+	@PostMapping("/payment/basket")
+	public void basketPost(
+			
+			String email
+			, String name
+			, String phone
+			, long orderNo
+			, String card
+			, String provider
+			, String cardName
+
+			) {
+		logger.info("/payment/basket [Post]");
+		logger.info("email: {}",email);
+		logger.info("phone: {}",phone);
+		logger.info("orderNo: {}",orderNo);
+		logger.info("card: {}",card);
+		logger.info("provider: {}",provider);
+		logger.info("cardName: {}",cardName);
+		
+	}
+	
+	@GetMapping("/payment/success")
+	public void paymentSuccessGet(
+			
+			) {
+		logger.info("/payment/success [GET]");
+
+		
+	}
+	
 	
 }

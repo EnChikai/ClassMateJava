@@ -60,12 +60,11 @@ margin-bottom: 10px;
 				<td class="profileTd">
 				<div id="logout">
 				직급: (   ) 
-					<a style="text-decoration: underline; color: red; " href="../board/board">로그아웃</a>
+					<a style="text-decoration: underline; color: red; " href="../main/main">로그아웃</a>
 				</div>
 				</td>
 			</tr>
 			</table>
 			
 <%-- <% ============================================================================= %> --%>			
-
 <c:import url="/WEB-INF/views/layout/adminFooter.jsp" />
