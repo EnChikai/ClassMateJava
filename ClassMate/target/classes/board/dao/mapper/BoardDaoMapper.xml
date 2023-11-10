@@ -6,6 +6,7 @@
   
  <mapper namespace="board.dao.face.BoardDao">
   
+
 	<select id="selectFreeAll" resultType="FreeBoard" parameterType="web.util.Paging">
 	    SELECT B.*, U.user_name AS userName
 	    FROM (
@@ -21,11 +22,11 @@
 	    WHERE B.rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
  
+
   <select id="freeCntAll" resultType="int">
   	SELECT count(*) FROM free_board
   </select>
-    
-  
+
 	<select id="selectAnnounceAll" resultType="AnnounceBoard">
 	    SELECT A.*, U.user_name AS userName
 	    FROM announce_board A
@@ -37,6 +38,5 @@
 	    FROM event_board E
 	    JOIN user_info U ON E.user_no = U.user_no
 	</select>
-  
   
  </mapper>

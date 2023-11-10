@@ -6,12 +6,12 @@
 	margin-left: 18%;
   	margin-right: 18%;
 	display: flex;
-	width:100%;
+	width:64%;
 	height: 700px;
 }
 
 .left-box  {
- 	 width:12%;
+ 	 width:20%;
   	 border-radius:0.5rem;
  	 justify-content: left;
  	 height: 600px;
@@ -74,11 +74,16 @@
 .center-box {
 	margin-left: 70px;
 	margin-top: 70px;
-	width: 45%;
+	width: 80%;
+	height: 600px;
 
 }
 
 h1 {
+	display: inline-block;
+}
+
+h3 {
 	display: inline-block;
 }
 
@@ -126,5 +131,3 @@ h1 {
 		</ul>
 	</div>
 </div>
-    
-    

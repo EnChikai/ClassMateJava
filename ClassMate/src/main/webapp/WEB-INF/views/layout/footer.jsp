@@ -79,10 +79,6 @@
 
 <style type="text/css">
 
-body{
-	overflow: auto;
-}
-
 *{margin:0; padding:0;}
 a.button{display:inline-block; text-decoration:none; color:#000;}
 
@@ -243,8 +239,8 @@ td{
 
 
 </style>
-<hr style="margin-top: 60px;">
 
+<hr style="margin-top: 60px;">
 <div class="footer">
 
 <div id="modal" class="close"></div>
@@ -290,7 +286,7 @@ td{
 
 <table>
 	<tr>
-		<td><a href="/main/site" style="text-decoration: none; color: black;">사이트 소개</a></td>
+		<td><a href="/main/site" style="text-decoration: none; font-size:13px; color: black;">사이트 소개</a></td>
 		<td><div class="vl"></div></td>
 		<td><a href="javascript:openModal('modal1');" class="button modal-open">이용약관</a></td>
 		<td><div class="vl"></div></td>
