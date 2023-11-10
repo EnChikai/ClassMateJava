@@ -34,17 +34,17 @@
 }
 
 #loginDiv {
-	border: 1px solid #ccc;
-    width: 481px;
-    height: 325px;
+    border: 1px solid #ccc;
+    width: 478px;
+    height: 337px;
     margin: 0 auto;
-    margin-top: 6px;
+    margin-top: 9px;
 }
 
 #loginDiv1 {
 	border: 1px solid #ccc;
 	width: 500px;
-    height: 341px;
+    height: 357px;
     margin: 90px auto 10px auto;
 }
 
@@ -55,8 +55,7 @@
 
 
 #search {	
-	text-align: center;
-	margin-left: 327px;
+	margin-left: 343px;
     text-decoration: underline;
     color: rgb(41, 90, 221);
     font-size: 14px;
@@ -80,11 +79,11 @@
 	
 	<div class="idpw">
 	
-	<label><img style="width: 20px;" src="/resources/img/userId.png">
+	<label><img style="width: 20px; vertical-align: middle;" src="/resources/img/userId.png">
 		<input type="text" name="userId" style="padding: 6px 12px; border: 1px solid #ccc;
 		    border-radius: 4px; box-shadow: inset 0 1px 1px rgba(0,0,0,.075);"></label><br>
 	<div style="margin-bottom: 8px;"></div>
-	<label><img style="width: 20px;" src="/resources/img/key_1.png">
+	<label><img style="width: 20px; vertical-align: middle;" src="/resources/img/key_1.png">
 		<input type="password" name="userPw" style="padding: 6px 12px; border: 1px solid #ccc;
 		    border-radius: 4px; box-shadow: inset 0 1px 1px rgba(0,0,0,.075);"></label><br><br>
 	</div>
