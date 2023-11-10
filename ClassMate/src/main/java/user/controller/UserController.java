@@ -70,11 +70,10 @@ public class UserController {
 		return "redirect:/main/main";
 	}
 	
-	@GetMapping("/findUser")
-    public String findUserByUsername(Model model, @RequestParam String username) {
-        User user = userService.findUserByUsername(username);
-        model.addAttribute("user", user);
-        return "userProfile"; // userProfile.html 템플릿을 렌더링
-    }
-	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		
+		return "redirect:/main/main";
+	}
 }
