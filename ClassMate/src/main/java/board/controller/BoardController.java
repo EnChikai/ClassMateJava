@@ -1,7 +1,6 @@
 package board.controller;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import board.dto.AnnounceBoard;
-import board.dto.FreeBoard;
 import board.service.face.BoardService;
+import web.util.Paging;
 
 @Controller
 @RequestMapping("/board")
@@ -24,15 +22,19 @@ public class BoardController {
 	@Autowired BoardService boardService;
 	
 	@GetMapping("/board")
-	public void listBoard(Model model, HashMap map) {
+	public void listBoard(Model model, Map<String, Object> map, Paging paging) {
 		logger.info("/board/board [GET]");
 		
+		paging = boardService.getBoardPaging(paging);
+	    logger.info("paging : {}", paging);
+		
 		//자유게시판 조회
-		List<FreeBoard> allList = boardService.listBoard();
-//		List<AnnounceBoard> announceList = boardService.listAnnounceBoard();
+		map = boardService.listBoard(paging);
 		
-		
-		model.addAttribute("allList", allList);
+		model.addAttribute("freeList", map.get("freeList"));
+		model.addAttribute("announceList", map.get("announceList"));
+		model.addAttribute("eventList", map.get("eventList"));
+
 		
 	}
 	
