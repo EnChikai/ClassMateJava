@@ -12,51 +12,141 @@
 
 <c:import url="/WEB-INF/views/layout/teacherSide.jsp" />
 
+<script type="text/javascript"> 
+
+function categoryUchange(z) {
+	
+	var cook = ["양식", "한식", "밀키트"];
+	var beauty = ["헤어", "메이크업", "왁싱"];
+	var sports = ["구기스포츠", "라켓스포츠", "수영"];
+	var selfDevelopement = ["실무", "제테크", "자격증"];
+	var design = ["패션", "악세사리", "가구"];
+	var communication = ["토론", "어학", "발표"];
+	var business = ["굿즈", "투잡", "제테크"];
+	var create = ["문학", "음악", "팬픽"];
+	var it = ["홈페이지", "어플리케이션", "프로그래밍 언어"];
+	var target = document.getElementById("categoryD");
+
+	if(z.value == a) var y = cook;
+	else if(z.value == b) var y = beauty;
+	else if(z.value == c) var y = sports;
+	else if(z.value == d) var y = selfDevelopement;
+	else if(z.value == e) var y = design;
+	else if(z.value == f) var y = communication;
+	else if(z.value == g) var y = business;
+	else if(z.value == h) var y = create;
+	else if(z.value == i) var y = it;
+	
+	target.options.length = 0;
+	
+	for (x in y) {
+		var opt = document.createElement("option");
+		opt.value = y[x];
+		opt.innerHTML = y[x];
+		target.appendChild(opt);
+		
+	}
+	
+}
+
+</script>
 
 <div class="center-box">
-
 <div class="title">
-<h1 style="display: inline-block;">클래스 목록</h1>
+<h3 style="display: inline-block;">ON/OFF클래스 상세 조회</h3>
 <div id= "all"><select name="claaCheck" id="classCHeck">
   <option>on클래스</option>
   <option>off클래스</option>
-</select>
+</select></div>
 </div>
+<hr>
 
-	
-<%-- <table>
-<thead>
-	<tr>
-		<th>번호</th>
-		<th>강좌명</th>
-		<th>모집현황</th>
-		<th>기간</th>
-		<th>등록일</th>
-	</tr>
-</thead>
+<form action="/teacher/regist" method="post">
+<div style="width: 70px; height: 70px; background-color: red; margin-top: 10px;">사진</div>
 
-<tbody>
-<c:forEach var="class" items="${list }">
-	<tr>
-		<td>${class.classNo }</td>
-		<td>
-			<a href="./detail?classNo=${class.classNo }">${class.className }</a>
-		</td>
-		<td>null / ${class.maxCount } 명</td>
-		<td><fmt:formatDate value="${class.classStart }" pattern="yyyy년 MM월 dd일"/> ~
-		 <fmt:formatDate value="${class.classEnd }" pattern="yyyy년 MM월 dd일"/></td>
-		<td><fmt:formatDate value="${class.classDate }" pattern="yyyy년 MM월 dd일"/></td>
-	</tr>
-</c:forEach>
-</tbody>		
-</table> --%>
+<table class="table table-bordered">
 
+<colgroup>
+	<col style="width: 20%;">
+	<col style="width: 80%;">
+</colgroup>
 
+<tr>
+	<td class="table-info">강사</td><td>${user.userName }</td>
+</tr>
+<tr>
+	<td class="table-info">카테고리</td>
+	<td>
+	<select class="categoryControll" name="categoryU" id="categoryU">
+  	<option>대분류</option>
+	<option value="a">요리</option>
+	<option value="b">뷰티</option>
+	<option value="c">스포츠</option>
+	<option value="d">자기개발</option>
+	<option value="e">디자인</option>
+	<option value="f">커뮤니케이션</option>
+	<option value="g">비즈니스</option>
+	<option value="h">창작</option>
+	<option value="i">IT</option>
+	</select>
+	>
+	<select class="categoryControll" name="categoryD" id="categoryD">
+	<option>선택해주세요</option>
+	</select>
+	</td>
+</tr>
+<tr>
+	<td class="table-info">클래스명</td><td><input type="text" name="className" id="className"></td>
+</tr>
+<tr>
+	<td class="table-info">클래스 기간</td><td><fmt:formatDate value="${classDetail.classStart }" pattern="yyyy - MM - dd"/> ~
+		 <fmt:formatDate value="${class.classEnd }" pattern="yyyy - MM - dd"/></td>
+</tr>
+<tr>
+	<td class="table-info">모집 정원</td><td>${classDetail.maxCount }</td>
+</tr>
+<tr>
+	<td class="table-info">비용 및 안내</td><td>${classDetail.classInfo }</td>
+</tr>
+<tr>
+	<td class="table-info">클래스 소개</td><td>${classDetail.content }</td>
+</tr>
+<tr>
+	<td class="table-info">커리큘럼</td><td>${classDetail.curriculum }</td>
+</tr>
+<tr>
+	<td class="table-info">영상 업로드</td><td>${classDetail.curriculum }</td>
+	<td>
+	<c:set var="i" value="0" />
+	<c:set var="j" value="4" />
+	<table>
+	  <c:forEach items="${video }" var="video">
+	    <c:if test="${i%j == 0 }">
+	    <tr>
+	    </c:if>
+	       <td>${video.videoLesson } 회차</td>
+	    <c:if test="${i%j == j-1 }">
+	    </tr>
+	    </c:if>
+	    <c:set var="i" value="${i+1 }" />
+	  </c:forEach>
+	</table>
+	</td>
+</tr>
+
+<tr>
+	<td colspan="2">${adress.adressNo }</td>
+</tr>
+</table> 
+
+<button>목록</button>
+<button>취소</button>
+</form>
 
 
 <c:import url="/WEB-INF/views/layout/pagination.jsp" />
 </div>
-</div>
+
 </div>	<!-- total box -->
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
