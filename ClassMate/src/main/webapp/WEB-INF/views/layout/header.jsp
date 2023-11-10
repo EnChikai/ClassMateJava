@@ -1,9 +1,21 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html style="overflow: auto; height: 100%;">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script type="text/javascript">
+
+
+
+</script>
+
 <style type="text/css">
 
 *{
@@ -14,7 +26,7 @@
 
 .headerMenu {
 	background-color: #F0C610;
-	height: 60px;
+	height: 45px;
 	margin-bottom: 50px;
 }
 
@@ -26,7 +38,7 @@
 }
 
 .headerTh{
-    padding-top: 12px;
+    padding-top: 10px;
     padding-right: 17px;
     padding-left: 17px;
 }
@@ -35,7 +47,6 @@ a{
 	text-decoration: none;
 	color: black;
 }
-
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
@@ -44,24 +55,40 @@ a{
 <a href="/main/main"><img src="/resources/img/logo.jpg" width="150px;" height="80px;" title="로고"/></a>
 </div>
 <div class="headerMenu">
-<table style="margin-left: auto; margin-right: auto; font-size: 20px;">
+
+<table style="margin-left: auto; margin-right: auto; font-size: 15px;">
 	<tr>
 		<th class="headerTh"><a href="">카테고리</a></th>
 		<th class="headerTh"><a href="/board/board">게시판</a></th>
 		<th class="headerTh">검색</th>
 		<th class="headerTh"><a href="/payment/basket">장바구니</a></th>
-		<th class="headerTh">ClassMate</th>
+		<th class="headerTh" id="login">ClassMate</th>
 	</tr>
 </table>
-
-<div>
-<ul>
-	<li>마이페이지</li>
-	<li>강사신청</li>
-	<li>1:1문의</li>
-	<li>로그인</li>
-</ul>
+<c:if test="${isLogin==null}">
+<div style="text-align: center; margin-left: 338px; margin-top: 25px; font-size: small;">
+	<span><strong><a href="/user/login">로그인</a></strong></span>
 </div>
+</c:if>
+
+<c:if test="${isLogin!=null}">
+<div class="container " style="text-align: center; margin-left: 586px; margin-top: 25px; font-size: small;">
+	<span class="col"><strong>마이페이지</strong></span>
+	<span class="col"><strong>강사신청</strong></span>
+	<span class="col"><strong>1:1문의</strong></span>
+	<span class="col"><strong><a href="/user/logout">로그아웃</a></strong></span>
+</div>
+</c:if>
+
+<c:if test="${isLogin!=null} && ${teacherNo}">
+<div class="container " style="text-align: center; margin-left: 586px; margin-top: 25px; font-size: small;">
+	<span class="col"><strong>마이페이지</strong></span>
+	<span class="col"><strong>강사페이지</strong></span>
+	<span class="col"><strong>1:1문의</strong></span>
+	<span class="col"><strong><a href="/user/logout">로그아웃</a></strong></span>
+</div>
+</c:if>
+
 </div>
 
 

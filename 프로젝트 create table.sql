@@ -7,7 +7,7 @@ CREATE TABLE sub_category(
     sub_category_no NUMBER CONSTRAINT sub_category_PK PRIMARY KEY NOT NULL
     , main_category_no NUMBER NOT NULL
     , CONSTRAINT main_category_FK_sub_category FOREIGN KEY(main_category_no) REFERENCES main_category(main_category_no)
-    
+    , sub_category_name VARCHAR(100) null
 );
 
 CREATE TABLE user_info(
@@ -64,6 +64,7 @@ CREATE TABLE class(
     , CONSTRAINT sub_category_FK_class FOREIGN KEY(sub_category_no) REFERENCES sub_category(sub_category_no)
     , teacher VARCHAR2(50)
     , class_name VARCHAR2(500)
+    , class_date DATE DEFAULT SYSDATE
     , class_start DATE
     , class_end DATE
     , max_count NUMBER
@@ -71,6 +72,7 @@ CREATE TABLE class(
     , class_info VARCHAR(4000)
     , curriculum VARCHAR(4000)
     , on_off number
+    , head_img VARCHAR(4000)
     , content LONG
     , delete_boolean number  
 );
@@ -152,6 +154,7 @@ CREATE TABLE event_board(
     , event_name VARCHAR(500)
     , event_content LONG
     , event_exist VARCHAR2(10)
+    , head_img VARCHAR(4000)
 );    
  
 CREATE TABLE event_board_file(
