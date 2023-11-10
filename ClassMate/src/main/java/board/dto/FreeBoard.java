@@ -5,7 +5,7 @@ import java.sql.Date;
 public class FreeBoard {
 	private int freeNo;
 	private int userNo;
-	private String freeHhead;
+	private String freeHead;
 	private Date freeDate;
 	private int freeHit;
 	private String freeName;
@@ -15,16 +15,16 @@ public class FreeBoard {
 
 	@Override
 	public String toString() {
-		return "FreeBoard [freeNo=" + freeNo + ", userNo=" + userNo + ", freeHhead=" + freeHhead + ", freeDate="
+		return "FreeBoard [freeNo=" + freeNo + ", userNo=" + userNo + ", freeHead=" + freeHead + ", freeDate="
 				+ freeDate + ", freeHit=" + freeHit + ", freeName=" + freeName + ", freeContent=" + freeContent + "]";
 	}
 
-	public FreeBoard(int freeNo, int userNo, String freeHhead, Date freeDate, int freeHit, String freeName,
+	public FreeBoard(int freeNo, int userNo, String freeHead, Date freeDate, int freeHit, String freeName,
 			String freeContent) {
 		super();
 		this.freeNo = freeNo;
 		this.userNo = userNo;
-		this.freeHhead = freeHhead;
+		this.freeHead = freeHead;
 		this.freeDate = freeDate;
 		this.freeHit = freeHit;
 		this.freeName = freeName;
@@ -47,12 +47,12 @@ public class FreeBoard {
 		this.userNo = userNo;
 	}
 
-	public String getFreeHhead() {
-		return freeHhead;
+	public String getFreeHead() {
+		return freeHead;
 	}
 
-	public void setFreeHhead(String freeHhead) {
-		this.freeHhead = freeHhead;
+	public void setFreeHead(String freeHead) {
+		this.freeHead = freeHead;
 	}
 
 	public Date getFreeDate() {
