@@ -11,16 +11,12 @@ public class FreeBoard {
 	private String freeName;
 	private String freeContent;
 	
+	private String userName;
+	
 	public FreeBoard() {}
 
-	@Override
-	public String toString() {
-		return "FreeBoard [freeNo=" + freeNo + ", userNo=" + userNo + ", freeHead=" + freeHead + ", freeDate="
-				+ freeDate + ", freeHit=" + freeHit + ", freeName=" + freeName + ", freeContent=" + freeContent + "]";
-	}
-
 	public FreeBoard(int freeNo, int userNo, String freeHead, Date freeDate, int freeHit, String freeName,
-			String freeContent) {
+			String freeContent, String userName) {
 		super();
 		this.freeNo = freeNo;
 		this.userNo = userNo;
@@ -29,6 +25,14 @@ public class FreeBoard {
 		this.freeHit = freeHit;
 		this.freeName = freeName;
 		this.freeContent = freeContent;
+		this.userName = userName;
+	}
+
+	@Override
+	public String toString() {
+		return "FreeBoard [freeNo=" + freeNo + ", userNo=" + userNo + ", freeHead=" + freeHead + ", freeDate="
+				+ freeDate + ", freeHit=" + freeHit + ", freeName=" + freeName + ", freeContent=" + freeContent
+				+ ", userName=" + userName + "]";
 	}
 
 	public int getFreeNo() {
@@ -86,6 +90,15 @@ public class FreeBoard {
 	public void setFreeContent(String freeContent) {
 		this.freeContent = freeContent;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
 	
 	
 }

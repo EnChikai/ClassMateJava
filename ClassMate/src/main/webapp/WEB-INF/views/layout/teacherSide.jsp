@@ -83,6 +83,10 @@ h1 {
 	display: inline-block;
 }
 
+h3 {
+	display: inline-block;
+}
+
 #all {
 	display: inline-block;
 
