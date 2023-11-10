@@ -26,7 +26,7 @@
 
 .headerMenu {
 	background-color: #F0C610;
-	height: 45px;
+	height: 60px;
 	margin-bottom: 50px;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .headerTh{
-    padding-top: 10px;
+    padding-top: 16px;
     padding-right: 17px;
     padding-left: 17px;
 }
