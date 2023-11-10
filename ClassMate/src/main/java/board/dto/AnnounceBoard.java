@@ -11,18 +11,12 @@ public class AnnounceBoard {
 	private String announceName;
 	private String announceContent;
 	private String announceExist;
+	private String userName;
 	
 	public AnnounceBoard() {}
 
-	@Override
-	public String toString() {
-		return "AnnounceBoard [announceNo=" + announceNo + ", userNo=" + userNo + ", announceHead=" + announceHead
-				+ ", announceDate=" + announceDate + ", announceHit=" + announceHit + ", announceName=" + announceName
-				+ ", announceContent=" + announceContent + ", announceExist=" + announceExist + "]";
-	}
-
 	public AnnounceBoard(int announceNo, int userNo, String announceHead, Date announceDate, int announceHit,
-			String announceName, String announceContent, String announceExist) {
+			String announceName, String announceContent, String announceExist, String userName) {
 		super();
 		this.announceNo = announceNo;
 		this.userNo = userNo;
@@ -32,6 +26,15 @@ public class AnnounceBoard {
 		this.announceName = announceName;
 		this.announceContent = announceContent;
 		this.announceExist = announceExist;
+		this.userName = userName;
+	}
+
+	@Override
+	public String toString() {
+		return "AnnounceBoard [announceNo=" + announceNo + ", userNo=" + userNo + ", announceHead=" + announceHead
+				+ ", announceDate=" + announceDate + ", announceHit=" + announceHit + ", announceName=" + announceName
+				+ ", announceContent=" + announceContent + ", announceExist=" + announceExist + ", userName=" + userName
+				+ "]";
 	}
 
 	public int getAnnounceNo() {
@@ -97,6 +100,17 @@ public class AnnounceBoard {
 	public void setAnnounceExist(String announceExist) {
 		this.announceExist = announceExist;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	
+	
+
+
 	
 }

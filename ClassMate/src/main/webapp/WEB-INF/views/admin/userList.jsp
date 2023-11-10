@@ -6,7 +6,7 @@
 <%-- <% ============================================================================= %> --%>			
 			
 			<div style="border: 1px solid #ccc;">
-			<div>회원 관리</div>
+			<div style="width: 800px;">회원 관리</div>
 			<table class="table table-bordered border-primary table-hover">
 			
 			<tr class="table-primary border-primary">
