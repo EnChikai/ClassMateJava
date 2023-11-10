@@ -46,4 +46,4 @@ DROP TABLE sub_category;
 
 DROP TABLE main_category;
 
---commit;
+commit;
