@@ -12,11 +12,12 @@ public class EventBoard {
 	private String eventContent;
 	private String eventExist;
 	private String headImg;
+	private String userName;
 	
 	public EventBoard() {}
 
 	public EventBoard(int eventNo, int userNo, String eventHead, Date eventDate, int eventHit, String eventName,
-			String eventContent, String eventExist, String headImg) {
+			String eventContent, String eventExist, String headImg, String userName) {
 		super();
 		this.eventNo = eventNo;
 		this.userNo = userNo;
@@ -27,13 +28,14 @@ public class EventBoard {
 		this.eventContent = eventContent;
 		this.eventExist = eventExist;
 		this.headImg = headImg;
+		this.userName = userName;
 	}
 
 	@Override
 	public String toString() {
 		return "EventBoard [eventNo=" + eventNo + ", userNo=" + userNo + ", eventHead=" + eventHead + ", eventDate="
 				+ eventDate + ", eventHit=" + eventHit + ", eventName=" + eventName + ", eventContent=" + eventContent
-				+ ", eventExist=" + eventExist + ", headImg=" + headImg + "]";
+				+ ", eventExist=" + eventExist + ", headImg=" + headImg + ", userName=" + userName + "]";
 	}
 
 	public int getEventNo() {
@@ -107,6 +109,15 @@ public class EventBoard {
 	public void setHeadImg(String headImg) {
 		this.headImg = headImg;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 
 	
 	
