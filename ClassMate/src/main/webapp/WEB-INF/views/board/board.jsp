@@ -42,10 +42,9 @@
 	font-size: 120%;
 }
 
-#boardFree {
+#boardFree,#boardAnnounce, #boardEvent {
 	height: 50px;
 }
-
 
 #boardWrite {
 	float: right;
@@ -60,20 +59,40 @@
 	color: white;
 	border-radius: 4px;
 }
+
+#boardPaging1 {
+	background-color: rgb(241, 196, 15); 
+	border-color: rgb(241, 196, 15); 
+	border-radius: 4px;
+	margin: 3.5px;
+	text-align: center;"
+}
+
+#boardPaging2 {
+	border-radius: 4px; 
+	color: black; 
+	background-color: #f1f3f5; 
+	border-color: #f1f3f5; 
+	margin: 3.5px; 
+	text-align: center;"
+}
+
+#boardPaging3,#boardPaging4,#boardPaging5,#boardPaging6 {
+	border-radius: 4px; 
+	color: black; 
+	background-color: #f1f3f5; 
+	border-color: #f1f3f5; 
+	margin: 3.5px; 
+	text-align: center;"
+}
+
+
+
+
 </style>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-/*     function getRandomColor() {
-        var colors = ['#642EFE', '#2E64FE', '#D7DF01', '#FE2E9A', '#088A29'];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-	    // 페이지 로드 시 실행
-	    document.addEventListener('DOMContentLoaded', function () {
-	    // 랜덤 색상 적용
-	    document.getElementById('.tdEvent').style.color = getRandomColor();
-    }); */
     
     document.addEventListener('DOMContentLoaded', function () {
         var coloredRows = document.querySelectorAll('.colored-row');
@@ -143,7 +162,7 @@
 		<td></td>
 		<td style="color: red;">${announceList.announceHead }</td>
 		<td style="color: red;">${announceList.announceName }</td>
-		<td style="color: red;">${announceList.userNo }</td>
+		<td style="color: red;">${announceList.userName }</td>
 		<td style="color: red;">${announceList.announceDate }</td>
 		<td style="color: red;">${announceList.announceHit }</td>
 	</tr>
@@ -154,7 +173,7 @@
         <td></td>
         <td>${eventList.eventHead }</td>
         <td>${eventList.eventName }</td>
-        <td>${eventList.userNo }</td>
+        <td>${eventList.userName }</td>
         <td>${eventList.eventDate }</td>
         <td>${eventList.eventHit }</td>
     </tr>
@@ -167,7 +186,7 @@
 		<td>${freeList.freeNo }</td>
 		<td>${freeList.freeHead }</td>
 		<td>${freeList.freeName }</td>
-		<td>${freeList.userNo }</td>
+		<td>${freeList.userName }</td>
 		<td>${freeList.freeDate }</td>
 		<td>${freeList.freeHit }</td>
 	</tr>
@@ -177,7 +196,7 @@
 </table>
 
 <div id="boardWrite" style="float: right;">
-	<button id="boardWritebt">등록</button>
+	<button id="boardWritebt" type="button" onclick="location.href='./freeWrite'">작성</button>
 </div>
 
 </div>
@@ -189,76 +208,50 @@
 <div>
    <ul class="pagination pagination-sm justify-content-center" style="margin-top: 80px;">
    
-<%--       <c:if test="${paging.curPage ne 1 }">
-      <li class="page-item">
-         <a  class="page-link" href="/board/board">&larr; 처음</a>
-      </li>
-      </c:if> --%>
-   
-      <!-- 이전 페이지 리스트로 이동 -->
-      <c:choose>
-         <c:when test="${paging.curPage ne 1 }">
-         <li class="page-item">
-            <a class="page-link" href="/board/board?curPage=${paging.startPage - paging.pageCount }">&laquo;</a>
-         </li>
-         </c:when>
-         <c:when test="${paging.curPage eq 1 }">
-         <li class="page-item">
-            <a class="page-link disabled" href="/board/board?curPage=${paging.startPage - paging.pageCount }">&laquo;</a>
-         </li>
-         </c:when>
-      </c:choose>
+		<!-- 맨 처음 페이지로 이동 -->
+<%-- 		<c:if test="${paging.curPage ne 1 }">
+		    <li class="page-item" style="width: 45px;">
+		        <a class="page-link" href="./board?curPage=1" id="boardPaging5">&laquo;</a>
+		    </li>
+		</c:if> --%>
+		
+		<!-- 이전 페이지로 이동 -->
+		<c:if test="${paging.curPage > 1 }">
+		    <li style="width: 45px;">
+		        <a class="page-link" href="./board?curPage=${paging.curPage - 1 }" id="boardPaging6">&lt;</a>
+		    </li>
+		</c:if>
+		      
       
-      <!-- 이전 페이지로 이동 -->
-      <c:if test="${paging.curPage > 1 }">
-         <li>
-            <a class="page-link" href="./board?curPage=${paging.curPage -1 }">&lt;</a>
-         </li>
-      </c:if>
-      
-      
-
-   
       <!-- 페이징 번호 목록 -->
       <c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
          <c:if test="${paging.curPage eq i }">
-         <li class="page-item">
-            <a class="page-link active" href="./board?curPage=${i }">${i }</a>
+         <li class="page-item" style="width: 45px;">
+            <a class="page-link active" href="./board?curPage=${i }" id="boardPaging1">${i }</a>
          </li>
          </c:if>
          <c:if test="${paging.curPage ne i }">
-         <li class="page-item">
-            <a class="page-link" href="./board?curPage=${i }">${i }</a>
+         <li class="page-item" style="width: 45px;">
+            <a class="page-link" href="./board?curPage=${i }" id="boardPaging2">${i }</a>
          </li>
          </c:if>
       </c:forEach>
       
-      <c:if test="${paging.curPage ne paging.totalPage }">
-      <li class="page-item">
-         <a  class="page-link" href="/board/board?curPage=${paging.totalPage }">끝 &rarr;</a>
-      </li>
-      </c:if>
       
-            <%-- 다음 페이지로 이동 --%>
-      <c:if test="${paging.curPage < paging.totalPage }">
-         <li class="page-item">
-            <a class="page-link" href="./board?curPage=${paging.curPage + 1 }">&gt;</a>
-         </li>
-      </c:if>
-      
-      <%-- 다음 페이지 리스트로 이동 --%>
-      <c:choose>
-         <c:when test="${paging.endPage ne paging.totalPage }">
-         <li class="page-item">
-            <a class="page-link" href="/board/board?curPage=${paging.endPage + paging.pageCount }">&raquo;</a>
-         </li>
-         </c:when>
-         <c:when test="${paging.endPage eq paging.totalPage }">
-         <li class="page-item">
-            <a class="page-link disabled">&raquo;</a>
-         </li>
-         </c:when>
-      </c:choose>
+		<!-- 다음 페이지로 이동 -->
+		<c:if test="${paging.curPage < paging.totalPage }">
+		    <li class="page-item" style="width: 45px;">
+		        <a class="page-link" href="./board?curPage=${paging.curPage + 1 }" id="boardPaging3">&gt;</a>
+		    </li>
+		</c:if>
+		
+		<!-- 맨 마지막 페이지로 이동 -->
+<%-- 		<c:if test="${paging.curPage ne paging.totalPage }">
+		    <li class="page-item" style="width: 45px;">
+		        <a class="page-link" href="./board?curPage=${paging.totalPage }" id="boardPaging4">&raquo;</a>
+		    </li>
+		</c:if> --%>
+
       
    </ul>
 </div>
