@@ -5,6 +5,8 @@
 
 
 
+
+
 <style type="text/css">
 
 .defaultWidth{
@@ -29,6 +31,11 @@
 
 
 
+
+
+
+
+
 </style>
 
 
@@ -50,7 +57,7 @@
 
 <br><br><br>
 
-<div class="container">
+<div class="on-container">
 <span class="TOP5"><strong>인기 OFF TOP5</strong></span><br>
 <img class="col" src="/resources/img/class.png">
 <img class="col" src="/resources/img/class.png">
