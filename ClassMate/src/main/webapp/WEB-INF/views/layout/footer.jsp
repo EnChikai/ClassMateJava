@@ -237,6 +237,10 @@ td{
 	
 }
 
+.terms{
+	font-size: 13px;
+}
+
 
 </style>
 
@@ -286,13 +290,13 @@ td{
 
 <table>
 	<tr>
-		<td><a href="/main/site" style="text-decoration: none; font-size:13px; color: black;">사이트 소개</a></td>
+		<td><a href="/main/site" class="terms" style="text-decoration: none; color: black;">사이트 소개</a></td>
 		<td><div class="vl"></div></td>
-		<td><a href="javascript:openModal('modal1');" class="button modal-open">이용약관</a></td>
+		<td><a href="javascript:openModal('modal1');" class="terms">이용약관</a></td>
 		<td><div class="vl"></div></td>
-		<td><a href="javascript:openModal2('modal2');" class="button modal-open">개인 정보 처리 방침</a></td>
+		<td><a href="javascript:openModal2('modal2');" class="terms">개인 정보 처리 방침</a></td>
 		<td><div class="vl"></div></td>
-		<td><a href="javascript:openModal3('modal3');" class="button modal-open">위치 기반 서비스 이용 약관</a></td>
+		<td><a href="javascript:openModal3('modal3');" class="terms">위치 기반 서비스 이용 약관</a></td>
 	</tr>
 </table>
 <br><br>

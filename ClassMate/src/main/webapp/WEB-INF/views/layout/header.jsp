@@ -58,11 +58,20 @@ a{
 
 <table style="margin-left: auto; margin-right: auto; font-size: 15px;">
 	<tr>
-		<th class="headerTh"><a href="">카테고리</a></th>
+	<c:if test="${isLogin!=null}">
+		<th class="headerTh"><a href="/main/mainCategory">카테고리</a></th>
 		<th class="headerTh"><a href="/board/board">게시판</a></th>
 		<th class="headerTh">검색</th>
 		<th class="headerTh"><a href="/payment/basket">장바구니</a></th>
 		<th class="headerTh" id="login">ClassMate</th>
+	</c:if>
+	<c:if test="${isLogin==null}">
+		<th class="headerTh"><a href="/user/login">카테고리</a></th>
+		<th class="headerTh"><a href="/user/login">게시판</a></th>
+		<th class="headerTh"><a href="/main/main">검색</th>
+		<th class="headerTh"><a href="/user/login">장바구니</a></th>
+		<th class="headerTh" id="login">ClassMate</th>
+	</c:if>
 	</tr>
 </table>
 <c:if test="${isLogin==null}">
@@ -71,7 +80,7 @@ a{
 </div>
 </c:if>
 
-<c:if test="${isLogin!=null}">
+<c:if test="${isLogin!=null && teacherNo==0}">
 <div class="container " style="text-align: center; margin-left: 586px; margin-top: 25px; font-size: small;">
 	<span class="col"><strong>마이페이지</strong></span>
 	<span class="col"><strong>강사신청</strong></span>
@@ -80,10 +89,10 @@ a{
 </div>
 </c:if>
 
-<c:if test="${isLogin!=null} && ${teacherNo}">
+<c:if test="${isLogin!=null && teacherNo==1}">
 <div class="container " style="text-align: center; margin-left: 586px; margin-top: 25px; font-size: small;">
 	<span class="col"><strong>마이페이지</strong></span>
-	<span class="col"><strong>강사페이지</strong></span>
+	<span class="col"><strong><a href="/teacher/main">강사페이지</a></strong></span>
 	<span class="col"><strong>1:1문의</strong></span>
 	<span class="col"><strong><a href="/user/logout">로그아웃</a></strong></span>
 </div>
