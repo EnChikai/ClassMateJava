@@ -5,6 +5,7 @@ mybatis-config.xml
 log4j.xml
 config.properties
 pom.properties
+MANIFEST.MF
 
 ### Eclipse ###
 .metadata
