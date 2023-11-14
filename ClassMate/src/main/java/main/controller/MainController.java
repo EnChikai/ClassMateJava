@@ -1,9 +1,9 @@
 package main.controller;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.google.gson.Gson;
 
 import lecture.dto.Class;
 import main.dto.MainCategory;
@@ -58,26 +61,23 @@ public class MainController {
 //		System.out.println(subCategory);
 		
 		List<SubCategory> list = mainService.subCategoryList(subCategory);
+		
+			
 		model.addAttribute("list", list);
 		
 //		System.out.println(list);
 	}
 	
-	@GetMapping("/onClassList")
-	public void onClassList( Class cLass, Model model ) {
-		System.out.println(cLass);
-		List<Class> list = mainService.onClassList(cLass);
-		System.out.println(list);
-		model.addAttribute("onClassList",list);
-	}
-	
-	@GetMapping("offClassList")
-	public void offClassList( Class cLass, Model model ) {
-		
-		List<Class> list = mainService.offClassList(cLass);
-		model.addAttribute("offClassList", list);
-	}
-	
-	
+	   @GetMapping("/onClassList")
+	    public void onClassList(Class cLass, Model model) {
+	        List<Class> list = mainService.onClassList(cLass);
+	        model.addAttribute("onClassList", list);
+	    }
+
+	    @GetMapping("/offClassList")
+	    public void offClassList(Class cLass, Model model) {
+	        List<Class> list = mainService.offClassList(cLass);
+	        model.addAttribute("offClassList", list);
+	    }
 
 }
