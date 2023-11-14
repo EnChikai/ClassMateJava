@@ -38,5 +38,4 @@
 	    JOIN user_info U ON E.user_no = U.user_no
 	</select>
   
-  
  </mapper>

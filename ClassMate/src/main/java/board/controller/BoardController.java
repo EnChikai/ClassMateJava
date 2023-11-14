@@ -12,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
+import board.dto.FreeBoard;
 import board.service.face.BoardService;
 import user.dto.UserInfo;
 import web.util.Paging;
@@ -45,10 +47,26 @@ public class BoardController {
 	}
 	
 	@GetMapping("/freeWrite")
-	public void writeGet() {}
+	public void writeGet(UserInfo user, HttpSession session, Model model) {
+		
+		user.setUserId((String) session.getAttribute("userId"));
+		user = boardService.writeUserId(user.getUserId()); 
+		System.out.println("덕주옹" + user);
+		
+		model.addAttribute("userNo", user.getUserNo());
+		model.addAttribute("userName", user.getUserName());
+		
+	}
 	
 	@PostMapping("/freeWrite")
-	public void write() {}
+	public String write(FreeBoard freeBoard, Model model, MultipartFile mfile, HttpSession session) {
+		
+		if(freeBoard.getFreeContent() != null && freeBoard.getFreeName() != null && freeBoard.getFreeHead() != null ) {
+			boardService.write(freeBoard);
+		} 
+		
+		return "redirect:./board";
+	}
 	
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import board.dto.AnnounceBoard;
 import board.dto.EventBoard;
 import board.dto.FreeBoard;
+import user.dto.UserInfo;
 import web.util.Paging;
 
 public interface BoardDao {
@@ -25,6 +26,12 @@ public interface BoardDao {
 
 	//이벤트게시판 조회
 	public List<EventBoard> selectEventAll();
+
+	//아이디를 통해서 조회
+	public UserInfo writeUserId(String userId);
+
+	//자유 게시판 등록
+	public void insert(FreeBoard freeBoard);
 
 
 }
