@@ -28,5 +28,4 @@
     SELECT COUNT(*) FROM user_info
     WHERE USER_ID = #{userId}
   </select>
-
  </mapper>
