@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="lecture.dao.face.ClassDao">
+	<select id="getUserNoByUserId" resultType="int" parameterType="user.dto.UserInfo">
+		SELECT user_no
+		FROM user_info
+		<where>
+			AND user_id = #{userId}
+		</where>
+	</select>
+
+<!-- 	<select id="selectClassListByUser" resultType="Class" parameterType="user.dto.UserInfo"> -->
+<!-- 		SELECT  -->
+<!-- 			a.class_no, a.teacher_no, a.main_category_no, a.sub_category_no,  -->
+<!-- 			a.teacher, a.class_name, a.class_start, a.class_end, a.max_count, -->
+<!-- 			a.expense, a.class_info, a.curriculum, a.on_off, a.head_img, a.content, -->
+<!-- 			a.delete_boolean, a.class_date -->
+<!-- 		FROM class a INNER JOIN class_list b -->
+<!-- 		ON a.class_no = b.class_no -->
+<!-- 		<where> -->
+<!-- 			AND b.user_no = #{userNo} -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="selectClassListByUser" resultType="Class" parameterType="user.dto.UserInfo"> -->
+<!-- 		SELECT * FROM class -->
+<!-- 		<where> -->
+<!-- 			class_no IN ( -->
+<!-- 				SELECT class_no FROM class_list -->
+<!-- 				<where> -->
+<!-- 					user_no = #{userNo} -->
+<!-- 				</where> -->
+<!-- 			) -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	
+	<select id="selectClassListByUser" resultType="Class" parameterType="user.dto.UserInfo">
+	    SELECT c.* FROM class c
+	    INNER JOIN class_list cl ON c.class_no = cl.class_no
+	    WHERE cl.user_no = #{userNo}
+	</select>
+</mapper>
+

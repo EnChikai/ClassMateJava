@@ -37,7 +37,7 @@
 	    FROM event_board E
 	    JOIN user_info U ON E.user_no = U.user_no
 	</select>
-  
+
   	<select id="writeUserId" resultType="UserInfo" parameterType="String">
   		SELECT * FROM user_info
   		WHERE user_id = #{userId}
@@ -48,6 +48,6 @@
   		VALUES (freeboard_seq.nextval, #{userNo}, #{freeHead}, #{freeName}, #{freeContent})
   	</insert>
   
-  
+
   
  </mapper>
