@@ -11,5 +11,7 @@ public interface UserService {
 
 	public Teacher getTeacherNo(Teacher teacher);
 
+	public boolean checkDuplicateId(String userId);
+
 
 }

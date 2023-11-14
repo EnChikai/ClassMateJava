@@ -9,5 +9,7 @@ public interface UserDao {
 
 	public Teacher getTeachNo(Teacher teacher); //강사 번호
 
+	public int checkDuplicateId(String userId);
+
 
 }
