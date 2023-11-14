@@ -15,6 +15,7 @@ import board.dto.AnnounceBoard;
 import board.dto.EventBoard;
 import board.dto.FreeBoard;
 import board.service.face.BoardService;
+import user.dto.UserInfo;
 import web.util.Paging;
 
 @Service
@@ -38,7 +39,6 @@ public class BoardServiceImpl implements BoardService {
 		return paging2;
 	}
 	
-	
 	@Override
 	public Map<String, Object> listBoard(Paging paging) {
 
@@ -52,8 +52,18 @@ public class BoardServiceImpl implements BoardService {
 		map.put("announceList", announceList);
 		map.put("eventList", eventList);
 		
-		
 		return map;
+	}
+
+	@Override
+	public UserInfo writeUserId(String userId) {
+		System.out.println(userId);
+		return boardDao.writeUserId(userId);
+	}
+
+	@Override
+	public void write(FreeBoard freeBoard) {
+		boardDao.insert(freeBoard);
 	}
 
 	
