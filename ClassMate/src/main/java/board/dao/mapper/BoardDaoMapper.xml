@@ -38,5 +38,16 @@
 	    JOIN user_info U ON E.user_no = U.user_no
 	</select>
   
+  	<select id="writeUserId" resultType="UserInfo" parameterType="String">
+  		SELECT * FROM user_info
+  		WHERE user_id = #{userId}
+  	</select>
+  
+  	<insert id="insert" parameterType="FreeBoard">
+  		INSERT INTO free_board (free_no, user_no, free_head,free_name,free_content)
+  		VALUES (freeboard_seq.nextval, #{userNo}, #{freeHead}, #{freeName}, #{freeContent})
+  	</insert>
+  
+  
   
  </mapper>

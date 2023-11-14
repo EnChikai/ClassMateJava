@@ -10,45 +10,47 @@
 <style type="text/css">
 
 .defaultWidth{
-	margin-left: 450px;
-	margin-right: 450px;
+	margin-left: 495px;
+	margin-right: 495px;
+	margin-left: 495px;
+	margin-right: 495px;
 }
 
 #boardtitle {
-	margin: auto;
-	margin-top: 3em;
+	margin-top: 2em;
 	border: 1px;
 	background-color: black;
 	color: white;
-	height: 110px;
+	width: 910px;
+	height: 90px;
 	font-size: 150%;
 	text-align: center;
+	margin: 0 auto;
 }
 
 #boardtitleh2 {
-	padding-top: 30px;
+	padding-top: 25px;
 	font-weight: bold;
 }
 
 #boardtb {
 	text-align: center;
 	margin: 0 auto;
-	margin-top: 40px;
+	margin-top: 25px;
 	vertical-align: middle;
+	width: 910px;
 }
 
 #boardToptr {
-	height: 60px;
-	font-size: 120%;
+	height: 40px;
+	font-size: 15px;;
 }
 
 #boardFree,#boardAnnounce, #boardEvent {
-	height: 50px;
+	height: 40px;
+	font-size: 14px;
 }
 
-#boardWrite {
-	float: right;
-}
 
 #boardWritebt {
 	margin-top: 15px;;
@@ -58,6 +60,7 @@
 	background-color: black;
 	color: white;
 	border-radius: 4px;
+	float: right;
 }
 
 #boardPaging1 {
@@ -85,8 +88,6 @@
 	margin: 3.5px; 
 	text-align: center;"
 }
-
-
 
 
 </style>
@@ -139,18 +140,15 @@
 
 <div class="defaultWidth" >
 
-<tbody>
-
 <div id="boardtitle">
 <h2 id="boardtitleh2">통합 게시판</h2>
-</div>
+</div><!-- #boardtitle -->
 
 <div id="boardAllTb">
 <table class="table table-bordered" id="boardtb">
-
 	<tr class="table-secondary" id="boardToptr">
 		<th>번호</th>
-		<th>말머리</th>
+		<th width="90px;">말머리</th>
 		<th>제목</th>
 		<th>작성자</th>
 		<th>작성일</th>
@@ -169,7 +167,7 @@
 </c:forEach>
 
 <c:forEach var="eventList" items="${eventList }">
-    <tr id="boardEvent" class="colored-row"">
+    <tr id="boardEvent" class="colored-row">
         <td></td>
         <td>${eventList.eventHead }</td>
         <td>${eventList.eventName }</td>
@@ -179,8 +177,6 @@
     </tr>
 </c:forEach>
 
-
-	
 <c:forEach var="freeList" items="${freeList }">
 	<tr id="boardFree">
 		<td>${freeList.freeNo }</td>
@@ -192,20 +188,17 @@
 	</tr>
 </c:forEach>
 
-
 </table>
 
-<div id="boardWrite" style="float: right;">
-	<button id="boardWritebt" type="button" onclick="location.href='./freeWrite'">작성</button>
-</div>
 
-</div>
+<button id="boardWritebt" type="button" onclick="location.href='./freeWrite'">작성</button>
 
-
-</tbody>
+</div><!-- #boardAllTb -->
 
 
-<div>
+
+
+<div id="boardPagination">
    <ul class="pagination pagination-sm justify-content-center" style="margin-top: 80px;">
    
 		<!-- 맨 처음 페이지로 이동 -->
@@ -254,12 +247,13 @@
 
       
    </ul>
-</div>
+</div><!--.boardPagination -->
 
 <%-- <c:import url=".././layout/pagination.jsp"/> --%>
+</div><!-- defaultWidth -->
 
-</div>
-<br>
 
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
+
+

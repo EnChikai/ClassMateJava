@@ -53,6 +53,14 @@
 	margin-bottom: 20px;
 }
 
+h1 {
+	font-family: Impact; 
+	font-style: normal; 
+	font-weight: normal;
+	color: #F0C610; 
+	font-size: 30px;"
+}
+
 
 #search {	
 	margin-left: 343px;
@@ -65,47 +73,113 @@
     margin-bottom: 100px;
 }
 
+.idpw img {
+	width: 20px;
+	vertical-align: middle;	
+}
+
+
+.idpw input {
+	padding: 6px 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+button {
+	background-color: #F0C610; 
+	border-radius: 4px; 
+	color: white; 
+	font-size: 14px; 
+	text-align: center; 
+	cursor:pointer; 
+	display: inline-block; border: none; width: 70px; height: 32px;"
+}
+
+#noInputId, #noInputPw {
+	font-size: 12px;
+	color: red;
+}
+
 </style>
+<script type="text/javascript">
+$(function() {
+
+		if( $("#userId").val() == '' ){
+			$("#userId").attr("placehol")
+// 			$("#noInputId").text('아이디를 입력해주세요');
+		} 
+
+		if( $("#userPw").val() == '' ){
+// 			$("#noInputPw").text('비밀번호를 입력해주세요');
+		}
+		$("#userId").keyup(function(){
+
+			if( $("#userId").val() == '' ){
+				$("#noInputId").text('아이디를 입력해주세요');
+			} else {
+				$("#noInputId").text('');
+			}
+		})
+		$("#userPw").keyup(function(){
+
+			if( $("#userPw").val() == '' ){
+				$("#noInputPw").text('비밀번호를 입력해주세요');
+			} else {
+				$("#noInputPw").text('');
+			}
+		})
+	
+    $("#btnLogin").on( 'click', function() {
+    	console.log('1111클릭됨')
+    	
+	    if( $("#userId").val() == '' || $("#userPw").val() == '' ) {
+	        $("#btnLogin").attr("type", "button");
+	    } else {
+	        $("#btnLogin").attr("type", "submit");
+	    }
+    })
+	
+});
+</script>
+
 
 <div class="defaultWidth">
 
 <div id="loginDiv1">
-<div id="loginDiv">
-
-<h1 id="loginh1" style="font-family: Impact; font-style: normal; font-weight: normal;
-	color: #F0C610; font-size: 30px;">ClassMate</h1>
-
-<form action="./login" method="post">
-	
-	<div class="idpw">
-	
-	<label><img style="width: 20px; vertical-align: middle;" src="/resources/img/userId.png">
-		<input type="text" name="userId" style="padding: 6px 12px; border: 1px solid #ccc;
-		    border-radius: 4px; box-shadow: inset 0 1px 1px rgba(0,0,0,.075);"></label><br>
-	<div style="margin-bottom: 8px;"></div>
-	<label><img style="width: 20px; vertical-align: middle;" src="/resources/img/key_1.png">
-		<input type="password" name="userPw" style="padding: 6px 12px; border: 1px solid #ccc;
-		    border-radius: 4px; box-shadow: inset 0 1px 1px rgba(0,0,0,.075);"></label><br><br>
-	</div>
-
-	<div style="text-align: center;">
-		<button
-			style="background-color: #F0C610; border-radius: 4px; color: white; 
-			font-size: 14px; text-align: center; cursor:pointer; 
-			display: inline-block; border: none; width: 70px; height: 32px;">로그인</button>
-	</div>
-
-	<div>
-		<a class="join" href="/user/join">계정이 없으신가요? 가입하기</a>
-	</div>
-
-</form>
-</div><!-- .loginDiv -->	
+	<div id="loginDiv">
+		
+		<h1 id="loginh1">ClassMate</h1>
+		
+		<form action="/user/login" method="post">
+			<div class="idpw">
+			
+				<label><img src="/resources/img/userId.png">
+				<input type="text" id="userId" name="userId" placeholder="아이디를 입력해주세요"></label><br>
+				<div id="noInputId"></div>
+					    
+				<div style="margin-bottom: 8px;"></div>
+				<label><img src="/resources/img/key_1.png">
+				<input type="password" id="userPw" name="userPw" placeholder="비밀번호를 입력해주세요"></label><br>
+				<div id="noInputPw"></div><br>
+			
+			</div>
+		
+			<div style="text-align: center;">
+				<button id="btnLogin" type="button">로그인</button>
+					
+			</div><!-- .idpw -->
+		
+			<div>
+				<a class="join" href="/user/join">계정이 없으신가요? 가입하기</a>
+			</div>
+		</form>
+	</div><!-- .loginDiv -->	
 </div><!-- .loginDiv1 -->
 
 
 	<div id="searchDiv">
-		<a id="search" href="" >아이디/비밀번호 찾기</a>
+		<a id="search" href="/user/searchIdPw" >아이디/비밀번호 찾기</a>
 	</div>
 
 </div><!-- .defaultWidth -->

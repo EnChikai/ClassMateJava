@@ -7,7 +7,7 @@
   	margin-right: 18%;
 	display: flex;
 	width:64%;
-	height: 700px;
+	height: 1000px;
 }
 
 .left-box  {

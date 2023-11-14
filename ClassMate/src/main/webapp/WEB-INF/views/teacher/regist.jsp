@@ -14,7 +14,7 @@
 
 <script type="text/javascript"> 
 
-function categoryUchange(z) {
+function categoryUchange() {
 	
 	var cook = ["양식", "한식", "밀키트"];
 	var beauty = ["헤어", "메이크업", "왁싱"];
@@ -25,35 +25,68 @@ function categoryUchange(z) {
 	var business = ["굿즈", "투잡", "제테크"];
 	var create = ["문학", "음악", "팬픽"];
 	var it = ["홈페이지", "어플리케이션", "프로그래밍 언어"];
-	var target = document.getElementById("categoryD");
-
-	if(z.value == a) var y = cook;
-	else if(z.value == b) var y = beauty;
-	else if(z.value == c) var y = sports;
-	else if(z.value == d) var y = selfDevelopement;
-	else if(z.value == e) var y = design;
-	else if(z.value == f) var y = communication;
-	else if(z.value == g) var y = business;
-	else if(z.value == h) var y = create;
-	else if(z.value == i) var y = it;
 	
-	target.options.length = 0;
+	var categoryU = document.getElementById("categoryU");
+	var categoryD = document.getElementById("categoryD");
 	
-	for (x in y) {
-		var opt = document.createElement("option");
-		opt.value = y[x];
-		opt.innerHTML = y[x];
-		target.appendChild(opt);
-		
+	var selectedCategory = categoryU.value;
+	
+	categoryD.innerHTML = "";
+	
+	// 선택한 대분류에 따라 소분류 설정
+    switch (selectedCategory) {
+    case "cook":
+        categoryDropdown(cook);
+        break;
+    case "beauty":
+    	categoryDropdown(beauty);
+        break;
+    case "sports":
+    	categoryDropdown(sports);
+        break;
+    case "selfDevelopement":
+    	categoryDropdown(selfDevelopement);
+        break;
+    case "design":
+    	categoryDropdown(design);
+        break;
+    case "communication":
+    	categoryDropdown(communication);
+        break;
+    case "business":
+    	categoryDropdown(business);
+        break;
+    case "create":
+    	categoryDropdown(create);
+        break;
+    case "it":
+    	categoryDropdown(it);
+        break;
+    // 다른 대분류에 대한 case 추가
 	}
+}
+	
+function categoryDropdown(categoryArray) {
+	
+	var  categoryD = document.getElementById("categoryD");
+	
+	 for (var i = 0; i < categoryArray.length; i++) {
+         var option = document.createElement("option");
+         option.text = categoryArray[i];
+         categoryD.add(option);
+     }
+
+     // 소분류 드랍다운 활성화
+     categoryD.disabled = false;
 	
 }
+	
 
 </script>
 
 <div class="center-box">
 <div class="title">
-<h3 style="display: inline-block;">ON/OFF클래스 상세 조회</h3>
+<h3 style="display: inline-block;">ON/OFF클래스 등록</h3>
 <div id= "all"><select name="claaCheck" id="classCHeck">
   <option>on클래스</option>
   <option>off클래스</option>
@@ -77,21 +110,21 @@ function categoryUchange(z) {
 <tr>
 	<td class="table-info">카테고리</td>
 	<td>
-	<select class="categoryControll" name="categoryU" id="categoryU">
-  	<option>대분류</option>
-	<option value="a">요리</option>
-	<option value="b">뷰티</option>
-	<option value="c">스포츠</option>
-	<option value="d">자기개발</option>
-	<option value="e">디자인</option>
-	<option value="f">커뮤니케이션</option>
-	<option value="g">비즈니스</option>
-	<option value="h">창작</option>
-	<option value="i">IT</option>
+	 <label for="categoryU">대분류 : </label>
+	<select name="categoryU" id="categoryU" onchange="categoryUchange()">
+	<option value="cook">요리</option>
+	<option value="beauty">뷰티</option>
+	<option value="sports">스포츠</option>
+	<option value="selfDevelopement">자기개발</option>
+	<option value="design">디자인</option>
+	<option value="communication">커뮤니케이션</option>
+	<option value="business">비즈니스</option>
+	<option value="create">창작</option>
+	<option value="it">IT</option>
 	</select>
 	>
-	<select class="categoryControll" name="categoryD" id="categoryD">
-	<option>선택해주세요</option>
+	<label for="categoryD">소분류 : </label>
+	<select name="categoryD" id="categoryD" disabled>
 	</select>
 	</td>
 </tr>
@@ -99,20 +132,20 @@ function categoryUchange(z) {
 	<td class="table-info">클래스명</td><td><input type="text" name="className" id="className"></td>
 </tr>
 <tr>
-	<td class="table-info">클래스 기간</td><td><fmt:formatDate value="${classDetail.classStart }" pattern="yyyy - MM - dd"/> ~
-		 <fmt:formatDate value="${class.classEnd }" pattern="yyyy - MM - dd"/></td>
+	<td class="table-info">클래스 기간</td><td><input type="date" name= "classStart" id="classStart"> ~
+		 <input type="date" name="classEnd" id="classEnd"></td>
 </tr>
 <tr>
-	<td class="table-info">모집 정원</td><td>${classDetail.maxCount }</td>
+	<td class="table-info">모집 정원</td><td><input type="number" name="maxCount" id="maxCount"> 명</td>
 </tr>
 <tr>
-	<td class="table-info">비용 및 안내</td><td>${classDetail.classInfo }</td>
+	<td class="table-info">비용 및 안내</td><td><input type="text" name="expense" id="expense"> 원</td>
 </tr>
 <tr>
-	<td class="table-info">클래스 소개</td><td>${classDetail.content }</td>
+	<td class="table-info">클래스 소개</td><td><textarea name="classInfo" id="classInfo"></textarea></td>
 </tr>
 <tr>
-	<td class="table-info">커리큘럼</td><td>${classDetail.curriculum }</td>
+	<td class="table-info">커리큘럼</td><td><textarea name="curriculum" id="curriculum"></textarea></td>
 </tr>
 <tr>
 	<td class="table-info">영상 업로드</td><td>${classDetail.curriculum }</td>
@@ -134,18 +167,82 @@ function categoryUchange(z) {
 	</td>
 </tr>
 
-<tr>
-	<td colspan="2">${adress.adressNo }</td>
-</tr>
 </table> 
+
+
+
+
+
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
+<body>
+		<table>
+			<tr>
+				<td>주소</td>
+				<td><input type="text" id="address"></td>
+				<td><button type="button" id="searchBtn">검색</button></td>
+			</tr>
+			<tr>
+				<td>상세 주소</td>
+				<td><input type="text" name="detailAddress2"></td>
+				<td></td>
+			</tr>
+		</table>
+		<div id="map" style="width:100%;height:350px;"></div>
+   
+	<!-- kakao API -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7386d9c0dc5cbff30aa6aa3fde01768b&libraries=services"></script>
+	<script>
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	    mapOption = {
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };  
+	
+	
+	$('#searchBtn').click(function(){
+		// 버튼을 click했을때
+		
+		// 지도를 생성합니다    
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+		
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+		
+		// 주소로 좌표를 검색합니다
+		geocoder.addressSearch($('#address').val(), function(result, status) {
+	
+		    // 정상적으로 검색이 완료됐으면 
+		     if (status === kakao.maps.services.Status.OK) {
+		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		        
+		        // 결과값으로 받은 위치를 마커로 표시합니다
+		        var marker = new kakao.maps.Marker({
+		            map: map,
+		            position: coords
+		        });
+	
+		        // 인포윈도우로 장소에 대한 설명을 표시합니다
+		        var infowindow = new kakao.maps.InfoWindow({
+		            content: '<div style="width:150px;text-align:center;padding:6px 0;">장소</div>'
+		        });
+		        infowindow.open(map, marker);
+	
+		        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		        map.setCenter(coords);
+		    } 
+		});  
+	});
+	  
+	</script>
+
+<br>
 
 <button>목록</button>
 <button>취소</button>
 </form>
 
 
-<c:import url="/WEB-INF/views/layout/pagination.jsp" />
-</div>
+</div>	<!-- center box -->
 
 </div>	<!-- total box -->
 

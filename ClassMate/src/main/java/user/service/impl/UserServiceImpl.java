@@ -35,5 +35,9 @@ public class UserServiceImpl implements UserService{
 		return userDao.getTeachNo(teacher); //강사 번호
 	} //강사 번호
 
-		
+    @Override
+    public boolean checkDuplicateId(String userId) {
+        int count = userDao.checkDuplicateId(userId);
+        return count > 0;
+    }
 }
