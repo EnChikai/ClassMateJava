@@ -26,8 +26,7 @@ function checkDuplicateId() {
     $.ajax({
         type: "POST",
         url: "${pageContext.request.contextPath}/user/checkDuplicateId",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ "userId": userId }),
+        data: { "userId": userId }, 
         success: function(response) {
             if (response.duplicate) {
                 alert("이미 사용 중인 아이디입니다.");
@@ -174,10 +173,10 @@ button {
 				background-color: #929292; width: 95px; color: rgb(255, 255, 255);
 				height: 40px;
 				cursor: pointer;">취소</button>
-			<a href="./joinOk"><button 
+			<button onclick="location.href='joinOk.jsp'"
 				style="border: none; font-size: 22px; border-radius: 4px;
 				background-color: #F1C40F; width: 95px; color: rgb(255, 255, 255);
-				height: 40px; cursor: pointer;">등록</button></a>
+				height: 40px; cursor: pointer;">등록</button>
 		</div>
 		
 		

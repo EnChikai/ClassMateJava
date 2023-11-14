@@ -6,7 +6,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%long order = new Date().getTime(); %>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
@@ -14,147 +13,136 @@
 <style type="text/css">
 
 #basketTableTitle{
-margin-left:auto; 
-margin-right:auto;
-background: black;
-border-collapse:collapse;    
-border-radius: 3px;
-border-style: hidden;
-box-shadow: 0 0 0 1px #ccc;
+	margin-left:auto; 
+	margin-right:auto;
+	background: black;
+	border-collapse:collapse;    
+	border-radius: 3px;
+	border-style: hidden;
+	box-shadow: 0 0 0 1px #ccc;
 
  
 }
 
 .thFontInfo{
-color: white;
-padding-top: 5px;
-padding-bottom: 5px;
-table-layout: fixed;
+	color: white;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	table-layout: fixed;
 
 }
 
 #basketTableInfo{
-margin-left:auto; 
-margin-right:auto;
-border-collapse:collapse;    
+	margin-left:auto; 
+	margin-right:auto;
+	border-collapse:collapse;    
  
 }
 
 .basketTableInfoTd{
-border-bottom: 2px solid #ccc;
+	border-bottom: 2px solid #ccc;
 
 }
 
 #basketTableUnder{
-margin-left:auto; 
-margin-right:auto;
-border-collapse:collapse;    
-border-bottom: 2px solid #ccc;
+	margin-left:auto; 
+	margin-right:auto;
+	border-collapse:collapse;    
+	border-bottom: 2px solid #ccc;
  
 }
 
 #classInfo{
-    display: inline-block;
-    width: 300px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	display: inline-block;
+	width: 300px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .paymentOneBtn{
-background: rgb(241,196,15);
-font-size: 16px;
-width:50px;
-padding: 8px;
-border-radius: 3px;
-border-style: hidden;
-box-shadow: 0 0 0 1px rgb(230,204,100)
-font-weight:bold;
-color: white;
-margin-bottom: 5px; 
+	background: rgb(241,196,15);
+	font-size: 16px;
+	width:50px;
+	padding: 8px;
+	border-radius: 3px;
+	border-style: hidden;
+	box-shadow: 0 0 0 1px rgb(230,204,100)
+	font-weight:bold;
+	color: white;
+	margin-bottom: 5px; 
 
 }
 
 .paymentOneBtn:hover:not(.active){
-box-shadow: 0 0 0 2px skyblue;
-background: rgb(230,204,100);
+	box-shadow: 0 0 0 2px skyblue;
+	background: rgb(230,204,100);
 
 }
 #deleteBtn{
-background: rgb(190,190,190);
-font-size: 16px;
-width:50px;
-padding: 8px;
-border-radius: 3px;
-border-style: hidden;
-box-shadow: 0 0 0 1px rgb(190,190,190);
-font-weight:bold;
-color: white;
-margin-bottom: 5px; 
+	background: rgb(190,190,190);
+	font-size: 16px;
+	width:50px;
+	padding: 8px;
+	border-radius: 3px;
+	border-style: hidden;
+	box-shadow: 0 0 0 1px rgb(190,190,190);
+	font-weight:bold;
+	color: white;
+	margin-bottom: 5px; 
 
 }
 
 #deleteBtn:hover:not(.active){
-box-shadow: 0 0 0 2px skyblue;
-background: rgb(170,170,170)
+	box-shadow: 0 0 0 2px skyblue;
+	background: rgb(170,170,170)
 
 }
 
 .onOffClass{
-background: rgb(241,196,15); 
-box-shadow: 0 0 0 1px rgb(230,204,100); 
-border-radius: 4px; 
-border-style: hidden; 
-text-align: center; 
-font-weight:bold; 
-color: white;
-margin-bottom: 10px;
+	background: rgb(241,196,15); 
+	box-shadow: 0 0 0 1px rgb(230,204,100); 
+	border-radius: 4px; 
+	border-style: hidden; 
+	text-align: center; 
+	font-weight:bold; 
+	color: white;
+	margin-bottom: 10px;
 
 }
 </style>
 
 <%-- <% ============================================================================= %> --%>
 
-
-<%-- 체크박스 결제값 구하기 --%>
+<%-- 체크박스 클릭시 결제값 구하기 --%>
 <c:forEach items="${classList }" var="classList">
 <script type="text/javascript">
 $(function(){
 	
 	var paymentValue = document.getElementById("paymentValue");
 	var paymentSum = 0;
+	var classNameValue = document.getElementById("classNameAll");
+	var className = "'${classList.className}' "
+	
 	
 	$("#checkbox${classList.classNo}").click(function(){
 		
 		if($("#checkbox${classList.classNo}").is(":checked")){
 			paymentSum = ${classList.expense};
+			classNameValue.value += className
 		}else{
 			paymentSum = -${classList.expense};
+			classNameValue.value = classNameValue.value.replace("'${classList.className}' ","")
+			
 		}
 	
 	paymentValue.value = paymentSum;
 	});
-});
+}); 
 </script>
 </c:forEach>
 
-<%-- 체크박스 합계값 구하기 --%>
-<script type="text/javascript">
-$(document).ready(function(){
-    var paymentAll = $("#paymentAll");
-    var sum = 0;
-    
-    $(".checkBoxes").click(function(){
-    	sum += parseFloat($("#paymentValue").val())
-        paymentAll.val(sum);
-    	
-    });
-    
-    
-    
-});
-</script>
-
+<%-- <% ============================================================================= %> --%>
 
 <%-- 체크박스 결제 --%>
 <script type="text/javascript">
@@ -203,88 +191,91 @@ $(function(){
     });
 });
 
+
 <%-- 체크박스 결제 --%>
-<%--가맹점 코드 초기화 --%>
-IMP.init('imp04411553')
+
 
 $(function(){
+    
+<%-- 최종 결제할 금액 구하기 --%>    
+	   var paymentValue = document.getElementById("paymentValue");
+	   var paymentSum = 0;
+	   var classNameValue = document.getElementById("classNameAll");
+	  	   
+	   // 전체 체크박스에 대한 이벤트 핸들러
+	   $("#checkboxAll").click(function(){
+	      // 체크박스가 체크되었는지 확인
+	      if($(this).is(":checked")){
+	         // 체크되었다면 +값 추가
+	         paymentSum = 0;
+	         paymentSum += ${paymentSum}; 
+	         
+	         classNameValue.value = '';
+	         $('.classNameInput').each(function (index, item) {
+        	     classNameValue.value += "\'"+item.value+"\' "
+        	 });	
+	         
+	      } else {
+	         // 체크가 해제되었다면 -값 추가
+	         paymentSum = 0;
+	         classNameValue.value = '';
+	         
+	      }
+
+	      // 결과값을 입력란에 표시
+	   paymentValue.value = paymentSum;
+	   });
+    
+    
+<%-- 체크박스 클릭시 결제값 반영 --%>	
+	    var paymentAll = $("#paymentAll");
+	    var sum = 0;
+	    
+	    $(".checkBoxes").click(function(){
+	    	sum += parseFloat($("#paymentValue").val())
+	        paymentAll.val(sum);
+	    	
+	    	const element = document.getElementById('sumDiv');
+	    	const formattedSum = new Intl.NumberFormat('en-US', { maximumFractionDigits: 3 }).format(parseFloat($("#paymentAll").val()));
+	    	element.textContent = '총 합계 금액 : '+formattedSum;
+	    	
+	    });
+	    
+	    $("#checkboxAll").click(function(){
+	    	sum = 0;
+	    	sum += parseFloat($("#paymentValue").val());
+	        paymentAll.val(sum);
+	        
+	        const element = document.getElementById('sumDiv');
+	    	const formattedSum = new Intl.NumberFormat('en-US', { maximumFractionDigits: 3 }).format(parseFloat($("#paymentAll").val()));
+	    	element.textContent = '총 합계 금액 : '+formattedSum;
+	    });
+		    
+	    
+<%-- 전체결제버튼 클릭 --%>	
+
+	var classNoAll = new Array();
 	
+	$('.classNoInput').each(function (index, item) {
+	     classNoAll[index] = item.value
+	});	
+	
+	console.log(classNoAll);
+	
+<%--가맹점 코드 초기화 --%>
+IMP.init('imp04411553')	
+
 	$("#paymentBtn").click(function(){
 	
 		IMP.request_pay({
 			<%-- pg: "html5_inicis",	//결제 pg 선택 --%>
 		    pg: "kakaopay",	<%-- 결제 pg 선택 --%>
-		      
-		    merchant_uid: "<%=order %>",   <%-- 고유 주문 번호 --%>
+			pay_method: "card",
+			
+		    merchant_uid: <%=order %>,   <%-- 고유 주문 번호 --%>
 		     
-		    name: "전체결제",	<%-- 주문 상품 이름 --%>
+		    name: document.getElementById("classNameAll").value,	<%-- 주문 상품 이름 --%>
 		    amount: document.getElementById("paymentAll").value,	<%-- //금액,  숫자 타입 --%>
-		      
-		    <%-- 주문자 정보 --%>
-		    buyer_name: "보노보노",
-		    buyer_email: "bonobono@naver.com",
-		    buyer_tel: "010-0000-5555"
-		   
-		}, function (data) {	<%-- callback --%>
-			<%-- data.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다. --%>
-		      
-	// 	      console.log(data)
-		      <%-- 결제 정보를 우리가 개발한 --%>
-		      <%-- 서버로 전송해주어야 한다 --%>
-		      <%-- 		-> 결제 후 처리 --%>
-		      
-		      if(data.success){ <%-- 결제 성공시 --%>
-		    	  alert('결제에 성공했습니다.')
-			      
-	    	     $.ajax({
-	  	            type: "POST",
-	  	            url: '../payment/basket',
-	  	      		dataType: 'json',
-	  	            data : {"orderNo": data.merchant_uid
-	  	            	, "name" : data.buyer_name
-	  	            	, "email" : data.buyer_email
-	  	            	, "phone" : data.buyer_tel
-	  	            	, "provider": data.pg_provider
-	  	            	, "card": data.pay_method
-	  	            	, "cardName": data.card_name
-	  	            }
-	
-	  	    	 });
-	
-	 	    		location.href = '../payment/success';
-		    	 
-		    	  
-		      }else{	<%-- 결제 실패시 --%>
-		    	 alert('결제에 실패했습니다')
-		    	 
-		      }
-		 })
-	})
-})
-</script>
-
-<%-- 개별 결제 --%>
-<c:forEach items="${classList }" var="classList">
-<script type="text/javascript">
-
-<%--가맹점 코드 초기화 --%>
-IMP.init('imp04411553')
-
-$(function(){
-	$("#OneBtn${classList.classNo}").click(function(){
-	
-		var sum = document.getElementById("number${classList.classNo}").value;
-	
-		console.log(sum)
-		
-		IMP.request_pay({
-			<%-- pg: "html5_inicis",	//결제 pg 선택 --%>
-		    pg: "kakaopay",	<%-- 결제 pg 선택 --%>
-		      
-		    merchant_uid: "<%=order %>",   <%-- 고유 주문 번호 --%>
-		     
-		    name: "${classList.className }",	<%-- 주문 상품 이름 --%>
-		    amount: sum,	<%-- //금액,  숫자 타입 --%>
 		      
 		    <%-- 주문자 정보 --%>
 		    buyer_name: "${userInfo.userName}",
@@ -313,11 +304,86 @@ $(function(){
 	  	            	, "provider": data.pg_provider
 	  	            	, "card": data.pay_method
 	  	            	, "cardName": data.card_name
+	  	            	, "classNo" : classNoAll
+	  	            }
+	
+	  	    	 });
+
+	 	    		location.href = '../payment/success';
+		    	 
+		    	  
+		      }else{	<%-- 결제 실패시 --%>
+		    	 alert('결제에 실패했습니다')
+		    	 
+		      }
+		 })
+	})
+})
+</script>
+
+<%-- 개별 결제 --%>
+<c:forEach items="${classList }" var="classList">
+<script type="text/javascript">
+
+<%--가맹점 코드 초기화 --%>
+IMP.init('imp04411553')
+
+	var classNoAll = new Array();
+
+	classNoAll[0] = ${classList.classNo}
+	
+	console.log(classNoAll);
+
+$(function(){
+	$("#OneBtn${classList.classNo}").click(function(){
+	
+		var sum = document.getElementById("number${classList.classNo}").value;
+	
+		console.log(sum)
+		
+		IMP.request_pay({
+			<%-- pg: "html5_inicis",	//결제 pg 선택 --%>
+		    pg: "kakaopay",	<%-- 결제 pg 선택 --%>
+			pay_method: "card", <%-- 결제 방식 --%>
+			
+		    merchant_uid: <%=order %>,   <%-- 고유 주문 번호 --%>
+		     
+		    name: "${classList.className }",	<%-- 주문 상품 이름 --%>
+		    amount: sum,	<%-- //금액,  숫자 타입 --%>
+		      
+		    <%-- 주문자 정보 --%>
+		    buyer_name: "${userInfo.userName}",
+		    buyer_email: "${userInfo.userEmail}",
+		    buyer_tel: "${userInfo.userPhone}"
+		   
+		}, function (data) {	<%-- callback --%>
+			<%-- data.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다. --%>
+
+			  <%-- console.log(data) --%>
+		      <%-- 결제 정보를 우리가 개발한 --%>
+		      <%-- 서버로 전송해주어야 한다 --%>
+		      <%-- 		-> 결제 후 처리 --%>
+		      
+		      if(data.success){ <%-- 결제 성공시 --%>
+		    	  alert('결제에 성공했습니다.')
+			      
+	    	     $.ajax({
+	  	            type: "POST",
+	  	            url: '../payment/basket',
+	  	      		dataType: 'json',
+	  	            data : {"orderNo": data.merchant_uid
+	  	            	, "name" : data.buyer_name
+	  	            	, "email" : data.buyer_email
+	  	            	, "phone" : data.buyer_tel
+	  	            	, "provider": data.pg_provider
+	  	            	, "card": data.pay_method
+	  	            	, "cardName": data.card_name
+	  	            	, "classNo" : classNoAll
 	  	            }
 	
 	  	    	 });
 	
-	 	    		location.href = '../payment/success';
+// 	 	    		location.href = '../payment/success';
 		    	 
 		    	  
 		      }else{	<%-- 결제 실패시 --%>
@@ -377,10 +443,12 @@ $(function(){
 			<c:if test="${classList.onOff ne 0}">
 				<p class="onOffClass" style="width: 75;" >온클래스</p>
 			</c:if>
+			<input style="display: none;" class="classNoInput" readonly="readonly" type="text" value="${classList.classNo}"/>
 			<p style="font-weight:bold;">${classList.className }</p>
 			<p>강사명 : ${classList.teacher }</p>
 			<p id="classInfo" >${classList.classInfo }</p>
 			<input style="display: none;" id="teacher${classList.classNo}" readonly="readonly" type="text" value="teacher${classList.classNo}"/>
+			<input style="display: none;" class="classNameInput" readonly="readonly" type="text" value="${classList.className}"/>
 		</td>
 		<td class="basketTableInfoTd" style="text-align: left;" width="20%">
 			<p style="width: 100px; padding-left: 50px;">${classList.classStart }~</p>
@@ -412,7 +480,7 @@ $(function(){
 		<td width="20%">
 		</td>
 		<td width="30%">
-			<div id="sumDiv" style="font-weight:bold;" >총 합계금액 : </div>
+			<div id="sumDiv" style="font-weight:bold;">총 합계 금액 : 0</div>
 		</td>
 		<td width="15%">
 		</td>
@@ -423,14 +491,11 @@ $(function(){
 	<button type="button" style="margin-top:40px; width: 100px;" id="paymentBtn" class="paymentOneBtn">결제하기</button>
 </div>
 
-<input id="teacherAll" readonly="readonly" type="text" value=""/><br>
-<div>체크박스 결제값 : <input id="paymentValue" readonly="readonly" type="number" value="0"/></div>
-<div>총 합계금액 : <input id="paymentAll" readonly="readonly" type="number" value="0"/></div>
-
-
+<div style="display: none">체크박스 결제값 : <input id="paymentValue" readonly="readonly" type="number" value="0"/></div>
+<div style="display: none">결제할 금액 : <input id="paymentAll" readonly="readonly" type="number" value="0"/></div>
+<div>클래스 이름 : <textarea style="width: 300px; height: 100px;" id="classNameAll" readonly="readonly"></textarea></div>
 
 </div>
-
 
 <%-- <% ============================================================================= %> --%>
 

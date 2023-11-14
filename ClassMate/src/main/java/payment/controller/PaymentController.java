@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import payment.service.face.PaymentService;
 
@@ -42,6 +44,7 @@ public class PaymentController {
 		
 		model.addAttribute("userInfo",map.get("userInfo"));
 		model.addAttribute("classList",map.get("classList"));
+		model.addAttribute("paymentSum",map.get("paymentSum"));
 		model.addAttribute("classListSize",map.get("classListSize"));
 		
 	}
@@ -56,7 +59,7 @@ public class PaymentController {
 			, String card
 			, String provider
 			, String cardName
-
+			
 			) {
 		logger.info("/payment/basket [Post]");
 		logger.info("email: {}",email);
@@ -65,6 +68,8 @@ public class PaymentController {
 		logger.info("card: {}",card);
 		logger.info("provider: {}",provider);
 		logger.info("cardName: {}",cardName);
+//		logger.info("classNo: {}",classNo);
+//		logger.info("classNo[0]: {}",classNo[0]);
 		
 	}
 	
