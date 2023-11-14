@@ -44,10 +44,17 @@ public class PaymentServiceImpl implements PaymentService{
 		}
 		logger.info("classList:{}",classList);
 		
+		int paymentSum = 0;
+		for(int i = 0; i<classList.size(); i++) {
+			paymentSum += classList.get(i).getExpense();
+			logger.info("paymentSum:{}",paymentSum);
+		}
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		map.put("userInfo", userInfo);
 		map.put("classList", classList);
+		map.put("paymentSum", paymentSum);
 		map.put("classListSize", classList.size());
 		
 		return map;
