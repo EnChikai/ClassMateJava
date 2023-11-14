@@ -28,7 +28,7 @@
 
   // 외부 영역 클릭시 팝업 닫기
   $(document).mouseup(function (e) {
-    var modal = $(".modal-con"); // 모달 내용에 대한 올바른 클래스
+    var modal = $(".modal-con");
     if (!modal.is(e.target) && modal.has(e.target).length === 0) {
       $("#modal").fadeOut(300);
       modal.fadeOut(300);
@@ -44,7 +44,7 @@
   
   // 외부 영역 클릭시 팝업 닫기
    $(document).mouseup(function (e) {
-    var modal2 = $(".modal-con2"); // 모달 내용에 대한 올바른 클래스
+    var modal2 = $(".modal-con2");
     if (!modal2.is(e.target) && modal2.has(e.target).length === 0) {
       $("#modal2").fadeOut(300);
       modal2.fadeOut(300);
@@ -61,7 +61,7 @@
   
   // 외부 영역 클릭시 팝업 닫기
   $(document).mouseup(function (e) {
-    var modal3 = $(".modal-con3"); // 모달 내용에 대한 올바른 클래스
+    var modal3 = $(".modal-con3");
     if (!modal3.is(e.target) && modal3.has(e.target).length === 0) {
       $("#modal3").fadeOut(300);
       modal3.fadeOut(300);
