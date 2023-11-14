@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import teacher.dto.Teacher;
 import user.dao.face.UserDao;
 import user.dto.UserInfo;
 import user.service.face.UserService;
@@ -24,6 +25,15 @@ public class UserServiceImpl implements UserService{
 	public UserInfo loginPost(UserInfo userInfo) {
 		return userDao.selectUser( userInfo );
 	}
+
+	//강사 번호
+	@Override //강사 번호
+	public Teacher getTeacherNo(Teacher teacher) { //강사 번호
+		
+		System.out.println(teacher); //강사 번호
+
+		return userDao.getTeachNo(teacher); //강사 번호
+	} //강사 번호
 
 		
 }

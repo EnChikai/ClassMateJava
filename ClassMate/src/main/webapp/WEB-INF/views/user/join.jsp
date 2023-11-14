@@ -174,10 +174,10 @@ button {
 				background-color: #929292; width: 95px; color: rgb(255, 255, 255);
 				height: 40px;
 				cursor: pointer;">취소</button>
-			<button onclick="location.href='joinOk.jsp'"
+			<a href="./joinOk"><button 
 				style="border: none; font-size: 22px; border-radius: 4px;
 				background-color: #F1C40F; width: 95px; color: rgb(255, 255, 255);
-				height: 40px; cursor: pointer;">등록</button>
+				height: 40px; cursor: pointer;">등록</button></a>
 		</div>
 		
 		

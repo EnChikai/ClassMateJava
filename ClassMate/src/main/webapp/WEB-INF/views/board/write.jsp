@@ -7,8 +7,8 @@
 
 <tbody>
 
-<div id="freeupdate">
-<h2>게시글 수정하기</h2>
+<div id="freewrite">
+<h2>게시글 작성하기</h2>
 </div>
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
@@ -17,3 +17,4 @@
 
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
+
