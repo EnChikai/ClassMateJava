@@ -1,9 +1,12 @@
 package payment.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import lecture.dto.Class;
 import payment.dto.Basket;
+import payment.dto.OrderTb;
+import payment.dto.Payment;
 import user.dto.UserInfo;
 
 public interface PaymentDao {
@@ -32,6 +35,23 @@ public interface PaymentDao {
 	 * @return 장바구니의 classNo 정보를 토대로 가져온 class값 리스트
 	 */
 	public List<Class> selectClassListByUser(Basket basket);
+
+	
+	/**
+	 * 받아온 OrderTb정보를 DB에 저장한다
+	 * 
+	 * @param OrderTb - 결제되어 가저온 orderTb의 정보값(merchantUid-판매자uid, userNo-결제한 유저번호, classNo-결제된 클래스 번호)
+	 * @return DB에 데이터 저장 유뮤 (0-실패, 1-성공)
+	 */
+	public int insertOrderList(OrderTb orderTb);
+
+	public int insertPaymentList(Map<String, Object> map);
+
+	public int deleteBasket(Basket basket);
+
+	public OrderTb selectOrder(int userNo);
+
+	public List<Payment> selectPaymentList(int userNo);
 
 	
 

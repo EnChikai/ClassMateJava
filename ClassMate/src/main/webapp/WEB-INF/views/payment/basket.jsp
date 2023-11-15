@@ -164,8 +164,8 @@ function oneCheckFunc( check )
         checkBoxLength = $("[name="+ checkName +"]").length;
         checkedLength = $("[name="+ checkName +"]:checked").length;
         
-//         console.log("checkBoxLength : " + checkBoxLength + ", checkedLength : " + checkedLength);
-        // 확인용
+        <%-- console.log("checkBoxLength : " + checkBoxLength + ", checkedLength : " + checkedLength); --%>
+		<%-- 확인용 --%>
 
         if( checkBoxLength == checkedLength ) {
             allcheck.prop("checked", true);
@@ -192,9 +192,8 @@ $(function(){
 });
 
 
+
 <%-- 체크박스 결제 --%>
-
-
 $(function(){
     
 <%-- 최종 결제할 금액 구하기 --%>    
@@ -253,6 +252,8 @@ $(function(){
 		    
 	    
 <%-- 전체결제버튼 클릭 --%>	
+<%--가맹점 코드 초기화 --%>
+IMP.init('imp04411553')	
 
 	var classNoAll = new Array();
 	
@@ -260,19 +261,18 @@ $(function(){
 	     classNoAll[index] = item.value
 	});	
 	
-	console.log(classNoAll);
+	<%-- console.log(classNoAll); --%>
 	
-<%--가맹점 코드 초기화 --%>
-IMP.init('imp04411553')	
-
 	$("#paymentBtn").click(function(){
 	
+		var userAddr = "${userInfo.mainAddress} ${userInfo.subAddress}";
+		
 		IMP.request_pay({
 			<%-- pg: "html5_inicis",	//결제 pg 선택 --%>
 		    pg: "kakaopay",	<%-- 결제 pg 선택 --%>
 			pay_method: "card",
 			
-		    merchant_uid: <%=order %>,   <%-- 고유 주문 번호 --%>
+		    merchant_uid: <%=order %>,   <%-- 고유 번호 --%>
 		     
 		    name: document.getElementById("classNameAll").value,	<%-- 주문 상품 이름 --%>
 		    amount: document.getElementById("paymentAll").value,	<%-- //금액,  숫자 타입 --%>
@@ -280,36 +280,36 @@ IMP.init('imp04411553')
 		    <%-- 주문자 정보 --%>
 		    buyer_name: "${userInfo.userName}",
 		    buyer_email: "${userInfo.userEmail}",
-		    buyer_tel: "${userInfo.userPhone}"
+		    buyer_tel: "${userInfo.userPhone}",
+		    buyer_addr: userAddr,
+		    buyer_postcode: "${userInfo.userPost}"
 		   
 		}, function (data) {	<%-- callback --%>
 			<%-- data.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다. --%>
 		      
-	// 	      console.log(data)
+		      <%-- console.log(data)--%>
 		      <%-- 결제 정보를 우리가 개발한 --%>
 		      <%-- 서버로 전송해주어야 한다 --%>
 		      <%-- 		-> 결제 후 처리 --%>
 		      
 		      if(data.success){ <%-- 결제 성공시 --%>
 		    	  alert('결제에 성공했습니다.')
-			      
+			     
 	    	     $.ajax({
 	  	            type: "POST",
-	  	            url: '../payment/basket',
+	  	            url: '../payment/insertInfo',
 	  	      		dataType: 'json',
-	  	            data : {"orderNo": data.merchant_uid
-	  	            	, "name" : data.buyer_name
-	  	            	, "email" : data.buyer_email
-	  	            	, "phone" : data.buyer_tel
+	  	      		traditional: true,
+	  	            data : {"merchantUid": data.merchant_uid
 	  	            	, "provider": data.pg_provider
-	  	            	, "card": data.pay_method
+	  	            	, "payMethod": data.pay_method
 	  	            	, "cardName": data.card_name
 	  	            	, "classNo" : classNoAll
 	  	            }
 	
 	  	    	 });
 
-	 	    		location.href = '../payment/success';
+	 	    		location.href = '../payment/insertInfo';
 		    	 
 		    	  
 		      }else{	<%-- 결제 실패시 --%>
@@ -332,30 +332,33 @@ IMP.init('imp04411553')
 
 	classNoAll[0] = ${classList.classNo}
 	
-	console.log(classNoAll);
+		<%--console.log(classNoAll);--%>
 
 $(function(){
 	$("#OneBtn${classList.classNo}").click(function(){
 	
 		var sum = document.getElementById("number${classList.classNo}").value;
-	
-		console.log(sum)
+		var userAddr = "${userInfo.mainAddress} ${userInfo.subAddress}";
 		
+		<%--console.log(sum)--%>
 		IMP.request_pay({
-			<%-- pg: "html5_inicis",	//결제 pg 선택 --%>
-		    pg: "kakaopay",	<%-- 결제 pg 선택 --%>
+// 			pg: "html5_inicis",	//결제 pg 선택
+		    pg: "kakaopay",	//결제 pg 선택
 			pay_method: "card", <%-- 결제 방식 --%>
-			
-		    merchant_uid: <%=order %>,   <%-- 고유 주문 번호 --%>
-		     
+		    merchant_uid: <%=order%>,   <%-- 고유 번호 --%>
+
 		    name: "${classList.className }",	<%-- 주문 상품 이름 --%>
-		    amount: sum,	<%-- //금액,  숫자 타입 --%>
+		    amount: ${classList.expense},	<%-- //금액,  숫자 타입 --%>
 		      
 		    <%-- 주문자 정보 --%>
 		    buyer_name: "${userInfo.userName}",
 		    buyer_email: "${userInfo.userEmail}",
-		    buyer_tel: "${userInfo.userPhone}"
-		   
+		    buyer_tel: "${userInfo.userPhone}",
+			buyer_addr: userAddr,
+			buyer_postcode: "${userInfo.userPost}"
+				    
+// 		    m_redirect_url: "{모바일에서 결제 완료 후 리디렉션 될 URL}"
+		    	 
 		}, function (data) {	<%-- callback --%>
 			<%-- data.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다. --%>
 
@@ -366,24 +369,21 @@ $(function(){
 		      
 		      if(data.success){ <%-- 결제 성공시 --%>
 		    	  alert('결제에 성공했습니다.')
-			      
+			     
 	    	     $.ajax({
 	  	            type: "POST",
-	  	            url: '../payment/basket',
+	  	            url: '../payment/insertInfo',
 	  	      		dataType: 'json',
-	  	            data : {"orderNo": data.merchant_uid
-	  	            	, "name" : data.buyer_name
-	  	            	, "email" : data.buyer_email
-	  	            	, "phone" : data.buyer_tel
+	  	            data : {"merchantUid": data.merchant_uid
 	  	            	, "provider": data.pg_provider
-	  	            	, "card": data.pay_method
+	  	            	, "payMethod": data.pay_method
 	  	            	, "cardName": data.card_name
-	  	            	, "classNo" : classNoAll
+	  	            	, "classNo" : classNoAll[0]
 	  	            }
 	
 	  	    	 });
-	
-// 	 	    		location.href = '../payment/success';
+				
+	 	    		location.href = '../payment/insertInfo';
 		    	 
 		    	  
 		      }else{	<%-- 결제 실패시 --%>
@@ -493,7 +493,7 @@ $(function(){
 
 <div style="display: none">체크박스 결제값 : <input id="paymentValue" readonly="readonly" type="number" value="0"/></div>
 <div style="display: none">결제할 금액 : <input id="paymentAll" readonly="readonly" type="number" value="0"/></div>
-<div>클래스 이름 : <textarea style="width: 300px; height: 100px;" id="classNameAll" readonly="readonly"></textarea></div>
+<div style="display: none">클래스 이름 : <textarea style="width: 300px; height: 100px;" id="classNameAll" readonly="readonly"></textarea></div>
 
 </div>
 
