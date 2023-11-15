@@ -50,63 +50,56 @@
 </tr>
 </table>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7386d9c0dc5cbff30aa6aa3fde01768b&libraries=services"></script>
- <div id="map"></div>
-  <form id="search-form">
-    <input type="text" id="addressInput" placeholder="주소를 입력하세요" />
-    <button type="submit">검색</button>
-  </form>
+</script>
+
+<div id="address1">서울 영등포구 국회대로 494</div>
+<input type="button" onclick="execDaumPostcode()" value="지도 보기">
+<div id="map" style="width:90%;height:350px;margin-top:10px;display:none"></div>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7386d9c0dc5cbff30aa6aa3fde01768b&libraries=services"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+            level: 5 // 지도의 확대 레벨
+        };
+
+    //지도를 미리 생성
+    var map = new daum.maps.Map(mapContainer, mapOption);
+    //주소-좌표 변환 객체를 생성
+    var geocoder = new daum.maps.services.Geocoder();
+    //마커를 미리 생성
+    var marker = new daum.maps.Marker({
+        position: new daum.maps.LatLng(37.537187, 127.005476),
+        map: map
+    });
+
+
+    function execDaumPostcode() {
+                
+                // 주소로 상세 정보를 검색
+                geocoder.addressSearch('서울 영등포구 국회대로 494', function(results, status) {
+                    // 정상적으로 검색이 완료됐으면
+                    if (status === daum.maps.services.Status.OK) {
+
+                        var result = results[0]; //첫번째 결과의 값을 활용
+
+                        // 해당 주소에 대한 좌표를 받아서
+                        var coords = new daum.maps.LatLng(result.y, result.x);
+                        // 지도를 보여준다.
+                        mapContainer.style.display = "block";
+                        map.relayout();
+                        // 지도 중심을 변경한다.
+                        map.setCenter(coords);
+                        // 마커를 결과값으로 받은 위치로 옮긴다.
+                        marker.setPosition(coords)
+                    }
+                });
+            
+    }
+</script>
   
-  <script>
-  var map = new kakao.maps.Map(document.getElementById("map"), {
-    center: new kakao.maps.LatLng(37.54699, 127.09598),
-    level: 5,
-  });
-
-  var addressInput = document.getElementById("addressInput");
-  var geocoder = new kakao.maps.services.Geocoder();
-
-  // 주소 검색 폼 제출 시
-  document
-    .getElementById("search-form")
-    .addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      // 주소로 좌표를 검색합니다
-      geocoder.addressSearch(addressInput.value, function (result, status) {
-        if (status === kakao.maps.services.Status.OK) {
-          // 검색된 좌표를 변수에 저장합니다
-          var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-          
-          // 검색된 좌표를 clipboard에 복사합니다
-          let dummy = document.createElement("textarea");
-          document.body.appendChild(dummy);
-          dummy.value = coords
-            .toString()
-            .replace(/[()]/g, "")
-            .replace(", ", ",");
-          dummy.select();
-          document.execCommand("copy");
-          document.body.removeChild(dummy);
-          alert("좌표가 클립보드에 복사되었습니다.");
-
-          // 검색된 좌표로 지도 중심을 이동시킵니다
-          map.setCenter(coords);
-        } else {
-          // 검색 실패 시 예시 좌표로 이동합니다
-          var exampleCoords = new kakao.maps.LatLng(37.54699, 127.09598);
-          alert(
-            "검색 실패! 예시 좌표 " +
-                  exampleCoords.toString() +
-                  " 로 이동합니다."
-              );
-              map.setCenter(exampleCoords);
-            }
-          });
-        });
-  </script> 
-
-
 <c:import url="/WEB-INF/views/layout/pagination.jsp" />
 </div>
 
