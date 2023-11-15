@@ -244,7 +244,7 @@ td{
 
 </style>
 
-<hr style="margin-top: 60px;">
+<hr>
 <div class="footer">
 
 <div id="modal" class="close"></div>
