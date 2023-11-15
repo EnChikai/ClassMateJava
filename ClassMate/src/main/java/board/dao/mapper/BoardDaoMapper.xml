@@ -56,6 +56,24 @@
   		VALUES (freeboard_file_seq.nextval, #{freeNo}, #{originName}, #{storedName})
   	</insert>
   
+  	<select id="selectFreeBoardNo" resultType="FreeBoard" parameterType="FreeBoard">
+  		SELECT * FROM free_board
+  		<where>
+  			AND free_no = #{freeNo}
+  		</where>
+  	</select>
+  
+  	<update id="updateHit" parameterType="FreeBoard">
+  	  UPDATE free_board
+  		<set>
+  			free_hit = free_hit + 1
+  		</set>
+  		<where>
+  		 free_no = #{freeNo}
+  		</where>
+  	</update>
+  	
+  
   
   
   

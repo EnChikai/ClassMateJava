@@ -132,6 +132,15 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
+	@Override
+	public FreeBoard freeView(FreeBoard viewFree) {
+		
+		//조회수 증가
+		boardDao.updateHit(viewFree);
+			
+		return boardDao.selectFreeBoardNo(viewFree);
+	}
+
 
 }
 

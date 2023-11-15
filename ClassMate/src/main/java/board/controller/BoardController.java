@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.FreeBoard;
+import board.dto.FreeBoardFile;
 import board.service.face.BoardService;
 import user.dto.UserInfo;
 import web.util.Paging;
@@ -72,8 +73,26 @@ public class BoardController {
 	}
 	
 	@GetMapping("/freeView")
-	private void viewFree(FreeBoard freeBoard, Model model) {
-//			boardService.viewFree();
+	private String viewFree(FreeBoard viewFree, Model model) {
+		logger.info("유주상데이터{}", viewFree);
+			
+		if( viewFree.getFreeNo() < 1 ) {
+			return "redirect:./board";
+		}
+		
+		//상세보기 게시글 조회
+		viewFree = boardService.freeView(viewFree);
+		logger.info("{}", viewFree);
+		
+		//모델값 전달
+		model.addAttribute("viewFree", viewFree);
+		
+		//첨부파일 정보 전달
+//		FreeBoardFile freeBoardFile = boardService.getAttachFile( viewFree );
+//		model.addAttribute("freeBoardFile", freeBoardFile);
+		
+		return "board/freeView";
+		
 	}
 	
 }
