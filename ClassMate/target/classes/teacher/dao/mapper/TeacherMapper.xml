@@ -12,6 +12,12 @@ SELECT class_no, teacher_no, main_category_no, sub_category_no, teacher, class_n
 	FROM class
 </sql>
 
+<sql id="questionAnswer">
+SELECT question_no, user_no, class_no, question_name, question_content, question_date, answer, answer_content 
+	FROM questionAnswer
+</sql>
+
+
 <select id="selectByUserNo" resultType="int" parameterType="int">
 SELECT teacher_no FROM teacher
 	<where>
@@ -52,6 +58,13 @@ SELECT teacher_no FROM teacher
 		VALUES ( #{classNo}, #{teacherNo}, #{mainCategoryNo}, #{subCategoryNo}, #{teacher}, #{className}, #{classStart},
 		 #{classEnd}, #{maxCount}, #{expense}, #{classInfo}, #{curriculum}, #{onOff}, #{content}, #{deleteBoolean} )
 </insert>
+
+<select id="selectAnswerCntAll" resultType="int" parameterType="int">
+	SELECT count(*) FROM ()
+	<include refid="questionAnswer" />
+	WHERE class_no = #{classNo}
+	)
+</select>
 
 
 </mapper>

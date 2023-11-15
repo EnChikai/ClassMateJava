@@ -3,6 +3,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
+<script type="text/javascript">
+$(function() {
+    $("#loginForm").keypress(function(event) {
+        if (event.which === 13) {
+            event.preventDefault(); // 기본 Enter 키 동작을 막음
+            $("#btnLogin").click(); // 로그인 버튼 클릭 이벤트 호출
+        }
+    });
+
+});
+</script>
+
 
 <style type="text/css">
 
@@ -151,7 +163,7 @@ $(function() {
 		
 		<h1 id="loginh1">ClassMate</h1>
 		
-		<form action="/user/login" method="post">
+		<form action="/user/login" method="post" id="loginForm">
 			<div class="idpw">
 			
 				<label><img src="/resources/img/userId.png">
