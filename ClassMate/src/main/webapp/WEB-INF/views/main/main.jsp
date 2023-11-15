@@ -12,6 +12,8 @@
 .defaultWidth{
    margin-left: 400px;
    margin-right: 400px;
+   margin-top: 30px;
+   
 }
 
 .col{
