@@ -52,13 +52,38 @@
   			AND class_no = ${classNo}
 	</delete>
 	
-	<select id="selectOrder" parameterType="int" resultType="OrderTb">
-		SELECT order_no, merchant_uid FROM order_tb
-		WHERE user_no = ${userNo}
+	<select id="selectOrderList" parameterType="int" resultType="OrderTb">
+		SELECT order_no FROM order_tb
+		WHERE merchant_uid = #{merchantUid}
 	</select>
 	
+<!-- 	<select id="selectOrderList" statementType="CALLABLE" parameterType="long" resultType="OrderTb"> -->
+<!-- 		DECLARE -->
+<!-- 		    code varchar2(1000); -->
+<!-- 		    res number; -->
+<!-- 		BEGIN -->
+<!-- 		    code := 'CREATE TABLE clob_tmp' -->
+<!-- 		        || ' AS SELECT' -->
+<!-- 		        || '    order_no,' -->
+<!-- 		        || '    to_lob(merchant_uid) tmp' -->
+<!-- 		        || ' FROM order_tb'; -->
+<!-- 		    EXECUTE IMMEDIATE code; -->
+		
+<!-- 		    code := '' -->
+<!-- 		    || 'SELECT  order_no' -->
+<!-- 		    || ' FROM    clob_tmp' -->
+<!-- 		    || ' WHERE   DBMS_LOB.instr(tmp, ' || to_char(#{merchantUid}) || ') > 0'; -->
+		
+<!-- 		    EXECUTE IMMEDIATE code -->
+<!-- 		    INTO res;  -->
+		
+<!-- 		    code := 'DROP TABLE clob_tmp'; -->
+<!-- 		    EXECUTE IMMEDIATE code; -->
+<!-- 		END; -->
+<!-- 	</select> -->
+	
 	<select id="selectPaymentList" parameterType="int" resultType="Payment">
-		SELECT patment FROM payment
+		SELECT payment FROM payment
 		WHERE order_no = ${order_no}
 	</select>
 	

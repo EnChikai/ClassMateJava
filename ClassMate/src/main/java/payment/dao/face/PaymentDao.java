@@ -49,7 +49,7 @@ public interface PaymentDao {
 
 	public int deleteBasket(Basket basket);
 
-	public OrderTb selectOrder(int userNo);
+	public List<OrderTb> selectOrderList(String merchantUid);
 
 	public List<Payment> selectPaymentList(int userNo);
 
