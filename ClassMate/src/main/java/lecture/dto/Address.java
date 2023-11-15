@@ -3,25 +3,23 @@ package lecture.dto;
 public class Address {
 	private int addressNo;
 	private int classNo;
-	private int latutude;
-	private int longitude;
-	private String adressName;
+	private String mainAddress;
+	private String subAddress;
 	
 	public Address() {}
 
 	@Override
 	public String toString() {
-		return "Address [addressNo=" + addressNo + ", classNo=" + classNo + ", latutude=" + latutude + ", longitude="
-				+ longitude + ", adressName=" + adressName + "]";
+		return "Address [addressNo=" + addressNo + ", classNo=" + classNo + ", mainAddress=" + mainAddress
+				+ ", subAddress=" + subAddress + "]";
 	}
 
-	public Address(int addressNo, int classNo, int latutude, int longitude, String adressName) {
+	public Address(int addressNo, int classNo, String mainAddress, String subAddress) {
 		super();
 		this.addressNo = addressNo;
 		this.classNo = classNo;
-		this.latutude = latutude;
-		this.longitude = longitude;
-		this.adressName = adressName;
+		this.mainAddress = mainAddress;
+		this.subAddress = subAddress;
 	}
 
 	public int getAddressNo() {
@@ -40,29 +38,21 @@ public class Address {
 		this.classNo = classNo;
 	}
 
-	public int getLatutude() {
-		return latutude;
+	public String getMainAddress() {
+		return mainAddress;
 	}
 
-	public void setLatutude(int latutude) {
-		this.latutude = latutude;
+	public void setMainAddress(String mainAddress) {
+		this.mainAddress = mainAddress;
 	}
 
-	public int getLongitude() {
-		return longitude;
+	public String getSubAddress() {
+		return subAddress;
 	}
 
-	public void setLongitude(int longitude) {
-		this.longitude = longitude;
+	public void setSubAddress(String subAddress) {
+		this.subAddress = subAddress;
 	}
 
-	public String getAdressName() {
-		return adressName;
-	}
-
-	public void setAdressName(String adressName) {
-		this.adressName = adressName;
-	}
-	
 	
 }
