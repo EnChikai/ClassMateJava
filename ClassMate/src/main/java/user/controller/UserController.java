@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import teacher.dto.Teacher;
@@ -37,6 +37,12 @@ public class UserController {
 
 	@GetMapping("/updatePw")
 	public void updatePw() {}
+	
+	@GetMapping("/updateUserData")
+	public void updateUserData() {}
+	
+	@GetMapping("/secession")
+	public void secession() {}
 	
 	@GetMapping("/searchUserId")
 	public void searchUserId() {}
@@ -104,18 +110,14 @@ public class UserController {
 		return "redirect:/main/main";
 	}
 	
-	@PostMapping("/checkDuplicateId")
-	@ResponseBody
-	public Map<String, Object> checkDuplicateId(@RequestBody Map<String, String> data) {
-	    String userId = data.get("userId");
-	    System.out.println(userId);
-
-	    // 중복 확인 로직을 수행하고 결과를 반환
-	    boolean isDuplicate = userService.checkDuplicateId(userId);
-
-	    Map<String, Object> resultMap = new HashMap<>();
-	    resultMap.put("duplicate", isDuplicate);
-
-	    return resultMap;
-	}
+    @PostMapping("/checkDuplicateId")
+    @ResponseBody
+    public Map<String, Object> checkDuplicateId(@RequestParam("userId") String userId) {
+        Map<String, Object> result = new HashMap<>();
+        
+        boolean isDuplicate = userService.checkDuplicateId(userId);
+        
+        result.put("duplicate", isDuplicate);
+        return result;
+    }
 }
