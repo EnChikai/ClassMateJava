@@ -26,9 +26,21 @@ public class ClassController {
 	@Autowired ClassService classService;
 	
 	@GetMapping("/onClassLecture")
-	public void onClassLecture(Model model) {
+	public void onClassLecture(Class viewClass, Model model, Map<String, Object> map, HttpSession session) {
 		logger.info("/class/onClassLecture");
-
+		
+		int userNo = (int)session.getAttribute("userNo");
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserNo(userNo);
+		
+		//넘어오는값 임의 지정
+		Class a = new Class();
+		a.setClassNo(2);
+		map = classService.lectureOff(a);
+//		map = classService.lectureOff(viewClass);
+		
+		
+		
 		
 	}
 	
@@ -36,10 +48,9 @@ public class ClassController {
 	public void myOnClassList(Model model, HttpSession session) {
 		logger.info("/class/myOnClassList");
 		
-		String userId = (String)session.getAttribute("userId");
+		int userNo = (int)session.getAttribute("userNo");
 		UserInfo userInfo = new UserInfo();
-		userInfo.setUserId(userId);
-		classService.whoAmI(userInfo);
+		userInfo.setUserNo(userNo);
 		
 		List<Class> lecture = classService.classList(userInfo);
 		
@@ -57,10 +68,10 @@ public class ClassController {
 	@GetMapping("/offClass")
 	public void offClass(Class viewClass, Model model, Map<String, Object> map, HttpSession session) {
 		logger.info("/class/offClass");
-		String userId = (String)session.getAttribute("userId");
+		
+		int userNo = (int)session.getAttribute("userNo");
 		UserInfo userInfo = new UserInfo();
-		userInfo.setUserId(userId);
-		classService.whoAmI(userInfo);
+		userInfo.setUserNo(userNo);
 		
 		//넘어오는값 임의 지정
 		Class a = new Class();
