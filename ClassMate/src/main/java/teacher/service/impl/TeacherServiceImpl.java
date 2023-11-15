@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lecture.dto.Class;
 import lecture.dto.ClassVideo;
+import lecture.dto.QuestionAnswer;
 import teacher.dao.face.TeacherDao;
 import teacher.service.face.TeacherService;
 import web.util.TeacherMainPaging;
@@ -103,6 +104,27 @@ public class TeacherServiceImpl implements TeacherService {
 		
 		teacherDao.onClassInsertFile(classVideo);
 		
+	}
+
+	@Override
+	public TeacherMainPaging getAnswerPaging(TeacherMainPaging param, int userNo) {
+		
+		int teacherNo = teacherDao.selectByUserNo(userNo);
+		
+		int classNo = teacherDao.selectByteacherNo(teacherNo);
+		
+		int totalCount = teacherDao.selectAnswerCntAll(classNo);
+		
+		TeacherMainPaging paging = new TeacherMainPaging(totalCount, param.getCurPage());
+		
+		
+		return null;
+	}
+
+	@Override
+	public List<QuestionAnswer> qaList(TeacherMainPaging paging, int userNo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

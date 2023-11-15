@@ -79,12 +79,16 @@
     border: 0;
 }
 
+.note-editable {
+    letter-spacing: 2px;
+}
+
 </style>
 
 <tbody>
 <div id="freewrite">
 
-<form action="./freeWrite" method="post">
+<form action="./freeWrite" method="post" enctype="multipart/form-data">
    <div id="freeForm">
    <fieldset id="freeFieldset" style="border: 1px solid gray; border-radius: 4px; height: 600px;">
 
@@ -102,12 +106,12 @@
 
          <!-- <label for="freeCw" style="word-spacing:32px; margin-left: 85px; ">내용 : <textarea rows="20" cols="60" id="freeCw" name="freeCw" placeholder="내용을 입력해주세요" style="padding: 10px; height: 200px;"></textarea></label><br> -->
 
-		<label for="freeCw" style="word-spacing:32px; margin-left: 85px;">내용 : 
+		<label for="freeCw" style="word-spacing:2px; margin-left: 85px;">내용 : 
 		<div id="freeSummer" style="margin-top: -20px; margin-left: 175px; margin-bottom: -40px;">
 			<textarea id="freeContent" name="freeContent"></textarea>
 		<script type="text/javascript">
 		$('#freeContent').summernote({
-		    placeholder: '입력해주세요',
+		    placeholder: '내용을 입력해주세요',
 		    tabsize: 2,
 		    height: 220,
 		    width: 450,
@@ -128,16 +132,23 @@
 		 <span style="margin-left: 85px;">첨부파일 : 
     		<input class="upload-name" value="파일을 첨부해주세요">
   	 		 <label for="file"><img alt="freefile" src="/resources/img/freefile.png" width="55px" height="22px" style="vertical-align: middle;"></label> 
-   		 	<input type="file" id="file">
+   		 	<input type="file" id="file" name="file" multiple="multiple">
    		 </span>
 		</div>
 
-		<script type="text/javascript">
-		$("#file").on('change',function(){
-			  var fileName = $("#file").val();
-			  $(".upload-name").val(fileName);
-			});
-		</script>
+	<script type="text/javascript">
+	    $("#file").on('change', function () {
+	        var files = $("#file")[0].files;
+	        var fileName = "";
+	        for (var i = 0; i < files.length; i++) {
+	            fileName += files[i].name;
+	            if (i < files.length - 1) {
+	                fileName += ", ";
+	            }
+	        }
+	        $(".upload-name").val(fileName);
+	    });
+	</script>
 
          <div style="text-align: center; margin-top: 40px;">
          <input type="submit" id="wButton" name="wButton" value="등록" style="margin-right: 8px; cursor: pointer;">

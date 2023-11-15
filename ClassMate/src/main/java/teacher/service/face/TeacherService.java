@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import lecture.dto.Class;
+import lecture.dto.QuestionAnswer;
 import web.util.TeacherMainPaging;
 
 public interface TeacherService {
@@ -49,6 +50,31 @@ public interface TeacherService {
 	 * @param file 첨부파일 리스트
 	 */
 	public void classRegist(Class registLecture, List<MultipartFile> file);
+
+	
+	/**
+	 * 강사의 한 강의 클래스의 모든 리스트를 불러온다
+	 * 
+	 * 전달파라미터 객체의 curPage - 현재 페이지
+	 * DB에서 조회한 totalCount - 총 게시글 수
+	 * 
+	 * 
+	 * 두 가지 데이터를 활용하여 페이징 객체를 생성하고 반환한다
+	 * 
+	 * @param param		curPage정보를 담고 있는 객체
+	 * @param userNo	페이징 계산이 완료된 객체
+	 * @return
+	 */
+	public TeacherMainPaging getAnswerPaging(TeacherMainPaging param, int userNo);
+
+	/**
+	 * qa 목록 조회
+	 * 
+	 * @param paging 페이징 정보 객체 
+	 * @param userNo qa 목록
+	 * @return
+	 */
+	public List<QuestionAnswer> qaList(TeacherMainPaging paging, int userNo);
 
 	
 	

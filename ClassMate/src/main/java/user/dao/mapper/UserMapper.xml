@@ -23,10 +23,9 @@
   	</where> <!-- //강사 번호 -->
   </select> <!-- //강사 번호 -->
   
-    <!-- 아이디 중복 확인 -->
-  <select id="checkDuplicateId" resultType="int" parameterType="String">
-    SELECT COUNT(*) FROM user_info
-    WHERE USER_ID = #{userId}
-  </select>
+      <!-- 아이디 중복 확인 -->
+    <select id="checkDuplicateId" resultType="int" parameterType="String">
+        SELECT COUNT(*) FROM user_info WHERE USER_ID = #{userId}
+    </select>
 
  </mapper>
