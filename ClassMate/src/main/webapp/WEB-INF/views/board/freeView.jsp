@@ -41,15 +41,25 @@
 
 <tbody>
 
+
 <div id="freeviewAll">
 
 <table id="freeViewTb" border="1">
 	<tr>
-		<td id="tdHead">정보</td>
+		<td id="tdHead">
+			<span>자유게시판 < </span>
+			<span>조회 수 : ${viewFree.freeHit} </span>
+			
+			<h1>${viewFree.freeName }</h1>
+			
+			<span>작성자 : ${viewFree.userName }</span>
+			<span>등록일 : ${viewFree.freeDate }</span>
+		</td>
+		
 	</tr>
 	
 	<tr>
-		<td id="tdBody">내용</td>
+		<td id="tdBody">${viewFree.freeContent }</td>
 	</tr>
 		
 	<tr>	

@@ -37,5 +37,11 @@ public interface BoardDao {
 	//파일 등록
 	public void insertFile(FreeBoardFile freeBoardFile);
 
+	//자유 게시판 상세조회 - 기본
+	public FreeBoard selectFreeBoardNo(FreeBoard viewFree);
+
+	//자유 게시판 상세조회 - 조회수
+	public int updateHit(FreeBoard viewFree);
+
 
 }

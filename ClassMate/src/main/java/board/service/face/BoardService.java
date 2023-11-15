@@ -22,5 +22,8 @@ public interface BoardService {
 	//자유 게시판 등록, 파일 등록
 	public void write(FreeBoard freeBoard, List<MultipartFile> mfile);
 
+	//자유 게시판 상세조회
+	public FreeBoard freeView(FreeBoard viewFree);
+
 
 }

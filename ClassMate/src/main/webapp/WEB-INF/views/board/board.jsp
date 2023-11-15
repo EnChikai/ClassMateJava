@@ -12,8 +12,7 @@
 .defaultWidth{
 	margin-left: 495px;
 	margin-right: 495px;
-	margin-left: 495px;
-	margin-right: 495px;
+	margin-top: 40px;
 }
 
 #boardtitle {
@@ -88,6 +87,10 @@
 	text-align: center;"
 }
 
+#boardDivOut {
+	width:910px;
+	margin: 0 auto;
+}
 
 </style>
 
@@ -139,13 +142,14 @@
 
 <div class="defaultWidth" >
 
+<div id="boardDivOut">
 <div id="boardtitle">
 <h2 id="boardtitleh2">통합 게시판</h2>
 </div><!-- #boardtitle -->
 
 <div id="boardAllTb">
 <table class="table table-bordered" id="boardtb">
-	<tr class="table-secondary" id="boardToptr">
+	<tr class="table-warning" id="boardToptr">
 		<th>번호</th>
 		<th width="90px;">말머리</th>
 		<th>제목</th>
@@ -180,7 +184,7 @@
 	<tr id="boardFree">
 		<td>${freeList.freeNo }</td>
 		<td>${freeList.freeHead }</td>
-		<td>${freeList.freeName }</td>
+		<td><a href="/board/freeView?freeNo=${freeList.freeNo }">${freeList.freeName }</a></td>
 		<td>${freeList.userName }</td>
 		<td>${freeList.freeDate }</td>
 		<td>${freeList.freeHit }</td>
@@ -195,7 +199,7 @@
 
 </div><!-- #defaultWidth -->
 
-
+</div><!-- #boardDivOut -->
 
 
 <div id="boardPagination">
