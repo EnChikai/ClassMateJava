@@ -4,7 +4,7 @@
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%long order = new Date().getTime(); %>
+<% String order = Long.toString(new Date().getTime()); %>
 
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
@@ -254,17 +254,16 @@ $(function(){
 <%-- 전체결제버튼 클릭 --%>	
 <%--가맹점 코드 초기화 --%>
 IMP.init('imp04411553')	
-
-	var classNoAll = new Array();
-	
-	$('.classNoInput').each(function (index, item) {
-	     classNoAll[index] = item.value
-	});	
-	
-	<%-- console.log(classNoAll); --%>
-	
 	$("#paymentBtn").click(function(){
+		
+		var classNoAll = new Array();
+		
+		$('.classNoInput').each(function (index, item) {
+		     classNoAll[index] = item.value
+		});	
 	
+		<%-- console.log(classNoAll); --%>
+
 		var userAddr = "${userInfo.mainAddress} ${userInfo.subAddress}";
 		
 		IMP.request_pay({
@@ -327,15 +326,14 @@ IMP.init('imp04411553')
 
 <%--가맹점 코드 초기화 --%>
 IMP.init('imp04411553')
-
-	var classNoAll = new Array();
-
-	classNoAll[0] = ${classList.classNo}
-	
-		<%--console.log(classNoAll);--%>
-
 $(function(){
 	$("#OneBtn${classList.classNo}").click(function(){
+		
+		var classNoAll = new Array();
+
+		classNoAll[0] = ${classList.classNo}
+		
+			console.log(classNoAll);
 	
 		var sum = document.getElementById("number${classList.classNo}").value;
 		var userAddr = "${userInfo.mainAddress} ${userInfo.subAddress}";
@@ -383,7 +381,7 @@ $(function(){
 	
 	  	    	 });
 				
-	 	    		location.href = '../payment/insertInfo';
+	 	    		location.href = '../payment/success?merchantUid='+data.merchant_uid;
 		    	 
 		    	  
 		      }else{	<%-- 결제 실패시 --%>

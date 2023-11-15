@@ -75,7 +75,7 @@ public class PaymentController {
 	@ResponseBody
 	public void insetInfoPost(
 			
-			long merchantUid
+			String merchantUid
 			, String provider
 			, String payMethod
 			, String cardName
@@ -100,10 +100,11 @@ public class PaymentController {
 	@GetMapping("/payment/success")
 	public void paymentSuccessGet(
 		
-		HttpSession session
+		String merchantUid
+		, HttpSession session
 			
 			) {
-		logger.info("/payment/success [GET]");
+		logger.info("/payment/success [GET]{}",merchantUid);
 		
 		//로그인 구현 이후 사용
 //		logger.info("{}",session.getAttribute("userNo"));
@@ -112,8 +113,8 @@ public class PaymentController {
 		//test용
 		int userNo = 4;
 		
-//		Map<String, Object> map = paymentService.selectSuccecInfo(userNo);
-//		logger.info("map {}",map);
+		Map<String, Object> map = paymentService.selectSuccecInfo(userNo, merchantUid);
+		logger.info("map {}",map);
 		
 
 	}

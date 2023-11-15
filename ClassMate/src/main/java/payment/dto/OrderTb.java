@@ -4,11 +4,11 @@ public class OrderTb {
 	private int orderNo;
 	private int userNo;
 	private int classNo;
-	private long merchantUid;
+	private String merchantUid;
 	
 	public OrderTb() {}
 
-	public OrderTb(int orderNo, int userNo, int classNo, long merchantUid) {
+	public OrderTb(int orderNo, int userNo, int classNo, String merchantUid) {
 		super();
 		this.orderNo = orderNo;
 		this.userNo = userNo;
@@ -46,11 +46,11 @@ public class OrderTb {
 		this.classNo = classNo;
 	}
 
-	public long getMerchantUid() {
+	public String getMerchantUid() {
 		return merchantUid;
 	}
 
-	public void setMerchantUid(long merchantUid) {
+	public void setMerchantUid(String merchantUid) {
 		this.merchantUid = merchantUid;
 	}
 

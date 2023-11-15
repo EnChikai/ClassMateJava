@@ -63,7 +63,7 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 	@Override
-	public int insertOrderPayment(Object userNo, long merchantUid, String payMethod, String provider, String cardName,
+	public int insertOrderPayment(Object userNo, String merchantUid, String payMethod, String provider, String cardName,
 			int[] classNo) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -114,25 +114,33 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 	@Override
-	public Map<String, Object> selectSuccecInfo(int userNo) {
+	public Map<String, Object> selectSuccecInfo(int userNo, String merchantUid) {
 		logger.info("selectSuccecInfo:{}",userNo);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		OrderTb orderTb = paymentDao.selectOrder(userNo);
-		logger.info("selectOrder:{}",orderTb);
+		List <OrderTb> orderTbList = paymentDao.selectOrderList(merchantUid);
+		logger.info("selectOrder:{}",orderTbList);
+		
+		String checkUid = null;
+		for(int i=0; i<orderTbList.size(); i++) {
+			if(merchantUid.equals(orderTbList.get(i).getMerchantUid())) {
+				checkUid = merchantUid;
+			}
+		}
 		
 		List<Payment> paymentList = paymentDao.selectPaymentList(userNo);
 		logger.info("selectPaymentList:{}",paymentList);
+		
+		logger.info("checkUid:{}",checkUid);
 		
 		int paymentSum = 0;
 		for(int i=0; i<paymentList.size(); i++) {
 			paymentSum += paymentList.get(i).getPayment();
 		}
 		logger.info("sum: {}",paymentSum);
-
 		
-		map.put("merchantUid", orderTb.getMerchantUid());
+		map.put("checkUid", checkUid);
 		map.put("paymentSum", paymentSum);
 		
 		return map;

@@ -24,10 +24,10 @@ public interface PaymentService {
 	 * @param classNo - 결제된 클래스 번호
 	 * @return 결제 완료화면에 표시될 정보값
 	 */
-	public int insertOrderPayment(Object userNo, long merchantUid, String payMethod, String provider, String cardName,
+	public int insertOrderPayment(Object userNo, String merchantUid, String payMethod, String provider, String cardName,
 			int[] classNo);
 
 
-	public Map<String, Object> selectSuccecInfo(int userNo);
+	public Map<String, Object> selectSuccecInfo(int userNo, String merchantUid);
 
 }
