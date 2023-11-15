@@ -123,7 +123,7 @@ public class TeacherServiceImpl implements TeacherService {
 
 	@Override
 	public List<QuestionAnswer> qaList(TeacherMainPaging paging, int userNo) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	
