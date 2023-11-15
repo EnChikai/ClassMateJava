@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import payment.dao.face.PaymentDao;
 import payment.dto.Basket;
+import payment.dto.OrderTb;
+import payment.dto.Payment;
 import payment.service.face.PaymentService;
 import user.dto.UserInfo;
 import lecture.dto.Class;
@@ -56,6 +58,82 @@ public class PaymentServiceImpl implements PaymentService{
 		map.put("classList", classList);
 		map.put("paymentSum", paymentSum);
 		map.put("classListSize", classList.size());
+		
+		return map;
+	}
+
+	@Override
+	public int insertOrderPayment(Object userNo, long merchantUid, String payMethod, String provider, String cardName,
+			int[] classNo) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		OrderTb orderTb = new OrderTb();
+		Payment payment = new Payment();
+		Basket basket = new Basket();
+		int result = 0;
+		
+		//테스트용 userNo
+		userNo = 4;
+		
+		logger.info("classNo.length:{}",classNo.length);
+
+		for(int i = 0; i<classNo.length; i++) {
+			orderTb.setUserNo((int) userNo);
+			orderTb.setClassNo(classNo[i]);
+			orderTb.setMerchantUid(merchantUid);
+			logger.info("orderTb:{}",orderTb);
+			
+			result = paymentDao.insertOrderList(orderTb);
+			logger.info("insertOrderList:{}",result);
+			
+			payment.setOrderNo(orderTb.getOrderNo());
+			payment.setPayMethod(payMethod);
+			payment.setProvider(provider);
+			
+			if(cardName.equals("") || cardName == null) {
+				payment.setCardName("none");
+			}else {
+				payment.setCardName(cardName);
+			}
+			logger.info("payment:{}",payment);
+			
+			map.put("orderTb", orderTb);
+			map.put("payment", payment);
+			
+			result = paymentDao.insertPaymentList(map);
+			logger.info("PaymentList:{}",result);
+			
+			basket.setUserNo((int) userNo);
+			basket.setClassNo(classNo[i]);
+			
+			result = paymentDao.deleteBasket(basket);
+			logger.info("deleteBasket:{}",result);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public Map<String, Object> selectSuccecInfo(int userNo) {
+		logger.info("selectSuccecInfo:{}",userNo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		OrderTb orderTb = paymentDao.selectOrder(userNo);
+		logger.info("selectOrder:{}",orderTb);
+		
+		List<Payment> paymentList = paymentDao.selectPaymentList(userNo);
+		logger.info("selectPaymentList:{}",paymentList);
+		
+		int paymentSum = 0;
+		for(int i=0; i<paymentList.size(); i++) {
+			paymentSum += paymentList.get(i).getPayment();
+		}
+		logger.info("sum: {}",paymentSum);
+
+		
+		map.put("merchantUid", orderTb.getMerchantUid());
+		map.put("paymentSum", paymentSum);
 		
 		return map;
 	}

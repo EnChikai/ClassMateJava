@@ -4,26 +4,31 @@ import java.sql.Date;
 
 public class Payment {
 	private int payNo;
-	private int orderNo;
+	private long orderNo;
 	private Date payDate;
-	private String payAcess;
 	private int payment;
+	private String payMethod;
+	private String provider;
+	private String cardName;
 	
 	public Payment() {}
 
-	@Override
-	public String toString() {
-		return "Payment [payNo=" + payNo + ", orderNo=" + orderNo + ", payDate=" + payDate + ", payAcess=" + payAcess
-				+ ", payment=" + payment + "]";
-	}
-
-	public Payment(int payNo, int orderNo, Date payDate, String payAcess, int payment) {
+	public Payment(int payNo, long orderNo, Date payDate, int payment, String payMethod, String provider,
+			String cardName) {
 		super();
 		this.payNo = payNo;
 		this.orderNo = orderNo;
 		this.payDate = payDate;
-		this.payAcess = payAcess;
 		this.payment = payment;
+		this.payMethod = payMethod;
+		this.provider = provider;
+		this.cardName = cardName;
+	}
+
+	@Override
+	public String toString() {
+		return "Payment [payNo=" + payNo + ", orderNo=" + orderNo + ", payDate=" + payDate + ", payment=" + payment
+				+ ", payMethod=" + payMethod + ", provider=" + provider + ", cardName=" + cardName + "]";
 	}
 
 	public int getPayNo() {
@@ -34,11 +39,11 @@ public class Payment {
 		this.payNo = payNo;
 	}
 
-	public int getOrderNo() {
+	public long getOrderNo() {
 		return orderNo;
 	}
 
-	public void setOrderNo(int orderNo) {
+	public void setOrderNo(long orderNo) {
 		this.orderNo = orderNo;
 	}
 
@@ -50,14 +55,6 @@ public class Payment {
 		this.payDate = payDate;
 	}
 
-	public String getPayAcess() {
-		return payAcess;
-	}
-
-	public void setPayAcess(String payAcess) {
-		this.payAcess = payAcess;
-	}
-
 	public int getPayment() {
 		return payment;
 	}
@@ -65,6 +62,28 @@ public class Payment {
 	public void setPayment(int payment) {
 		this.payment = payment;
 	}
-	
-	
+
+	public String getPayMethod() {
+		return payMethod;
+	}
+
+	public void setPayMethod(String payMethod) {
+		this.payMethod = payMethod;
+	}
+
+	public String getProvider() {
+		return provider;
+	}
+
+	public void setProvider(String provider) {
+		this.provider = provider;
+	}
+
+	public String getCardName() {
+		return cardName;
+	}
+
+	public void setCardName(String cardName) {
+		this.cardName = cardName;
+	}
 }

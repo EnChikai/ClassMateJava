@@ -1,30 +1,33 @@
 package payment.dto;
 
 public class OrderTb {
-	private int orderNno;
+	private int orderNo;
 	private int userNo;
 	private int classNo;
+	private long merchantUid;
 	
 	public OrderTb() {}
 
-	@Override
-	public String toString() {
-		return "OrderTb [orderNno=" + orderNno + ", userNo=" + userNo + ", classNo=" + classNo + "]";
-	}
-
-	public OrderTb(int orderNno, int userNo, int classNo) {
+	public OrderTb(int orderNo, int userNo, int classNo, long merchantUid) {
 		super();
-		this.orderNno = orderNno;
+		this.orderNo = orderNo;
 		this.userNo = userNo;
 		this.classNo = classNo;
+		this.merchantUid = merchantUid;
 	}
 
-	public int getOrderNno() {
-		return orderNno;
+	@Override
+	public String toString() {
+		return "OrderTb [orderNo=" + orderNo + ", userNo=" + userNo + ", classNo=" + classNo + ", merchantUid="
+				+ merchantUid + "]";
 	}
 
-	public void setOrderNno(int orderNno) {
-		this.orderNno = orderNno;
+	public int getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
 	}
 
 	public int getUserNo() {
@@ -42,6 +45,13 @@ public class OrderTb {
 	public void setClassNo(int classNo) {
 		this.classNo = classNo;
 	}
-	
-	
+
+	public long getMerchantUid() {
+		return merchantUid;
+	}
+
+	public void setMerchantUid(long merchantUid) {
+		this.merchantUid = merchantUid;
+	}
+
 }

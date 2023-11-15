@@ -34,7 +34,10 @@ public class PaymentController {
 		logger.info("/payment/basket [GET]");
 		
 		//로그인 구현 이후 사용
-//		int userNo = session.getAttribute("userNo");
+//		logger.info("{}",session.getAttribute("userNo"));
+//		int userNo = (int) session.getAttribute("userNo");
+		
+		//test용
 		int userNo = 4;
 		
 		map = paymentService.selectBasket(userNo);
@@ -52,35 +55,67 @@ public class PaymentController {
 	@PostMapping("/payment/basket")
 	public void basketPost(
 			
-			String email
-			, String name
-			, String phone
-			, long orderNo
-			, String card
-			, String provider
-			, String cardName
 			
 			) {
 		logger.info("/payment/basket [Post]");
-		logger.info("email: {}",email);
-		logger.info("phone: {}",phone);
-		logger.info("orderNo: {}",orderNo);
-		logger.info("card: {}",card);
+		
+	}
+	
+	@GetMapping("/payment/insertInfo")
+	public String insetInfoGet(
+			
+			) {
+		logger.info("/payment/insetInfo [Get]");
+		
+		
+		return "redirect:/payment/success";
+	}
+	
+	@PostMapping("/payment/insertInfo")
+	@ResponseBody
+	public void insetInfoPost(
+			
+			long merchantUid
+			, String provider
+			, String payMethod
+			, String cardName
+			, @RequestParam(value="classNo")int[] classNo
+			, HttpSession session
+			, Model model
+			
+			) {
+		logger.info("/payment/insetInfo [Post]");
+		logger.info("merchantUid: {}",merchantUid);
+		logger.info("card: {}",payMethod);
 		logger.info("provider: {}",provider);
 		logger.info("cardName: {}",cardName);
-//		logger.info("classNo: {}",classNo);
-//		logger.info("classNo[0]: {}",classNo[0]);
+		logger.info("classNo[]: {}",classNo);
+		
+		
+		int result = paymentService.insertOrderPayment(session.getAttribute("userNo"), merchantUid, payMethod, provider, cardName, classNo);
+		logger.info("result: {}",result);
 		
 	}
 	
 	@GetMapping("/payment/success")
 	public void paymentSuccessGet(
+		
+		HttpSession session
 			
 			) {
 		logger.info("/payment/success [GET]");
-
 		
+		//로그인 구현 이후 사용
+//		logger.info("{}",session.getAttribute("userNo"));
+//		int userNo = (int) session.getAttribute("userNo");
+		
+		//test용
+		int userNo = 4;
+		
+//		Map<String, Object> map = paymentService.selectSuccecInfo(userNo);
+//		logger.info("map {}",map);
+		
+
 	}
-	
 	
 }
