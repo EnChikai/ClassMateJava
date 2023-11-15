@@ -60,7 +60,6 @@
 	background-color: black;
 	color: white;
 	border-radius: 4px;
-	float: right;
 }
 
 #boardPaging1 {
@@ -190,10 +189,11 @@
 
 </table>
 
-
+<div id="wb" style="float:right;">
 <button id="boardWritebt" type="button" onclick="location.href='./freeWrite'">작성</button>
+</div>
 
-</div><!-- #boardAllTb -->
+</div><!-- #defaultWidth -->
 
 
 
