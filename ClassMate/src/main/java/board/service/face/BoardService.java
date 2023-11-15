@@ -1,6 +1,9 @@
 package board.service.face;
 
+import java.util.List;
 import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.FreeBoard;
 import user.dto.UserInfo;
@@ -16,8 +19,8 @@ public interface BoardService {
 	//아이디 조회
 	public UserInfo writeUserId(String userId);
 
-	//자유 게시판 등록
-	public void write(FreeBoard freeBoard);
+	//자유 게시판 등록, 파일 등록
+	public void write(FreeBoard freeBoard, List<MultipartFile> mfile);
 
 
 }

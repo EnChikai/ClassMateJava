@@ -1,5 +1,6 @@
 package board.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -50,8 +51,8 @@ public class BoardController {
 	public void writeGet(UserInfo user, HttpSession session, Model model) {
 		
 		user.setUserId((String) session.getAttribute("userId"));
-		user = boardService.writeUserId(user.getUserId()); 
-		System.out.println("덕주옹" + user);
+		user = boardService.writeUserId(user.getUserId());
+//		System.out.println("덕주옹" + user);
 		
 		model.addAttribute("userNo", user.getUserNo());
 		model.addAttribute("userName", user.getUserName());
@@ -59,14 +60,20 @@ public class BoardController {
 	}
 	
 	@PostMapping("/freeWrite")
-	public String write(FreeBoard freeBoard, Model model, MultipartFile mfile, HttpSession session) {
-		
+	public String write(FreeBoard freeBoard, Model model, List<MultipartFile> file, HttpSession session) {
+//		logger.info("freeBoard : {}", freeBoard);
+//		logger.info("mfile : {}", file);
 		if(freeBoard.getFreeContent() != null && freeBoard.getFreeName() != null && freeBoard.getFreeHead() != null ) {
-			boardService.write(freeBoard);
-		} 
+			boardService.write(freeBoard, file);
+			System.out.println(file);
+		}
 		
 		return "redirect:./board";
 	}
 	
+	@GetMapping("/freeView")
+	private void viewFree(FreeBoard freeBoard, Model model) {
+//			boardService.viewFree();
+	}
 	
 }

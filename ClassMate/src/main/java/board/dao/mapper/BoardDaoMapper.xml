@@ -43,10 +43,19 @@
   		WHERE user_id = #{userId}
   	</select>
   
-  	<insert id="insert" parameterType="FreeBoard">
+  	<insert id="insert" parameterType="FreeBoard" useGeneratedKeys="true" keyProperty="freeNo">
+  		<selectKey keyProperty="freeNo" resultType="int" order="BEFORE">
+  			SELECT freeboard_seq.nextval FROM dual
+  		</selectKey>
   		INSERT INTO free_board (free_no, user_no, free_head,free_name,free_content)
-  		VALUES (freeboard_seq.nextval, #{userNo}, #{freeHead}, #{freeName}, #{freeContent})
+  		VALUES (#{freeNo}, #{userNo}, #{freeHead}, #{freeName}, #{freeContent})
   	</insert>
+  
+  	<insert id="insertFile" parameterType="FreeBoardFile" >
+  		INSERT INTO free_board_file (file_no, free_no, origin_name, stored_name)
+  		VALUES (freeboard_file_seq.nextval, #{freeNo}, #{originName}, #{storedName})
+  	</insert>
+  
   
   
   

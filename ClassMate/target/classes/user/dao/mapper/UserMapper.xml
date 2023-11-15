@@ -29,11 +29,4 @@
     WHERE USER_ID = #{userId}
   </select>
 
-  <select id="getTeachNo" resultType="Teacher" parameterType="Teacher" > <!-- //강사 번호 -->
-  		SELECT * FROM teacher <!-- //강사 번호 -->
-  	<where>  <!-- //강사 번호 -->
-  		AND TEACHER_NO = #{userNo} <!-- //강사 번호 -->
-  	</where> <!-- //강사 번호 -->
-  </select> <!-- //강사 번호 -->
-
  </mapper>
