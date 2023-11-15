@@ -3,7 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
+
 <script type="text/javascript">
+
 $(function(){
 	$(document).on('click', "input[type='checkbox']", function(){
 	    if(this.checked) {
@@ -19,27 +21,16 @@ $(function(){
 
 });
 
-function checkDuplicateId() {
-    var userId = $("#userId").val();
-    
-    // AJAX를 사용하여 Controller에게 중복 확인 요청
-    $.ajax({
-        type: "POST",
-        url: "${pageContext.request.contextPath}/user/checkDuplicateId",
-        data: { "userId": userId },
-        success: function(response) {
-            if (response.duplicate) {
-                alert("이미 사용 중인 아이디입니다.");
-            } else {
-                alert("사용 가능한 아이디입니다.");
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("AJAX 요청 중 오류 발생:", status, error);
-            alert("서버와의 통신 중 오류가 발생했습니다.");
-        }
-    });
-}
+	// 탈퇴 링크 클릭 시 확인 팝업 표시
+	$("a#withdrawLink").on('click', function(e) {
+	    e.preventDefault();
+	    var confirmWithdraw = confirm("탈퇴하시겠습니까?");
+	    if (confirmWithdraw) {
+	        // 여기에 탈퇴 처리를 위한 로직을 추가할 수 있습니다.
+	        alert("탈퇴가 완료되었습니다.");
+	    }
+	});
+});
 
 function togglePasswordVisibility(inputId, iconId) {
     var passwordInput = document.getElementById(inputId);
@@ -54,10 +45,9 @@ function togglePasswordVisibility(inputId, iconId) {
     }
 }
 
-
 </script>
-<style type="text/css">
 
+<style type="text/css">
 .defaultWidth {
 	width: 100%;
 }
@@ -117,19 +107,14 @@ button {
 
 	<div class="joinDiv">
 		<div class="title">
-		<span id="title">회원가입</span>
+		<span id="title">회원정보수정</span>
 		<div class="decobox"></div>
 		</div>
 	
 		<div class="arrayDiv">
 		
 			<label for="userId">아이디</label>
-			<input type="text" id="userId" name="userId" placeholder="아이디 입력" style="width: 393px;">			
-			<input type="button" value="중복확인" onclick="checkDuplicateId()"
-					style="float: right; text-align: center;
-					background-color: rgb(158, 158, 158); color: rgb(255, 255, 255);
-					border-radius: 4px; width: 73px; font-size: 16px; border: 1px solid #ccc; 
-					margin-top: 15px; height: 30px; cursor: pointer;"><br>
+			<input type="text" id="userId" name="userId" style="width: 470px;">	
 			
 			<label for="userPw">비밀번호</label>
 			<div style="position: relative; display: inline-block;">
@@ -178,20 +163,10 @@ button {
 			<input type="text" id="address" placeholder="주소" style="text-align: left;"><br>
 			<label></label>
 			<input type="text" id="detailAddress" placeholder="상세주소" style="text-align: left;"><br>
-		
 			
-			
-			<label>약관관련</label>
-			<input type="checkbox" id="cb3" value="agree" name="agree" style="cursor: pointer; width: 20px; vertical-align: middle;">
-			<label for="agree" style="text-align: left; width: 120px;">약관 동의 여부</label>
-			<a href="javascript:openModal('modal1');"><button style="float: right;
-		    		border: none; font-size: 14px;
-		   			border-radius: 4px; height: 33px; width: 90px; text-align: center;
-		   			margin-top: 18px; padding: 2px 4px;
-		   			background-color: rgb(224, 224, 224); color: rgb(64, 64, 64); font-weight: bold;
-		    		cursor: pointer;">자세히 보기</button></a><br><br>
+			<a href=""><span style="color: red; text-decoration: underline; float: right;">탈퇴하시겠습니까?</span></a>
 		
-		<div class="Btn" style="text-align:center;">
+		<div class="Btn" style="text-align:center; margin-top: 80px;">
 			<button 
 				style="border: none; font-size: 22px; border-radius: 4px;
 				background-color: #929292; width: 95px; color: rgb(255, 255, 255);
@@ -200,7 +175,7 @@ button {
 			<button onclick="location.href='joinOk.jsp'"
 				style="border: none; font-size: 22px; border-radius: 4px;
 				background-color: #F1C40F; width: 95px; color: rgb(255, 255, 255);
-				height: 40px; cursor: pointer;">등록</button>
+				height: 40px; cursor: pointer;">수정</button>
 		</div>
 		
 		
@@ -238,3 +213,4 @@ button {
 </script>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
+
