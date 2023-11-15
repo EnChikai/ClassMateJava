@@ -79,18 +79,21 @@ public class UserController {
 	        teacher.setUserNo(loginInfo.getUserNo()); // 강사 번호
 	        Teacher teacherNo = userService.getTeacherNo(teacher); // 강사 번호
 
+	        if(teacherNo != null) {
+	        	session.setAttribute("teacherNo", teacherNo.getTeacherNo()); // 강사 번호
+	        }
+	        
 	        // 일반회원 로그인
 	        if (loginInfo.getUserNo() != 0) {
 	            boolean isLogin = true;
 	            session.setAttribute("isLogin", isLogin);
 	            session.setAttribute("userId", loginInfo.getUserId());
-	            session.setAttribute("teacherNo", teacherNo.getTeacherNo()); // 강사 번호
-	            session.setAttribute("UserNo", userInfo.getUserNo());
+	            session.setAttribute("userNo", userInfo.getUserNo());
 
 	        } else if (loginInfo.getUserNo() == 0) { // 관리자 로그인
 	            boolean isLogin = true;
 	            session.setAttribute("isLogin", isLogin);
-	            session.setAttribute("ADMIN", "ADMIN");
+	            session.setAttribute("admin", "ADMIN");
 	            session.setAttribute("userId", loginInfo.getUserId());
 
 	            return "redirect:/admin/main";
