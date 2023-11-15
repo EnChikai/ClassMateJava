@@ -13,35 +13,34 @@
 		</where>
 	</select>
 
-<!-- 	<select id="selectClassListByUser" resultType="Class" parameterType="user.dto.UserInfo"> -->
-<!-- 		SELECT  -->
-<!-- 			a.class_no, a.teacher_no, a.main_category_no, a.sub_category_no,  -->
-<!-- 			a.teacher, a.class_name, a.class_start, a.class_end, a.max_count, -->
-<!-- 			a.expense, a.class_info, a.curriculum, a.on_off, a.head_img, a.content, -->
-<!-- 			a.delete_boolean, a.class_date -->
-<!-- 		FROM class a INNER JOIN class_list b -->
-<!-- 		ON a.class_no = b.class_no -->
-<!-- 		<where> -->
-<!-- 			AND b.user_no = #{userNo} -->
-<!-- 		</where> -->
-<!-- 	</select> -->
-	
-<!-- 	<select id="selectClassListByUser" resultType="Class" parameterType="user.dto.UserInfo"> -->
-<!-- 		SELECT * FROM class -->
-<!-- 		<where> -->
-<!-- 			class_no IN ( -->
-<!-- 				SELECT class_no FROM class_list -->
-<!-- 				<where> -->
-<!-- 					user_no = #{userNo} -->
-<!-- 				</where> -->
-<!-- 			) -->
-<!-- 		</where> -->
-<!-- 	</select> -->
-	
 	<select id="selectClassListByUser" resultType="Class" parameterType="user.dto.UserInfo">
-	    SELECT c.* FROM class c
-	    INNER JOIN class_list cl ON c.class_no = cl.class_no
-	    WHERE cl.user_no = #{userNo}
+		SELECT 
+			a.class_no, a.teacher_no, a.main_category_no, a.sub_category_no, 
+			a.teacher, a.class_name, a.class_date, a.class_start, a.class_end, a.max_count,
+			a.expense, a.class_info, a.curriculum, a.on_off, a.head_img, a.delete_boolean, a.content
+		FROM class a INNER JOIN class_list b
+		ON a.class_no = b.class_no
+		<where>
+			AND b.user_no = #{userNo}
+		</where>
+	</select>
+	
+	<select id="selectClassByClassNo" resultType="Class" parameterType="Class">
+		SELECT 
+			class_no, teacher_no, main_category_no, sub_category_no, 
+			teacher, class_name, class_date, class_start, class_end, max_count,
+			expense, class_info, curriculum, on_off, head_img, delete_boolean, content
+		FROM class
+		<where>
+			AND class_no = #{classNo}
+		</where>
+	</select>
+	
+	<select id="selectAddressByClass" resultType="Address" parameterType="Class">
+		SELECT address_no, main_address, sub_address FROM address
+		<where>
+			AND class_no = #{classNo}
+		</where>
 	</select>
 </mapper>
 
