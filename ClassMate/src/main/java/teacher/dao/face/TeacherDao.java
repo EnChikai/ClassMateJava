@@ -63,5 +63,13 @@ public interface TeacherDao {
 	 */
 	public void onClassInsertFile(ClassVideo classVideo);
 
+	/**
+	 * 클래스 번호로 등록된 강의의 수
+	 * 
+	 * @param classNo 전달된 클래스 번호 정보
+	 * @return
+	 */
+	public int selectAnswerCntAll(int classNo);
+
 	
 }

@@ -27,7 +27,6 @@
 .headerMenu {
 	background-color: #F0C610;
 	height: 60px;
-	margin-bottom: 50px;
 }
 
 #logo {

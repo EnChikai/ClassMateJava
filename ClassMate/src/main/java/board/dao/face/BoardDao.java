@@ -5,6 +5,7 @@ import java.util.List;
 import board.dto.AnnounceBoard;
 import board.dto.EventBoard;
 import board.dto.FreeBoard;
+import board.dto.FreeBoardFile;
 import user.dto.UserInfo;
 import web.util.Paging;
 
@@ -32,6 +33,9 @@ public interface BoardDao {
 
 	//자유 게시판 등록
 	public void insert(FreeBoard freeBoard);
+
+	//파일 등록
+	public void insertFile(FreeBoardFile freeBoardFile);
 
 
 }
