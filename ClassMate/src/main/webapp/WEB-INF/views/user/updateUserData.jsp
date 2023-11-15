@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
-
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 
 $(function(){
@@ -21,16 +21,6 @@ $(function(){
 
 });
 
-	// 탈퇴 링크 클릭 시 확인 팝업 표시
-	$("a#withdrawLink").on('click', function(e) {
-	    e.preventDefault();
-	    var confirmWithdraw = confirm("탈퇴하시겠습니까?");
-	    if (confirmWithdraw) {
-	        // 여기에 탈퇴 처리를 위한 로직을 추가할 수 있습니다.
-	        alert("탈퇴가 완료되었습니다.");
-	    }
-	});
-});
 
 function togglePasswordVisibility(inputId, iconId) {
     var passwordInput = document.getElementById(inputId);
@@ -45,11 +35,55 @@ function togglePasswordVisibility(inputId, iconId) {
     }
 }
 
+//"탈퇴하시겠습니까?" 클릭 시 팝업창 표시
+function showWithdrawalPopup() {
+    var isWithdrawal = confirm("회원 탈퇴를 진행하시겠습니까?");
+    if (isWithdrawal) {
+        // 실제 탈퇴 처리를 위해 서버로 요청
+        withdrawUser();
+    }
+}
+
+
+//실제 탈퇴를 위한 AJAX 요청
+function withdrawUser() {
+ $.ajax({
+     type: "POST",
+     url: "/yourWithdrawalServlet", // 실제 탈퇴 처리를 위한 서블릿 URL로 변경
+     data: {
+         // 여기에 회원 정보나 탈퇴에 필요한 파라미터를 전달
+     },
+     success: function (response) {
+         if (response === "success") {
+             alert("탈퇴되었습니다.");
+             // 탈퇴가 성공했을 때의 처리 (예: 로그아웃 등)
+         } else {
+             alert("탈퇴에 실패했습니다.");
+             // 탈퇴가 실패했을 때의 처리
+         }
+     },
+     error: function () {
+         alert("서버 오류로 인해 탈퇴에 실패했습니다.");
+     }
+ });
+}
 </script>
 
 <style type="text/css">
 .defaultWidth {
 	width: 100%;
+}
+
+.popup {
+    display: none; /* 처음에는 숨김 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    z-index: 1000; /* 다른 요소 위에 나타나도록 z-index 설정 */
 }
 
 .joinDiv {
@@ -164,7 +198,14 @@ button {
 			<label></label>
 			<input type="text" id="detailAddress" placeholder="상세주소" style="text-align: left;"><br>
 			
-			<a href=""><span style="color: red; text-decoration: underline; float: right;">탈퇴하시겠습니까?</span></a>
+			
+			
+			<div id="withdrawalPopup" class="popup">
+		    <p>회원 탈퇴를 진행하시겠습니까?</p>
+		    <button onclick="withdrawUser()">예</button>
+		    <button onclick="closeWithdrawalPopup()">아니요</button>
+			</div>
+			<span style="color: red; text-decoration: underline; float: right; cursor: pointer;" onclick="showWithdrawalPopup();">탈퇴하시겠습니까?</span>
 		
 		<div class="Btn" style="text-align:center; margin-top: 80px;">
 			<button 

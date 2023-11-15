@@ -30,8 +30,6 @@ public class UserServiceImpl implements UserService{
 	@Override //강사 번호
 	public Teacher getTeacherNo(Teacher teacher) { //강사 번호
 		
-		System.out.println(teacher); //강사 번호
-
 		return userDao.getTeachNo(teacher); //강사 번호
 	} //강사 번호
 
