@@ -1,6 +1,7 @@
 package lecture.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lecture.service.face.ClassService;
 import user.dto.UserInfo;
+import lecture.dto.Address;
 import lecture.dto.Class;
 
 @Controller
@@ -37,8 +39,11 @@ public class ClassController {
 		String userId = (String)session.getAttribute("userId");
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUserId(userId);
+		classService.whoAmI(userInfo);
 		
 		List<Class> lecture = classService.classList(userInfo);
+		
+		logger.info("lecture : {}", lecture);
 		
 		model.addAttribute("lecture", lecture);
 		
@@ -50,7 +55,22 @@ public class ClassController {
 	}
 	
 	@GetMapping("/offClass")
-	public void offClass(Model model) {
+	public void offClass(Class viewClass, Model model, Map<String, Object> map, HttpSession session) {
+		logger.info("/class/offClass");
+		String userId = (String)session.getAttribute("userId");
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserId(userId);
+		classService.whoAmI(userInfo);
+		
+		//넘어오는값 임의 지정
+		Class a = new Class();
+		a.setClassNo(2);
+		map = classService.lectureOff(a);
+		
+//		map = classService.lectureOff(viewClass);
+		logger.info("map : {}", map);
+		model.addAttribute("address", map.get("address"));
+		model.addAttribute("lecture", map.get("lecture"));
 		
 	}
 	

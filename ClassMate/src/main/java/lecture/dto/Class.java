@@ -23,6 +23,16 @@ public class Class {
 	
 	public Class() {}
 
+	@Override
+	public String toString() {
+		return "Class [classNo=" + classNo + ", teacherNo=" + teacherNo + ", mainCategoryNo=" + mainCategoryNo
+				+ ", subCategoryNo=" + subCategoryNo + ", teacher=" + teacher + ", className=" + className
+				+ ", classDate=" + classDate + ", classStart=" + classStart + ", classEnd=" + classEnd + ", maxCount="
+				+ maxCount + ", expense=" + expense + ", classInfo=" + classInfo + ", curriculum=" + curriculum
+				+ ", onOff=" + onOff + ", headImg=" + headImg + ", content=" + content + ", deleteBoolean="
+				+ deleteBoolean + "]";
+	}
+
 	public Class(int classNo, int teacherNo, int mainCategoryNo, int subCategoryNo, String teacher, String className,
 			Date classDate, Date classStart, Date classEnd, int maxCount, int expense, String classInfo,
 			String curriculum, int onOff, String headImg, String content, int deleteBoolean) {
@@ -44,16 +54,6 @@ public class Class {
 		this.headImg = headImg;
 		this.content = content;
 		this.deleteBoolean = deleteBoolean;
-	}
-
-	@Override
-	public String toString() {
-		return "Class [classNo=" + classNo + ", teacherNo=" + teacherNo + ", mainCategoryNo=" + mainCategoryNo
-				+ ", subCategoryNo=" + subCategoryNo + ", teacher=" + teacher + ", className=" + className
-				+ ", classDate=" + classDate + ", classStart=" + classStart + ", classEnd=" + classEnd + ", maxCount="
-				+ maxCount + ", expense=" + expense + ", classInfo=" + classInfo + ", curriculum=" + curriculum
-				+ ", onOff=" + onOff + ", headImg=" + headImg + ", content=" + content + ", deleteBoolean="
-				+ deleteBoolean + "]";
 	}
 
 	public int getClassNo() {
@@ -191,5 +191,7 @@ public class Class {
 	public void setDeleteBoolean(int deleteBoolean) {
 		this.deleteBoolean = deleteBoolean;
 	}
+
+	
 
 }
