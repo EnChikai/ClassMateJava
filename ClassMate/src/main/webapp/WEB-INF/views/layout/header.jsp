@@ -89,7 +89,7 @@ a{
 </c:if>
 
 <c:if test="${isLogin!=null && teacherNo!=0}">
-<div class="container " style="text-align: center; margin-left: 609px; margin-top: 25px; font-size: small;">
+<div class="container " style="text-align: center; margin-left: 609px; margin-top: 31px; font-size: small;">
 	<span class="col"><strong>마이페이지</strong></span>
 	<span class="col"><strong><a href="/teacher/main">강사페이지</a></strong></span>
 	<span class="col"><strong>1:1문의</strong></span>
