@@ -33,6 +33,7 @@ public class ClassServiceImpl implements ClassService {
 	@Override
 	public List<Class> classList(UserInfo userInfo) {		
 		List<Class> lecture = classDao.selectClassListByUser(userInfo);
+		logger.info("lecture : {}", lecture);
 		return lecture;
 //		return classDao.selectClassListByUser(userInfo);
 	}
