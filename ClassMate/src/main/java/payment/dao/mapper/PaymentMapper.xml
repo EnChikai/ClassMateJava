@@ -10,19 +10,19 @@
 		SELECT user_no, user_id, user_pw, user_gender, user_birthday, user_phone, user_name
 			, user_email, main_address, sub_address, user_post, user_secession, user_date_created 
 		FROM user_info
-		WHERE user_no = ${userNo} 
+		WHERE user_no = #{userNo} 
 	</select>
 
 	<select id="getBasketUserNo" resultType="Basket" parameterType="int">
 		SELECT basket_no, user_no, class_no
 		FROM basket
-		WHERE user_no = ${userNo}
+		WHERE user_no = #{userNo}
 	</select>	
 
 	<select id="selectClassListByUser" resultType="Class" parameterType="Basket">
 		SELECT class_no, teacher, class_name, class_start, class_end, max_count, expense, class_info, on_off
 		FROM class
-		WHERE class_no = ${classNo}
+		WHERE class_no = #{classNo}
 	</select>
 	
 	<insert id="insertOrderList" parameterType="OrderTb">
@@ -30,7 +30,7 @@
 				SELECT order_seq.nextval FROM dual
 		</selectKey> 
 		INSERT INTO order_tb (order_no, user_no, class_no, merchant_uid)
-		VALUES (${orderNo}, ${userNo}, ${classNo}, ${merchantUid})
+		VALUES (#{orderNo}, #{userNo}, #{classNo}, #{merchantUid})
 	</insert>
 	
 	<insert id="insertPaymentList" parameterType="Map">
@@ -40,20 +40,20 @@
 		INSERT INTO payment (
 			pay_no, order_no, payment, pay_method, provider, card_name)
 		VALUES (
-			${payment.payNo}, ${payment.orderNo}
-			, (SELECT expense FROM class WHERE class_no = ${orderTb.classNo})
+			#{payment.payNo}, #{payment.orderNo}
+			, (SELECT expense FROM class WHERE class_no = #{orderTb.classNo})
 			, #{payment.payMethod}, #{payment.provider}, #{payment.cardName})
 	</insert>
 	
 	
 	<delete id="deleteBasket" parameterType="Basket">
 		DELETE FROM basket
-  		WHERE user_no = ${userNo}
-  			AND class_no = ${classNo}
+  		WHERE user_no = #{userNo}
+  			AND class_no = #{classNo}
 	</delete>
 	
-	<select id="selectOrderList" parameterType="int" resultType="OrderTb">
-		SELECT order_no FROM order_tb
+	<select id="selectOrderList" parameterType="String" resultType="OrderTb">
+		SELECT order_no, merchant_uid FROM order_tb
 		WHERE merchant_uid = #{merchantUid}
 	</select>
 	
@@ -84,7 +84,7 @@
 	
 	<select id="selectPaymentList" parameterType="int" resultType="Payment">
 		SELECT payment FROM payment
-		WHERE order_no = ${order_no}
+		WHERE order_no = #{orderNo}
 	</select>
 	
 	

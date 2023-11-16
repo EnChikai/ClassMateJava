@@ -2,6 +2,8 @@ package admin.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,19 +36,42 @@ public class AdminController {
 			
 			Paging paging
 			, Model model
+			, HttpServletRequest request
 			
 			) {
+		logger.info("userInfoListGet [GET]");
 		
+		int sort = 0; 
+		logger.info("sort디폴트 : {}", sort);
+
+		if(request.getParameter("sort") != null) {
+			for(int i=0; i<Integer.parseInt((request.getParameter("sort")))+1; i++) {
+				sort = i;
+			}
+		}
+		logger.info("sort확인 : {}", sort);
+		
+		int delCheckbox = 0; 
+		logger.info("delCheckbox디폴트 : {}", delCheckbox);
+		if(request.getParameter("delCheckbox") != null) {
+			if(Integer.parseInt((request.getParameter("delCheckbox")))==1) {
+				delCheckbox = 1;
+			}
+			logger.info("delCheckbox확인 : {}", delCheckbox);
+		}
 		
 		// 페이징 계산
 		paging = adminService.getUserPaging(paging);
 		logger.info("paging : {}", paging);
 				
-		List<UserInfo> list = adminService.userInfoList(paging);
+		List<UserInfo> list = adminService.userInfoList(paging, sort, delCheckbox);
 		logger.info("list : {}", list);
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
+		model.addAttribute("sort", sort);
+		model.addAttribute("delCheckbox", delCheckbox);
+		
 		
 	}
 }
