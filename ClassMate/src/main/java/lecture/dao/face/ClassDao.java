@@ -5,6 +5,8 @@ import java.util.List;
 import user.dto.UserInfo;
 import lecture.dto.Address;
 import lecture.dto.Class;
+import lecture.dto.ClassVideo;
+import lecture.dto.QuestionAnswer;
 
 
 public interface ClassDao {
@@ -40,5 +42,21 @@ public interface ClassDao {
 	 * @return 해당 강의의 주소정보
 	 */
 	public Address selectAddressByClass(Class lecture);
+
+	/**
+	 * 특정강의의 모든 영상 정보 리스트 알아내기
+	 * 
+	 * @param lecture 강의번호
+	 * @return 모든 영상 정보(영상데이터 제외)
+	 */
+	public List<ClassVideo> selectClassVideoByClass(Class lecture);
+	
+	/**
+	 * 특정강의의 질의응답 전부 알아내기
+	 * 
+	 * @param lecture 강의번호
+	 * @return 질의응답 정보 전체
+	 */
+	public List<QuestionAnswer> selectQuestionAnswerByClass(Class lecture);
 
 }

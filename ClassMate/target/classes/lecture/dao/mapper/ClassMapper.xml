@@ -42,5 +42,25 @@
 			AND class_no = #{classNo}
 		</where>
 	</select>
+	
+	<select id="selectClassVideoByClass" resultType="ClassVideo" parameterType="Class">
+		SELECT
+			video_no, class_no, video_lesson, origin_name
+		FROM class_video
+		<where>
+			AND class_no = #{classNo}
+		</where>
+		ORDER BY video_lesson
+	</select>
+	
+	<select id="selectQuestionAnswerByClass" resultType="QuestionAnswer" parameterType="Class">
+		SELECT question_no, user_no, class_no, question_no
+			, question_name, question_date, answer, answer_content
+			, question_content
+		FROM question_answer
+		<where>
+			AND class_no = #{classNo}
+		</where>
+	</select>
 </mapper>
 
