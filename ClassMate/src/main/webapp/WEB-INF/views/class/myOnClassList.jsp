@@ -5,7 +5,7 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <div>
-
+<h1>내가수강한클래스나열페이지</h1>
 <%-- <c:forEach var="lecture" items="${lecture }"> --%>
 <!--     <tr> -->
 <%--         <td>${lecture.classNo }</td> --%>
@@ -37,7 +37,7 @@
 <!--         </ul> -->
 <%--     </c:when> --%>
 <%--     <c:otherwise> --%>
-<!--         <p>클래스가 없습니다.</p> -->
+<!--         <p>클래스 정보가 없습니다.</p> -->
 <%--     </c:otherwise> --%>
 <%-- </c:choose> --%>
 
@@ -62,14 +62,16 @@
                     온/오프라인: ${lecture.onOff}<br>
                     헤더 이미지: <img src="${lecture.headImg}" alt="Class Image"/><br>
                     내용: ${lecture.content}<br>
-                    삭제 여부: ${lecture.deleteBoolean}
+                    삭제 여부: ${lecture.deleteBoolean}<br>
+                    <a href="/class/onClass">온클래스로 이동</a><br>
+                    <a href="/class/offClass">오프클래스로 이동</a>
                     <hr>
                 </li>
             </c:forEach>
         </ul>
     </c:when>
     <c:otherwise>
-        <p>클래스가 없습니다.</p>
+        <p>클래스 정보가 없습니다.</p>
     </c:otherwise>
 </c:choose>
 

@@ -1,39 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <div>
-	
-hi
-
-<table border="1">
-    <tr>
-        <th>질문 번호</th>
-        <th>사용자 번호</th>
-        <th>클래스 번호</th>
-        <th>질문 이름</th>
-        <th>질문 내용</th>
-        <th>질문 날짜</th>
-        <th>답변 여부</th>
-        <th>답변 내용</th>
-    </tr>
-    <c:forEach var="item" items="${questionAnswerList}">
-        <tr>
-            <td>${item.questionNo}</td>
-            <td>${item.userNo}</td>
-            <td>${item.classNo}</td>
-            <td>${item.questionName}</td>
-            <td>${item.questionContent}</td>
-            <td><fmt:formatDate value="${item.questionDate}" pattern="yyyy-MM-dd"/></td>
-            <td>${item.answer}</td>
-            <td>${item.answerContent}</td>
-        </tr>
-    </c:forEach>
-</table>
-
-
+<h1>질의응답전체조회페이지</h1>
+<c:forEach var="questionAnswer" items="${questionAnswer}">
+    질문번호:${questionAnswer.questionNo }<br>
+    유저번호:${questionAnswer.userNo }<br>
+    클래스번호:${questionAnswer.classNo }<br>
+    질문명:${questionAnswer.questionName }<br>
+    질문본문:${questionAnswer.questionContent }<br>
+    질문시간:<fmt:formatDate value="${questionAnswer.questionDate }" pattern="yyyy-MM-dd"/><br>
+    답변명:${questionAnswer.answer }<br>
+    답변본문:${questionAnswer.answerContent }<br>
+    <br>
+</c:forEach>
+<a href="/class/onClassQAWrite">질의 작성</a><br>
+<a href="/class/onClass">온클래스페이지</a>
 </div>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
