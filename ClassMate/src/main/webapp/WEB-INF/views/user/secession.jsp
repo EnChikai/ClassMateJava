@@ -55,6 +55,9 @@ button {
 	<div class="ClassMate">
 		<span>ClassMate</span>
 	</div><!-- .ClassMate -->
+	
+	<div style="background-color: black; margin: 10px; padding: 10px;">
+	</div>
 
 	<div class="title">
 	<h2>회원 탈퇴를 진행하시겠습니까?</h2>

@@ -54,6 +54,69 @@ function togglePasswordVisibility(inputId, iconId) {
     }
 }
 
+function validateForm() {
+    // 유효성 검사 로직을 여기에 추가
+    var userId = $("#userId").val();
+    var userPw = $("#userPw").val();
+    var userPwChk = $("#userPwChk").val();
+    // 필요한 경우 더 많은 필드를 추가
+
+    // 모든 필수 필드가 비어 있는지 확인
+    if (userId === "" || userPw === "" || userPwChk === "") {
+        alert("모든 필수 항목을 입력하세요.");
+        return false; // 폼 제출 방지
+    }
+
+    // 필요한 경우 더 많은 유효성 검사 로직 추가
+
+    // 모든 검사가 통과되면 true 반환
+    return true;
+}
+
+function validateForm() {
+    // 유효성 검사 로직을 여기에 추가
+    var userId = $("#userId").val();
+    var userPw = $("#userPw").val();
+    var userPwChk = $("#userPwChk").val();
+    var userGender = $("input[name='userGender']:checked").val();
+    var userBirthday = $("#userBirthday").val();
+    var userPhone = $("#userPhone").val();
+    var userName = $("#userName").val();
+    var userEmail = $("#userEmail").val();
+    var agreeCheckbox = $("#cb3:checked").val();
+
+    // 필수 필드 및 체크박스 유효성 검사
+    if (
+        userId === "" ||
+        userPw === "" ||
+        userPwChk === "" ||
+        !userGender ||
+        userBirthday === "" ||
+        userPhone === "" ||
+        userName === "" ||
+        userEmail === "" ||
+        !agreeCheckbox
+    ) {
+        alert("모든 필수 항목을 입력하고 약관에 동의하세요.");
+        return false; // 폼 제출 방지
+    }
+
+    // 필요한 경우 더 많은 유효성 검사 로직 추가
+
+    // 모든 검사가 통과되면 true 반환
+    return true;
+}
+
+$(document).ready(function () {
+    $("#registerButton").click(function () {
+        if (validateForm()) {
+            // 유효성 검사가 통과하면 폼 제출 진행
+            location.href = '${pageContext.request.contextPath}/user/joinOk';
+        }
+    });
+});
+
+
 
 </script>
 <style type="text/css">
@@ -197,10 +260,10 @@ button {
 				background-color: #929292; width: 95px; color: rgb(255, 255, 255);
 				height: 40px;
 				cursor: pointer;">취소</button>
-			<button onclick="location.href='joinOk.jsp'"
-				style="border: none; font-size: 22px; border-radius: 4px;
-				background-color: #F1C40F; width: 95px; color: rgb(255, 255, 255);
-				height: 40px; cursor: pointer;">등록</button>
+			<button id="registerButton" 
+			    style="border: none; font-size: 22px; border-radius: 4px;
+			    background-color: #F1C40F; width: 95px; color: rgb(255, 255, 255);
+			    height: 40px; cursor: pointer;">등록</button>
 		</div>
 		
 		
