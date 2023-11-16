@@ -27,11 +27,16 @@ button {
 
 
 <div class="joinOk">
+<form action="./joinOk" method="post">
 	<img src="/resources/img/check-circle.png" style="width: 45px; margin-bottom: 20px;">
 	<h1>가입이 완료되었습니다</h1>
 	<p style="color: rgb(127, 127, 127); font-size: 16px; margin-top: 14px">입력하신 정보로 로그인해주세요</p>
 
-	<a href="./login"><button>로그인 하기</button></a>
+     <!-- 로그인 버튼을 누르면 join 페이지로 이동 -->
+    <a href="${pageContext.request.contextPath}/user/login">
+        <button type="button" style="cursor: pointer;">로그인 하기</button>
+    </a>
+</form>
 </div>
 
 

@@ -6,8 +6,10 @@
 <style type="text/css">
 
 .defaultWidth{
-   margin-left: 400px;
-   margin-right: 400px;
+    margin-left: 400px;
+    margin-right: 400px;
+    margin-top: 56px;
+    margin-bottom: 80px;
 }
 </style>
 
