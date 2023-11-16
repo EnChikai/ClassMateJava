@@ -26,8 +26,8 @@ public class UserController {
 
 	@Autowired UserService userService;
 	
-	@RequestMapping("/main")
-	public void main() {}
+	@GetMapping("/mypageMain")
+	public void mypageMain() {}
 	
 	@GetMapping("/searchIdPw")
 	public void searchIdPw() {}
@@ -39,10 +39,35 @@ public class UserController {
 	public void updatePw() {}
 	
 	@GetMapping("/updateUserData")
-	public void updateUserData() {}
+	public void updateUserData(HttpSession session, Model model) {
+		logger.info("{}",session.getAttribute("userNo"));
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserNo((int)session.getAttribute("userNo"));
+		userInfo = userService.updateUserData(userInfo);
+		logger.info("{}",userInfo);
+		model.addAttribute("userInfo", userInfo);
+	}
 	
-	@GetMapping("/secession")
-	public void secession() {}
+	@PostMapping("/updateUserData")
+	public void updateUserDataPost() {
+		
+	}
+	
+	@PostMapping("/updateUserDataOut")
+	public void updateUserDataOut(HttpSession session, Model model) {
+		logger.info("성공? 실패?");
+		UserInfo userInfo = new UserInfo();
+		logger.info("userNo : {}", session.getAttribute("userNo"));
+		userInfo.setUserNo((int)session.getAttribute("userNo"));
+	    int a = userService.updateOutUser(userInfo);
+	    logger.info("탈퇴 처리 결과: {}", a);
+
+	    if (a == 1) {
+	    	model.addAttribute("success", true);
+	    } else {
+	    	model.addAttribute("success", false);
+		}
+	}
 	
 	@GetMapping("/searchUserId")
 	public void searchUserId() {}
@@ -51,7 +76,9 @@ public class UserController {
 	public void join() {}
 	
 	@GetMapping("/joinOk")
-	public void joinOk() {}
+	public String joinOk() {
+		return "user/joinOk";
+	}
 	
 	@PostMapping("/join")
 	public String joinPost(UserInfo userInfo) {
@@ -88,7 +115,7 @@ public class UserController {
 	            boolean isLogin = true;
 	            session.setAttribute("isLogin", isLogin);
 	            session.setAttribute("userId", loginInfo.getUserId());
-	            session.setAttribute("userNo", userInfo.getUserNo());
+	            session.setAttribute("userNo", loginInfo.getUserNo());
 
 	        } else if (loginInfo.getUserNo() == 0) { // 관리자 로그인
 	            boolean isLogin = true;

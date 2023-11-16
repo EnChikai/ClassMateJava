@@ -38,4 +38,22 @@ public class UserServiceImpl implements UserService{
         int count = userDao.checkDuplicateId(userId);
         return count > 0;
     }
+
+	@Override
+	public UserInfo updateUserData(UserInfo userInfo) {
+		logger.info("userInfo: {}",userInfo);
+		UserInfo a = userDao.selectUserByNo( userInfo );
+		logger.info("a: {}",a);
+		return a;
+	}
+
+	@Override
+	public int updateOutUser(UserInfo userInfo) {
+		logger.info("updateOutUser()");
+		logger.info("userInfo : {}", userInfo);
+		int a = userDao.deleteUserData( userInfo );
+		logger.info("a: {}",a);
+		return a;
+		
+	}
 }

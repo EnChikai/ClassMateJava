@@ -5,8 +5,15 @@
 <style type="text/css">
 
 .defaultWidth{
-   margin-left: 400px;
-   margin-right: 400px;
+    margin-left: 400px;
+    margin-right: 400px;
+    margin-top: 56px;
+    margin-bottom: 80px;
+}
+
+.subCategoryNo{
+	text-decoration: none;
+	color: black;
 }
 
 </style>
@@ -18,7 +25,7 @@
 <h1>subCategory</h1>
 
 <c:forEach var="list" items="${list }">
-<a href="/main/onClassList?subCategoryNo=${list.subCategoryNo}">${list.subCategoryNo }</a><br>
+<a href="/main/onClassList?subCategoryNo=${list.subCategoryNo}" class="subCategoryNo">${list.subCategoryNo }</a><br>
 </c:forEach>
 
 

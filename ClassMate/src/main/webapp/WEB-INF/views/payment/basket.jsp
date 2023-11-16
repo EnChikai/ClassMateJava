@@ -67,7 +67,7 @@
 	padding: 8px;
 	border-radius: 3px;
 	border-style: hidden;
-	box-shadow: 0 0 0 1px rgb(230,204,100)
+	box-shadow: 0 0 0 1px rgb(230,204,100);
 	font-weight:bold;
 	color: white;
 	margin-bottom: 5px; 
@@ -77,7 +77,7 @@
 .paymentOneBtn:hover:not(.active){
 	box-shadow: 0 0 0 2px skyblue;
 	background: rgb(230,204,100);
-
+	cursor:pointer
 }
 #deleteBtn{
 	background: rgb(190,190,190);
@@ -95,8 +95,8 @@
 
 #deleteBtn:hover:not(.active){
 	box-shadow: 0 0 0 2px skyblue;
-	background: rgb(170,170,170)
-
+	background: rgb(170,170,170);
+	cursor:pointer
 }
 
 .onOffClass{
@@ -256,19 +256,22 @@ $(function(){
 IMP.init('imp04411553')	
 	$("#paymentBtn").click(function(){
 		
+		if($("#checkboxAll").is(":checked") || $(".checkBoxes").is(":checked")){
+		
 		var classNoAll = new Array();
 		
 		$('.classNoInput').each(function (index, item) {
 		     classNoAll[index] = item.value
 		});	
-	
+		
 		<%-- console.log(classNoAll); --%>
-
+		
 		var userAddr = "${userInfo.mainAddress} ${userInfo.subAddress}";
 		
 		IMP.request_pay({
+			
 			<%-- pg: "html5_inicis",	//결제 pg 선택 --%>
-		    pg: "kakaopay",	<%-- 결제 pg 선택 --%>
+		    pg: "kakaopay",	<%-- //결제 pg 선택 --%>
 			pay_method: "card",
 			
 		    merchant_uid: <%=order %>,   <%-- 고유 번호 --%>
@@ -292,30 +295,36 @@ IMP.init('imp04411553')
 		      <%-- 		-> 결제 후 처리 --%>
 		      
 		      if(data.success){ <%-- 결제 성공시 --%>
-		    	  alert('결제에 성공했습니다.')
+		      <%-- alert('결제에 성공했습니다'); --%>
 			     
-	    	     $.ajax({
-	  	            type: "POST",
-	  	            url: '../payment/insertInfo',
-	  	      		dataType: 'json',
-	  	      		traditional: true,
-	  	            data : {"merchantUid": data.merchant_uid
-	  	            	, "provider": data.pg_provider
-	  	            	, "payMethod": data.pay_method
-	  	            	, "cardName": data.card_name
-	  	            	, "classNo" : classNoAll
-	  	            }
-	
-	  	    	 });
-
-	 	    		location.href = '../payment/insertInfo';
+		   	     $.ajax({
+		 	            type: "POST",
+		 	            url: '../payment/insertInfo',
+		 	      		dataType: 'json',
+		 	      		traditional: true,
+		 	            data : {"merchantUid": data.merchant_uid
+		 	            	, "provider": data.pg_provider
+		 	            	, "payMethod": data.pay_method
+		 	            	, "cardName": data.card_name
+		 	            	, "classNo" : classNoAll
+		 	            }
+		
+		 	    	 });
+		
+			    	 location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
 		    	 
 		    	  
 		      }else{	<%-- 결제 실패시 --%>
-		    	 alert('결제에 실패했습니다')
-		    	 
-		      }
-		 })
+		    	 <%-- alert('결제에 실패했습니다') --%>
+			    	 
+			    	 location.href = '../payment/fail';
+			    	 
+			      }
+			 })
+		}else{
+			alert('결제할 클래스를 선택하세요')
+		}
+		
 	})
 })
 </script>
@@ -340,8 +349,8 @@ $(function(){
 		
 		<%--console.log(sum)--%>
 		IMP.request_pay({
-// 			pg: "html5_inicis",	//결제 pg 선택
-		    pg: "kakaopay",	//결제 pg 선택
+	   <%-- pg: "html5_inicis",	//결제 pg 선택 --%>
+		    pg: "kakaopay",	<%-- //결제 pg 선택 --%>
 			pay_method: "card", <%-- 결제 방식 --%>
 		    merchant_uid: <%=order%>,   <%-- 고유 번호 --%>
 
@@ -355,7 +364,7 @@ $(function(){
 			buyer_addr: userAddr,
 			buyer_postcode: "${userInfo.userPost}"
 				    
-// 		    m_redirect_url: "{모바일에서 결제 완료 후 리디렉션 될 URL}"
+			<%-- m_redirect_url: "{모바일에서 결제 완료 후 리디렉션 될 URL}" --%>
 		    	 
 		}, function (data) {	<%-- callback --%>
 			<%-- data.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다. --%>
@@ -366,7 +375,7 @@ $(function(){
 		      <%-- 		-> 결제 후 처리 --%>
 		      
 		      if(data.success){ <%-- 결제 성공시 --%>
-		    	  alert('결제에 성공했습니다.')
+		    	  <%-- alert('결제에 성공했습니다'); --%>
 			     
 	    	     $.ajax({
 	  	            type: "POST",
@@ -381,11 +390,13 @@ $(function(){
 	
 	  	    	 });
 				
-	 	    		location.href = '../payment/success?merchantUid='+data.merchant_uid;
+	 	    	 location.href = '../payment/success?merchantUid='+<%=order %>;
 		    	 
 		    	  
 		      }else{	<%-- 결제 실패시 --%>
-		    	 alert('결제에 실패했습니다')
+		     	 <%-- alert('결제에 실패했습니다') --%>
+		    	 
+		    	 location.href = '../payment/fail';
 		    	 
 		      }
 		 })
@@ -396,7 +407,7 @@ $(function(){
 
 <%-- <% ============================================================================= %> --%>
 
-<div style="text-align: center; margin-bottom: 40px;">
+<div style="text-align: center; margin-bottom: 40px; margin-top: 84px;">
 <img alt="장바구니 아이콘" src="/resources/img/basket.png">
 </div>
 
@@ -413,7 +424,7 @@ $(function(){
 		<th width="30%" class="thFontInfo">
 			상품 정보
 		</th>
-		<th width="20%" class="thFontInfo">
+		<th width="20%" class="thFontInfo" style="padding-left: 60px;">
 			클래스 기간
 		</th>
 		<th width="30%" class="thFontInfo">
@@ -458,7 +469,10 @@ $(function(){
 		</td>
 		<td class="basketTableInfoTd" width="15%">
 			<button type="button" id="OneBtn${classList.classNo}" class="paymentOneBtn">결제</button><br>
+			<form action="../payment/basket" method="post">
 			<button id="deleteBtn">삭제</button>
+			<input style="display: none;" readonly="readonly" type="text" name="classNo" value="${classList.classNo}"/>
+			</form>
 		</td>
 	</tr>
 </table>
@@ -485,7 +499,7 @@ $(function(){
 	</tr>
 </table>
 
-<div style="">
+<div style="margin-bottom: 89px">
 	<button type="button" style="margin-top:40px; width: 100px;" id="paymentBtn" class="paymentOneBtn">결제하기</button>
 </div>
 

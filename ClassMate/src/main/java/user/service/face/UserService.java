@@ -13,5 +13,9 @@ public interface UserService {
 
 	public boolean checkDuplicateId(String userId);
 
+	public UserInfo updateUserData(UserInfo userInfo);
+
+	public int updateOutUser(UserInfo userInfo);
+
 
 }
