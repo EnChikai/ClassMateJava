@@ -51,8 +51,7 @@ public interface PaymentDao {
 
 	public List<OrderTb> selectOrderList(String merchantUid);
 
-	public List<Payment> selectPaymentList(int userNo);
+	public List<Payment> selectPaymentList(int orderNo);
 
-	
 
 }

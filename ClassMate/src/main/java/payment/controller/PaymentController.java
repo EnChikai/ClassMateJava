@@ -53,11 +53,23 @@ public class PaymentController {
 	}
 	
 	@PostMapping("/payment/basket")
-	public void basketPost(
-			
+	public String basketPost(
+		
+			int classNo	
+			, HttpSession session
 			
 			) {
-		logger.info("/payment/basket [Post]");
+		logger.info("/payment/basket [Post] : {}", classNo);
+		
+//		logger.info("{}",session.getAttribute("userNo"));
+//		int userNo = (int) session.getAttribute("userNo");
+		
+		//test용
+		int userNo = 4;
+				
+		int result = paymentService.deleteBasket(classNo, userNo);
+		
+		return "redirect:/payment/basket";
 		
 	}
 	
@@ -100,23 +112,27 @@ public class PaymentController {
 	@GetMapping("/payment/success")
 	public void paymentSuccessGet(
 		
-		String merchantUid
-		, HttpSession session
+			String merchantUid
+			, Model model
 			
 			) {
-		logger.info("/payment/success [GET]{}",merchantUid);
+		logger.info("/payment/success [GET] : {}",merchantUid);
 		
-		//로그인 구현 이후 사용
-//		logger.info("{}",session.getAttribute("userNo"));
-//		int userNo = (int) session.getAttribute("userNo");
-		
-		//test용
-		int userNo = 4;
-		
-		Map<String, Object> map = paymentService.selectSuccecInfo(userNo, merchantUid);
+		Map<String, Object> map = paymentService.selectSuccecInfo(merchantUid);
 		logger.info("map {}",map);
 		
-
+		model.addAttribute("checkUid",map.get("checkUid"));
+		model.addAttribute("paymentSum",map.get("paymentSum"));
+		model.addAttribute("paymentVat",map.get("paymentVat"));
+		
+	}
+	
+	@GetMapping("/payment/fail")
+	public void paymentFailGet() {
+		logger.info("/payment/fail [GET] : ");
+		
+		
+		
 	}
 	
 }
