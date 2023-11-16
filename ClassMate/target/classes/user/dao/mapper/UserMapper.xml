@@ -27,5 +27,20 @@
     <select id="checkDuplicateId" resultType="int" parameterType="String">
         SELECT COUNT(*) FROM user_info WHERE USER_ID = #{userId}
     </select>
+    
+    <select id="selectUserByNo" resultType="UserInfo" parameterType="UserInfo">
+	SELECT * FROM user_info
+  	<where> 
+  		AND USER_NO = #{userNo}
+  	</where>
+  </select>
+
+	
+	<delete id="deleteUserData" parameterType="UserInfo">
+	DELETE FROM user_info
+		<where>
+			AND USER_NO = ${userNo}
+		</where>
+	</delete>
 
  </mapper>
