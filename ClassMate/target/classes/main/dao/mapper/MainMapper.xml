@@ -20,13 +20,24 @@
 	 	</where>
 	 </select>
 	 
-	 <select id="onClassList" resultType="Class" parameterType="Class">
-	 	SELECT * FROM class
-	 	<where>
-	 		AND sub_category_no = #{subCategoryNo}
-	 		AND on_off = 1
-	 	</where>
+	 <select id="mainCntAll" resultType="int" parameterType="Class">
+		SELECT count(*) FROM class
+		WHERE delete_boolean = 0
+		   	  AND on_off = 1
+		   	  AND sub_category_no = ${subCategoryNo}
 	 </select>
+	 
+	 <select id="onClassList" resultType="Class" parameterType="Map">
+	 	SELECT * FROM (
+	 		SELECT rownum runm, B.* FROM (
+	 			SELECT * FROM class
+	 				WHERE delete_boolean = 0
+	 				AND on_off = 1
+	 				AND sub_category_no = ${cLass.subCategoryNo}
+	 				ORDER BY class_no DESC
+	 		) B
+	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
+	 </select>	 
 	 
 	 <select id="offClassList" resultType="Class" parameterType="Class">
 	 	SELECT * FROM class
