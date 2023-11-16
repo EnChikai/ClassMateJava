@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -25,6 +27,7 @@
 
 
   };
+  
 
   // 외부 영역 클릭시 팝업 닫기
   $(document).mouseup(function (e) {
@@ -74,13 +77,48 @@
       
     }
   });
+  
+  //닫기 버튼 클릭시 팝업 닫기
+  $(function(){
+	  $("#closeModal").click(function (e) {
+		    var modal = $(".modal-con");
+		      $("#modal").fadeOut(300);
+		      modal.fadeOut(300);
+		      
+		      $('html, body').css({ 'overflow': 'auto', 'height': '100%' });
+		    
+	});
+});
+
+  //닫기 버튼 클릭시 팝업 닫기
+  $(function(){
+	   $("#closeModal2").click(function (e) {
+		    var modal2 = $(".modal-con2");
+		      $("#modal2").fadeOut(300);
+		      modal2.fadeOut(300);
+
+		      $('html, body').css({ 'overflow': 'auto', 'height': '100%' });
+
+	}); 
+});
+  
+  //닫기 버튼 클릭시 팝업 닫기
+  $(function(){
+	   $("#closeModal3").click(function (e) {
+		    var modal3 = $(".modal-con3");
+		      $("#modal3").fadeOut(300);
+		      modal3.fadeOut(300);
+
+		      $('html, body').css({ 'overflow': 'auto', 'height': '100%' });
+
+	}); 
+});
 
 </script>
 
 <style type="text/css">
 
 *{margin:0; padding:0;}
-a.button{display:inline-block; text-decoration:none; color:#000;}
 
 #modal{
   display:none;
@@ -113,17 +151,6 @@ a.button{display:inline-block; text-decoration:none; color:#000;}
   padding: 30px;
   height: 50vh;
   overflow-y: auto; 
-}
-.modal-con .close{
-  display:block;
-  position:absolute;
-  width:30px; height:30px;
-  border-radius:50%; 
-  border: 3px solid #000;
-  text-align:center; line-height: 30px;
-  text-decoration:none;
-  color:#fff; font-size:20px; font-weight: bold;
-  right:10px; top:10px;
 }
 
 #modal2{
@@ -159,17 +186,6 @@ a.button{display:inline-block; text-decoration:none; color:#000;}
   overflow-y: auto; 
 }
 
-.modal-con2 .close2{
-  display:block;
-  position:absolute;
-  width:30px; height:30px;
-  border-radius:50%; 
-  border: 3px solid #000;
-  text-align:center; line-height: 30px;
-  text-decoration:none;
-  color:#fff; font-size:20px; font-weight: bold;
-  right:10px; top:10px;
-}
 
 #modal3{
   display:none;
@@ -204,17 +220,6 @@ a.button{display:inline-block; text-decoration:none; color:#000;}
   overflow-y: auto; 
 }
 
-.modal-con3 .close3{
-  display:block;
-  position:absolute;
-  width:30px; height:30px;
-  border-radius:50%; 
-  border: 3px solid #000;
-  text-align:center; line-height: 30px;
-  text-decoration:none;
-  color:#fff; font-size:20px; font-weight: bold;
-  right:10px; top:10px;
-}
 
 .vl {
     border-left: 2px solid #DBDCDD;
@@ -241,8 +246,20 @@ td{
 	font-size: 13px;
 }
 
+.closeModal{
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+  color : #F0C610;
+  text-decoration: underline;
+}
+
 
 </style>
+
+</div>
 
 <hr>
 <div class="footer">
@@ -258,6 +275,9 @@ td{
 	<c:import url="/WEB-INF/views/main/useTerms.jsp"></c:import>
 
     </div>
+    <div style="text-decoration: none; color: black; text-align: center;">
+    	<a href="javascript:return false;" class="closeModal" id="closeModal">닫기</a>
+    </div>
   </div>
 
 <div id="modal2" class="close2"></div>
@@ -270,6 +290,9 @@ td{
 
 	<c:import url="/WEB-INF/views/main/privacyPolicy.jsp"></c:import>
 
+    </div>
+        <div style="text-decoration: none; color: black; text-align: center;">
+    	<a href="javascript:return false;" class="closeModal" id="closeModal2">닫기</a>
     </div>
   </div>
 
@@ -284,6 +307,9 @@ td{
 	<c:import url="/WEB-INF/views/main/locationBased.jsp"></c:import>
     
     </div>
+        <div style="text-decoration: none; color: black; text-align: center;">
+    	<a href="javascript:return false;" class="closeModal" id="closeModal3">닫기</a>
+    </div>
   </div>
     
 
@@ -292,11 +318,11 @@ td{
 	<tr>
 		<td><a href="/main/site" class="terms" style="text-decoration: none; color: black;">사이트 소개</a></td>
 		<td><div class="vl"></div></td>
-		<td><a href="javascript:openModal('modal1');" class="terms">이용약관</a></td>
+		<td><a href="javascript:openModal('modal1');" class="terms" style="text-decoration: none; color: black;">이용약관</a></td>
 		<td><div class="vl"></div></td>
-		<td><a href="javascript:openModal2('modal2');" class="terms">개인 정보 처리 방침</a></td>
+		<td><a href="javascript:openModal2('modal2');" class="terms" style="text-decoration: none; color: black;">개인 정보 처리 방침</a></td>
 		<td><div class="vl"></div></td>
-		<td><a href="javascript:openModal3('modal3');" class="terms">위치 기반 서비스 이용 약관</a></td>
+		<td><a href="javascript:openModal3('modal3');" class="terms" style="text-decoration: none; color: black;">위치 기반 서비스 이용 약관</a></td>
 	</tr>
 </table>
 <br><br>
