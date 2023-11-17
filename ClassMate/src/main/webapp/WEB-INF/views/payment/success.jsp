@@ -16,6 +16,16 @@
 
 <div style="margin-top: 20px; margin-bottom: 20px;">
 <p>구매 번호 : ${checkUid }</p>
+
+<p style="border-radius: 5px; border-style: hidden; background:rgb(241,196,15); color:white; width: 70%; margin-bottom: 5px; margin-left: 80px;">클래스명</p>
+<div style="border-radius: 5px; border-style: hidden; box-shadow: 0 0 0 2px #ccc; width: 70%; margin-left: 80px;">
+<c:forEach items="${nameList }" var="nameList">
+<c:if test="${not empty nameList.className}">
+<p style="border-bottom: 1px solid #ccc; margin-bottom: 0px">"${nameList.className }"</p>
+</c:if>
+</c:forEach>
+
+</div>
 </div>
 
 <div>
@@ -23,7 +33,7 @@
 <p>카카오톡 결제내역에서 확인이 가능합니다</p>
 </div>
 
-<div style="margin-top: 70px; text-align:right;">
+<div style="margin-top: 0; text-align:right;">
 <p style="font-size: 21px; font-weight:bold; width: 265px; margin: 0 auto;">총 결제 금액 : <fmt:formatNumber type="number" maxFractionDigits="3" value="${paymentSum }"/>원</p>
 <p style="margin-top: 7px; font-size: 13px; width: 265px;  margin: 0 auto;">부가세 : <fmt:formatNumber type="number" maxFractionDigits="3" value="${paymentVat }"/>원</p>
 </div>

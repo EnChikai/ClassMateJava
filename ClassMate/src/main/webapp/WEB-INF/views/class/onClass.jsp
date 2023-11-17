@@ -1,54 +1,110 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:import url="/WEB-INF/views/layout/header.jsp" />
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClassMate ON클래스 강의실</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+/* 추가적인 스타일링 */
+.hero-section {
+	background-color: #FFF0B1;
+	padding: 30px;
+	border-radius: 8px;
+	margin-bottom: 30px;
+}
 
-<div>
-<h1>온클래스메인페이지</h1>
-클래스 번호: ${lecture.classNo}<br>
-강사 번호: ${lecture.teacherNo}<br>
-주요 카테고리: ${lecture.mainCategoryNo}<br>
-서브 카테고리: ${lecture.subCategoryNo}<br>
-강사명: ${lecture.teacher}<br>
-클래스명: ${lecture.className}<br>
-개설 날짜: <fmt:formatDate value="${lecture.classDate}" pattern="yyyy-MM-dd"/><br>
-시작 날짜: <fmt:formatDate value="${lecture.classStart}" pattern="yyyy-MM-dd"/><br>
-종료 날짜: <fmt:formatDate value="${lecture.classEnd}" pattern="yyyy-MM-dd"/><br>
-최대 인원: ${lecture.maxCount}<br>
-비용: ${lecture.expense}<br>
-클래스 정보: ${lecture.classInfo}<br>
-커리큘럼: ${lecture.curriculum}<br>
-온/오프라인: ${lecture.onOff}<br>
-헤더 이미지: <img src="${lecture.headImg}" alt="Class Image"/><br>
-내용: ${lecture.content}<br>
-삭제 여부: ${lecture.deleteBoolean}<br>
+.hero-text, .hero-title, .hero-subtitle {
+	color: #000;
+}
 
-<hr>
+.hero-subtitle {
+	font-size: 1.5rem;
+}
 
-<c:forEach var="classVideo" items="${classVideo}">
-    영상번호:${classVideo.videoNo }<br>
-    클래스번호:${classVideo.classNo }<br>
-    회차번호:${classVideo.videoLesson }<br>
-    원본명:${classVideo.originName }<br>
-    <br>
-</c:forEach>
+.qa-card {
+	border: none;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease-in-out;
+}
 
-<hr>
-<a href="/class/onClassQABoardList">질의응답 전체보기</a><br>
-<c:forEach var="questionAnswer" items="${questionAnswer}">
-    질문번호:${questionAnswer.questionNo }<br>
-    유저번호:${questionAnswer.userNo }<br>
-    클래스번호:${questionAnswer.classNo }<br>
-    질문명:${questionAnswer.questionName }<br>
-    질문본문:${questionAnswer.questionContent }<br>
-    질문시간:<fmt:formatDate value="${questionAnswer.questionDate }" pattern="yyyy-MM-dd"/><br>
-    답변명:${questionAnswer.answer }<br>
-    답변본문:${questionAnswer.answerContent }<br>
-    <br>
-</c:forEach>
+.qa-card:hover {
+	transform: translateY(-10px);
+}
 
-<hr>
-</div>
+.qa-title {
+	font-weight: bold;
+}
 
-<c:import url="/WEB-INF/views/layout/footer.jsp" />
+.qa-text {
+	color: #555;
+}
+
+.qa-section {
+	background-color: #f8f9fa;
+	padding: 20px;
+	border-radius: 8px;
+	margin-bottom: 30px;
+}
+</style>
+</head>
+<body>
+	<c:import url="/WEB-INF/views/layout/header.jsp" />
+
+	<div class="container mt-5">
+		<!-- Hero Section with Class Information -->
+		<div class="row hero-section">
+			<div class="col-md-6 my-auto">
+				<div class="hero-title mb-2">ClassMate</div>
+				<div class="hero-subtitle mb-4">ON클래스 강의실</div>
+				<p class="hero-text">${lecture.className }</p>
+				<p class="hero-text">${lecture.teacher }</p>
+			</div>
+			<div class="col-md-6">
+				<img src="${lecture.headImg}" alt="Class Image"
+					class="img-fluid rounded">
+			</div>
+		</div>
+
+
+		<!-- Q&A Section -->
+		<div class="qa-section">
+			<h2 class="text-center mb-4"><a href="/class/onClassQABoardList?classNo=${lecture.classNo}" class="text-dark text-decoration-none">ON클래스 질문/답변</a></h2>
+			<div class="row">
+				<c:forEach var="questionAnswer" items="${questionAnswer}" varStatus="status">
+					<div class="col-md-3 mb-4">
+						<div class="card qa-card">
+							<div class="card-body">
+								<h5 class="card-title qa-title">질문 ${status.index + 1}</h5>
+								<p class="card-text qa-text">${questionAnswer.questionContent }</p>
+							</div>
+						</div>
+					</div>
+					<!-- 4개의 카드가 나열된 후, 다음 줄로 넘어가기 위한 조건 -->
+					<c:if test="${status.count % 4 == 0 && !status.last}">
+			</div>
+			<div class="row">
+				</c:if>
+				</c:forEach>
+			</div>
+		</div>
+		<!-- Additional sections can be added here -->
+
+	</div>
+
+	<c:import url="/WEB-INF/views/layout/footer.jsp" />
+
+	<!-- Bootstrap and other necessary scripts -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.2/dist/umd/popper.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

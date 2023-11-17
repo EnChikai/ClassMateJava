@@ -84,5 +84,10 @@ public class ClassServiceImpl implements ClassService {
 		
 		return myLecture;
 	}
-	
+
+	@Override
+	public void insertQA(QuestionAnswer questionAnswer) {
+
+	classDao.insertQA(questionAnswer);
+	}
 }

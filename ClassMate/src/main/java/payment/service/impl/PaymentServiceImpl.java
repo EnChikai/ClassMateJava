@@ -42,7 +42,7 @@ public class PaymentServiceImpl implements PaymentService{
 		List<Class> classList = new ArrayList<Class>();
 		
 		for(int i = 0; i<basketList.size(); i++) {
-			classList.addAll(paymentDao.selectClassListByUser(basketList.get(i))); 
+			classList.addAll(paymentDao.selectClassListByBasket(basketList.get(i))); 
 		}
 		logger.info("classList:{}",classList);
 		
@@ -65,7 +65,7 @@ public class PaymentServiceImpl implements PaymentService{
 	@Override
 	public int insertOrderPayment(Object userNo, String merchantUid, String payMethod, String provider, String cardName,
 			int[] classNo) {
-		
+		logger.info("insertOrderPayment()");
 		Map<String, Object> map = new HashMap<String, Object>();
 		OrderTb orderTb = new OrderTb();
 		Payment payment = new Payment();
@@ -73,7 +73,7 @@ public class PaymentServiceImpl implements PaymentService{
 		int result = 0;
 		
 //		테스트용 userNo
-		userNo = 4;
+//		userNo = 4;
 		
 		logger.info("classNo.length:{}",classNo.length);
 
@@ -121,7 +121,11 @@ public class PaymentServiceImpl implements PaymentService{
 		
 		List<OrderTb> orderTbList = paymentDao.selectOrderList(merchantUid);
 		List<Payment> paymentList = new ArrayList<Payment>();
+		List<Class> nameList = new ArrayList<Class>();
+		
 		logger.info("selectOrder:{}",orderTbList);
+		
+		nameList = paymentDao.selectClassNoByMerchantUid(merchantUid);
 		
 		String checkUid = null;
 		int paymentSum = 0;
@@ -133,15 +137,27 @@ public class PaymentServiceImpl implements PaymentService{
 	        logger.info("checkUid:{}", checkUid);
 
 	        paymentList = paymentDao.selectPaymentList(orderTbList.get(orderIndex).getOrderNo());
+	        
 	        if (!paymentList.isEmpty()) {
 	            paymentSum += paymentList.get(0).getPayment();
 	            logger.info("sum: {}", paymentSum);
 	        }
+	        
 	    }
-
+		
+		for (int i = 0; i < nameList.size(); i++) {
+		    List<Class> selectedClassList = paymentDao.selectClassNameListByOrder(nameList.get(i).getClassNo());
+		    nameList.addAll(selectedClassList);
+		    
+		    for (Class selectedClass : selectedClassList) {
+		        logger.info("nameList: {}", selectedClass.getClassName());
+		    }
+		}
+		
 		map.put("checkUid", checkUid);
 		map.put("paymentSum", paymentSum);
 		map.put("paymentVat", paymentSum/10);
+		map.put("nameList",nameList);
 		
 		return map;
 	}
