@@ -41,6 +41,7 @@ color: #aaa;
 }
 
 </style>
+
 <%-- <% ============================================================================= %> --%>
 
 <div style="text-align: center;">
@@ -60,7 +61,7 @@ color: #aaa;
 </div>
 
 <div style="margin-bottom: 25px">
-<a href="../payment/basket"><button id="backBtn" style="width: 165px;" >장바구니로 돌아가기</button></a>
+<a href="../payment/basket"><button id="backBtn" style="width: 170px;" >장바구니로 돌아가기</button></a>
 </div>
 
 <div style="margin-bottom: 113px;">
@@ -69,6 +70,7 @@ color: #aaa;
 
 
 </div>
+
 
 <%-- <% ============================================================================= %> --%>
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

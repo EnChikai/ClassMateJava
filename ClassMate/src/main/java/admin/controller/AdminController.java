@@ -3,6 +3,7 @@ package admin.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import admin.service.face.AdminService;
 import user.dto.UserInfo;
@@ -29,6 +31,15 @@ public class AdminController {
 		//제작중
 		
 		
+	}
+	
+	@PostMapping("/admin/main")
+	public String adminMainPagePost(HttpSession session) {
+		logger.info("/admin/main [Post]");
+		
+		session.invalidate();
+		
+		return "redirect:/main/main";
 	}
 	
 	@GetMapping("/admin/userList")
@@ -74,4 +85,21 @@ public class AdminController {
 		
 		
 	}
+	
+	@GetMapping("/admin/userDetailedInfo")
+	public void userDetailedInfoGet(
+			
+			UserInfo userdata
+			, Model model
+			
+			){
+		logger.info("/admin/userDetailedInfo [GET] {}", userdata.getUserNo());
+		
+		userdata = adminService.userInfo(userdata);
+		logger.info("/admin/userDetailedInfo [GET] {}", userdata);
+
+		model.addAttribute("userdata",userdata);
+
+	}
+	
 }

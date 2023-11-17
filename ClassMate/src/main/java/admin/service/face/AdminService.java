@@ -21,6 +21,8 @@ public interface AdminService {
 	public Paging getUserPaging(Paging param);
 	
 	public List<UserInfo> userInfoList(Paging param, int sort, int delCheckbox);
+
+	public UserInfo userInfo(UserInfo userdata);
 	
 	
 

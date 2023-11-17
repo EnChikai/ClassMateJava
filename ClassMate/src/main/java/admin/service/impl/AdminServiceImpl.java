@@ -20,7 +20,7 @@ public class AdminServiceImpl implements AdminService{
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Autowired AdminDao adminDao;
+	@Autowired private AdminDao adminDao;
 	
 	@Override
 	public Paging getUserPaging(Paging param) {
@@ -75,6 +75,16 @@ public class AdminServiceImpl implements AdminService{
 		}
 		
 		return list;
+	}
+
+	@Override
+	public UserInfo userInfo(UserInfo userdata) {
+		logger.info("userInfo()");
+		
+		userdata = adminDao.selectUser(userdata);
+		logger.info("userdata : {}", userdata);
+		
+		return userdata;
 	}
 
 }

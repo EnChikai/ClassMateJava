@@ -33,12 +33,12 @@ public class PaymentController {
 			) {
 		logger.info("/payment/basket [GET]");
 		
-		//로그인 구현 이후 사용
-//		logger.info("{}",session.getAttribute("userNo"));
-//		int userNo = (int) session.getAttribute("userNo");
+//		로그인 구현 이후 사용
+		logger.info("{}",session.getAttribute("userNo"));
+		int userNo = (int) session.getAttribute("userNo");
 		
 		//test용
-		int userNo = 4;
+//		int userNo = 4;
 		
 		map = paymentService.selectBasket(userNo);
 		logger.info("user:{}",map.get("userInfo"));
@@ -61,31 +61,34 @@ public class PaymentController {
 			) {
 		logger.info("/payment/basket [Post] : {}", classNo);
 		
-//		logger.info("{}",session.getAttribute("userNo"));
-//		int userNo = (int) session.getAttribute("userNo");
+		logger.info("{}",session.getAttribute("userNo"));
+		int userNo = (int) session.getAttribute("userNo");
 		
 		//test용
-		int userNo = 4;
+//		int userNo = 4;
 				
 		int result = paymentService.deleteBasket(classNo, userNo);
+		logger.info("result : {}", result);
 		
 		return "redirect:/payment/basket";
 		
 	}
 	
 	@GetMapping("/payment/insertInfo")
-	public String insetInfoGet(
+	public String insertInfoGet(
+			
+			String merchantUid
 			
 			) {
-		logger.info("/payment/insetInfo [Get]");
+		logger.info("/payment/insertInfo [Get]");
 		
 		
-		return "redirect:/payment/success";
+	return "redirect:/payment/success?merchantUid="+merchantUid;
 	}
 	
 	@PostMapping("/payment/insertInfo")
 	@ResponseBody
-	public void insetInfoPost(
+	public void insertInfoPost(
 			
 			String merchantUid
 			, String provider
@@ -96,7 +99,7 @@ public class PaymentController {
 			, Model model
 			
 			) {
-		logger.info("/payment/insetInfo [Post]");
+		logger.info("/payment/insertInfo [Post]");
 		logger.info("merchantUid: {}",merchantUid);
 		logger.info("card: {}",payMethod);
 		logger.info("provider: {}",provider);
@@ -124,6 +127,7 @@ public class PaymentController {
 		model.addAttribute("checkUid",map.get("checkUid"));
 		model.addAttribute("paymentSum",map.get("paymentSum"));
 		model.addAttribute("paymentVat",map.get("paymentVat"));
+		model.addAttribute("nameList",map.get("nameList"));
 		
 	}
 	
