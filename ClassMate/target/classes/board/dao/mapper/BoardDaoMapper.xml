@@ -56,12 +56,12 @@
   		VALUES (freeboard_file_seq.nextval, #{freeNo}, #{originName}, #{storedName})
   	</insert>
   
-  	<select id="selectFreeBoardNo" resultType="FreeBoard" parameterType="FreeBoard">
-  		SELECT * FROM free_board
-  		<where>
-  			AND free_no = #{freeNo}
-  		</where>
-  	</select>
+    <select id="selectFreeBoardNo" resultType="FreeBoard" parameterType="FreeBoard">
+        SELECT F.*, U.user_name AS userName
+        FROM free_board F
+        JOIN user_info U ON F.user_no = U.user_no
+        WHERE F.free_no = #{freeNo}
+    </select>
   
   	<update id="updateHit" parameterType="FreeBoard">
   	  UPDATE free_board
@@ -73,10 +73,91 @@
   		</where>
   	</update>
   	
+  	<select id="AttachFreeFile" resultType="FreeBoardFile" parameterType="FreeBoard">
+  		SELECT
+  			file_no, free_no, origin_name, stored_name
+  		FROM free_board_file
+  		<where>
+  			free_no = #{freeNo}
+  		</where>
+  	</select>
   
+  	<select id="downFreeFileNo" resultType="FreeBoardfile" parameterType="FreeBoardfile">
+  		SELECT
+  			file_no, free_no, origin_name, stored_name
+  		FROM free_board_file 
+  		<where>
+  			file_no = #{fileNo}
+  		</where>
+  	</select>
   
+  	<delete id="deleteFreeFileBoardNo" parameterType="FreeBoard">
+  		DELETE free_board_file
+  		<where>
+  			free_no = #{freeNo}
+  		</where>
+  	</delete>
+  	
+	<delete id="deleteFreeBoardNo" parameterType="FreeBoard">
+		DELETE free_board
+		<where>
+			free_no = #{freeNo}
+		</where>
+	</delete>
+  	
+  	<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
   
+  	<update id="announceUpdateHit" parameterType="AnnounceBoard">
+  	  UPDATE announce_board
+  		<set>
+  			announce_hit = announce_hit + 1
+  		</set>
+  		<where>
+  		 announce_no = #{announceNo}
+  		</where>
+  	</update>
+  	
+ 	<select id="selectAnnounceBoardNo" resultType="AnnounceBoard" parameterType="AnnounceBoard">
+        SELECT A.*, U.user_name AS userName
+        FROM announce_board A
+        JOIN user_info U ON A.user_no = U.user_no
+        WHERE A.announce_no = #{announceNo}
+    </select>
+  	
+  	<select id="AttachAnnounceFile" resultType="AnnounceBoardFile" parameterType="AnnounceBoard">
+  		SELECT
+  			file_no, announce_no, origin_name, stored_name
+  		FROM announce_board_file
+  		<where>
+  			announce_no = #{announceNo}
+  		</where>
+  	</select>
+  	
+  	<update id="eventUpdateHit" parameterType="EventBoard">
+  	  UPDATE event_board
+  		<set>
+  			event_hit = event_hit + 1
+  		</set>
+  		<where>
+  		 event_no = #{eventNo}
+  		</where>
+  	</update>
   
+	<select id="selectEventBoardNo" resultType="EventBoard" parameterType="EventBoard">
+        SELECT A.*, U.user_name AS userName
+        FROM event_board A
+        JOIN user_info U ON A.user_no = U.user_no
+        WHERE A.event_no = #{eventNo}
+    </select>
+  
+  	<select id="AttachEventFile" resultType="EventBoardFile" parameterType="EventBoard">
+  		SELECT
+  			file_no, event_no, origin_name, stored_name
+  		FROM event_board_file
+  		<where>
+  			event_no = #{eventNo}
+  		</where>
+  	</select>
   
   
   

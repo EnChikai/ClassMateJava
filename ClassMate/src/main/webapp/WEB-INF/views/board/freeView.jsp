@@ -20,7 +20,9 @@
 }
 
 #tdBody {
-	height: 650px;;
+	height: 680px;;
+	margin: 0 auto;
+	text-align: center;
 }
 
 #tdFoot {
@@ -28,13 +30,31 @@
 	margin-bottom: 0;
 }
 
-
-#viewBt1, #viewBt2 {
+#viewBt2 {
 	widows: 65px;
 	height:30px;
 	margin: 5px;
 	cursor: pointer;
 	float: right;
+}
+
+#viewBt3 {
+	widows: 65px;
+	height:30px;
+	margin: 5px;
+	cursor: pointer;
+	float: right;
+}
+
+#freefile {
+	margin-right: 10px;
+}
+
+#contentFile {
+	width: 500px;
+	height: 30px;
+	margin: 0 auto;
+	line-height: 1.8;
 }
 
 </style>
@@ -59,13 +79,23 @@
 	</tr>
 	
 	<tr>
-		<td id="tdBody">${viewFree.freeContent }</td>
+		<td id="tdBody">${viewFree.freeContent }<br>
+			<c:if test="${not empty freeBoardFile }">
+				<div id="contentFile" style="height: auto; padding: 10px; 	border: 1px solid lightgrey;">
+					<c:forEach var="freeBoardFile" items="${freeBoardFile}">
+						<img id="freefile" alt="freefile" src="/resources/img/file.png" width="22" height="19">
+						<a href="./download?fileNo=${freeBoardFile.fileNo }"><span id="contentFileSpan"> : ${freeBoardFile.originName }</span></a><br>
+					</c:forEach>
+				</div>
+			</c:if>
+		</td>
 	</tr>
 		
 	<tr>	
 		<td id="tdFoot">
-			<button id="viewBt1" type="button" onclick="location.href='./freeUpdate'">수정</button>
-			<button id="viewBt2" type="button" onclick="location.href='./board'">목록</button>
+			<button id="viewBt1" type="button" onclick="location.href='./board'">목록</button>
+			<button id="viewBt2" type="button" onclick="location.href='./freeUpdate?freeNo=${viewFree.freeNo}'">수정</button>
+			<a href="./delete?freeNo=${viewFree.freeNo }"><button id="viewBt3" type="button">삭제</button></a>
 		</td>
 	</tr>
 </table>
