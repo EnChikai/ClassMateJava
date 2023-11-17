@@ -4,12 +4,7 @@
 
 <style type="text/css">
 
-.defaultWidth{
-    margin-left: 400px;
-    margin-right: 400px;
-    margin-top: 56px;
-    margin-bottom: 80px;
-}
+
 
 .mainCategoryNo{
 	text-decoration: none;
@@ -20,7 +15,6 @@
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
-<div class="defaultWidth" >
 
 <h1>Main Category</h1>
 
@@ -34,6 +28,5 @@
 <a href="/main/subCategory?mainCategoryNo=${list[7].mainCategoryNo }" class="mainCategoryNo">${list[7].mainCategoryNo }</a>
 <a href="/main/subCategory?mainCategoryNo=${list[8].mainCategoryNo }" class="mainCategoryNo">${list[8].mainCategoryNo }</a>
 
-</div>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

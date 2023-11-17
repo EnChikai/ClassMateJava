@@ -20,7 +20,7 @@
 	 	</where>
 	 </select>
 	 
-	 <select id="mainCntAll" resultType="int" parameterType="Class">
+	 <select id="mainOnClassCntAll" resultType="int" parameterType="Class">
 		SELECT count(*) FROM class
 		WHERE delete_boolean = 0
 		   	  AND on_off = 1
@@ -32,6 +32,7 @@
 	 		SELECT rownum runm, B.* FROM (
 	 			SELECT * FROM class
 	 				WHERE delete_boolean = 0
+	 				
 	 				AND on_off = 1
 	 				AND sub_category_no = ${cLass.subCategoryNo}
 	 				ORDER BY class_no DESC
@@ -39,12 +40,58 @@
 	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
 	 </select>	 
 	 
-	 <select id="offClassList" resultType="Class" parameterType="Class">
-	 	SELECT * FROM class
-	 	<where>
-	 		AND sub_category_no = #{subCategoryNo}
-	 		AND on_off = 0
-	 	</where>
+	 <select id="mainOffClassCntAll" resultType="int" parameterType="Class">
+		SELECT count(*) FROM class
+		WHERE delete_boolean = 0
+		   	  AND on_off = 0
+		   	  AND sub_category_no = ${subCategoryNo}
+	 </select>
+
+	 <select id="offClassList" resultType="Class" parameterType="Map">
+	 	SELECT * FROM (
+	 		SELECT rownum runm, B.* FROM (
+	 			SELECT * FROM class
+	 				WHERE delete_boolean = 0
+	 				AND on_off = 0
+	 				AND sub_category_no = ${cLass.subCategoryNo}
+	 				ORDER BY class_no DESC
+	 		) B
+	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
+	 </select>
+	 
+	 <select id="onClassSortList" resultType="Class" parameterType="Map">
+	 	SELECT * FROM (
+	 		SELECT rownum runm, B.* FROM (
+	 			SELECT c.class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start, class_end, max_count, expense,
+class_info, curriculum, on_off, head_img, content, delete_boolean, order_no, user_no, o.merchant_uid
+				FROM class c
+				FULL OUTER JOIN order_tb o ON c.class_no = o.class_no
+	 				WHERE c.delete_boolean = 0
+	 				AND c.on_off = 1
+	 				AND c.sub_category_no = ${cLass.subCategoryNo}
+	 				ORDER BY ${sort}
+	 		) B
+	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
+	 </select>	 
+	 
+	 <select id="offClassSortList" resultType="Class" parameterType="Map">
+	 	SELECT * FROM (
+	 		SELECT rownum runm, B.* FROM (
+	 			SELECT c.class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start, class_end, max_count, expense,
+class_info, curriculum, on_off, head_img, content, delete_boolean, order_no, user_no, o.merchant_uid
+				FROM class c
+				FULL OUTER JOIN order_tb o ON c.class_no = o.class_no
+	 				WHERE c.delete_boolean = 0
+	 				AND c.on_off = 0
+	 				AND c.sub_category_no = ${cLass.subCategoryNo}
+	 				ORDER BY ${sort}
+	 		) B
+	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
+	 </select>
+	 
+	 <select id="onClassViewList" resultType="Class" parameterType="Class">
+	 	SELECT * FROM Class
+	 	WHERE class_no = #{classNo}
 	 </select>
 	  
 	  

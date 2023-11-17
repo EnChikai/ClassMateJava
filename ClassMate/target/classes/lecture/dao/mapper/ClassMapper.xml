@@ -62,5 +62,11 @@
 			AND class_no = #{classNo}
 		</where>
 	</select>
+	
+	<insert id="insertQA" parameterType="QuestionAnswer">
+		INSERT INTO question_answer
+		VALUES (question_answer_seq.nextval, #{userNo}, #{classNo}, #{questionName}, #{questionContent}, 
+		(SELECT SYSDATE FROM dual), 0, null)
+	</insert>
 </mapper>
 

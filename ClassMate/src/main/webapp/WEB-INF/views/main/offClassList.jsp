@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 /*     $(function () {
@@ -13,7 +15,6 @@
                     console.log("onClassList 성공", data);
                     $("#onClassList").html(data); // 변경된 부분: displayClassList 함수 대신 직접 데이터를 HTML로 설정
                     $("#offClassList").hide();
-                    $("#defaultOnClassList").hide();
                     
                 },
                 error: function () {
@@ -24,7 +25,7 @@
 
         $("#offClass").click(function () {
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/main/offClassList",
                 data: { subCategoryNo: "${subCategoryNo}" },
                 dataType: "html",
@@ -32,8 +33,8 @@
                     console.log("offClassList 성공", data);
                     $("#offClassList").html(data); // 변경된 부분: displayClassList 함수 대신 직접 데이터를 HTML로 설정
                     $("#onClassList").hide();
-                    $("#defaultOnClassList").hide();
                     
+ 
                 },
                 error: function () {
                     console.log("offClassList 실패");
@@ -42,7 +43,6 @@
         });
 
     }); */
-    
     function submitForm() {
         document.getElementById('sortForm').submit();
     }
@@ -64,12 +64,12 @@
     <!-- 토글 버튼 -->
     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
     <input type="button" onclick="location.href='/main/onClassList?subCategoryNo=${subCategoryNo}'" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-    <label style="background-color: #F0C610; color: black;" class="btn btn-outline-warning" for="btnradio1" id="onClass">ON 전체보기</label>
-
+    <label style="color: black; background-color: #00000059;" class="btn btn-secondary" for="btnradio1" id="onClass">ON 전체보기</label>
+	
  	<input type="button" onclick="location.href='/main/offClassList?subCategoryNo=${subCategoryNo}'" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-    <label style="color: black; background-color: #00000059; border: none;" class="btn btn-secondary" for="btnradio2" id="offClass">OFF 전체보기</label>
+    <label style="background-color: #F0C610; color: black; border: none;" class="btn btn-outline-warning" for="btnradio2" id="offClass">OFF 전체보기</label>
     </div>
-        
+    
 <form id="sortForm" action="/main/onClassList" method="get">
     <div class="dropdown" style="float: right;">
         <select name="sort" id="sortOrderSelect" onchange="submitForm()">
@@ -81,18 +81,12 @@
         <input type="text" value="${subCategoryNo}" name="subCategoryNo" style="display: none;" readonly="readonly">
     </div>
 </form>
-<script>
-    function submitForm() {
-        document.getElementById('sortForm').submit();
-    }
-</script>
 
-	
-	<div id="defaultOnClassList">
-		<c:forEach var="c" items="${onClassList}">
+	<div id="defaultOffClassList">
+		<c:forEach var="c" items="${offClassList}">
 	    	<c:if test="${c.deleteBoolean == 0}">
-	    		<a href="/main/onClassView?classNo=${c.classNo }">
-			        <h1>onClassList</h1><br>
+	    		<a href="/main/offClassView?classNo=${c.classNo }">
+			        <h1>offClassList</h1><br>
 			        ${c.headImg }<br>
 			        <h3>${c.className }</h3><br>
 			        ${c.classInfo }<br>
@@ -102,9 +96,9 @@
 			        ${c.maxCount }<br>
 		        </a>
 	    	</c:if>
-		</c:forEach>
+	</c:forEach>
     
- 	        <div>
+    	        <div>
     	<ul class="pagination pagination-sm justify-content-center">
 			<%-- 첫 페이지로 이동 --%>
 			<c:if test="${paging.curPage ne 1 }">
@@ -198,7 +192,6 @@
     </div>
     
    </div>
-   
 	
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
