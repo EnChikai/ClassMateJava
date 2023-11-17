@@ -13,7 +13,7 @@ margin: auto;
 }
 
 .userListTh{
-background: rgb(234,234,234);
+background: rgb(220,220,220);
 border-bottom: 2px solid #ccc;
 font-size: 15px;
 padding-top: 5px;
@@ -26,6 +26,7 @@ border-bottom: 1px solid #ccc;
 font-size: 15px;
 padding-top: 2px;
 padding-bottom: 2px;
+padding-right: 0;
 
 }
 
@@ -38,7 +39,10 @@ margin-left: 5px;
 
 }
 
+.userListTd:hover:not(.active){
+cursor:pointer;
 
+}
 </style>
 
 <script type="text/javascript">
@@ -47,28 +51,6 @@ $(function(){
 	$(".dropTag").change(function(){
 		
 		$('#userListForm').submit();
-		
-		 <%-- var selectedValue = $(this).val();
-
-        // 선택한 값에 따라 작업 수행
-        if (selectedValue === "0") {
-       		console.log('가입 날짜▲ 선택됨');
-       	 	$( '#userListForm' ).submit();
-       	 	
-        } else if (selectedValue === "1") {
-        	console.log('가입 날짜▼ 선택됨');
-        	$( '#userListForm' ).submit();
-        	
-        } else if (selectedValue === "2") {
-       		console.log('이름▲ 선택됨');
-       		$( '#userListForm' ).submit();
-       		
-        } else if (selectedValue === "3") {
-        	console.log('이름▼ 선택됨');
-        	$( '#userListForm' ).submit();
-        	
-        }
-        --%>
 		
 	})
 	
@@ -89,7 +71,35 @@ $(function(){
 	})
 	
 });
+
+$(function(){
+	
+    $('.userListTr').mouseover(function() {
+        $(this).children('td').css('background-color', '#e9e9e9'); 
+    });
+
+    $('.userListTr').mouseout(function() {
+        $(this).children('td').css('background-color', 'initial');
+    });
+
+})
 </script>	
+
+<%-- 클릭시 유저 상세보기로 --%>
+<c:forEach items="${list }" var="list"> 
+<script>
+$(function(){
+	
+	$(".userInfo${list.userNo}").click(function(){
+		
+		
+		location.href = '../admin/userDetailedInfo?userNo=${list.userNo}';
+		
+	})
+	
+});
+</script>
+</c:forEach>
 	
 <div style="border: 1px solid #ccc; text-align: center; width: 700px; margin-top: 60px; margin-left: 72px;">
 <div style="font-size: 22px; font-weight:bold; margin-bottom: 17px; margin-top: 40px;">회원 관리</div>
@@ -102,8 +112,8 @@ $(function(){
 		<div>
 		<c:if test="${sort eq 0}">
 		<select class="dropTag" name="sort" id="sort">
-			<option value="0">유저번호▲</option>
-			<option value="1">유저번호▼</option>
+			<option value="0">회원번호▲</option>
+			<option value="1">회원번호▼</option>
 			<option value="2">이름▲</option>
 			<option value="3">이름▼</option>
 		</select>
@@ -111,8 +121,8 @@ $(function(){
 		
 		<c:if test="${sort eq 1}">
 		<select class="dropTag" name="sort" id="sort">
-			<option value="1">유저번호▼</option>
-			<option value="0">유저번호▲</option>
+			<option value="1">회원번호▼</option>
+			<option value="0">회원번호▲</option>
 			<option value="2">이름▲</option>
 			<option value="3">이름▼</option>
 		</select>
@@ -121,8 +131,8 @@ $(function(){
 		<c:if test="${sort eq 2}">
 		<select class="dropTag" name="sort" id="sort">
 			<option value="2">이름▲</option>
-			<option value="0">유저번호▲</option>
-			<option value="1">유저번호▼</option>
+			<option value="0">회원번호▲</option>
+			<option value="1">회원번호▼</option>
 			<option value="3">이름▼</option>
 		</select>
 		</c:if>
@@ -130,8 +140,8 @@ $(function(){
 		<c:if test="${sort eq 3}">
 		<select class="dropTag" name="sort" id="sort">
 			<option value="3">이름▼</option>
-			<option value="0">유저번호▲</option>
-			<option value="1">유저번호▼</option>
+			<option value="0">회원번호▲</option>
+			<option value="1">회원번호▼</option>
 			<option value="2">이름▲</option>
 		</select>
 		</c:if>
@@ -163,12 +173,12 @@ $(function(){
 </tr>
 
 <c:forEach items="${list }" var="list"> 
-	<tr>
-		<td class="userListTd">${list.userNo }</td>
-		<td class="userListTd">${list.userId }</td>
-		<td class="userListTd">${list.userName }</td>
-		<td class="userListTd">${list.userDateCreated }</td>
-		<td class="userListTd"></td>
+	<tr class="userListTr" >
+		<td class="userListTd userInfo${list.userNo }">${list.userNo }</td>
+		<td class="userListTd userInfo${list.userNo }">${list.userId }</td>
+		<td class="userListTd userInfo${list.userNo }">${list.userName }</td>
+		<td class="userListTd userInfo${list.userNo }">${list.userDateCreated }</td>
+		<td class="userListTd userInfo${list.userNo }"></td>
 	<tr>
 </c:forEach>
 </table>
@@ -249,7 +259,7 @@ $(function(){
 			</c:when>
 		</c:choose>
 
-	</ul>
+	</ul>	
 	
 </div>
 

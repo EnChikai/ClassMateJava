@@ -38,4 +38,12 @@
 		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
   	</select>
   	
+  	<select id="selectUser" resultType="UserInfo" parameterType="UserInfo">
+  		SELECT
+			user_no, user_id, user_pw, user_gender, user_birthday, user_phone
+			, user_name, user_email, main_address, sub_address, user_post, user_secession, user_date_created
+        FROM user_info
+  		WHERE user_no = ${userNo} 
+  	</select>
+  	
   </mapper>

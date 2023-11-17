@@ -6,20 +6,20 @@
   
 <mapper namespace="payment.dao.face.PaymentDao">
 
-	<select id="selectUser" resultType="UserInfo" parameterType="int">
+	<select id="selectUser" parameterType="int" resultType="UserInfo">
 		SELECT user_no, user_id, user_pw, user_gender, user_birthday, user_phone, user_name
 			, user_email, main_address, sub_address, user_post, user_secession, user_date_created 
 		FROM user_info
 		WHERE user_no = #{userNo} 
 	</select>
 
-	<select id="getBasketUserNo" resultType="Basket" parameterType="int">
+	<select id="getBasketUserNo" parameterType="int" resultType="Basket">
 		SELECT basket_no, user_no, class_no
 		FROM basket
 		WHERE user_no = #{userNo}
 	</select>	
 
-	<select id="selectClassListByUser" resultType="Class" parameterType="Basket">
+	<select id="selectClassListByBasket" parameterType="Basket" resultType="Class">
 		SELECT class_no, teacher, class_name, class_start, class_end, max_count, expense, class_info, on_off
 		FROM class
 		WHERE class_no = #{classNo}
@@ -87,5 +87,17 @@
 		WHERE order_no = #{orderNo}
 	</select>
 	
+	<select id="selectClassNoByMerchantUid" parameterType="String" resultType="Class">
+		SELECT class_no
+		FROM order_tb
+		WHERE merchant_uid = #{merchantUid}
+	
+	</select>
+	
+	<select id="selectClassNameListByOrder" parameterType="Class" resultType="Class">
+		SELECT class_name
+		FROM class
+		WHERE class_no = #{classNo}
+	</select>
 	
 </mapper>

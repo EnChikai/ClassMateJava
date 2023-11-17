@@ -37,8 +37,23 @@ margin-top: 10px;
 margin-bottom: 10px; 
 }
 
+#logout:hover:not(.active){
+	cursor:pointer
+}
+
 </style>
 
+<script type="text/javascript">
+
+$(function(){
+	
+	$("#logoutText").click(function(){
+		$("#logoutForm").submit();
+	})
+	
+}); 
+
+</script>
 
 <%-- <% ============================================================================= %> --%>
 			
@@ -60,7 +75,9 @@ margin-bottom: 10px;
 <tr>
 	<td class="profileTd">
 	<div id="logout">
-		<a style="text-decoration: underline; color: red; " href="../main/main">로그아웃</a>
+		<form id="logoutForm" action="./main" method="post">
+		<p id="logoutText" style="text-decoration: underline; color: red;">로그아웃</p>
+		</form>
 	</div>
 	</td>
 </tr>

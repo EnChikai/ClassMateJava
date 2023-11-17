@@ -18,5 +18,7 @@ public interface AdminDao {
 	public List<UserInfo> selectUserAll(Map<String, Object> map);
 
 	public List<UserInfo> selectDelUserAll(Map<String, Object> map);
+
+	public UserInfo selectUser(UserInfo userdata);
 	
 }
