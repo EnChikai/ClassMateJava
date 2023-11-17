@@ -19,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import board.dao.face.BoardDao;
 import board.dto.AnnounceBoard;
+import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
+import board.dto.EventBoardFile;
 import board.dto.FreeBoard;
 import board.dto.FreeBoardFile;
 import board.service.face.BoardService;
@@ -99,7 +101,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		//파일을 저장할 경로
-		String storedPath = context.getRealPath("freeupload");
+		String storedPath = context.getRealPath("upload");
 		
 		//upload 폴더 생성
 		File storedFoder = new File(storedPath);
@@ -140,6 +142,54 @@ public class BoardServiceImpl implements BoardService {
 			
 		return boardDao.selectFreeBoardNo(viewFree);
 	}
+
+	@Override
+	public List<FreeBoardFile> getAttachFreeFile(FreeBoard viewFree) {
+		return boardDao.AttachFreeFile(viewFree);
+	}
+
+	@Override
+	public FreeBoardFile getFreeFile(FreeBoardFile freeBoardFile) {
+		return boardDao.downFreeFileNo(freeBoardFile);
+	}
+
+	@Override
+	public void deleteFreeBoard(FreeBoard deleteFree) {
+		
+		boardDao.deleteFreeFileBoardNo( deleteFree );	//첨부파일 삭제
+		boardDao.deleteFreeBoardNo( deleteFree );		//자유게시글 삭제
+	}
+
+	//------------------------------------------------------------------
+	
+	@Override
+	public AnnounceBoard announceView(AnnounceBoard viewAnnounce) {
+
+		//조회수 증가
+		boardDao.announceUpdateHit(viewAnnounce);
+			
+		return boardDao.selectAnnounceBoardNo(viewAnnounce);
+	}
+
+	@Override
+	public List<AnnounceBoardFile> getAttachAnnounceFile(AnnounceBoard viewAnnounce) {
+		return boardDao.AttachAnnounceFile(viewAnnounce);
+	}
+
+	@Override
+	public EventBoard EventView(EventBoard viewEvent) {
+		
+		//조회수 증가
+		boardDao.eventUpdateHit(viewEvent);
+		
+		return boardDao.selectEventBoardNo(viewEvent);
+	}
+
+	@Override
+	public List<EventBoardFile> getAttachEventFile(EventBoard viewEvent) {
+		return boardDao.AttachEventFile(viewEvent);
+	}
+
 
 
 }

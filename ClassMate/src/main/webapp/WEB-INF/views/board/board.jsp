@@ -11,6 +11,7 @@
 .defaultWidth{
 	margin-left: 495px;
 	margin-right: 495px;
+	margin-top: 60px;
 }
 #boardtitle {
 	margin-top: 2em;
@@ -102,6 +103,7 @@
 
         coloredRows.forEach(function (row) {
             var cells = row.getElementsByTagName('td');
+            var newcells = row.getElementsByTagName('a')
             var color;
 
             if (row.classList.contains('text-row')) {
@@ -113,6 +115,7 @@
 
             for (var i = 0; i < cells.length; i++) {
                 cells[i].style.color = color;
+                newcells[0].style.color = color;
             }
         });
 
@@ -159,7 +162,7 @@
 	<tr id="boardAnnounce" style="color: red; font-weight: bold;">
 		<td></td>
 		<td style="color: red;">${announceList.announceHead }</td>
-		<td style="color: red;">${announceList.announceName }</td>
+		<td style="color: red;"><a href="/board/announceView?announceNo=${announceList.announceNo }" style="color: red;">${announceList.announceName }</a></td>
 		<td style="color: red;">${announceList.userName }</td>
 		<td style="color: red;">${announceList.announceDate }</td>
 		<td style="color: red;">${announceList.announceHit }</td>
@@ -170,7 +173,7 @@
     <tr id="boardEvent" class="colored-row">
         <td></td>
         <td>${eventList.eventHead }</td>
-        <td>${eventList.eventName }</td>
+        <td><a class="newtag" href="/board/eventView?eventNo=${eventList.eventNo }" >${eventList.eventName }</a></td>
         <td>${eventList.userName }</td>
         <td>${eventList.eventDate }</td>
         <td>${eventList.eventHit }</td>
