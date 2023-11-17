@@ -17,5 +17,9 @@ public interface UserService {
 
 	public int updateOutUser(UserInfo userInfo);
 
+	public UserInfo findIdPwByEmail(String email);
+
+	public UserInfo findIdByEmailAndName(String email, String name);
+
 
 }

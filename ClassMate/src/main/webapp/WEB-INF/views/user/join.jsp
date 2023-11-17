@@ -59,52 +59,42 @@ function validateForm() {
     var userId = $("#userId").val();
     var userPw = $("#userPw").val();
     var userPwChk = $("#userPwChk").val();
+    
     // 필요한 경우 더 많은 필드를 추가
-
-    // 모든 필수 필드가 비어 있는지 확인
-    if (userId === "" || userPw === "" || userPwChk === "") {
-        alert("모든 필수 항목을 입력하세요.");
-        return false; // 폼 제출 방지
-    }
-
-    // 필요한 경우 더 많은 유효성 검사 로직 추가
-
-    // 모든 검사가 통과되면 true 반환
-    return true;
-}
-
-function validateForm() {
-    // 유효성 검사 로직을 여기에 추가
-    var userId = $("#userId").val();
-    var userPw = $("#userPw").val();
-    var userPwChk = $("#userPwChk").val();
-    var userGender = $("input[name='userGender']:checked").val();
     var userBirthday = $("#userBirthday").val();
     var userPhone = $("#userPhone").val();
     var userName = $("#userName").val();
     var userEmail = $("#userEmail").val();
-    var agreeCheckbox = $("#cb3:checked").val();
+    var postcode = $("#postcode").val();
+    var address = $("#address").val();
+    var detailAddress = $("#detailAddress").val();
 
-    // 필수 필드 및 체크박스 유효성 검사
-    if (
-        userId === "" ||
-        userPw === "" ||
-        userPwChk === "" ||
-        !userGender ||
-        userBirthday === "" ||
-        userPhone === "" ||
-        userName === "" ||
-        userEmail === "" ||
-        !agreeCheckbox
-    ) {
-        alert("모든 필수 항목을 입력하고 약관에 동의하세요.");
-        return false; // 폼 제출 방지
-    }
-
-    // 필요한 경우 더 많은 유효성 검사 로직 추가
-
-    // 모든 검사가 통과되면 true 반환
-    return true;
+    // 선택된 성별 항목의 개수를 가져옵니다
+    var userGender = $("input[name='userGender']:checked").length;
+    
+    // 약관 동의 여부를 가져옵니다.
+    var agree = $("#cb3:checked").length;
+    
+    
+    // 모든 필수 필드가 비어 있는지 확인
+   if (userId === "" || userPw === "" || userPwChk === "" || userGender === 0 ||
+        userBirthday === "" || userPhone === "" || userName === "" ||
+        userEmail === "" || postcode === "" || address === "" || detailAddress === "" || agree === 0) {
+        alert("모든 필수 항목을 입력하세요.");
+        // 폼 제출 방지
+        return false;
+    }else{
+    	
+    	// 필요한 경우 더 많은 유효성 검사 로직 추가
+		if (userPw !== userPwChk) {
+        alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        // 폼 제출 방지
+        return false;
+    }else {
+        // 모든 검사가 통과되면 폼 제출 진행
+    	$("#loginForm").submit();
+    	}
+	}
 }
 
 $(document).ready(function () {
@@ -117,13 +107,9 @@ $(document).ready(function () {
 });
 
 
-
 </script>
 <style type="text/css">
 
-.defaultWidth {
-	width: 100%;
-}
 
 .joinDiv {
 	border: 1px solid #ccc;
@@ -176,7 +162,6 @@ button {
 </style>
 
 
-<div class="defaultWidth">
 
 	<div class="joinDiv">
 		<div class="title">
@@ -185,7 +170,7 @@ button {
 		</div>
 	
 		<div class="arrayDiv">
-		
+		<form id="loginForm" action="./join" method="post">
 			<label for="userId">아이디</label>
 			<input type="text" id="userId" name="userId" placeholder="아이디 입력" style="width: 393px;">			
 			<input type="button" value="중복확인" onclick="checkDuplicateId()"
@@ -211,13 +196,13 @@ button {
 			<br>
 			
 			<label>성별</label>
-			<input type="checkbox" id="cb1" value="man" name="userGender" style="cursor: pointer; width: 20px; vertical-align: middle;">
+			<input type="checkbox" id="cb1" value="0" name="userGender" style="cursor: pointer; width: 20px; vertical-align: middle;">
 			<label for="cb1" style="text-align: left; width: 40px" >남성</label>
-			<input type="checkbox" id="cb2" value="woman" name="userGender" style="cursor: pointer; width: 20px; vertical-align: middle;" >
+			<input type="checkbox" id="cb2" value="1" name="userGender" style="cursor: pointer; width: 20px; vertical-align: middle;" >
 			<label for="cb2" style="text-align: left; width: 40px" >여성</label><br>
 				
 			<label for="userBirthday">생년월일</label>
-			<input type="text" id="userBirthday" name="userBirthday" placeholder="생년월일 8자리 (YYYYMMDD)"><br>
+			<input type="date" id="userBirthday" name="userBirthday"><br>
 			
 			<label for="userPhone">전화번호</label>
 			<input type="text" id="userPhone" name="userPhone" placeholder="전화번호 입력"><br>
@@ -227,27 +212,27 @@ button {
 			
 			<label for="userEmail">이메일</label>
 			<input type="email" id="userEmail" name="userEmail" style="width: 200px">
-			<button style="background-color: rgb(158, 158, 158); color: rgb(255, 255, 255);
+			<button type="button" style="background-color: rgb(158, 158, 158); color: rgb(255, 255, 255);
 					border-radius: 4px; width: 73px; font-size: 16px; border: 1px solid #ccc; 
 					margin-top: 6px; height: 30px; cursor: pointer;" >인증확인</button><br>
 			
 			<label for="postcode">주소</label>
-			<input type="text" id="postcode" placeholder="우편번호" style="width: 200px; text-align: left;">
+			<input type="text" id="postcode" name="userPost" placeholder="우편번호" style="width: 200px; text-align: left;">
 			<input type="button" onclick="execDaumPostcode()" value="우편번호"
 				   style="background-color: rgb(158, 158, 158); color: rgb(255, 255, 255);
 				   border-radius: 4px; width: 73px; font-size: 16px; 
 				   margin-top: 6px; height: 30px; cursor: pointer; text-align: center;"><br>
 			<label></label>
-			<input type="text" id="address" placeholder="주소" style="text-align: left;"><br>
+			<input type="text" id="address" name="mainAddress" placeholder="주소" style="text-align: left;"><br>
 			<label></label>
-			<input type="text" id="detailAddress" placeholder="상세주소" style="text-align: left;"><br>
+			<input type="text" id="detailAddress" name="subAddress" placeholder="상세주소" style="text-align: left;"><br>
 		
 			
 			
 			<label>약관관련</label>
 			<input type="checkbox" id="cb3" value="agree" name="agree" style="cursor: pointer; width: 20px; vertical-align: middle;">
 			<label for="agree" style="text-align: left; width: 120px;">약관 동의 여부</label>
-			<a href="javascript:openModal('modal1');"><button style="float: right;
+			<a href="javascript:openModal('modal1');"><button type="button" style="float: right;
 		    		border: none; font-size: 14px;
 		   			border-radius: 4px; height: 33px; width: 90px; text-align: center;
 		   			margin-top: 18px; padding: 2px 4px;
@@ -260,17 +245,17 @@ button {
 				background-color: #929292; width: 95px; color: rgb(255, 255, 255);
 				height: 40px;
 				cursor: pointer;">취소</button>
-			<button id="registerButton" 
-			    style="border: none; font-size: 22px; border-radius: 4px;
-			    background-color: #F1C40F; width: 95px; color: rgb(255, 255, 255);
-			    height: 40px; cursor: pointer;">등록</button>
+		<button id="registerButton" 
+		    style="border: none; font-size: 22px; border-radius: 4px;
+		    background-color: #F1C40F; width: 95px; color: rgb(255, 255, 255);
+		    height: 40px; cursor: pointer;" type="button">등록</button>
 		</div>
 		
 		
+		</form>
 		</div><!-- .arrayDiv -->
 	
 	</div><!-- .joinDiv -->
-</div><!-- .defaultWidth -->
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>

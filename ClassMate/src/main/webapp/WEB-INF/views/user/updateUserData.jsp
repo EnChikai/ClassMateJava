@@ -118,9 +118,6 @@ function updateUserInfo() {
 </script>
 
 <style type="text/css">
-.defaultWidth {
-	width: 100%;
-}
 
 .joinDiv {
 	border: 1px solid #ccc;
@@ -265,7 +262,6 @@ input[type="checkbox"] {
 </style>
 
 
-<div class="defaultWidth">
 
 	<div class="joinDiv">
 		<div class="title">
@@ -292,13 +288,13 @@ input[type="checkbox"] {
 			</div><br>
 			
 			<label>성별</label>
-			<input type="checkbox" id="cb1" value="man" name="userGender" ${userInfo.userGender eq 0 ? 'checked' : ''}>
+			<input type="checkbox" id="cb1" value="0" name="userGender" ${userInfo.userGender eq '0' ? 'checked' : ''}>
 			<label for="cb1" style="text-align: left; width: 40px" >남성</label>
-			<input type="checkbox" id="cb2" value="woman" name="userGender" ${userInfo.userGender eq 1 ? 'checked' : ''}>
+			<input type="checkbox" id="cb2" value="1" name="userGender" ${userInfo.userGender eq '1' ? 'checked' : ''}>
 			<label for="cb2" style="text-align: left; width: 40px" >여성</label><br>
 				
 			<label for="userBirthday">생년월일</label>
-			<input type="text" id="userBirthday" name="userBirthday" placeholder="${userInfo.userBirthday }"><br>
+			<input type="date" id="userBirthday" name="userBirthday" placeholder="${userInfo.userBirthday }"><br>
 			
 			<label for="userPhone">전화번호</label>
 			<input type="text" id="userPhone" name="userPhone" placeholder="${userInfo.userPhone }"><br>
@@ -311,12 +307,12 @@ input[type="checkbox"] {
 			<button id="chkCert">인증확인</button><br>
 			
 			<label for="postcode">주소</label>
-			<input type="text" id="postcode" placeholder="${userInfo.userPost }" style="width: 200px; text-align: left;">
+			<input type="text" id="postcode" name="userPost" placeholder="${userInfo.userPost }" style="width: 200px; text-align: left;">
 			<input type="button" id="btnPost" onclick="execDaumPostcode()" value="우편번호"><br>
 			<label></label>
-			<input type="text" id="address" placeholder=${userInfo.mainAddress } style="text-align: left;"><br>
+			<input type="text" id="address" name="mainAddress" placeholder=${userInfo.mainAddress } style="text-align: left;"><br>
 			<label></label>
-			<input type="text" id="detailAddress" placeholder="${userInfo.subAddress }" style="text-align: left;"><br>
+			<input type="text" id="detailAddress" name="subAddress" placeholder="${userInfo.subAddress }" style="text-align: left;"><br>
 			
 			
 			<!-- 팝업을 나타내는 div 요소 -->
@@ -336,7 +332,6 @@ input[type="checkbox"] {
 		
 		</div><!-- .arrayDiv -->
 	</div><!-- .joinDiv -->
-</div><!-- .defaultWidth -->
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>

@@ -32,6 +32,20 @@ public class UserController {
 	@GetMapping("/searchIdPw")
 	public void searchIdPw() {}
 	
+	@PostMapping("/searchIdPw")
+	public String searchIdPwPost(@RequestParam("email") String email, @RequestParam("name") String name, Model model) {
+	    // 이메일과 이름을 이용하여 아이디 찾기 로직을 수행
+	    UserInfo foundUserInfo = userService.findIdByEmailAndName(email, name);
+
+	    if (foundUserInfo != null) {
+	        model.addAttribute("foundUserInfo", foundUserInfo);
+	    } else {
+	        model.addAttribute("notFound", true);
+	    }
+
+	    return "user/searchUserId"; // 결과를 보여줄 페이지로 이동
+	}
+	
 	@GetMapping("/resetPw")
 	public void resetPw() {}
 
@@ -59,10 +73,10 @@ public class UserController {
 		UserInfo userInfo = new UserInfo();
 		logger.info("userNo : {}", session.getAttribute("userNo"));
 		userInfo.setUserNo((int)session.getAttribute("userNo"));
-	    int a = userService.updateOutUser(userInfo);
-	    logger.info("탈퇴 처리 결과: {}", a);
+	    int data = userService.updateOutUser(userInfo);
+	    logger.info("탈퇴 처리 결과: {}", data);
 
-	    if (a == 1) {
+	    if (data == 1) {
 	    	model.addAttribute("success", true);
 	    } else {
 	    	model.addAttribute("success", false);
@@ -86,17 +100,17 @@ public class UserController {
 		
 		userService.join( userInfo );
 		
-		return "redirect:./main";
+		return "redirect:./joinOk";
 	}
 	
 	@GetMapping("/login")
 	public void login() {
-		logger.info("test");
+//		logger.info("test");
 	}
 	
 	@PostMapping("/login")
 	public String loginPost( UserInfo userInfo, Model model, HttpSession session, Teacher teacher ) {
-		logger.info("param : {}", userInfo);
+//		logger.info("param : {}", userInfo);
 		
 		UserInfo loginInfo = userService.loginPost( userInfo );
 		logger.info("loginInfo : {}", loginInfo);
