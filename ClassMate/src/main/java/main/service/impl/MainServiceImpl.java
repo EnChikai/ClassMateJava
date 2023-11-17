@@ -46,9 +46,9 @@ public class MainServiceImpl implements MainService{
 		System.out.println(cLass.getSubCategoryNo());
 		
 	    //총 게시글 수 조회
-	    int totalCount = mainDao.mainCntAll(cLass);
+	    int totalCount = mainDao.mainOnClassCntAll(cLass);
 	    
-	    logger.info("totalCount {}", totalCount);
+//	    logger.info("totalCount {}", totalCount);
 	      
 	    //페이징 객체 생성(페이징 계산)
 	    MainClassListPaging paging1 = new MainClassListPaging(totalCount, paging.getCurPage());
@@ -57,8 +57,8 @@ public class MainServiceImpl implements MainService{
 		map.put("cLass", cLass);
 		map.put("paging1", paging1);
 		
-		logger.info("cLass {}", cLass);
-		logger.info("paging1 {}", paging1);
+//		logger.info("cLass {}", cLass);
+//		logger.info("paging1 {}", paging1);
 		
 		List<Class> list = mainDao.onClassList(map);
 		
@@ -69,10 +69,93 @@ public class MainServiceImpl implements MainService{
 	}
 
 	@Override
-	public List<Class> offClassList(Class cLass) {
-		List<Class> list = mainDao.offClassList(cLass);
-		return list;
+	public Map<String, Object> offClassList(Class cLass, MainClassListPaging paging) {
+		System.out.println(cLass.getSubCategoryNo());
+		
+	    //총 게시글 수 조회
+	    int totalCount = mainDao.mainOffClassCntAll(cLass);
+	    
+//	    logger.info("totalCount {}", totalCount);
+	      
+	    //페이징 객체 생성(페이징 계산)
+	    MainClassListPaging paging1 = new MainClassListPaging(totalCount, paging.getCurPage());
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("cLass", cLass);
+		map.put("paging1", paging1);
+		
+//		logger.info("cLass {}", cLass);
+//		logger.info("paging1 {}", paging1);
+		
+		List<Class> list = mainDao.offClassList(map);
+		
+		map.put("list", list);
+		
+		
+		return  map;
 	}
+
+	@Override
+	public Map<String, Object> onClassList(Class cLass, MainClassListPaging paging, String sort) {
+		System.out.println(cLass.getSubCategoryNo());
+		
+	    //총 게시글 수 조회
+	    int totalCount = mainDao.mainOnClassCntAll(cLass);
+	    
+//	    logger.info("totalCount {}", totalCount);
+	      
+	    //페이징 객체 생성(페이징 계산)
+	    MainClassListPaging paging1 = new MainClassListPaging(totalCount, paging.getCurPage());
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("cLass", cLass);
+		map.put("paging1", paging1);
+		map.put("sort", sort);
+		logger.info("cLass {}", cLass);
+		logger.info("paging1 {}", paging1);
+		logger.info("sort {}", sort);
+		
+		List<Class> list = mainDao.onClassSortList(map);
+		
+		map.put("list", list);
+		
+		
+		return  map;
+	}
+
+	@Override
+	public Map<String, Object> offClassList(Class cLass, MainClassListPaging paging, String sort) {
+		System.out.println(cLass.getSubCategoryNo());
+		
+	    //총 게시글 수 조회
+	    int totalCount = mainDao.mainOffClassCntAll(cLass);
+	    
+//	    logger.info("totalCount {}", totalCount);
+	      
+	    //페이징 객체 생성(페이징 계산)
+	    MainClassListPaging paging1 = new MainClassListPaging(totalCount, paging.getCurPage());
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("cLass", cLass);
+		map.put("paging1", paging1);
+		map.put("sort", sort);
+		logger.info("cLass {}", cLass);
+		logger.info("paging1 {}", paging1);
+		logger.info("sort {}", sort);
+		
+		List<Class> list = mainDao.offClassSortList(map);
+		
+		map.put("list", list);
+		
+		
+		return  map;
+	}
+
+	@Override
+	public List<Class> onClassViewList(Class cLass) {
+		return mainDao.onClassViewList(cLass);
+	}
+
 
 
 }
