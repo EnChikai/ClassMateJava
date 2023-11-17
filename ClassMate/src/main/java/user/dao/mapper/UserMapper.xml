@@ -36,11 +36,30 @@
   </select>
 
 	
-	<delete id="deleteUserData" parameterType="UserInfo">
-	DELETE FROM user_info
+<!-- 	<delete id="deleteUserData" parameterType="user.dto.UserInfo"> -->
+<!-- 	DELETE FROM user_info -->
+<!-- 		<where> -->
+<!-- 			AND USER_NO = #{userNo} -->
+<!-- 		</where> -->
+<!-- 	</delete> -->
+
+	<update id="updateUserDataout" parameterType="user.dto.UserInfo">
+		UPDATE user_info
+		SET
+			user_secession = 1
 		<where>
-			AND USER_NO = ${userNo}
+			user_no = #{userNo}
 		</where>
-	</delete>
+	</update>
+	
+    <insert id="insertUser" parameterType="user.dto.UserInfo">
+        INSERT INTO user_info
+        VALUES (user_info_seq.nextval , #{userId}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, #{userName }, #{userEmail}, #{mainAddress}, #{subAddress}, #{userPost}, #{userSecession}, sysdate)
+    </insert>
+
+    <select id="countById" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM user_info WHERE USER_ID = #{userId}
+    </select>
+	
 
  </mapper>
