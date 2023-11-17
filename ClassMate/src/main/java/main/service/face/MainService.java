@@ -20,8 +20,16 @@ public interface MainService {
 	public List<SubCategory> subCategoryList(SubCategory subCategory);
 
 	public Map<String, Object> onClassList(Class cLass, MainClassListPaging paging);
+	
+	public Map<String, Object> offClassList(Class cLass, MainClassListPaging paging);
 
-	public List<Class> offClassList(Class cLass);
+	public Map<String, Object> onClassList(Class cLass, MainClassListPaging paging, String sort);
+
+	public Map<String, Object> offClassList(Class cLass, MainClassListPaging paging, String sort);
+
+	public List<Class> onClassViewList(Class cLass);
+
+
 
 
 }
