@@ -13,17 +13,19 @@
 	border: 1px solid rgb(230,204,100);
 	
 }
+
+
 </style>
 
 <div>
 	
 	<ul class="pagination pagination-sm justify-content-center">
 		<%-- 첫 페이지로 이동 --%>
-		<c:if test="${paging.curPage ne 1 }">
-		<li class="page-item">
-			<a class="page-link" href="<%= request.getContextPath() %>">&larr; 처음</a>
-		</li>
-		</c:if>
+<%-- 		<c:if test="${paging.curPage ne 1 }"> --%>
+<!-- 		<li class="page-item"> -->
+<%-- 			<a class="page-link" href="<%= request.getContextPath() %>">&larr; 처음</a> --%>
+<!-- 		</li> -->
+<%-- 		</c:if> --%>
 		
 		
 		
@@ -100,11 +102,11 @@
 		
 		
 		<%-- 끝 페이지로 이동 --%>
-		<c:if test="${paging.curPage ne paging.totalPage }">
-		<li class="page-item">
-			<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.totalPage }">끝 &rarr;</a>
-		</li>
-		</c:if>
+<%-- 		<c:if test="${paging.curPage ne paging.totalPage }"> --%>
+<!-- 		<li class="page-item"> -->
+<%-- 			<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.totalPage }">끝 &rarr;</a> --%>
+<!-- 		</li> -->
+<%-- 		</c:if> --%>
 		
 	</ul>
 	

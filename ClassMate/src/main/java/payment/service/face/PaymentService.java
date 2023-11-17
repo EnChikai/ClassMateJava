@@ -28,6 +28,9 @@ public interface PaymentService {
 			int[] classNo);
 
 
-	public Map<String, Object> selectSuccecInfo(int userNo, String merchantUid);
+	public Map<String, Object> selectSuccecInfo(String merchantUid);
+
+
+	public int deleteBasket(int classNo, int userNo);
 
 }

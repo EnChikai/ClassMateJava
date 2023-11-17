@@ -5,7 +5,7 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <div>
-	
+<h1>오프클래스메인페이지</h1>
 <%-- <c:choose> --%>
 <%--     <c:when test="${not empty map}"> --%>
         <ul>

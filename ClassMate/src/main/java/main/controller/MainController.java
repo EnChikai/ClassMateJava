@@ -1,6 +1,8 @@
 package main.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +19,7 @@ import main.dto.MainCategory;
 import main.dto.SubCategory;
 import main.service.face.MainService;
 import user.dto.UserInfo;
+import web.util.MainClassListPaging;
 
 @Controller
 @RequestMapping("/main")
@@ -64,15 +67,117 @@ public class MainController {
 	}
 	
 	   @GetMapping("/onClassList")
-	    public void onClassList(Class cLass, Model model) {
-	        List<Class> list = mainService.onClassList(cLass);
-	        model.addAttribute("onClassList", list);
-	    }
+	   public void onClassList(Class cLass, Model model, MainClassListPaging paging, String sort) {
+//		   logger.info("ONCLASS {}", cLass);
+		   
+		   Map<String, Object> map = new HashMap<>(); 
+		  
+	       map = mainService.onClassList(cLass, paging);
+	       model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
+	       model.addAttribute("onClassList", map.get("list"));
+	       model.addAttribute("paging",map.get("paging1"));
+	       if (sort != null) {
+			   if( sort.equals("expense") ) {
+					logger.info("sort {}", sort);
+				   map = mainService.onClassList(cLass, paging, sort);
+				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
+				   model.addAttribute("onClassList", map.get("list"));
+				   model.addAttribute("paging",map.get("paging1"));
+				   model.addAttribute("sort",sort);
+				   model.addAttribute("expenseNo",1);
+				   
+			   } else if( sort.equals("class_no desc") ) {
+					logger.info("sort {}", sort);
+				   map = mainService.onClassList(cLass, paging, sort);
+				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
+				   model.addAttribute("onClassList", map.get("list"));
+				   model.addAttribute("paging",map.get("paging1"));
+				   model.addAttribute("sort",sort);
+				   model.addAttribute("classDescNo",2);
+				   
+				   
+			   } else if( sort.equals("expense desc") ) {
+				   logger.info("sort {}", sort);
+				   map = mainService.onClassList(cLass, paging, sort);
+				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
+				   model.addAttribute("onClassList", map.get("list"));
+				   model.addAttribute("paging",map.get("paging1"));
+				   model.addAttribute("sort",sort);
+				   model.addAttribute("expenseDescNo",3);
+				   
+			   } else if(sort.equals("order_no desc") ) {
+				   logger.info("sort {}", sort);
+				   map = mainService.onClassList(cLass, paging, sort);
+				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
+				   model.addAttribute("onClassList", map.get("list"));
+				   model.addAttribute("paging",map.get("paging1"));
+				   model.addAttribute("sort",sort);
+				   model.addAttribute("orderNoDesc",4);
+				   
+			   }
+		   }
+	   }
+	   
 
-	    @GetMapping("/offClassList")
-	    public void offClassList(Class cLass, Model model) {
-	        List<Class> list = mainService.offClassList(cLass);
-	        model.addAttribute("offClassList", list);
-	    }
+	   @GetMapping("/offClassList")
+	   public void offClassList(Class cLass, Model model, MainClassListPaging paging, String sort) {
+//	   	   logger.info("offCLASS {}", cLass);
+	   	   
+	   	   Map<String, Object> map = new HashMap<>();
+	   	   map = mainService.offClassList(cLass, paging);
+	       model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
+	       model.addAttribute("offClassList", map.get("list"));
+	       model.addAttribute("paging",map.get("paging1"));
+	       
+	       if (sort != null) {
+			   if( sort.equals("expense") ) {
+					logger.info("sort {}", sort);
+				   map = mainService.offClassList(cLass, paging, sort);
+				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
+				   model.addAttribute("offClassList", map.get("list"));
+				   model.addAttribute("paging",map.get("paging1"));
+				   model.addAttribute("sort",sort);
+				   model.addAttribute("expenseNo",1);
+				   
+			   } else if( sort.equals("class_no desc") ) {
+					logger.info("sort {}", sort);
+				   map = mainService.offClassList(cLass, paging, sort);
+				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
+				   model.addAttribute("offClassList", map.get("list"));
+				   model.addAttribute("paging",map.get("paging1"));
+				   model.addAttribute("sort",sort);
+				   model.addAttribute("classDescNo",null);
+				   
+				   
+			   } else if( sort.equals("expense desc") ) {
+				   logger.info("sort {}", sort);
+				   map = mainService.offClassList(cLass, paging, sort);
+				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
+				   model.addAttribute("offClassList", map.get("list"));
+				   model.addAttribute("paging",map.get("paging1"));
+				   model.addAttribute("sort",sort);
+				   model.addAttribute("expenseDescNo",3);
+				   
+			   } else if(sort.equals("order_no desc") ) {
+				   logger.info("sort {}", sort);
+				   map = mainService.offClassList(cLass, paging, sort);
+				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
+				   model.addAttribute("offClassList", map.get("list"));
+				   model.addAttribute("paging",map.get("paging1"));
+				   model.addAttribute("sort",sort);
+				   model.addAttribute("orderNoDesc",4);
+				   
+			   }
+		   }
+	       
+	   }
+	   
+	   @GetMapping("/onClassView")
+	   public void onClassView( Class cLass, Model model) {
+		   List<Class> list = mainService.onClassViewList(cLass);
+//		   logger.info("list : {}", list);
+		   model.addAttribute("list",list);
+		   
+	   }
 
 }

@@ -9,13 +9,6 @@
 
 <style type="text/css">
 
-.defaultWidth{
-    margin-left: 400px;
-    margin-right: 400px;
-    margin-top: 56px;
-    margin-bottom: 80px;
-   
-}
 
 .col{
 	width: 331px;
@@ -44,7 +37,6 @@
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
-<div class="defaultWidth" >
 
 <img style="height: 300; width: -webkit-fill-available;" src="/resources/img/event.png">
 
@@ -68,6 +60,5 @@
 </div>
 
 
-</div>
-
+	
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

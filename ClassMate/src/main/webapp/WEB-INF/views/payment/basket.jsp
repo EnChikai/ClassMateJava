@@ -35,7 +35,7 @@
 #basketTableInfo{
 	margin-left:auto; 
 	margin-right:auto;
-	border-collapse:collapse;    
+	border-collapse:collapse;   
  
 }
 
@@ -67,7 +67,7 @@
 	padding: 8px;
 	border-radius: 3px;
 	border-style: hidden;
-	box-shadow: 0 0 0 1px rgb(230,204,100)
+	box-shadow: 0 0 0 1px rgb(230,204,100);
 	font-weight:bold;
 	color: white;
 	margin-bottom: 5px; 
@@ -77,7 +77,7 @@
 .paymentOneBtn:hover:not(.active){
 	box-shadow: 0 0 0 2px skyblue;
 	background: rgb(230,204,100);
-
+	cursor:pointer
 }
 #deleteBtn{
 	background: rgb(190,190,190);
@@ -95,8 +95,8 @@
 
 #deleteBtn:hover:not(.active){
 	box-shadow: 0 0 0 2px skyblue;
-	background: rgb(170,170,170)
-
+	background: rgb(170,170,170);
+	cursor:pointer
 }
 
 .onOffClass{
@@ -108,6 +108,11 @@
 	font-weight:bold; 
 	color: white;
 	margin-bottom: 10px;
+
+}
+
+.pInfo{
+margin-bottom: 5px;
 
 }
 </style>
@@ -256,19 +261,29 @@ $(function(){
 IMP.init('imp04411553')	
 	$("#paymentBtn").click(function(){
 		
+		if($("#checkboxAll").is(":checked") || $(".checkBoxes").is(":checked")){
+		
 		var classNoAll = new Array();
 		
 		$('.classNoInput').each(function (index, item) {
-		     classNoAll[index] = item.value
+			if($("#checkboxAll").prop("checked") == true && $("#checkbox"+item.value).prop("checked") == true){
+				classNoAll[index] = item.value
+			}
+			
+			if($("#checkbox"+item.value).prop("checked") == true && $("#checkboxAll").prop("checked") == false){
+				classNoAll[0] = item.value
+			}
+			
 		});	
-	
+		
 		<%-- console.log(classNoAll); --%>
-
+		
 		var userAddr = "${userInfo.mainAddress} ${userInfo.subAddress}";
 		
 		IMP.request_pay({
+			
 			<%-- pg: "html5_inicis",	//결제 pg 선택 --%>
-		    pg: "kakaopay",	<%-- 결제 pg 선택 --%>
+		    pg: "kakaopay",	<%-- //결제 pg 선택 --%>
 			pay_method: "card",
 			
 		    merchant_uid: <%=order %>,   <%-- 고유 번호 --%>
@@ -292,30 +307,53 @@ IMP.init('imp04411553')
 		      <%-- 		-> 결제 후 처리 --%>
 		      
 		      if(data.success){ <%-- 결제 성공시 --%>
-		    	  alert('결제에 성공했습니다.')
+		      <%-- alert('결제에 성공했습니다'); --%>
 			     
-	    	     $.ajax({
-	  	            type: "POST",
-	  	            url: '../payment/insertInfo',
-	  	      		dataType: 'json',
-	  	      		traditional: true,
-	  	            data : {"merchantUid": data.merchant_uid
-	  	            	, "provider": data.pg_provider
-	  	            	, "payMethod": data.pay_method
-	  	            	, "cardName": data.card_name
-	  	            	, "classNo" : classNoAll
-	  	            }
-	
-	  	    	 });
-
-	 	    		location.href = '../payment/insertInfo';
+		   	     $.ajax({
+		 	            type: "POST",
+		 	            url: '../payment/insertInfo',
+		 	      		dataType: 'json',
+		 	      		traditional: true,
+		 	            data : {"merchantUid": data.merchant_uid
+		 	            	, "provider": data.pg_provider
+		 	            	, "payMethod": data.pay_method
+		 	            	, "cardName": data.card_name
+		 	            	, "classNo" : classNoAll
+		 	            }
+		
+		 	    	 });
+		
+		   	  	$(function(){ 
+	    	    	 var overlay = $('<div id="overlay"></div>');
+	    	    	       overlay.css({
+	    	    	          'position': 'fixed',
+	    	    	          'top': 0,
+	    	    	          'left': 0,
+	    	    	          'width': '100%',
+	    	    	          'height': '100%',
+	    	    	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
+	    	    	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
+	    	    	       });
+	    	    	  $('body').append(overlay);
+	    	    })
+		   	  	setTimeout(function() {
+		   			location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
+		   		}, 1500);
+			    	
 		    	 
 		    	  
 		      }else{	<%-- 결제 실패시 --%>
-		    	 alert('결제에 실패했습니다')
-		    	 
-		      }
-		 })
+		    	 <%-- alert('결제에 실패했습니다') --%>
+			    	 
+			    	 location.href = '../payment/fail';
+			    	 
+			      }
+			 })
+			 
+		}else{
+			alert('결제할 클래스를 선택하세요')
+		}
+		
 	})
 })
 </script>
@@ -340,8 +378,8 @@ $(function(){
 		
 		<%--console.log(sum)--%>
 		IMP.request_pay({
-// 			pg: "html5_inicis",	//결제 pg 선택
-		    pg: "kakaopay",	//결제 pg 선택
+	   <%-- pg: "html5_inicis",	//결제 pg 선택 --%>
+		    pg: "kakaopay",	<%-- //결제 pg 선택 --%>
 			pay_method: "card", <%-- 결제 방식 --%>
 		    merchant_uid: <%=order%>,   <%-- 고유 번호 --%>
 
@@ -355,7 +393,7 @@ $(function(){
 			buyer_addr: userAddr,
 			buyer_postcode: "${userInfo.userPost}"
 				    
-// 		    m_redirect_url: "{모바일에서 결제 완료 후 리디렉션 될 URL}"
+			<%-- m_redirect_url: "{모바일에서 결제 완료 후 리디렉션 될 URL}" --%>
 		    	 
 		}, function (data) {	<%-- callback --%>
 			<%-- data.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다. --%>
@@ -366,7 +404,7 @@ $(function(){
 		      <%-- 		-> 결제 후 처리 --%>
 		      
 		      if(data.success){ <%-- 결제 성공시 --%>
-		    	  alert('결제에 성공했습니다.')
+		    	  <%-- alert('결제에 성공했습니다'); --%>
 			     
 	    	     $.ajax({
 	  	            type: "POST",
@@ -381,11 +419,28 @@ $(function(){
 	
 	  	    	 });
 				
-	 	    		location.href = '../payment/success?merchantUid='+data.merchant_uid;
+	    	 	$(function(){ 
+	    	    	 var overlay = $('<div id="overlay"></div>');
+	    	    	       overlay.css({
+	    	    	          'position': 'fixed',
+	    	    	          'top': 0,
+	    	    	          'left': 0,
+	    	    	          'width': '100%',
+	    	    	          'height': '100%',
+	    	    	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
+	    	    	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
+	    	    	       });
+	    	    	  $('body').append(overlay);
+	    	    })
+		   	  	setTimeout(function() {
+		   			location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
+		   		}, 1500);
 		    	 
 		    	  
 		      }else{	<%-- 결제 실패시 --%>
-		    	 alert('결제에 실패했습니다')
+		     	 <%-- alert('결제에 실패했습니다') --%>
+		    	 
+		    	 location.href = '../payment/fail';
 		    	 
 		      }
 		 })
@@ -396,7 +451,7 @@ $(function(){
 
 <%-- <% ============================================================================= %> --%>
 
-<div style="text-align: center; margin-bottom: 40px;">
+<div style="text-align: center; margin-bottom: 40px; margin-top: 84px;">
 <img alt="장바구니 아이콘" src="/resources/img/basket.png">
 </div>
 
@@ -405,7 +460,7 @@ $(function(){
 <div style="text-align: center; width: 1000px; margin-left:auto; margin-right:auto;">
 <table id="basketTableTitle">
 	<tr>
-		<th width="10%" class="thFontInfo">
+		<th style="text-align: center;" width="10%" class="thFontInfo">
 			선택
 		</th>
 		<th width="20%" class="thFontInfo">
@@ -413,7 +468,7 @@ $(function(){
 		<th width="30%" class="thFontInfo">
 			상품 정보
 		</th>
-		<th width="20%" class="thFontInfo">
+		<th width="25%" class="thFontInfo" style="padding-left: 60px;">
 			클래스 기간
 		</th>
 		<th width="30%" class="thFontInfo">
@@ -434,31 +489,34 @@ $(function(){
 		<td class="basketTableInfoTd" width="20%">
 			<img alt="강의_이미지" src="/resources/img/sample_img2.png" width="195px" height="130px">
 		</td>
-		<td class="basketTableInfoTd" width="30%" style="vertical-align: top; padding-top: 10px">
+		<td class="basketTableInfoTd" width="30%" style="vertical-align: top; padding-top: 15px">
 			<c:if test="${classList.onOff eq 0}">
-				<p class="onOffClass" style="width: 90;" >오프클래스</p>
+				<p class="onOffClass pInfo" style="width: 90;" >오프클래스</p>
 			</c:if>
 			<c:if test="${classList.onOff ne 0}">
-				<p class="onOffClass" style="width: 75;" >온클래스</p>
+				<p class="onOffClass pInfo" style="width: 75;" >온클래스</p>
 			</c:if>
 			<input style="display: none;" class="classNoInput" readonly="readonly" type="text" value="${classList.classNo}"/>
-			<p style="font-weight:bold;">${classList.className }</p>
-			<p>강사명 : ${classList.teacher }</p>
-			<p id="classInfo" >${classList.classInfo }</p>
+			<p class="pInfo" style="font-weight:bold;">${classList.className }</p>
+			<p class="pInfo">강사명 : ${classList.teacher }</p>
+			<p  class="pInfo" id="classInfo" >${classList.classInfo }</p>
 			<input style="display: none;" id="teacher${classList.classNo}" readonly="readonly" type="text" value="teacher${classList.classNo}"/>
 			<input style="display: none;" class="classNameInput" readonly="readonly" type="text" value="${classList.className}"/>
 		</td>
 		<td class="basketTableInfoTd" style="text-align: left;" width="20%">
-			<p style="width: 100px; padding-left: 50px;">${classList.classStart }~</p>
-			<p style="width: 100px; padding-left: 50px;">${classList.classEnd }</p>
+			<p class="pInfo" style="width: 150px; padding-left: 20px;">${classList.classStart }~</p>
+			<p class="pInfo" style="width: 150px; padding-left: 20px;">${classList.classEnd }</p>
 		</td>
 		<td style="text-align: center;" class="basketTableInfoTd" width="30%">
-			<p><fmt:formatNumber type="number" maxFractionDigits="3" value="${classList.expense }"/>원</p>
+			<p class="pInfo" ><fmt:formatNumber type="number" maxFractionDigits="3" value="${classList.expense }"/>원</p>
 			<input style="display: none;" id="number${classList.classNo}" readonly="readonly" type="text" value="<fmt:formatNumber type="number" maxFractionDigits="3" value="${classList.expense }"/>">
 		</td>
 		<td class="basketTableInfoTd" width="15%">
 			<button type="button" id="OneBtn${classList.classNo}" class="paymentOneBtn">결제</button><br>
+			<form action="../payment/basket" method="post">
 			<button id="deleteBtn">삭제</button>
+			<input style="display: none;" readonly="readonly" type="text" name="classNo" value="${classList.classNo}"/>
+			</form>
 		</td>
 	</tr>
 </table>
@@ -485,7 +543,7 @@ $(function(){
 	</tr>
 </table>
 
-<div style="">
+<div style="margin-bottom: 89px">
 	<button type="button" style="margin-top:40px; width: 100px;" id="paymentBtn" class="paymentOneBtn">결제하기</button>
 </div>
 
