@@ -59,4 +59,6 @@ public interface ClassDao {
 	 */
 	public List<QuestionAnswer> selectQuestionAnswerByClass(Class lecture);
 
+	public void insertQA(QuestionAnswer questionAnswer);
+
 }

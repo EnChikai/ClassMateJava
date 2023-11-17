@@ -2,80 +2,89 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>내가 수강한 클래스 나열 페이지</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .card-custom {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        .card-header-custom {
+            background-color: #a2d2ff;
+            color: #000;
+        }
+        .card-body-custom {
+            background-color: #ffffff;
+            color: #000;
+        }
+        .img-thumbnail {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .page-navigation {
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
-<div>
-<h1>내가수강한클래스나열페이지</h1>
-<%-- <c:forEach var="lecture" items="${lecture }"> --%>
-<!--     <tr> -->
-<%--         <td>${lecture.classNo }</td> --%>
-<%--         <td>${lecture.teacherNo }</td> --%>
-<%--         <td>${lecture.mainCategoryNo }</td> --%>
-<%--         <td>${lecture.subCategoryNo }</td> --%>
-<%--         <td>${lecture.teacher }</td> --%>
-<%--         <td>${lecture.className }</td> --%>
-<%--         <td>${lecture.classStart }</td> --%>
-<%--         <td>${lecture.classEnd }</td> --%>
-<%--         <td>${lecture.maxCount }</td> --%>
-<%--         <td>${lecture.expence }</td> --%>
-<%--         <td>${lecture.classInfo }</td> --%>
-<%--         <td>${lecture.curriculum }</td> --%>
-<%--         <td>${lecture.onOff }</td> --%>
-<%--         <td>${lecture.headImg }</td> --%>
-<%--         <td>${lecture.content }</td> --%>
-<%--         <td>${lecture.deleteBoolean }</td> --%>
-<%--         <td>${lecture.classDate }</td> --%>
-<!--     </tr> -->
-<%-- </c:forEach> --%>
+<div class="container">
+    <div class="header">
+        <h1>내가 수강한 클래스</h1>
+    </div>
 
-<%-- <c:choose> --%>
-<%--     <c:when test="${not empty classList}"> --%>
-<!--         <ul> -->
-<%--             <c:forEach var="classItem" items="${classList}"> --%>
-<%--                 <li>${classItem.someProperty}</li> --%>
-<%--             </c:forEach> --%>
-<!--         </ul> -->
-<%--     </c:when> --%>
-<%--     <c:otherwise> --%>
-<!--         <p>클래스 정보가 없습니다.</p> -->
-<%--     </c:otherwise> --%>
-<%-- </c:choose> --%>
-
-<c:choose>
-    <c:when test="${not empty lecture}">
-        <ul>
+    <c:choose>
+        <c:when test="${not empty lecture}">
             <c:forEach var="lecture" items="${lecture}">
-                <li>
-                    클래스 번호: ${lecture.classNo}<br>
-                    강사 번호: ${lecture.teacherNo}<br>
-                    주요 카테고리: ${lecture.mainCategoryNo}<br>
-                    서브 카테고리: ${lecture.subCategoryNo}<br>
-                    강사명: ${lecture.teacher}<br>
-                    클래스명: ${lecture.className}<br>
-                    개설 날짜: <fmt:formatDate value="${lecture.classDate}" pattern="yyyy-MM-dd"/><br>
-                    시작 날짜: <fmt:formatDate value="${lecture.classStart}" pattern="yyyy-MM-dd"/><br>
-                    종료 날짜: <fmt:formatDate value="${lecture.classEnd}" pattern="yyyy-MM-dd"/><br>
-                    최대 인원: ${lecture.maxCount}<br>
-                    비용: ${lecture.expense}<br>
-                    클래스 정보: ${lecture.classInfo}<br>
-                    커리큘럼: ${lecture.curriculum}<br>
-                    온/오프라인: ${lecture.onOff}<br>
-                    헤더 이미지: <img src="${lecture.headImg}" alt="Class Image"/><br>
-                    내용: ${lecture.content}<br>
-                    삭제 여부: ${lecture.deleteBoolean}<br>
-                    <a href="/class/onClass">온클래스로 이동</a><br>
-                    <a href="/class/offClass">오프클래스로 이동</a>
-                    <hr>
-                </li>
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom">
+                        <!-- 클래스 번호를 포함하여 링크 설정 -->
+                        <h3>
+                            <a href="${lecture.onOff eq '1' ? '/class/onClass?classNo=' : '/class/offClass?classNo='}${lecture.classNo}" 
+                               class="stretched-link" 
+                               style="color: inherit; text-decoration: none;">
+                                ${lecture.className}
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="card-body card-body-custom">
+                        <img src="${lecture.headImg}" alt="강의 이미지" class="img-thumbnail">
+                        <p class="mt-2">${lecture.classInfo}</p>
+                    </div>
+                </div>
             </c:forEach>
-        </ul>
-    </c:when>
-    <c:otherwise>
-        <p>클래스 정보가 없습니다.</p>
-    </c:otherwise>
-</c:choose>
-
+        </c:when>
+        <c:otherwise>
+            <p>클래스 정보가 없습니다.</p>
+        </c:otherwise>
+    </c:choose>
 
 </div>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
+
+<!-- Bootstrap JS and other necessary scripts-->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

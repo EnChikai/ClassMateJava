@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lecture.service.face.ClassService;
+import oracle.net.aso.c;
 import user.dto.UserInfo;
 import lecture.dto.Class;
 import lecture.dto.QuestionAnswer;
@@ -34,11 +36,7 @@ public class ClassController {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUserNo(userNo);
 		
-		//넘어오는값 임의 지정
-		Class a = new Class();
-		a.setClassNo(2);
-		map = classService.lectureOn(a);
-//		map = classService.lectureOn(viewClass);
+		map = classService.lectureOn(viewClass);
 		
 		logger.info("map :{}",map);
 		
@@ -57,10 +55,7 @@ public class ClassController {
 		
 		List<Class> lecture = classService.allLecture(userInfo);
 		
-		logger.info("lecture : {}", lecture);
-		
 		model.addAttribute("lecture", lecture);
-		
 	}
 	
 	@GetMapping("/onClassVideo")
@@ -76,12 +71,8 @@ public class ClassController {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUserNo(userNo);
 		
-		//넘어오는값 임의 지정
-		Class a = new Class();
-		a.setClassNo(2);
-		map = classService.lectureOff(a);
+		map = classService.lectureOff(viewClass);
 		
-//		map = classService.lectureOff(viewClass);
 		logger.info("map : {}", map);
 		model.addAttribute("address", map.get("address"));
 		model.addAttribute("lecture", map.get("lecture"));
@@ -96,11 +87,10 @@ public class ClassController {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUserNo(userNo);
 		
-		//넘어오는값 임의 지정
-		Class a = new Class();
-		a.setClassNo(2);
+		logger.info("viewClass : {}",viewClass);
 		
-		model.addAttribute("questionAnswer", classService.allQABoardList(a));
+		model.addAttribute("classNo",viewClass.getClassNo());
+		model.addAttribute("questionAnswer", classService.allQABoardList(viewClass));
 	}
 	
 	@GetMapping("/onClassQAWrite")
@@ -109,12 +99,12 @@ public class ClassController {
 		
 		int userNo = (int)session.getAttribute("userNo");
 		UserInfo userInfo = new UserInfo();
+		
 		userInfo.setUserNo(userNo);
 		
-		//넘어오는값 임의 지정
-		Class a = new Class();
-		a.setClassNo(2);
+		logger.info("viewClass : {}",viewClass);
 		
+		model.addAttribute("selectedClassNo", viewClass.getClassNo());
 		model.addAttribute("lecture", classService.myLectureOn(userInfo));
 		
 	}
@@ -125,8 +115,11 @@ public class ClassController {
 		
 		logger.info("questionTitle : {}", questionAnswer);
 		
+		questionAnswer.setUserNo((int)session.getAttribute("userNo"));
+		
+		classService.insertQA(questionAnswer);
+		
 		return "redirect: /class/onClassQABoardList";
 	}
-	
 	
 }

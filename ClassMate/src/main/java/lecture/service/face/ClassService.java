@@ -20,5 +20,7 @@ public interface ClassService {
 	public List<QuestionAnswer> allQABoardList(Class lecture);
 	
 	public List<Class> myLectureOn(UserInfo userInfo);
+
+	public void insertQA(QuestionAnswer questionAnswer);
 	
 }
