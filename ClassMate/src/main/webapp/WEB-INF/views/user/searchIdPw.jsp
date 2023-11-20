@@ -4,7 +4,9 @@
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <style type="text/css">
-.idpw2 h2 {
+
+/* 아이디/비밀번호 찾기 */
+.idpw2 h1 {
 	text-align: center;
     margin-top: 60px;
     font-weight: bold;
@@ -13,7 +15,7 @@
 .idpw {
 	border: 1px solid #ccc;
     width: 680px;
-    height: 635px;
+    height: 660px;
    	margin: 120px auto;
 	margin-bottom: 160px;
 }
@@ -40,7 +42,7 @@
 }
 
 .findId {
-	line-height: 2;
+	line-height: 2.5;
 }
 
 .findId button {
@@ -65,8 +67,8 @@
 
 <form action="${pageContext.request.contextPath}/user/searchIdPw" method="post">
 
-	<h2>아이디/비밀번호 찾기</h2>
-	
+	<h1>아이디/비밀번호 찾기</h1>
+	 
 	<div>
 	<h4>아이디로 찾기</h4>
 	
@@ -75,7 +77,7 @@
 		   border-radius: 4px;
 		   background-color: black;
 		   color: white;
-		   padding: 1.7px 9px;
+		   padding: 7px 9px;
 		   vertical-align: middle;">이메일</label>
 	<input type="text" name="userEmail"><br>
 	
@@ -83,7 +85,7 @@
 		   border-radius: 4px;
 		   background-color: black;
 		   color: white;
-		   padding: 1.7px 17px;
+		   padding: 7px 17px;
 		   vertical-align: middle;">이름</label>
 	<input type="text" name="userName"><br>
 	
@@ -101,17 +103,17 @@
 		   border-radius: 4px;
 		   background-color: black;
 		   color: white;
-		   padding: 1.7px 9px;
+		   padding: 7px 9px;
 		   vertical-align: middle;">아이디</label>
-	<input><br>
+	<input type="text" name="userId"><br>
 	
 	<label style="border: 1px solid black;
 	  	   border-radius: 4px;
 	  	   background-color: black;
 	  	   color: white;
-		   padding: 1.7px 17px;
+		   padding: 7px 17px;
 		   vertical-align: middle;">이름</label>
-	<input><br>
+	<input type="text" name="userName"><br>
 	
 	<button>비밀번호 찾기</button>
 
