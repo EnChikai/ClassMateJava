@@ -34,7 +34,7 @@ padding-bottom: 7px;
 }
 
 #userInfoTb td input{
-color: #aaa;
+color: #999;
 padding-left: 13px;
 
 }
@@ -45,8 +45,8 @@ border-radius: 3px;
 border-style: hidden;
 box-shadow: 0 0 0 1px #ccc;
 font-size:14px;
-padding-top : 10px;
-padding-bottom : 10px;
+padding-top : 12px;
+padding-bottom : 12px;
 padding-left: 14px; 
 padding-right: 14px;
 vertical-align: bottom;
@@ -61,20 +61,48 @@ color: white;
 font-weight:bold;
 font-size: 19px;
 vertical-align: bottom;
+padding-left: 20px; 
+padding-right: 20px;
 
 }
 
+#updateBtn, #secessionBtn{
+border-radius: 3px; 
+border-style: hidden;
+width: 63px; 
+height: 33px;
+color: white;
+font-weight:bold;
+
+}
 </style>
 
 <%-- <% ============================================================================= %> --%>
 
-<div style="margin-top: 60px; margin-left: 72px; font-size: 5px;">
-<button class="topMenuBtn checked">회원정보 관리</button>
+<script type="text/javascript">
+$(function(){
+	
+	var gender = ${userdata.userGender};
+	
+	if(gender == 0){
+		$("#genderM").prop('checked',true);
+		
+	}else{
+		$("#genderW").prop('checked',false);
+	}
+})
+</script>
+
+
+<%-- <% ============================================================================= %> --%>
+
+<div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
+<button style="margin-left: 1px;" class="topMenuBtn checked">회원정보 관리</button>
 <button class="topMenuBtn">결제/수강 내역</button>
 <button class="topMenuBtn">작성한 게시물</button>
 </div>
 
-<div style="border: 1px solid #ccc; text-align: center; width: 700px; margin-left: 72px;">
+<div style="border: 1px solid #ccc; text-align: center; width: 700px; margin-left: 72px; margin-bottom: 20px;">
 
 <p id="userInfo">회원정보</p>
 
@@ -88,8 +116,8 @@ vertical-align: bottom;
 	<tr>
 	<th>성별</th>
 			<td>
-				<input type="checkbox"> 남성
-				<input style="margin-left: 35px;" type="checkbox"> 여성
+				<input id="genderM" type="checkbox" disabled="disabled"> 남성
+				<input id="genderW" style="margin-left: 35px;" type="checkbox" disabled="disabled"> 여성
 			</td>
 	</tr>
 	
@@ -128,6 +156,11 @@ vertical-align: bottom;
 			<td><input type="text" readonly="readonly" style="width: 410px;" value="${userdata.subAddress}"></td>
 	</tr>
 </table>
+</div>
+
+<div style="margin-top: 72px; margin-bottom: 15px;">
+<button id="updateBtn" style="background: rgb(158,158,158); box-shadow: 0 0 0 1px #ccc; margin-right: 19px;">수정</button>
+<button id="secessionBtn" style="background: black; box-shadow: 0 0 0 1px black;">탈퇴</button>
 </div>
 
 </div>

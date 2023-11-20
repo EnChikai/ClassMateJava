@@ -8,11 +8,16 @@
 	text-decoration: none;
 	color: black;
 }
+.defaultWidth{
+	margin-left: 400px;
+	margin-right: 400px;
+	margin-top: 35px;
+}
 
 </style>
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
-
+<div class="defaultWidth">
 
 <h1>subCategory</h1>
 
@@ -21,5 +26,5 @@
 </c:forEach>
 
 
-
+</div>
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import board.dto.EventBoard;
 import lecture.dto.Class;
 import main.dto.MainCategory;
 import main.dto.SubCategory;
@@ -13,7 +16,7 @@ import web.util.Paging;
 
 public interface MainService {
 
-	public List<UserInfo> listAll();
+	public Map<String, Object> MainPage(Class cLass, EventBoard eventBoard, Map<String,Object> map);
 
 	public List<MainCategory> mainCategoryList();
 
@@ -27,7 +30,10 @@ public interface MainService {
 
 	public Map<String, Object> offClassList(Class cLass, MainClassListPaging paging, String sort);
 
-	public List<Class> onClassViewList(Class cLass);
+	public List<Class> ClassViewList(Class cLass);
+
+	public int basket(Class cLass, HttpSession session);
+
 
 
 
