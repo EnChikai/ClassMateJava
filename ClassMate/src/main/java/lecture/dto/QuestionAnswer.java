@@ -7,7 +7,7 @@ public class QuestionAnswer {
 	private int userNo;
 	private int classNo;
 	private String questionName;
-	private String questionCcontent;
+	private String questionContent;
 	private Date questionDate;
 	private String answer;
 	private String answerContent;
@@ -17,18 +17,18 @@ public class QuestionAnswer {
 	@Override
 	public String toString() {
 		return "QuestionAnswer [questionNo=" + questionNo + ", userNo=" + userNo + ", classNo=" + classNo
-				+ ", questionName=" + questionName + ", questionCcontent=" + questionCcontent + ", questionDate="
+				+ ", questionName=" + questionName + ", questionContent=" + questionContent + ", questionDate="
 				+ questionDate + ", answer=" + answer + ", answerContent=" + answerContent + "]";
 	}
 
-	public QuestionAnswer(int questionNo, int userNo, int classNo, String questionName, String questionCcontent,
+	public QuestionAnswer(int questionNo, int userNo, int classNo, String questionName, String questionContent,
 			Date questionDate, String answer, String answerContent) {
 		super();
 		this.questionNo = questionNo;
 		this.userNo = userNo;
 		this.classNo = classNo;
 		this.questionName = questionName;
-		this.questionCcontent = questionCcontent;
+		this.questionContent = questionContent;
 		this.questionDate = questionDate;
 		this.answer = answer;
 		this.answerContent = answerContent;
@@ -66,12 +66,12 @@ public class QuestionAnswer {
 		this.questionName = questionName;
 	}
 
-	public String getQuestionCcontent() {
-		return questionCcontent;
+	public String getQuestionContent() {
+		return questionContent;
 	}
 
-	public void setQuestionCcontent(String questionCcontent) {
-		this.questionCcontent = questionCcontent;
+	public void setQuestionContent(String questionContent) {
+		this.questionContent = questionContent;
 	}
 
 	public Date getQuestionDate() {
@@ -97,6 +97,6 @@ public class QuestionAnswer {
 	public void setAnswerContent(String answerContent) {
 		this.answerContent = answerContent;
 	}
-	
+
 	
 }

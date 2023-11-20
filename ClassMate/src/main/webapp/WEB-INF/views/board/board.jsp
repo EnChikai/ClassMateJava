@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
@@ -12,9 +11,8 @@
 .defaultWidth{
 	margin-left: 495px;
 	margin-right: 495px;
-	margin-top: 40px;
+	margin-top: 60px;
 }
-
 #boardtitle {
 	margin-top: 2em;
 	border: 1px;
@@ -105,6 +103,7 @@
 
         coloredRows.forEach(function (row) {
             var cells = row.getElementsByTagName('td');
+            var newcells = row.getElementsByTagName('a')
             var color;
 
             if (row.classList.contains('text-row')) {
@@ -116,6 +115,7 @@
 
             for (var i = 0; i < cells.length; i++) {
                 cells[i].style.color = color;
+                newcells[0].style.color = color;
             }
         });
 
@@ -162,7 +162,7 @@
 	<tr id="boardAnnounce" style="color: red; font-weight: bold;">
 		<td></td>
 		<td style="color: red;">${announceList.announceHead }</td>
-		<td style="color: red;">${announceList.announceName }</td>
+		<td style="color: red;"><a href="/board/announceView?announceNo=${announceList.announceNo }" style="color: red;">${announceList.announceName }</a></td>
 		<td style="color: red;">${announceList.userName }</td>
 		<td style="color: red;">${announceList.announceDate }</td>
 		<td style="color: red;">${announceList.announceHit }</td>
@@ -173,7 +173,7 @@
     <tr id="boardEvent" class="colored-row">
         <td></td>
         <td>${eventList.eventHead }</td>
-        <td>${eventList.eventName }</td>
+        <td><a class="newtag" href="/board/eventView?eventNo=${eventList.eventNo }" >${eventList.eventName }</a></td>
         <td>${eventList.userName }</td>
         <td>${eventList.eventDate }</td>
         <td>${eventList.eventHit }</td>

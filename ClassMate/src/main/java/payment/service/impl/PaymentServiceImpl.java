@@ -42,7 +42,7 @@ public class PaymentServiceImpl implements PaymentService{
 		List<Class> classList = new ArrayList<Class>();
 		
 		for(int i = 0; i<basketList.size(); i++) {
-			classList.addAll(paymentDao.selectClassListByUser(basketList.get(i))); 
+			classList.addAll(paymentDao.selectClassListByBasket(basketList.get(i))); 
 		}
 		logger.info("classList:{}",classList);
 		
@@ -65,15 +65,15 @@ public class PaymentServiceImpl implements PaymentService{
 	@Override
 	public int insertOrderPayment(Object userNo, String merchantUid, String payMethod, String provider, String cardName,
 			int[] classNo) {
-		
+		logger.info("insertOrderPayment()");
 		Map<String, Object> map = new HashMap<String, Object>();
 		OrderTb orderTb = new OrderTb();
 		Payment payment = new Payment();
 		Basket basket = new Basket();
 		int result = 0;
 		
-		//테스트용 userNo
-		userNo = 4;
+//		테스트용 userNo
+//		userNo = 4;
 		
 		logger.info("classNo.length:{}",classNo.length);
 
@@ -114,36 +114,66 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 	@Override
-	public Map<String, Object> selectSuccecInfo(int userNo, String merchantUid) {
-		logger.info("selectSuccecInfo:{}",userNo);
+	public Map<String, Object> selectSuccecInfo(String merchantUid) {
+		logger.info("selectSuccecInfo:{}",merchantUid);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		List <OrderTb> orderTbList = paymentDao.selectOrderList(merchantUid);
+		List<OrderTb> orderTbList = paymentDao.selectOrderList(merchantUid);
+		List<Payment> paymentList = new ArrayList<Payment>();
+		List<Class> nameList = new ArrayList<Class>();
+		
 		logger.info("selectOrder:{}",orderTbList);
 		
+		nameList = paymentDao.selectClassNoByMerchantUid(merchantUid);
+		
 		String checkUid = null;
-		for(int i=0; i<orderTbList.size(); i++) {
-			if(merchantUid.equals(orderTbList.get(i).getMerchantUid())) {
-				checkUid = merchantUid;
-			}
-		}
-		
-		List<Payment> paymentList = paymentDao.selectPaymentList(userNo);
-		logger.info("selectPaymentList:{}",paymentList);
-		
-		logger.info("checkUid:{}",checkUid);
-		
 		int paymentSum = 0;
-		for(int i=0; i<paymentList.size(); i++) {
-			paymentSum += paymentList.get(i).getPayment();
+		for (int i = 0; i < orderTbList.size(); i++) {
+	        int orderIndex = i; // 새로운 변수를 사용
+	        if (merchantUid.equals(orderTbList.get(orderIndex).getMerchantUid())) {
+	            checkUid = merchantUid;
+	        }
+	        logger.info("checkUid:{}", checkUid);
+
+	        paymentList = paymentDao.selectPaymentList(orderTbList.get(orderIndex).getOrderNo());
+	        
+	        if (!paymentList.isEmpty()) {
+	            paymentSum += paymentList.get(0).getPayment();
+	            logger.info("sum: {}", paymentSum);
+	        }
+	        
+	    }
+		
+		for (int i = 0; i < nameList.size(); i++) {
+		    List<Class> selectedClassList = paymentDao.selectClassNameListByOrder(nameList.get(i).getClassNo());
+		    nameList.addAll(selectedClassList);
+		    
+		    for (Class selectedClass : selectedClassList) {
+		        logger.info("nameList: {}", selectedClass.getClassName());
+		    }
 		}
-		logger.info("sum: {}",paymentSum);
 		
 		map.put("checkUid", checkUid);
 		map.put("paymentSum", paymentSum);
+		map.put("paymentVat", paymentSum/10);
+		map.put("nameList",nameList);
 		
 		return map;
+	}
+
+	@Override
+	public int deleteBasket(int classNo, int userNo) {
+		
+		Basket basket = new Basket();
+		
+		basket.setUserNo((int) userNo);
+		basket.setClassNo(classNo);
+		
+		int result = paymentDao.deleteBasket(basket);
+		logger.info("deleteBasket:{}",result);
+		
+		return result;
 	}
 
 }

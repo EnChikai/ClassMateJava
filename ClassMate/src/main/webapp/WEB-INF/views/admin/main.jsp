@@ -14,6 +14,7 @@ text-align: center;
 margin-right: 33px;
 margin-left: 560px;
 margin-top: 50px;
+
 }
 
 .profileTh, .profileTd{
@@ -36,35 +37,51 @@ margin-top: 10px;
 margin-bottom: 10px; 
 }
 
+#logout:hover:not(.active){
+	cursor:pointer
+}
+
 </style>
 
+<script type="text/javascript">
+
+$(function(){
+	
+	$("#logoutText").click(function(){
+		$("#logoutForm").submit();
+	})
+	
+}); 
+
+</script>
 
 <%-- <% ============================================================================= %> --%>
 			
-			<table id="profile" >
-			<tr>
-			<th class="profileTh">
-				<div id="img" >
-				<img title="미졌습니까? 휴먼?" alt="관리자 이미지" src="/resources/img/sample_img.png" width="130" height="150">
-				</div>
-			</th>
-			</tr>
-			
-			<tr>
-				<td id="helloAdmin" class="profileTd">
-				관리자(   )님<br>
-				반갑습니다
-				</td>
-			</tr>
-			<tr>
-				<td class="profileTd">
-				<div id="logout">
-				직급: (   ) 
-					<a style="text-decoration: underline; color: red; " href="../main/main">로그아웃</a>
-				</div>
-				</td>
-			</tr>
-			</table>
+<table id="profile" >
+<tr>
+<th class="profileTh">
+	<div id="img" >
+	<img title="미졌습니까? 휴먼?" alt="관리자 이미지" src="/resources/img/sample_img.png" width="130" height="150">
+	</div>
+</th>
+</tr>
+
+<tr>
+	<td id="helloAdmin" class="profileTd">
+	관리자(${userId})님<br>
+	반갑습니다
+	</td>
+</tr>
+<tr>
+	<td class="profileTd">
+	<div id="logout">
+		<form id="logoutForm" action="./main" method="post">
+		<p id="logoutText" style="text-decoration: underline; color: red;">로그아웃</p>
+		</form>
+	</div>
+	</td>
+</tr>
+</table>
 			
 <%-- <% ============================================================================= %> --%>			
 <c:import url="/WEB-INF/views/layout/adminFooter.jsp" />

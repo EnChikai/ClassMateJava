@@ -11,5 +11,15 @@ public interface UserDao {
 
 	public int checkDuplicateId(String userId);
 
+	public UserInfo selectUserByNo(UserInfo userInfo);
+
+//	public int deleteUserData(UserInfo userInfo);
+
+	public void insertUser(UserInfo userInfo);
+
+	public UserInfo findUserByEmail(String email);
+
+	public int updateUserDataout(UserInfo userInfo);
+
 
 }

@@ -1,23 +1,52 @@
 package main.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
+import board.dto.EventBoard;
 import lecture.dto.Class;
 import main.dto.MainCategory;
 import main.dto.SubCategory;
 import user.dto.UserInfo;
+import web.util.MainClassListPaging;
+import web.util.Paging;
 
 public interface MainDao {
 
-	public List<UserInfo> listAll();
+	public List<EventBoard> selectByEventFile();
+
+	public List<Class> ClassOrderTop(int onOff);
+
+	public List<Class> recommended(int onOff);
 
 	public List<MainCategory> mainCategoryList();
 
 	public List<SubCategory> subCategoryList(SubCategory subCategory);
 
-	public List<Class> onClassList(Class cLass);
+	public int mainOnClassCntAll(Class cLass);
+	
+	public List<Class> onClassList(Map<String, Object> map);
+	
+	public int mainOffClassCntAll(Class cLass);
+	
+	public List<Class> offClassList(Map<String, Object> map);
 
-	public List<Class> offClassList(Class cLass);
+	public List<Class> onClassSortList(Map<String, Object> map);
+
+	public List<Class> offClassSortList(Map<String, Object> map);
+
+	public List<Class> onClassViewList(Class cLass);
+
+	public Integer duplicationBasket(Class cLass);
+
+	public void insertBasket(Map<String, Object> map);
+
+
+
+
+
+
+
 
 
 

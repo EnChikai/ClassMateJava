@@ -34,7 +34,7 @@ public interface PaymentDao {
 	 * @param basket - 특정 유저의 장바구니
 	 * @return 장바구니의 classNo 정보를 토대로 가져온 class값 리스트
 	 */
-	public List<Class> selectClassListByUser(Basket basket);
+	public List<Class> selectClassListByBasket(Basket basket);
 
 	
 	/**
@@ -51,8 +51,11 @@ public interface PaymentDao {
 
 	public List<OrderTb> selectOrderList(String merchantUid);
 
-	public List<Payment> selectPaymentList(int userNo);
+	public List<Payment> selectPaymentList(int orderNo);
 
-	
+	public List<Class> selectClassNoByMerchantUid(String merchantUid);
+
+	public List<Class> selectClassNameListByOrder(int classNo);
+
 
 }

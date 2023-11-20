@@ -48,7 +48,7 @@ button {
 
 	<label style="border: 1px solid black; border-radius: 4px; background-color: black; color: white;
 		   padding: 9px 21px; vertical-align: middle;">아이디</label>
-	<input><br>
+	<input type="text" value="${foundUserInfo.userId}" readonly><br>
 	
 	<button>로그인 하기</button>
 

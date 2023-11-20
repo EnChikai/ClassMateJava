@@ -10,7 +10,7 @@
   	SELECT count(*) FROM user_info
   	</select>
   	
-  	<select id="selectUserAll" resultType="UserInfo" parameterType="web.util.Paging">
+  	<select id="selectUserAll" resultType="UserInfo" parameterType="Map">
   		SELECT * FROM (
     		SELECT rownum rnum, B.* FROM(
       			SELECT
@@ -18,9 +18,32 @@
 				, user_name, user_email, main_address, sub_address, user_post, user_secession, user_date_created
 		        FROM user_info
 		        WHERE user_no > 0
-		        ORDER BY user_no DESC
+		        	AND user_secession = 0
+		        ORDER BY ${orderBy}
    			)B
-		)WHERE rnum BETWEEN #{startNo} AND #{endNo}
+		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+  	</select>
+  	
+  	<select id="selectDelUserAll" resultType="UserInfo" parameterType="Map">
+  		SELECT * FROM (
+    		SELECT rownum rnum, B.* FROM(
+      			SELECT
+				user_no, user_id, user_pw, user_gender, user_birthday, user_phone
+				, user_name, user_email, main_address, sub_address, user_post, user_secession, user_date_created
+		        FROM user_info
+		        WHERE user_no > 0
+		        	AND user_secession = 1
+		        ORDER BY ${orderBy}
+   			)B
+		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+  	</select>
+  	
+  	<select id="selectUser" resultType="UserInfo" parameterType="UserInfo">
+  		SELECT
+			user_no, user_id, user_pw, user_gender, user_birthday, user_phone
+			, user_name, user_email, main_address, sub_address, user_post, user_secession, user_date_created
+        FROM user_info
+  		WHERE user_no = ${userNo} 
   	</select>
   	
   </mapper>

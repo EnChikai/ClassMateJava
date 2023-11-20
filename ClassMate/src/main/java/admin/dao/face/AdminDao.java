@@ -1,9 +1,9 @@
 package admin.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import user.dto.UserInfo;
-import web.util.Paging;
 
 public interface AdminDao {
 
@@ -15,6 +15,10 @@ public interface AdminDao {
 	 */
 	public int userInfoCntAll();
 
-	public List<UserInfo> selectUserAll(Paging paging);
+	public List<UserInfo> selectUserAll(Map<String, Object> map);
+
+	public List<UserInfo> selectDelUserAll(Map<String, Object> map);
+
+	public UserInfo selectUser(UserInfo userdata);
 	
 }

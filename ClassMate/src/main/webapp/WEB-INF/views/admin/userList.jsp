@@ -2,32 +2,268 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
+<style type="text/css">
+
+#userListTb{
+border-top: 2px solid #ccc; 
+border-bottom: 2px solid #ccc; 
+width: 574px; 
+margin: auto;
+
+}
+
+.userListTh{
+background: rgb(220,220,220);
+border-bottom: 2px solid #ccc;
+font-size: 15px;
+padding-top: 5px;
+padding-bottom: 5px;
+
+}
+
+.userListTd{
+border-bottom: 1px solid #ccc; 
+font-size: 15px;
+padding-top: 2px;
+padding-bottom: 2px;
+padding-right: 0;
+
+}
+
+#delCheckbox{
+position:absolute;
+width:20px;
+height:20px;
+top:10%;
+margin-left: 5px;
+
+}
+
+.userListTd:hover:not(.active){
+cursor:pointer;
+
+}
+</style>
+
+<script type="text/javascript">
+$(function(){
+
+	$(".dropTag").change(function(){
+		
+		$('#userListForm').submit();
+		
+	})
 	
-		<div style="border: 1px solid #ccc;">
-		<div style="width: 800px;">회원 관리</div>
-		<table class="table table-bordered border-primary table-hover">
+});
+
+$(function(){
+	
+	var delCheckbox = document.getElementById("delCheckbox");
+	
+	$("#delCheckbox").click(function(){
+		if($(this).is(":checked")){
+			delCheckbox.value = 1;
+			$('#userListForm').submit();
+		} else {
+			delCheckbox.value = 0; 
+			$('#userListForm').submit();
+		}
+	})
+	
+});
+
+$(function(){
+	
+    $('.userListTr').mouseover(function() {
+        $(this).children('td').css('background-color', '#e9e9e9'); 
+    });
+
+    $('.userListTr').mouseout(function() {
+        $(this).children('td').css('background-color', 'initial');
+    });
+
+})
+</script>	
+
+<%-- 클릭시 유저 상세보기로 --%>
+<c:forEach items="${list }" var="list"> 
+<script>
+$(function(){
+	
+	$(".userInfo${list.userNo}").click(function(){
 		
-		<tr class="table-primary border-primary">
-			<th>회원 번호</th>
-			<th>회원 아이디</th>
-			<th>회원명</th>
-			<th>가입일</th>
-			<th>강사 여부<br>
-		</tr>
 		
-		<c:forEach items="${list }" var="list"> 
-			<tr>
-				<td>${list.userNo }</td>
-				<td>${list.userId }</td>
-				<td>${list.userName }</td>
-				<td>${list.userDateCreated }</td>
-				<td></td>
-			<tr>
-		</c:forEach>
-		</table>
+		location.href = '../admin/userDetailedInfo?userNo=${list.userNo}';
 		
-		<c:import url=".././layout/pagination.jsp"/>
-		</div>
+	})
+	
+});
+</script>
+</c:forEach>
+	
+<div style="border: 1px solid #ccc; text-align: center; width: 700px; margin-top: 60px; margin-left: 72px;">
+<div style="font-size: 22px; font-weight:bold; margin-bottom: 17px; margin-top: 40px;">회원 관리</div>
+
+<form id="userListForm" action="../admin/userList" method="get">
+	<div style="text-align: left; margin-left: 62px; margin-bottom: 10px">
+		
+		<input style="display: none" type="text" readonly="readonly" name="curPage" value="${paging.curPage}">
+		
+		<div>
+		<c:if test="${sort eq 0}">
+		<select class="dropTag" name="sort" id="sort">
+			<option value="0">회원번호▲</option>
+			<option value="1">회원번호▼</option>
+			<option value="2">이름▲</option>
+			<option value="3">이름▼</option>
+		</select>
+		</c:if>
+		
+		<c:if test="${sort eq 1}">
+		<select class="dropTag" name="sort" id="sort">
+			<option value="1">회원번호▼</option>
+			<option value="0">회원번호▲</option>
+			<option value="2">이름▲</option>
+			<option value="3">이름▼</option>
+		</select>
+		</c:if>
+		
+		<c:if test="${sort eq 2}">
+		<select class="dropTag" name="sort" id="sort">
+			<option value="2">이름▲</option>
+			<option value="0">회원번호▲</option>
+			<option value="1">회원번호▼</option>
+			<option value="3">이름▼</option>
+		</select>
+		</c:if>
+		
+		<c:if test="${sort eq 3}">
+		<select class="dropTag" name="sort" id="sort">
+			<option value="3">이름▼</option>
+			<option value="0">회원번호▲</option>
+			<option value="1">회원번호▼</option>
+			<option value="2">이름▲</option>
+		</select>
+		</c:if>
+		
+		<div style="position:relative; float: right; margin-right: 87px;" >
+		
+		<c:if test="${delCheckbox eq 0}">
+        	탈퇴 회원 조회<input id="delCheckbox" type="checkbox" name="delCheckbox" value="0">
+        </c:if>
+        <c:if test="${delCheckbox eq 1}">
+        	탈퇴 회원 조회<input id="delCheckbox" type="checkbox" name="delCheckbox" value="1" checked="checked">
+		</c:if>
+		
+        </div>
+        
+        </div>
+        
+	</div>
+</form>
+
+<table id="userListTb">	
+	
+<tr>
+	<th class="userListTh" width="7%">회원번호</th>
+	<th class="userListTh" width="10%">아이디</th>
+	<th class="userListTh" width="10%">회원명</th>
+	<th class="userListTh" width="10%">가입일</th>
+	<th class="userListTh" width="10%">강사 여부<br>
+</tr>
+
+<c:forEach items="${list }" var="list"> 
+	<tr class="userListTr" >
+		<td class="userListTd userInfo${list.userNo }">${list.userNo }</td>
+		<td class="userListTd userInfo${list.userNo }">${list.userId }</td>
+		<td class="userListTd userInfo${list.userNo }">${list.userName }</td>
+		<td class="userListTd userInfo${list.userNo }">${list.userDateCreated }</td>
+		<td class="userListTd userInfo${list.userNo }"></td>
+	<tr>
+</c:forEach>
+</table>
+
+<div style="margin-top: 30px;">
+
+<div>
+	
+	<ul class="pagination pagination-sm justify-content-center">
+		
+		
+		<%-- 이전 페이지 리스트로 이동 --%>
+		<c:choose>
+			<c:when test="${paging.startPage ne 1 }">
+			<li class="page-item">
+				<a class="page-link" href="<%=request.getContextPath() %>?curPage=${paging.startPage - paging.pageCount }&sort=${sort}&delCheckbox=${delCheckbox}">&laquo;</a>
+			</li>
+			</c:when>
+			<c:when test="${paging.startPage eq 1 }">
+			<li class="page-item">
+				<a class="page-link disabled">&laquo;</a>
+			</li>
+			</c:when>
+		</c:choose>
+		
+		
+		
+		
+		<%-- 이전 페이지로 이동 --%>
+		<c:if test="${paging.curPage > 1 }">
+			<li class="page-item">
+				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage - 1 }&sort=${sort}&delCheckbox=${delCheckbox}">&lt;</a>
+			</li>
+		</c:if>
+		
+		
+		
+	
+		<%-- 페이징 번호 목록 --%>
+		<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
+			<c:if test="${paging.curPage eq i }">
+			<li class="page-item">
+				<a class="page-link active" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}&delCheckbox=${delCheckbox}">${i }</a>
+			</li>
+			</c:if>
 			
+			<c:if test="${paging.curPage ne i }">
+			<li class="page-item">
+				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}&delCheckbox=${delCheckbox}">${i }</a>
+			</li>
+			</c:if>
+		</c:forEach>
+		
+		
+		
+		
+		<%-- 다음 페이지로 이동 --%>
+		<c:if test="${paging.curPage < paging.totalPage }">
+			<li class="page-item">
+				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage + 1 }&sort=${sort}&delCheckbox=${delCheckbox}">&gt;</a>
+			</li>
+		</c:if>
+		
+		
+		
+		
+		<%-- 다음 페이지 리스트로 이동 --%>
+		<c:choose>
+			<c:when test="${paging.endPage ne paging.totalPage }">
+			<li class="page-item">
+				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.endPage + paging.pageCount }&sort=${sort}&delCheckbox=${delCheckbox}">&raquo;</a>
+			</li>
+			</c:when>
+			<c:when test="${paging.endPage eq paging.totalPage }">
+			<li class="page-item">
+				<a class="page-link disabled">&raquo;</a>
+			</li>
+			</c:when>
+		</c:choose>
+
+	</ul>	
+	
+</div>
+
+</div>
+</div>
 		
 <c:import url="/WEB-INF/views/layout/adminFooter.jsp" />

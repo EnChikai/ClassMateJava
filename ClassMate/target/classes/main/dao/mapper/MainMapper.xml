@@ -5,9 +5,32 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="main.dao.face.MainDao">
-	 <select id="listAll" resultType="UserInfo">
-	 	SELECT * FROM user_info
-	 </select>
+ 
+ 	<select id="selectByEventFile">
+ 		SELECT head_img, event_no FROM event_board
+ 	</select>
+ 	
+ 	<select id="ClassOrderTop" parameterType="int">
+ 		SELECT * FROM (
+		    SELECT C.*, ROWNUM AS rnum
+		    FROM class C
+		    LEFT JOIN order_tb O ON C.class_no = O.class_no
+		    WHERE C.on_off = #{onOff} AND C.delete_boolean = 0
+		    ORDER BY order_no DESC
+		) WHERE rnum &lt;= 5
+ 	</select>
+ 	
+ 	<select id="recommended" parameterType="int">
+ 		SELECT * FROM (
+		    SELECT c.*, ROWNUM AS rnum
+		    FROM (
+		        SELECT *
+		        FROM class
+		        WHERE on_off = #{onOff} AND delete_boolean = 0
+		        ORDER BY expense DESC
+		    ) c
+		) WHERE rnum &lt;= 5
+ 	</select>
 	 
 	 <select id="mainCategoryList" resultType="MainCategory">
 	 	SELECT * FROM main_category
@@ -20,23 +43,88 @@
 	 	</where>
 	 </select>
 	 
-	 <select id="onClassList" resultType="Class" parameterType="Class">
-	 	SELECT * FROM class
-	 	<where>
-	 		AND sub_category_no = #{subCategoryNo}
-	 		AND on_off = 1
-	 	</where>
+	 <select id="mainOnClassCntAll" resultType="int" parameterType="Class">
+		SELECT count(*) FROM class
+		WHERE delete_boolean = 0
+		   	  AND on_off = 1
+		   	  AND sub_category_no = ${subCategoryNo}
 	 </select>
 	 
-	 <select id="offClassList" resultType="Class" parameterType="Class">
-	 	SELECT * FROM class
-	 	<where>
-	 		AND sub_category_no = #{subCategoryNo}
-	 		AND on_off = 0
-	 	</where>
+	 <select id="onClassList" resultType="Class" parameterType="Map">
+	 	SELECT * FROM (
+	 		SELECT rownum runm, B.* FROM (
+	 			SELECT * FROM class
+	 				WHERE delete_boolean = 0
+	 				
+	 				AND on_off = 1
+	 				AND sub_category_no = ${cLass.subCategoryNo}
+	 				ORDER BY class_no DESC
+	 		) B
+	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
+	 </select>	 
+	 
+	 <select id="mainOffClassCntAll" resultType="int" parameterType="Class">
+		SELECT count(*) FROM class
+		WHERE delete_boolean = 0
+		   	  AND on_off = 0
+		   	  AND sub_category_no = ${subCategoryNo}
 	 </select>
-	  
-	  
-	  
-	  
+
+	 <select id="offClassList" resultType="Class" parameterType="Map">
+	 	SELECT * FROM (
+	 		SELECT rownum runm, B.* FROM (
+	 			SELECT * FROM class
+	 				WHERE delete_boolean = 0
+	 				AND on_off = 0
+	 				AND sub_category_no = ${cLass.subCategoryNo}
+	 				ORDER BY class_no DESC
+	 		) B
+	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
+	 </select>
+	 
+	 <select id="onClassSortList" resultType="Class" parameterType="Map">
+	 	SELECT * FROM (
+	 		SELECT rownum runm, B.* FROM (
+	 			SELECT c.class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start, class_end, max_count, expense,
+class_info, curriculum, on_off, head_img, content, delete_boolean, order_no, user_no, o.merchant_uid
+				FROM class c
+				FULL OUTER JOIN order_tb o ON c.class_no = o.class_no
+	 				WHERE c.delete_boolean = 0
+	 				AND c.on_off = 1
+	 				AND c.sub_category_no = ${cLass.subCategoryNo}
+	 				ORDER BY ${sort}
+	 		) B
+	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
+	 </select>	 
+	 
+	 <select id="offClassSortList" resultType="Class" parameterType="Map">
+	 	SELECT * FROM (
+	 		SELECT rownum runm, B.* FROM (
+	 			SELECT c.class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start, class_end, max_count, expense,
+class_info, curriculum, on_off, head_img, content, delete_boolean, order_no, user_no, o.merchant_uid
+				FROM class c
+				FULL OUTER JOIN order_tb o ON c.class_no = o.class_no
+	 				WHERE c.delete_boolean = 0
+	 				AND c.on_off = 0
+	 				AND c.sub_category_no = ${cLass.subCategoryNo}
+	 				ORDER BY ${sort}
+	 		) B
+	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
+	 </select>
+	 
+	 <select id="onClassViewList" resultType="Class" parameterType="Class">
+	 	SELECT * FROM class
+	 	WHERE class_no = #{classNo}
+	 </select>
+	 
+	 <select id="duplicationBasket" resultType="Integer" parameterType="Class">
+	 	SELECT * FROM basket
+	 	WHERE class_no = #{classNo}
+	 </select>
+	 
+	 <insert id="insertBasket" parameterType="Map">
+	 	INSERT INTO basket( basket_no, user_no, class_no )
+	 	VALUES( basket_seq.nextval, #{userNo}, #{cLass.classNo} )
+	 </insert>
+	 
  </mapper>
