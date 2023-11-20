@@ -71,5 +71,13 @@ public interface TeacherDao {
 	 */
 	public int selectAnswerCntAll(int classNo);
 
+	/**
+	 * 온클래스 강사 한명의 모든 강의명
+	 * 
+	 * @param teacherNo 전달된 강사 번호
+	 * @return
+	 */
+	public List<Class> selectTeacherClass(int teacherNo);
+
 	
 }
