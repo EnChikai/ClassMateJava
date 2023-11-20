@@ -2,6 +2,9 @@ package teacher.service.face;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import lecture.dto.Class;
@@ -75,6 +78,16 @@ public interface TeacherService {
 	 * @return
 	 */
 	public List<QuestionAnswer> qaList(TeacherMainPaging paging, int userNo);
+
+	
+	/**
+	 * 온클래스 강사의 강사명을 List로 가져온다 
+	 * 
+	 * @param session 강사번호가 저장된 session 파라미터
+	 * @param param 페이징 계산이 완료된 파라미터
+	 * @return
+	 */
+	public List<Class> answerDrop(HttpSession session, TeacherMainPaging param);
 
 	
 	
