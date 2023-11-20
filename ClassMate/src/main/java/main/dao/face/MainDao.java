@@ -3,6 +3,7 @@ package main.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import board.dto.EventBoard;
 import lecture.dto.Class;
 import main.dto.MainCategory;
 import main.dto.SubCategory;
@@ -12,7 +13,11 @@ import web.util.Paging;
 
 public interface MainDao {
 
-	public List<UserInfo> listAll();
+	public List<EventBoard> selectByEventFile();
+
+	public List<Class> ClassOrderTop(int onOff);
+
+	public List<Class> recommended(int onOff);
 
 	public List<MainCategory> mainCategoryList();
 
@@ -31,6 +36,13 @@ public interface MainDao {
 	public List<Class> offClassSortList(Map<String, Object> map);
 
 	public List<Class> onClassViewList(Class cLass);
+
+	public Integer duplicationBasket(Class cLass);
+
+	public void insertBasket(Map<String, Object> map);
+
+
+
 
 
 
