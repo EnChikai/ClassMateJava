@@ -4,11 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import board.dto.EventBoard;
 import lecture.dto.Class;
 import main.dao.face.MainDao;
 import main.dto.MainCategory;
@@ -23,11 +27,25 @@ public class MainServiceImpl implements MainService{
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired MainDao mainDao;
-
+	
 	@Override
-	public List<UserInfo> listAll() {
-		return mainDao.listAll();
+	public Map<String, Object> MainPage(Class cLass, EventBoard eventBoard, Map<String,Object> map) {
+		List<EventBoard> selectByEventFileList = mainDao.selectByEventFile();
+		int onOff = 1;
+		List<Class> onClassOrderTopList = mainDao.ClassOrderTop(onOff);
+		List<Class> onRecommended = mainDao.recommended(onOff);
+		onOff = 0;
+		List<Class> offClassOrderTopList = mainDao.ClassOrderTop(onOff);
+		List<Class> offRecommended = mainDao.recommended(onOff);
+		map.put("selectByEventFileList", selectByEventFileList);
+		map.put("onClassOrderTopList", onClassOrderTopList);
+		map.put("onRecommended", onRecommended);
+		map.put("offClassOrderTopList", offClassOrderTopList);
+		map.put("offRecommended", offRecommended);
+		
+		return map;
 	}
+
 
 	@Override
 	public List<MainCategory> mainCategoryList() {
@@ -152,10 +170,30 @@ public class MainServiceImpl implements MainService{
 	}
 
 	@Override
-	public List<Class> onClassViewList(Class cLass) {
+	public List<Class> ClassViewList(Class cLass) {
 		return mainDao.onClassViewList(cLass);
 	}
 
+	@Override
+	public int basket(Class cLass, HttpSession session) {
+		
+		//Class 중복검사
+		Integer res = mainDao.duplicationBasket(cLass);
+		System.out.println(res);
+
+		
+		//Class 중복아니니까 insert 진행
+		if( res == null ) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("userNo", session.getAttribute("userNo"));
+		map.put("cLass", cLass);
+		mainDao.insertBasket(map);
+		
+		return 0;
+		}
+		
+		return 1;
+	}
 
 
 }
