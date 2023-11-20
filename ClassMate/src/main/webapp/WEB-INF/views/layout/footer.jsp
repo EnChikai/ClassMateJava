@@ -228,9 +228,7 @@ td{
 	padding-right: 15px;
 }
 
-.footer{
-	margin: 15px;
-}
+
 
 .subtilte{
 	text-align: center;
@@ -257,7 +255,6 @@ a:hover {
 
 </style>
 
-</div>
 
 <hr>
 <div class="footer">

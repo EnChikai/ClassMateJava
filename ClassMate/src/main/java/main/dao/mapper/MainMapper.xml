@@ -5,9 +5,32 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="main.dao.face.MainDao">
-	 <select id="listAll" resultType="UserInfo">
-	 	SELECT * FROM user_info
-	 </select>
+ 
+ 	<select id="selectByEventFile">
+ 		SELECT head_img, event_no FROM event_board
+ 	</select>
+ 	
+ 	<select id="ClassOrderTop" parameterType="int">
+ 		SELECT * FROM (
+		    SELECT C.*, ROWNUM AS rnum
+		    FROM class C
+		    LEFT JOIN order_tb O ON C.class_no = O.class_no
+		    WHERE C.on_off = #{onOff} AND C.delete_boolean = 0
+		    ORDER BY order_no DESC
+		) WHERE rnum &lt;= 5
+ 	</select>
+ 	
+ 	<select id="recommended" parameterType="int">
+ 		SELECT * FROM (
+		    SELECT c.*, ROWNUM AS rnum
+		    FROM (
+		        SELECT *
+		        FROM class
+		        WHERE on_off = #{onOff} AND delete_boolean = 0
+		        ORDER BY expense DESC
+		    ) c
+		) WHERE rnum &lt;= 5
+ 	</select>
 	 
 	 <select id="mainCategoryList" resultType="MainCategory">
 	 	SELECT * FROM main_category
@@ -90,11 +113,18 @@ class_info, curriculum, on_off, head_img, content, delete_boolean, order_no, use
 	 </select>
 	 
 	 <select id="onClassViewList" resultType="Class" parameterType="Class">
-	 	SELECT * FROM Class
+	 	SELECT * FROM class
 	 	WHERE class_no = #{classNo}
 	 </select>
-	  
-	  
-	  
-	  
+	 
+	 <select id="duplicationBasket" resultType="Integer" parameterType="Class">
+	 	SELECT * FROM basket
+	 	WHERE class_no = #{classNo}
+	 </select>
+	 
+	 <insert id="insertBasket" parameterType="Map">
+	 	INSERT INTO basket( basket_no, user_no, class_no )
+	 	VALUES( basket_seq.nextval, #{userNo}, #{cLass.classNo} )
+	 </insert>
+	 
  </mapper>

@@ -4,45 +4,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-/*     $(function () {
-        $("#onClass").click(function () {
-            $.ajax({
-                type: "GET",
-                url: "/main/onClassList",
-                data: { subCategoryNo: "${subCategoryNo}" },
-                dataType: "html",
-                success: function (data) {
-                    console.log("onClassList 성공", data);
-                    $("#onClassList").html(data); // 변경된 부분: displayClassList 함수 대신 직접 데이터를 HTML로 설정
-                    $("#offClassList").hide();
-                    
-                },
-                error: function () {
-                    console.log("onClassList 실패");
-                }
-            });
-        });
 
-        $("#offClass").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/main/offClassList",
-                data: { subCategoryNo: "${subCategoryNo}" },
-                dataType: "html",
-                success: function (data) {
-                    console.log("offClassList 성공", data);
-                    $("#offClassList").html(data); // 변경된 부분: displayClassList 함수 대신 직접 데이터를 HTML로 설정
-                    $("#onClassList").hide();
-                    
- 
-                },
-                error: function () {
-                    console.log("offClassList 실패");
-                }
-            });
-        });
-
-    }); */
     function submitForm() {
         document.getElementById('sortForm').submit();
     }
@@ -57,10 +19,16 @@
 	border: 1px solid rgb(230,204,100);
 	
 }
+
+.defaultWidth{
+	margin-left: 400px;
+	margin-right: 400px;
+	margin-top: 35px;
+}
 </style>
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
-
+<div class="defaultWidth">
     <!-- 토글 버튼 -->
     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
     <input type="button" onclick="location.href='/main/onClassList?subCategoryNo=${subCategoryNo}'" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
@@ -193,5 +161,5 @@
     
    </div>
 	
-
+</div>
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

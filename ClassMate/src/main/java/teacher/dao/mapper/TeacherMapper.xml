@@ -66,5 +66,12 @@ SELECT teacher_no FROM teacher
 	)
 </select>
 
+<select id="selectTeacherClass"  resultType="Class" parameterType="int">
+	SELECT class_name FROM class
+		<where>
+			AND teacher_no = #{teacherNo}
+			AND class_name = 1
+		</where>
+</select>
 
 </mapper>
