@@ -147,23 +147,28 @@
       <div id="contentFile" style="height: auto; padding: 10px; 	border: 1px solid lightgrey;">
 			<c:forEach var="freeBoardFile" items="${freeBoardFile}">
 				<img id="freefile" alt="freefile" src="/resources/img/file.png" width="22" height="19">
-						<a href="./download?fileNo=${freeBoardFile.fileNo }"><span id="contentFileSpan"> : ${freeBoardFile.originName }</span></a><br>
+						<a href="./download?fileNo=${freeBoardFile.fileNo }">
+							<span id="contentFileSpan"> : ${freeBoardFile.originName }</span>
+						</a><span class="del fw-bold fs-4 text-danger">X</span>
+		      	<input type="checkbox" class="d-none" name="delFileno" value="${freeBoardFile.fileNo }"><br>
 			</c:forEach>
 	  </div>
       
-      
-<%--       <div style="text-align: center;">
-		    <c:forEach var="freeBoardFile" items="${freeBoardFile }">
-		   		<div>
-		      	<a href="./download?fileNo=${freeBoardFile.fileNo }">${freeBoardFile.originName }</a>
-		      	<span class="del fw-bold fs-4 text-danger">X</span>
+		<script type="text/javascript">
+		$(() => {
+		   $("#title").focus()
+		   
+		   $(".del").click(e => {
+		      $(e.target).prev().toggleClass("text-decoration-line-through")
 		      
-		      	<input type="checkbox" class="d-none" name="delFileno" value="${freeBoardFile.fileNo }">
-		   		</div>
-			</c:forEach>
-	  </div> --%>
-      
-<%-- ${freeBoardFile.originName} --%>
+		      $(e.target).next().prop("checked", ()=>{return !$(e.target).next().prop("checked");})
+		   })
+		   
+		   $("#content").summernote({
+		      height: 300
+		   })
+		})
+		</script>
 
    <script type="text/javascript">
        $("#file").on('change', function () {

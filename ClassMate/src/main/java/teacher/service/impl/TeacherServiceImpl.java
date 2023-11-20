@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -125,6 +126,17 @@ public class TeacherServiceImpl implements TeacherService {
 	public List<QuestionAnswer> qaList(TeacherMainPaging paging, int userNo) {
 		
 		return null;
+	}
+
+	@Override
+	public List<Class> answerDrop(HttpSession session, TeacherMainPaging param) {
+		
+		//int teacherNo = (int) session.getAttribute("teacherNo"); 세션에 저장된 teacherNo를 가져온다
+		int teacherNo = 2;
+		
+		List<Class> list = teacherDao.selectTeacherClass(teacherNo);
+		
+		return list;
 	}
 	
 

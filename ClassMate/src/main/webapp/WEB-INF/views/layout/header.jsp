@@ -40,21 +40,8 @@
     padding-left: 17px;
 }
 
-a:link {
-  color : black;
-  text-decoration: none;
-}
-
-a:visited {
-  color : black;
-  text-decoration: none;
-}
 
 
-.defaultWidth {
-    margin-left: 400px;
-    margin-right: 400px;
-}
 
 </style>
 </head>
@@ -66,47 +53,38 @@ a:visited {
 
 <table style="margin-left: auto; margin-right: auto; font-size: 15px;">
 	<tr>
-	<c:if test="${isLogin!=null}">
-		<th class="headerTh"><a href="/main/mainCategory" class="link-dark">카테고리</a></th>
-		<th class="headerTh"><a href="/board/board" class="link-dark" >게시판</a></th>
+		<th class="headerTh"><a href="/main/mainCategory" style="text-decoration: none; color: black;">카테고리</a></th>
+		<th class="headerTh"><a href="/board/board" style="text-decoration: none; color: black;">게시판</a></th>
 		<th class="headerTh">검색</th>
-		<th class="headerTh"><a href="/payment/basket" class="link-dark">장바구니</a></th>
-		<th class="headerTh" id="login"class="link-dark">ClassMate</th>
-	</c:if>
-	<c:if test="${isLogin==null}">
-		<th class="headerTh"><a href="/user/login" class="link-dark">카테고리</a></th>
-		<th class="headerTh"><a href="/user/login"class="link-dark">게시판</a></th>
-		<th class="headerTh">검색</th>
-		<th class="headerTh"><a href="/user/login"class="link-dark">장바구니</a></th>
-		<th class="headerTh" id="login"class="link-dark">ClassMate</th>
-	</c:if>
+		<th class="headerTh"><a href="/payment/basket" style="text-decoration: none; color: black;">장바구니</a></th>
+		<th class="headerTh">ClassMate</th>
 	</tr>
 </table>
 <c:if test="${isLogin==null}">
 <div style="text-align: center; margin-left: 338px; margin-top: 25px; font-size: small;">
-	<span><strong><a href="/user/login" class="link-dark">로그인</a></strong></span>
+	<span><strong><a href="/user/login" style="text-decoration: none; color: black;">로그인</a></strong></span>
 </div>
 </c:if>
 
 <c:if test="${isLogin!=null && teacherNo==null}">
 <div class="container " style="text-align: center; margin-left: 609px; margin-top: 25px; font-size: small;">
-	<span class="col"><strong><a href="/user/mypageMain"class="link-dark">마이페이지</a></strong></span>
+	<span class="col"><strong><a href="/user/mypageMain" style="text-decoration: none; color: black;">마이페이지</a></strong></span>
 	<span class="col"><strong>강사신청</strong></span>
 	<span class="col"><strong>1:1문의</strong></span>
-	<span class="col"><strong><a href="/user/logout" style="text-decoration: none; color: black;"class="link-dark">로그아웃</a></strong></span>
+	<span class="col"><strong><a href="/user/logout" style="text-decoration: none; color: black;">로그아웃</a></strong></span>
 </div>
 </c:if>
 
 <c:if test="${isLogin!=null && teacherNo!=null}">
 <div class="container " style="text-align: center; margin-left: 609px; margin-top: 25px; font-size: small;">
-	<span class="col"><strong><a href="/user/mypageMain"class="link-dark">마이페이지</a></strong></span>
-	<span class="col"><strong><a href="/teacher/main"class="link-dark">강사페이지</a></strong></span>
+	<span class="col"><strong><a href="/user/mypageMain" style="text-decoration: none; color: black;">마이페이지</a></strong></span>
+	<span class="col"><strong><a href="/teacher/main" style="text-decoration: none; color: black;">강사페이지</a></strong></span>
 	<span class="col"><strong>1:1문의</strong></span>
-	<span class="col"><strong><a href="/user/logout"class="link-dark">로그아웃</a></strong></span>
+	<span class="col"><strong><a href="/user/logout" style="text-decoration: none; color: black;">로그아웃</a></strong></span>
 </div>
 </c:if>
 
 </div>
 
-<div class="defaultWidth">
+
 

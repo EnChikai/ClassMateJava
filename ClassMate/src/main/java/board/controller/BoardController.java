@@ -1,5 +1,6 @@
 package board.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -194,7 +195,7 @@ public class BoardController {
 //	}
 	
 	
-	@RequestMapping("/freeUpdate")
+	@GetMapping("/freeUpdate")
 	private void freeUpdate(FreeBoard paramFree, Model model) {
 		
 //		if( paramFree.getFreeNo() < 1 ) {
@@ -202,59 +203,60 @@ public class BoardController {
 //		}
 		
 		//상세보기 페이지 아님 표시
-//		paramFree.setHit(-1);
+//		paramFree.setFreeHit(-1);
 		
 		//자유게시판 번호로 자유게시글 조회
-		logger.info("아 왜 안되냐고freeUpadate{}",paramFree.getFreeNo());
+//		logger.info("아 왜 안되냐고freeUpadate{}",paramFree.getFreeNo());
 		paramFree = boardService.freeView(paramFree);
-		logger.info("유주상스{}", paramFree);
+//		logger.info("유주상스{}", paramFree);
 		if( paramFree.getFreeHead().equals("자유")) {
 			model.addAttribute("freeHead",1);
 		} else if(paramFree.getFreeHead().equals("모임")) {
 			model.addAttribute("freeHead", 0);
 		}
-		
-		model.addAttribute("paramFree", paramFree);
-
-		
-		//첨부파일 정보 전달
-		List<FreeBoardFile> freeBoardFile = boardService.getAttachFreeFile( paramFree );
-		logger.info("유주상이문제다 {}", freeBoardFile);
-		model.addAttribute("freeBoardFile", freeBoardFile);
-		
-//		return "redirect:./freeUpdate";
-	}
-	
-//	@PostMapping("/freeUpdate")
-//	public String updateProc(
-//			FreeBoard updateParam
-//			, List<MultipartFile> file
-//			, int[] delFileno
-//			
-//			, HttpSession session
-////			, @SessionAttribute("id") String id
-////			, @SessionAttribute("nick") String nick
-//			
-//			, Model model) {
 //		
-////		updateParam.setWriterId( id );
-////		updateParam.setWriterNick( nick );
+		model.addAttribute("paramFree", paramFree);
 //
 //		
+		//첨부파일 정보 전달
+		List<FreeBoardFile> freeBoardFile = boardService.getAttachFreeFile( paramFree );
+//		logger.info("유주상이문제다 {}", freeBoardFile);
+		model.addAttribute("freeBoardFile", freeBoardFile);
+		
+	}
+	
+	@PostMapping("/freeUpdate")
+	public String freeUpdateProc(
+			FreeBoard updateParam
+			, List<MultipartFile> file
+			, int[] delFileno
+			
+			, HttpSession session
+//			, @SessionAttribute("id") String id
+//			, @SessionAttribute("nick") String nick
+//			
+			, Model model) {
+//		
+//			updateParam.setWriterId( id );
+//			updateParam.setWriterNick( nick );
+
+		
 //		logger.info("updateParam {}", updateParam);
 //		logger.info("file {}", file);
 //		logger.info("delFileno {}", Arrays.toString(delFileno));
-//
-//
+		logger.info("FreeBoard값 뭐냐고 : {}", updateParam);
+		logger.info("file {}", file);
+
 //		updateParam.setWriterId((String) session.getAttribute("id"));
-//		updateParam.setWriterNick((String) session.getAttribute("nick"));
-//
-//		
+		
 //		boardService.update(updateParam, file, delFileno);
-//		
-//		return "redirect:./freeView?freeNo=" + updateParam.getFreeNo();
-//	}
+		
+		return "redirect:./freeView?freeNo=" + updateParam.getFreeNo();
+	}
 	
-	
+	@GetMapping("/question")
+	public void question() {
+		
+	}
 	
 }
