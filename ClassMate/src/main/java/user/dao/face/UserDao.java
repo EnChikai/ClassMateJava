@@ -21,5 +21,7 @@ public interface UserDao {
 
 	public int updateUserDataout(UserInfo userInfo);
 
+	public UserInfo findIdByEmailAndName(String email, String name);
+
 
 }

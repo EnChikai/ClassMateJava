@@ -33,9 +33,9 @@ public class UserController {
 	public void searchIdPw() {}
 	
 	@PostMapping("/searchIdPw")
-	public String searchIdPwPost(@RequestParam("email") String email, @RequestParam("name") String name, Model model) {
+	public String searchIdPwPost(@RequestParam("userEmail") String userEmail, @RequestParam("userName") String userName, Model model) {
 	    // 이메일과 이름을 이용하여 아이디 찾기 로직을 수행
-	    UserInfo foundUserInfo = userService.findIdByEmailAndName(email, name);
+	    UserInfo foundUserInfo = userService.findIdByEmailAndName(userEmail, userName);
 
 	    if (foundUserInfo != null) {
 	        model.addAttribute("foundUserInfo", foundUserInfo);
@@ -48,6 +48,9 @@ public class UserController {
 	
 	@GetMapping("/resetPw")
 	public void resetPw() {}
+	
+	@GetMapping("/resetPwChk")
+	public void resetPwGet() {}
 
 	@GetMapping("/updatePw")
 	public void updatePw() {}
