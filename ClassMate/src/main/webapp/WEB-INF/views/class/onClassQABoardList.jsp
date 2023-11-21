@@ -45,14 +45,7 @@
             </div>
         </div>
     </c:forEach>
-    <c:set var="queryString" value="${fn:split(pageContext.request.queryString, '&')}"/>
-    <c:set var="classNo" value=""/>
-    <c:forEach items="${queryString}" var="param">
-        <c:if test="${fn:startsWith(param, 'classNo=')}">
-            <c:set var="classNo" value="${fn:substringAfter(param, 'classNo=')}"/>
-        </c:if>
-    </c:forEach>
-    <a href="/class/onClassQAWrite?classNo=${lecture.classNo}" class="btn btn-primary mt-3">질의 작성</a>
+    <a href="/class/onClassQAWrite?classNo=${classNo}" class="btn btn-primary mt-3">질의 작성</a>
     <a href="/class/onClass" class="btn btn-secondary mt-3">온클래스페이지</a>
 </div>
 

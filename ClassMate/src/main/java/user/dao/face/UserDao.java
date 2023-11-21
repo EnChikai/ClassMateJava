@@ -17,11 +17,9 @@ public interface UserDao {
 
 	public void insertUser(UserInfo userInfo);
 
-	public UserInfo findUserByEmail(String email);
-
 	public int updateUserDataout(UserInfo userInfo);
 
-	public UserInfo findIdByEmailAndName(String email, String name);
+	public int updateUserData(UserInfo userInfo);
 
 
 }
