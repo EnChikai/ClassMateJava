@@ -34,21 +34,20 @@ public class PaymentController {
 		logger.info("/payment/basket [GET]");
 		
 //		로그인 구현 이후 사용
-		logger.info("{}",session.getAttribute("userNo"));
-		int userNo = (int) session.getAttribute("userNo");
-		
-		//test용
-//		int userNo = 4;
-		
-		map = paymentService.selectBasket(userNo);
-		logger.info("user:{}",map.get("userInfo"));
-		logger.info("classList:{}",map.get("classList"));
-		logger.info("classListSize:{}",map.get("classListSize"));
-		
-		model.addAttribute("userInfo",map.get("userInfo"));
-		model.addAttribute("classList",map.get("classList"));
-		model.addAttribute("paymentSum",map.get("paymentSum"));
-		model.addAttribute("classListSize",map.get("classListSize"));
+		if(session.getAttribute("userNo") != null) {
+			logger.info("{}",session.getAttribute("userNo"));
+			int userNo = (int) session.getAttribute("userNo");
+			
+			map = paymentService.selectBasket(userNo);
+			logger.info("user:{}",map.get("userInfo"));
+			logger.info("classList:{}",map.get("classList"));
+			logger.info("classListSize:{}",map.get("classListSize"));
+			
+			model.addAttribute("userInfo",map.get("userInfo"));
+			model.addAttribute("classList",map.get("classList"));
+			model.addAttribute("paymentSum",map.get("paymentSum"));
+			model.addAttribute("classListSize",map.get("classListSize"));
+		}
 		
 	}
 	
