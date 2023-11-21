@@ -3,18 +3,21 @@ package teacher.dto;
 public class TeacherLicence {
 	private int licenceNo;
 	private int teacherNo;
+	private String licenceImg;
 	
 	public TeacherLicence() {}
 
 	@Override
 	public String toString() {
-		return "TeacherLicence [licenceNo=" + licenceNo + ", teacherNo=" + teacherNo + "]";
+		return "TeacherLicence [licenceNo=" + licenceNo + ", teacherNo=" + teacherNo + ", licenceImg=" + licenceImg
+				+ "]";
 	}
 
-	public TeacherLicence(int licenceNo, int teacherNo) {
+	public TeacherLicence(int licenceNo, int teacherNo, String licenceImg) {
 		super();
 		this.licenceNo = licenceNo;
 		this.teacherNo = teacherNo;
+		this.licenceImg = licenceImg;
 	}
 
 	public int getLicenceNo() {
@@ -32,6 +35,17 @@ public class TeacherLicence {
 	public void setTeacherNo(int teacherNo) {
 		this.teacherNo = teacherNo;
 	}
+
+	public String getLicenceImg() {
+		return licenceImg;
+	}
+
+	public void setLicenceImg(String licenceImg) {
+		this.licenceImg = licenceImg;
+	}
+
+	
+	
 	
 	
 }

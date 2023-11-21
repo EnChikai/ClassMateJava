@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService{
     }
 
 	@Override
-	public UserInfo updateUserData(UserInfo userInfo) {
+	public UserInfo updateInfo(UserInfo userInfo) {
 		logger.info("userInfo: {}",userInfo);
 		UserInfo data = userDao.selectUserByNo( userInfo );
 		logger.info("a: {}",data);
@@ -59,14 +59,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserInfo findIdPwByEmail(String email) {
-	       // 실제로는 데이터베이스에서 해당 이메일에 대한 아이디 및 비밀번호 정보를 조회하는 로직을 작성해야 합니다.
-        // 여기서는 간단한 예제로 사용자가 입력한 이메일에 대한 정보를 바로 반환하는 것으로 가정합니다.
-        return userDao.findUserByEmail(email);	}
-
-	@Override
-	public UserInfo findIdByEmailAndName(String email, String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public int updateUserData(UserInfo userInfo) {
+		logger.info("updateUserData()");
+		int result = userDao.updateUserData(userInfo);
+		return result;
 	}
+
+
 }

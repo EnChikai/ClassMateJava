@@ -70,8 +70,33 @@ SELECT teacher_no FROM teacher
 	SELECT class_name FROM class
 		<where>
 			AND teacher_no = #{teacherNo}
-			AND class_name = 1
+			AND on_off = 0
 		</where>
 </select>
+
+<insert id="applyTeacherImgFile" parameterType="Teacher">
+	<selectKey order="BEFORE" resultType="int" keyProperty="teacherNo">
+			SELECT teacher_seq.nextval FROM dual
+	</selectKey>
+	INSERT INTO teacher (teacher_no, user_no, teacher_img, teacher_info, teacher_career)
+	VALUES ( #{teacherNo}, #{userNo}, #{teacherImg}, #{teacherInfo}, #{teacherCareer}) 
+</insert>
+
+<insert id="applyInsertFile" parameterType="TeacherLicence">
+	<selectKey order="BEFORE" resultType="int" keyProperty="licenceNo">
+			SELECT teacher_licence_seq.nextval FROM dual
+	</selectKey>
+	INSERT INTO teacher_licence ( licence_no, teacher_no, licence_img )
+		VALUES ( #{licenceNo}, #{teacherNo}, #{licenceImg})
+</insert>
+
+<insert id="applyPrcInsert" parameterType="TeacherApply">
+	<selectKey order="BEFORE" resultType="int" keyProperty="applyNo">
+			SELECT teacher_apply_seq.nextval FROM dual
+	</selectKey>
+	INSERT INTO teacher_apply (apply_no, teacher_no, pass_or_not)
+	VALUES (#{applyNo}, #{teacherNo}, #{passOrNot})		
+</insert>
+
 
 </mapper>

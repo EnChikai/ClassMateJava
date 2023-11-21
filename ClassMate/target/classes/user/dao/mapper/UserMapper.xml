@@ -52,6 +52,22 @@
 		</where>
 	</update>
 	
+	<update id="updateUserData" parameterType="user.dto.UserInfo">
+	    UPDATE user_info
+	    SET
+	    	USER_ID = #{userId},
+	        USER_GENDER = #{userGender},
+	        USER_BIRTHDAY = #{userBirthday},
+	        USER_PHONE = #{userPhone},
+	        USER_NAME = #{userName},
+	        MAIN_ADDRESS = #{mainAddress},
+	        SUB_ADDRESS = #{subAddress},
+	        USER_POST = #{userPost},
+	        USER_DATE_CREATED = sysdate
+	    WHERE
+	        USER_NO = #{userNo}
+	</update>
+	
     <insert id="insertUser" parameterType="user.dto.UserInfo">
         INSERT INTO user_info
         VALUES (user_info_seq.nextval , #{userId}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, #{userName }, #{userEmail}, #{mainAddress}, #{subAddress}, #{userPost}, #{userSecession}, sysdate)
@@ -62,10 +78,4 @@
     </select>
     
     
-        <!-- 이메일과 이름으로 아이디 찾기 -->
-    <select id="findIdByEmailAndName" resultType="UserInfo" parameterType="map">
-        SELECT * FROM user_info WHERE user_email = #{userEmail} AND user_name = #{userName}
-    </select>
-	
-
  </mapper>

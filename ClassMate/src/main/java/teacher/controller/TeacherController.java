@@ -1,9 +1,11 @@
 package teacher.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +13,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import teacher.dto.Teacher;
+import teacher.dto.TeacherApply;
+import teacher.dto.TeacherLicence;
 import teacher.service.face.TeacherService;
+import user.dto.UserInfo;
 import web.util.TeacherMainPaging;
+import lecture.dto.Address;
 import lecture.dto.Class;
+import lecture.dto.ClassVideo;
 import lecture.dto.QuestionAnswer;
+import main.dto.MainCategory;
+import main.dto.SubCategory;
 
 @Controller
 @RequestMapping("/teacher")
@@ -40,6 +51,39 @@ public class TeacherController {
 		
 		List <Class> list = teacherService.answerDrop(session, param);
 		
+		map.addAttribute("dropList", list);
+		
+	}
+	
+	@GetMapping("/apply")
+	public void apply() {}
+	
+	
+	@PostMapping("/apply")
+	public String applyPost(
+			 Teacher teacherParam
+			, TeacherLicence teacherLicenceParam
+			, TeacherApply teacherApply
+			, List<MultipartFile> file
+			, List<MultipartFile> singleFile	
+			, HttpSession session			
+			, Model model
+			
+			) {
+		
+		//teacherParam.setUserNo((int) session.getAttribute("userNo"));
+		
+		//logger.info("insertParam {}", teacherParam);
+		//logger.info("insertLicenceParam {}", teacherLicenceParam);
+		//logger.info("insertLicenceParam {}", singleFile);
+		//logger.info("file {}", file);
+		//logger.info("delFileno {}", Arrays.toString(delFileno));
+
+		teacherService.applyWrite(teacherParam, teacherLicenceParam, teacherApply ,file, singleFile);
+		
+		
+		
+		return "redirect:../main/main";
 	}
 
 	
@@ -83,11 +127,27 @@ public class TeacherController {
 	 public void regist() {}
 	 
 	 @PostMapping("/regist")
-	 public String teacherClassRegistPost(Class registLecture, List<MultipartFile> file, HttpSession session) {
-		
-		 teacherService.classRegist(registLecture, file);
+	 public String teacherClassRegistPost(	
+			 		Teacher teacherParam
+				, UserInfo userParam
+				, Class classParam
+				, Address adressParam
+				, ClassVideo classVideoParam
+				, MainCategory mainCategoryParam
+				, SubCategory subCategoryParam
+				, List<MultipartFile> file
+				, List<MultipartFile> singleFile	
+				, HttpSession session			
+				, Model model
+				
+			 ) {
 		 
-		 return "redirect:./detail?classNo=" + registLecture.getClassNo();
+			// int userNO = (int) session.getAttribute("userNo"); //로그인 시 세션에 저장된 유저넘버
+			int userNo = 2; //유저번호가 2번이라는 가정 하에 진행
+		
+		// teacherService.classRegist(registLecture, file);
+		 
+		 return null;//"redirect:./detail?classNo=" + registLecture.getClassNo();
 	 }
 	 
 	 
@@ -112,6 +172,8 @@ public class TeacherController {
 			// 클래스 번호와 동일한 리스트 출력하도록 바꾸기
 		 
 	 }
+	 
+
 	 
 	 
 

@@ -9,6 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lecture.dto.Class;
 import lecture.dto.QuestionAnswer;
+import teacher.dto.Teacher;
+import teacher.dto.TeacherApply;
+import teacher.dto.TeacherLicence;
 import web.util.TeacherMainPaging;
 
 public interface TeacherService {
@@ -88,6 +91,15 @@ public interface TeacherService {
 	 * @return
 	 */
 	public List<Class> answerDrop(HttpSession session, TeacherMainPaging param);
+
+	/**
+	 * 강사 신청 시 teacher, teacherLicence 파일을 작성한다
+	 * 
+	 * @param teacherParam 전달된 teacher 정보
+	 * @param teacherLicenceParam 전달된 teacherLicence 정보
+	 * @param file 첨부할 파일 리스트
+	 */
+	public void applyWrite(Teacher teacherParam, TeacherLicence teacherLicenceParam, TeacherApply teacherApply ,List<MultipartFile> file, List<MultipartFile> singleFile);
 
 	
 	
