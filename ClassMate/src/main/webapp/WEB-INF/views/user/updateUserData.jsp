@@ -90,8 +90,14 @@ function closeWithdrawalPopup() {
 function updateUserInfo() {
     // 수정된 회원 정보를 읽어와서 변수에 저장
     var updatedUserInfo = {
-        userId: $("#userId").val(),
-        // 생년월일 등 다른 필드도 유사하게 추가
+        userPw: $("#userPw").val(),
+        userGender: $("input[name='userGender']:checked").val(),
+        userBirthday: $("#userBirthday").val(),
+        userPhone: $("#userPhone").val(),
+        userName: $("#userName").val(),
+        mainAddress: $("#mainAddress").val(),
+        subAddress: $("#subAddress").val(),
+        userPost: $("#userPost").val()
     };
 
     // AJAX 요청을 통해 서버로 수정된 회원 정보 전송
@@ -272,7 +278,7 @@ input[type="checkbox"] {
 		<div class="arrayDiv">
 		
 			<label for="userId">아이디</label>
-			<input type="text" id="userId" name="userId" style="width: 470px;" placeholder="${userInfo.userId }">	
+			<input type="text" id="userId" name="userId" style="width: 470px;" value="${userInfo.userId }">	
 			
 			<label for="userPw">비밀번호</label>
 			
@@ -297,10 +303,10 @@ input[type="checkbox"] {
 			<input type="date" id="userBirthday" name="userBirthday" placeholder="${userInfo.userBirthday }"><br>
 			
 			<label for="userPhone">전화번호</label>
-			<input type="text" id="userPhone" name="userPhone" placeholder="${userInfo.userPhone }"><br>
+			<input type="text" id="userPhone" name="userPhone" value="${userInfo.userPhone }"><br>
 			
 			<label for="userName">이름</label>
-			<input type="text" id="userName" name="userName" placeholder="${userInfo.userName }"><br>
+			<input type="text" id="userName" name="userName" value="${userInfo.userName }"><br>
 			
 			<label for="userEmail">이메일</label>
 			<input type="email" id="userEmail" name="userEmail" placeholder="${userInfo.userEmail }" style="width: 200px">

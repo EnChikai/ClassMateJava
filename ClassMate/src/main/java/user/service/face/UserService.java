@@ -13,13 +13,19 @@ public interface UserService {
 
 	public boolean checkDuplicateId(String userId);
 
-	public UserInfo updateUserData(UserInfo userInfo);
+	/**
+	 * 기존 회원정보 뽑아오기
+	 * 
+	 * @param userInfo (userNo만 포함)
+	 * @return userInfo (모든 데이터 포함)
+	 */
+	public UserInfo updateInfo(UserInfo userInfo);
 
 	public int updateOutUser(UserInfo userInfo);
 
-	public UserInfo findIdPwByEmail(String email);
+	public int updateUserData(UserInfo userInfo);
 
-	public UserInfo findIdByEmailAndName(String email, String name);
+
 
 
 }
