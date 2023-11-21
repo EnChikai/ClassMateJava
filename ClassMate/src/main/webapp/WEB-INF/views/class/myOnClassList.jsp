@@ -25,7 +25,7 @@
             margin-bottom: 30px;
         }
         .card-header-custom {
-            background-color: #a2d2ff;
+            background-color: #FFF0B1;
             color: #000;
         }
         .card-body-custom {
@@ -54,30 +54,32 @@
     <c:choose>
         <c:when test="${not empty lecture}">
             <c:forEach var="lecture" items="${lecture}">
-                <div class="card card-custom">
-                    <div class="card-header card-header-custom">
-                        <!-- 클래스 번호를 포함하여 링크 설정 -->
-                        <h3>
-                            <a href="${lecture.onOff eq '1' ? '/class/onClass?classNo=' : '/class/offClass?classNo='}${lecture.classNo}" 
-                               class="stretched-link" 
-                               style="color: inherit; text-decoration: none;">
-                                ${lecture.className}
-                            </a>
-                        </h3>
+                <!-- 온라인 클래스(onOff 값이 1)인 경우만 표시 -->
+                <c:if test="${lecture.onOff eq '1'}">
+                    <div class="card card-custom">
+                        <div class="card-header card-header-custom">
+                            <h3>
+                                <a href="/class/onClass?classNo=${lecture.classNo}" 
+                                   class="stretched-link" 
+                                   style="color: inherit; text-decoration: none;">
+                                    ${lecture.className}
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="card-body card-body-custom">
+                            <img src="${lecture.headImg}" alt="강의 이미지" class="img-thumbnail">
+                            <p class="mt-2">${lecture.classInfo}</p>
+                        </div>
                     </div>
-                    <div class="card-body card-body-custom">
-                        <img src="${lecture.headImg}" alt="강의 이미지" class="img-thumbnail">
-                        <p class="mt-2">${lecture.classInfo}</p>
-                    </div>
-                </div>
+                </c:if>
             </c:forEach>
         </c:when>
         <c:otherwise>
             <p>클래스 정보가 없습니다.</p>
         </c:otherwise>
     </c:choose>
-
 </div>
+
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
 
