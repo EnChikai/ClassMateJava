@@ -125,6 +125,7 @@ function categoryDropdown(categoryArray) {
 	>
 	<label for="categoryD">소분류 : </label>
 	<select name="categoryD" id="categoryD" disabled>
+	<option selected disabled>--대분류를 먼저 선택해주세요--</option>
 	</select>
 	</td>
 </tr>
