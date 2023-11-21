@@ -20,6 +20,10 @@
 	margin-bottom: 30px;
 }
 
+#qaSection:hover {
+    cursor: pointer;
+}
+
 .hero-text, .hero-title, .hero-subtitle {
 	color: #000;
 }
@@ -53,6 +57,18 @@
 	margin-bottom: 30px;
 }
 </style>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // 대상 div의 클래스나 ID를 사용하여 선택
+        const qaSection = document.querySelector('.qa-section');
+
+        qaSection.addEventListener('click', () => {
+            // 이 부분에 원하는 URL을 입력
+            window.location.href = '/class/onClassQABoardList?classNo=' + ${lecture.classNo};
+        });
+    });
+</script>
+
 </head>
 <body>
 	<c:import url="/WEB-INF/views/layout/header.jsp" />
@@ -74,8 +90,8 @@
 
 
 		<!-- Q&A Section -->
-		<div class="qa-section">
-			<h2 class="text-center mb-4"><a href="/class/onClassQABoardList?classNo=${lecture.classNo}" class="text-dark text-decoration-none">ON클래스 질문/답변</a></h2>
+		<div class="qa-section" id="qaSection">
+			<h2 class="text-center mb-4"><a class="text-dark text-decoration-none">ON클래스 질문/답변</a></h2>
 			<div class="row">
 				<c:forEach var="questionAnswer" items="${questionAnswer}" varStatus="status">
 					<div class="col-md-3 mb-4">
