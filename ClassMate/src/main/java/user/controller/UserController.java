@@ -1,6 +1,7 @@
 package user.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import lecture.dto.Class;
+import lecture.service.face.ClassService;
 import teacher.dto.Teacher;
 import user.dto.UserInfo;
 import user.service.face.UserService;
@@ -25,25 +28,27 @@ public class UserController {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
 	@Autowired UserService userService;
+	@Autowired ClassService classService;
 	
 	@GetMapping("/mypageMain")
-	public void mypageMain() {}
+	public void myOnClassList(Model model, HttpSession session) {
+		logger.info("/class/myOnClassList");
+//		logger.info("session : {}", session.getAttribute("userNo"));
+		int userNo = (int)session.getAttribute("userNo");
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserNo(userNo);
+		
+		List<Class> lecture = classService.allLecture(userInfo);
+//		logger.info("class : {}", lecture);
+		model.addAttribute("lecture", lecture);
+	}
 	
 	@GetMapping("/searchIdPw")
 	public void searchIdPw() {}
 	
 	@PostMapping("/searchIdPw")
-	public String searchIdPwPost(@RequestParam("userEmail") String userEmail, @RequestParam("userName") String userName, Model model) {
-	    // 이메일과 이름을 이용하여 아이디 찾기 로직을 수행
-	    UserInfo foundUserInfo = userService.findIdByEmailAndName(userEmail, userName);
+	public void searchIdPwPost() {
 
-	    if (foundUserInfo != null) {
-	        model.addAttribute("foundUserInfo", foundUserInfo);
-	    } else {
-	        model.addAttribute("notFound", true);
-	    }
-
-	    return "user/searchUserId"; // 결과를 보여줄 페이지로 이동
 	}
 	
 	@GetMapping("/resetPw")
@@ -60,14 +65,68 @@ public class UserController {
 		logger.info("{}",session.getAttribute("userNo"));
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUserNo((int)session.getAttribute("userNo"));
-		userInfo = userService.updateUserData(userInfo);
+		userInfo = userService.updateInfo(userInfo);
 		logger.info("{}",userInfo);
 		model.addAttribute("userInfo", userInfo);
 	}
 	
+	@ResponseBody
 	@PostMapping("/updateUserData")
-	public void updateUserDataPost() {
+	public Map<String, Object> updateUserDataPost(HttpSession session, UserInfo updatedUserInfo) {
+	    Map<String, Object> response = new HashMap<>();
+	    //	    logger.info("param : {}", updatedUserInfo);
 		
+	    updatedUserInfo.setUserNo((int)session.getAttribute("userNo"));
+	    
+	    UserInfo existingUserInfo = new UserInfo();
+	    existingUserInfo.setUserNo((int)session.getAttribute("userNo"));
+	    existingUserInfo = userService.updateInfo(existingUserInfo);
+	    
+	    
+	    
+	    // 각 필드를 체크하여 값이 null이면 기존 데이터의 값을 사용한다
+	    if (updatedUserInfo.getUserId() == null) {
+	        updatedUserInfo.setUserId(existingUserInfo.getUserId());
+	    }
+	    if (updatedUserInfo.getUserPw() == null) {
+	    	updatedUserInfo.setUserPw(existingUserInfo.getUserPw());
+	    }
+	    if (updatedUserInfo.getUserGender() == null) {
+	    	updatedUserInfo.setUserGender(existingUserInfo.getUserGender());
+	    }
+	    if (updatedUserInfo.getUserBirthday() == null) {
+	    	updatedUserInfo.setUserBirthday(existingUserInfo.getUserBirthday());
+	    }
+	    if (updatedUserInfo.getUserPhone() == null) {
+	    	updatedUserInfo.setUserPhone(existingUserInfo.getUserPhone());
+	    }
+	    if (updatedUserInfo.getUserName() == null) {
+	    	updatedUserInfo.setUserName(existingUserInfo.getUserName());
+	    }
+	    if (updatedUserInfo.getUserEmail() == null) {
+	    	updatedUserInfo.setUserEmail(existingUserInfo.getUserEmail());
+	    }
+	    if (updatedUserInfo.getMainAddress() == null) {
+	    	updatedUserInfo.setMainAddress(existingUserInfo.getMainAddress());
+	    }
+	    if (updatedUserInfo.getSubAddress() == null) {
+	    	updatedUserInfo.setSubAddress(existingUserInfo.getSubAddress());
+	    }
+	    if (updatedUserInfo.getUserPost() == 0) {
+	    	updatedUserInfo.setUserPost(existingUserInfo.getUserPost());
+	    }
+	    if (updatedUserInfo.getUserSecession() == 0) {
+	    	updatedUserInfo.setUserSecession(existingUserInfo.getUserSecession());
+	    }
+	    
+	    logger.info("updatedUserInfo : {}", updatedUserInfo);
+	    logger.info("existingUserInfo : {}", existingUserInfo);
+	    int result = userService.updateUserData(updatedUserInfo);
+	    
+	    // 회원 정보 업데이트 성공 여부에 따라 1 또는 0을 설정
+	    int updateResult = userService.updateUserData(updatedUserInfo);
+	    response.put("success", updateResult == 1);
+	    return response;
 	}
 	
 	@PostMapping("/updateUserDataOut")

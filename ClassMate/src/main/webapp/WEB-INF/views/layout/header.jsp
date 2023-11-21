@@ -40,6 +40,11 @@
     padding-left: 17px;
 }
 
+a{
+	color: black;
+	text-decoration: none;
+}
+
 
 
 
@@ -56,7 +61,12 @@
 		<th class="headerTh"><a href="/main/mainCategory" style="text-decoration: none; color: black;">카테고리</a></th>
 		<th class="headerTh"><a href="/board/board" style="text-decoration: none; color: black;">게시판</a></th>
 		<th class="headerTh">검색</th>
+		<c:if test="${isLogin!=null }">
 		<th class="headerTh"><a href="/payment/basket" style="text-decoration: none; color: black;">장바구니</a></th>
+		</c:if>
+		<c:if test="${isLogin==null }">
+		<th class="headerTh"><a href="/user/login" style="text-decoration: none; color: black;">장바구니</a></th>
+		</c:if>
 		<th class="headerTh">ClassMate</th>
 	</tr>
 </table>
@@ -70,7 +80,7 @@
 <div class="container " style="text-align: center; margin-left: 609px; margin-top: 25px; font-size: small;">
 	<span class="col"><strong><a href="/user/mypageMain" style="text-decoration: none; color: black;">마이페이지</a></strong></span>
 	<span class="col"><strong>강사신청</strong></span>
-	<span class="col"><strong>1:1문의</strong></span>
+	<span class="col"><strong><a href="/board/question" style="text-decoration: none; color: black;">1:1문의</a></strong></span>
 	<span class="col"><strong><a href="/user/logout" style="text-decoration: none; color: black;">로그아웃</a></strong></span>
 </div>
 </c:if>
@@ -79,7 +89,7 @@
 <div class="container " style="text-align: center; margin-left: 609px; margin-top: 25px; font-size: small;">
 	<span class="col"><strong><a href="/user/mypageMain" style="text-decoration: none; color: black;">마이페이지</a></strong></span>
 	<span class="col"><strong><a href="/teacher/main" style="text-decoration: none; color: black;">강사페이지</a></strong></span>
-	<span class="col"><strong>1:1문의</strong></span>
+	<span class="col"><strong><a href="/board/question" style="text-decoration: none; color: black;">1:1문의</a></strong></span>
 	<span class="col"><strong><a href="/user/logout" style="text-decoration: none; color: black;">로그아웃</a></strong></span>
 </div>
 </c:if>
