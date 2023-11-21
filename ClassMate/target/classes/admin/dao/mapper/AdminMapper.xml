@@ -8,6 +8,7 @@
   
     <select id="userInfoCntAll" parameterType="int">
   	SELECT count(*) FROM user_info
+  	WHERE user_secession = ${delCheckbox}
   	</select>
   	
   	<select id="selectUserAll" resultType="UserInfo" parameterType="Map">
@@ -45,5 +46,62 @@
         FROM user_info
   		WHERE user_no = ${userNo} 
   	</select>
+  	
+  	<update id="updateUser" parameterType="UserInfo">
+  		UPDATE user_info
+  		SET user_gender = #{userGender} 
+  			, user_birthday = #{userBirthday}
+  			, user_phone = #{userPhone}
+  			, user_name = #{userName}
+  			, user_post = #{userPost}
+  			, main_address = #{mainAddress}
+  			, sub_address = #{subAddress}
+  		WHERE user_no = ${userNo}
+  	</update>
+  	
+  	<update id="setSecessionUser" parameterType="int">
+  		UPDATE user_info
+  		set user_secession = 1
+  		WHERE user_no = ${userNo}
+  	</update>
+  	
+  	<select id="announceBoardCntAll" resultType="int">
+  	SELECT count(*) FROM announce_board
+  	</select>
+  	
+  	<select id="eventBoardCntAll" resultType="int">
+  	SELECT count(*) FROM announce_board
+  	</select>
+  	
+  	<select id="selectEventBoardAll" resultType="EventBoard" parameterType="Map">
+  		SELECT * FROM (
+    		SELECT rownum rnum, B.* FROM(
+      			SELECT
+				event_no, user_no, event_head, event_date, event_hit, event_name, event_content, event_exist, head_img
+				FROM event_board
+		        ORDER BY event_no DESC
+   			)B
+		)WHERE rnum BETWEEN #{eventPaging.startNo} AND #{eventPaging.endNo}
+  	</select>
+  	
+  	<select id="selectAnnounceBoardAll" resultType="AnnounceBoard" parameterType="Map">
+  		SELECT * FROM (
+    		SELECT rownum rnum, B.* FROM(
+      			SELECT
+				announce_no, user_no, announce_head, announce_date, announce_hit, announce_name, announce_content, announce_exist
+				FROM announce_board
+		        ORDER BY announce_no DESC
+   			)B
+		)WHERE rnum BETWEEN #{announcePaging.startNo} AND #{announcePaging.endNo}
+  	</select>
+  	
+  	<select id="selectAnnounceNo" resultType="AnnounceBoard" parameterType="AnnounceBoard">
+  		SELECT
+			announce_no, user_no, announce_head, announce_date, announce_hit, announce_name, announce_content, announce_exist
+        FROM Announce_board
+  		WHERE announce_no = ${announceNo}
+  	</select>
+  	
+  	
   	
   </mapper>

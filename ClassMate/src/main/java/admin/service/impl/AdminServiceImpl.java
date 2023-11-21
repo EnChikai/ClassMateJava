@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import admin.dao.face.AdminDao;
 import admin.service.face.AdminService;
+import board.dto.AnnounceBoard;
+import board.dto.EventBoard;
 import user.dto.UserInfo;
 import web.util.Paging;
 
@@ -23,11 +25,11 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired private AdminDao adminDao;
 	
 	@Override
-	public Paging getUserPaging(Paging param) {
+	public Paging  getUserPaging(Paging param, int delCheckbox) {
 		logger.info("getPaging()");
 		
 		//총 게시글 수 조회
-		int totalCount = adminDao.userInfoCntAll();
+		int totalCount = adminDao.userInfoCntAll(delCheckbox);
 		logger.info("totalCount : {}",totalCount);
 		
 		//페이징 객체 생성(페이징 계산)
@@ -85,6 +87,98 @@ public class AdminServiceImpl implements AdminService{
 		logger.info("userdata : {}", userdata);
 		
 		return userdata;
+	}
+
+	@Override
+	public int userInfoUpdate(UserInfo userdata) {
+		logger.info("userInfoUpdate()");
+		
+		int result = 0;
+		if(userdata != null) {
+			result = adminDao.updateUser(userdata);
+		}
+		logger.info("updata result : {}", result);
+		
+		return result;
+	}
+
+	@Override
+	public int secessionUser(UserInfo userdata) {
+		
+		int result = 0;
+		if(userdata.getUserNo() != 0) {
+			result = adminDao.setSecessionUser(userdata);
+		}
+		logger.info("setSecessionUser result : {}", result);
+		
+		return 0;
+	}
+
+	@Override
+	public Map<String, Object> getBoardPaging(Paging param) {
+		logger.info("getPaging()");
+		
+		//총 게시글 수 조회
+		int announceTotalCount = adminDao.announceBoardCntAll();
+		logger.info("totalCount : {}",announceTotalCount);
+		
+		int eventTotalCount = adminDao.eventBoardCntAll();
+		logger.info("totalCount : {}",eventTotalCount);
+		
+		//페이징 객체 생성(페이징 계산)
+		Paging announcePaging = new Paging(announceTotalCount, param.getCurPage());
+		Paging eventPaging = new Paging(eventTotalCount, param.getCurPage());
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("announcePaging", announcePaging);
+		map.put("eventPaging", eventPaging);
+		
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> boardList(Map<String, Object> pagingMap) {
+		logger.info("boardList() : {}", pagingMap);
+		
+		List<EventBoard> eventBoardList = new ArrayList<EventBoard>();
+		List<AnnounceBoard> announceBoardList = new ArrayList<AnnounceBoard>();
+		
+		eventBoardList = adminDao.selectEventBoardAll(pagingMap);
+		announceBoardList = adminDao.selectAnnounceBoardAll(pagingMap);
+		
+		if(eventBoardList != null) {
+			logger.info("eventBoardList 조회성공 : {}",eventBoardList);
+		}else {
+			logger.info("eventBoardList 조회실패 : {}",eventBoardList);
+		}
+		
+		if(announceBoardList != null) {
+			logger.info("announceBoardList 조회성공 : {}",announceBoardList);
+		}else {
+			logger.info("announceBoardList 조회실패 : {}",announceBoardList);
+		}
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("eventBoardList", eventBoardList);
+		result.put("announceBoardList", announceBoardList);
+		
+		return result;
+	}
+
+	@Override
+	public AnnounceBoard getAnnounceView(AnnounceBoard announceBoard) {
+		logger.info("getAnnounceView() : {}", announceBoard.getAnnounceNo());
+		
+		announceBoard = adminDao.selectAnnounceNo(announceBoard);
+		if(announceBoard != null) {
+			logger.info("조회 성공 announceBoard() : {}", announceBoard);
+		}else {
+			logger.info("조회 실패 announceBoard() : {}", announceBoard);
+		}
+		
+		return announceBoard;
 	}
 
 }
