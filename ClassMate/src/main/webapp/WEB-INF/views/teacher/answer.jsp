@@ -12,14 +12,43 @@
 
 <c:import url="/WEB-INF/views/layout/teacherSide.jsp" />
 
+<script type="text/javascript">
+
+$(function(){
+
+	   $(".dropTag").change(function(){
+	      
+	      $('#userListForm').submit();
+	      
+	   })
+	   
+	});
+
+
+function changeSelection(){
+	var selectedElement = document.getElementById("classCheck");
+
+
+   
+    // 선택한 option의 텍스트
+    var optionTxt = selectedElement.options[selectedElement.selectedIndex].text;
+}
+
+
+
+</script>
 <div class="center-box">
 <div class="title">
 <h3 style="display: inline-block;">ONF클래스 질문/답변 조회</h3>
-<div id= "all"><select name="claaCheck" id="classCHeck">
-  <option>on클래스</option>
-  <option>off클래스</option>
-</select></div>
+<div id= "all">
+    <select class="dropTag" name="classCheck" id="classCheck" onchange="changeSelection()">
+    	<option selected disabled> --선택-- </option>
+       		<c:forEach var="dl" items = "${dropList }">
+       		<option value="${dl.classNo }">${dl.className }</option>
+      	 	</c:forEach>
+    </select>
 </div>
+
 <hr>
 
 
