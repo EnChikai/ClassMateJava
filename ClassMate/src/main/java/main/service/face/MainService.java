@@ -31,8 +31,11 @@ public interface MainService {
 	public Map<String, Object> offClassList(Class cLass, MainClassListPaging paging, String sort);
 
 	public List<Class> ClassViewList(Class cLass);
+	
+	public boolean payment(Class cLass);
 
 	public int basket(Class cLass, HttpSession session);
+
 
 
 
