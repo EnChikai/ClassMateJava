@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="search.dao.face.SearchDao">
+
+	<select id="selectSubListByMain" resultType="SubCategory" parameterType="String">
+        SELECT s.SUB_CATEGORY_NO, s.MAIN_CATEGORY_NO, s.SUB_CATEGORY_NAME
+        FROM sub_category s
+        <where>
+         s.MAIN_CATEGORY_NO IN (
+            SELECT MAIN_CATEGORY_NO
+            FROM main_category
+            <where>
+            	AND MAIN_CATEGORY_NAME LIKE '%' || #{keyword} || '%'
+            </where>
+        )
+        </where>
+    </select>
+    
+    <sql id="selectBoard1">
+		SELECT
+			class_no, teacher_no, main_category_no
+			, sub_category_no, teacher, class_name
+			, class_date, class_start, class_end
+			, max_count, expense, class_info, on_off
+			, head_img, delete_boolean, curriculum
+		FROM class
+	</sql>
+
+	<sql id="searchCond1">
+		<if test="search != null and !''.equals(search)">
+		<where>
+			AND sub_category_no IN (
+				SELECT sub_category_no
+				FROM sub_category
+				WHERE sub_category_name LIKE '%' || #{search} || '%'	
+			)
+		</where>
+		</if>
+	</sql>
+
+    <select id="selectSubAll" resultType="Class" parameterType="web.util.SearchPaging">
+    	SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				<include refid="selectBoard1" />
+				<include refid="searchCond1" />
+				ORDER BY class_no DESC
+		    ) B
+		) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+    </select>
+	
+	<select id="selectSubCntAll" resultType="int" parameterType="web.util.SearchPaging">
+		SELECT count(*) FROM (
+    		<include refid="selectBoard1"/>
+    		<include refid="searchCond1"/>
+    	)
+	</select>
+    
+    <sql id="selectBoard2">
+		SELECT
+			free_no, user_no, free_head, free_date, free_hit, free_name, free_content
+		FROM free_board
+	</sql>
+
+	<sql id="searchCond2">
+		<if test="search != null and !''.equals(search)">
+		<where>
+			AND user_no IN (
+				SELECT user_no
+				FROM user_info
+				WHERE user_name LIKE '%' || #{search} || '%'	
+			)
+		</where>
+		</if>
+	</sql>
+
+    <select id="selectNickAll" resultType="FreeBoard" parameterType="web.util.SearchPaging">
+    	SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				<include refid="selectBoard2" />
+				<include refid="searchCond2" />
+				ORDER BY free_no DESC
+		    ) B
+		) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+    </select>
+	
+	<select id="selectNickCntAll" resultType="int" parameterType="web.util.SearchPaging">
+		SELECT count(*) FROM (
+    		<include refid="selectBoard2"/>
+    		<include refid="searchCond2"/>
+    	)
+	</select>
+    
+    <sql id="selectBoard3">
+		SELECT
+			free_no, user_no, free_head, free_date, free_hit, free_name, free_content
+		FROM free_board
+	</sql>
+
+	<sql id="searchCond3">
+		<if test="search != null and !''.equals(search)">
+		<where>
+			AND free_name LIKE '%' || #{search} || '%'	
+		</where>
+		</if>
+	</sql>
+
+    <select id="selectTitleAll" resultType="FreeBoard" parameterType="web.util.SearchPaging">
+    	SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				<include refid="selectBoard3" />
+				<include refid="searchCond3" />
+				ORDER BY free_no DESC
+		    ) B
+		) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+    </select>
+	
+	<select id="selectTitleCntAll" resultType="int" parameterType="web.util.SearchPaging">
+		SELECT count(*) FROM (
+    		<include refid="selectBoard3"/>
+    		<include refid="searchCond3"/>
+    	)
+	</select>
+    
+</mapper>
