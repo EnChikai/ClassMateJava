@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -7,46 +7,92 @@
 
 <style type="text/css">
 
+
 #announceViewTb {
-	border-collapse: collapse;
-	border-color: lightgrey;
-	width: 60%;
-	margin-left:auto; 
-    margin-right:auto;
+   border-collapse: collapse;
+   border-color: lightgrey;
+   width: 56%;
+   margin-left:auto; 
+   margin-right:auto;
 }
 
-#tdaHead {
-	height: 280px;;
+
+#tdHead {
+	text-align: justify;
+	height: 150px;
+	padding-top: 50px;
+	padding-bottom: 10px;
+	border-bottom-color: #505050;
 }
 
-#tdaBody {
-	height: 680px;;
+#tdHeadS1 {
+	padding-left: 155px;
+	display: inline-block;
+	width: 600px;
+	color: #505050;
+	font-size: 17px;
+}
+
+#tdHeadS2 {
+	padding-left: 155px;
+	display: inline-block;
+	width: 540px;
+}
+
+.tdHeadS {
+   color: #808080;
+   width: 200px;
+}
+
+#tdHeadH1 {
+	width: 1000px;
+	color: red;
+	margin-left: 155px;
+	margin-top: 3px;
+	margin-bottom: 20px;
+	text-align: justify;
+}
+
+#tdBody {
+  	height: 650px;;
 	margin: 0 auto;
-	text-align: center;
+	padding: 70px 150px 70px 150px;
+  	text-align: center;
+  	border-bottom-color: #505050;
 }
 
-#tdaFoot {
-	height: 100px;;
-	margin-bottom: 0;
+#contentFileSpan {
+	vertical-align: text-bottom;
 }
 
-#viewBt {
-	widows: 65px;
-	height:30px;
-	margin: 5px;
-	cursor: pointer;
-	float: right;
+#tdFoot {
+   height: 100px;;
+   margin-bottom: 0;
 }
 
-#announcefile {
-	margin-right: 10px;
+#viewBt1 {
+   width: 73px;
+   height:35px;
+   margin-right: 10px;
+   border: none;
+   border-radius: 3px;
+   font-size: 15px;
+   color: white;
+   background-color: black;
+   cursor: pointer;
+   float: right;
 }
 
-#contentaFile {
-	width: 500px;
-	height: 30px;
-	margin: 0 auto;
-	line-height: 1.8;
+#announcefilefile {
+   margin-right: 10px;
+}
+
+#contentFile {
+   width: 500px;
+   height: 30px;
+   margin: 0 auto;
+   line-height: 1.8;
+   margin-top: 30px;
 }
 
 </style>
@@ -57,37 +103,44 @@
 <div id="announceviewAll">
 
 <table id="announceViewTb" border="1">
-	<tr>
-		<td id="tdaHead">
-			<span>공지게시판 < </span>
-			<span>조회 수 : ${viewAnnounce.announceHit} </span>
-			
-			<h1>${viewAnnounce.announceName }</h1>
-			
-			<span>작성자 : ${viewAnnounce.userName }</span>
-			<span>등록일 : ${viewAnnounce.announceDate }</span>
-		</td>
-		
-	</tr>
-	
-	<tr>
-		<td id="tdaBody">${viewAnnounce.announceContent }<br>
-			<c:if test="${not empty announceBoardFile }">
-				<div id="contentaFile" style="height: auto; padding: 10px; 	border: 1px solid lightgrey;">
-					<c:forEach var="announceBoardFile" items="${announceBoardFile}">
-						<img id="announcefile" alt="freefile" src="/resources/img/file.png" width="22" height="19">
-						<a href="./download?fileNo=${announceBoardFile.fileNo }"><span id="contentFileSpan"> : ${announceBoardFile.originName }</span></a><br>
-					</c:forEach>
-				</div>
-			</c:if>
-		</td>
-	</tr>
-		
-	<tr>	
-		<td id="tdaFoot">
-			<button id="viewBt" type="button" onclick="location.href='./board'">목록</button>
-		</td>
-	</tr>
+   <tr>
+      <td id="tdHead">
+      
+     <div style="width: 1000px; margin: 0 auto;">
+      <div>
+         <span id="tdHeadS1">공지게시판 < </span>
+         <span class="tdHeadS">조회 수 &nbsp:&nbsp ${viewAnnounce.announceHit} </span>
+      </div>
+         
+         <h1 id="tdHeadH1">${viewAnnounce.announceName }</h1>
+         
+      <div style="width: 1000px; margin: 0 auto;">   
+         <span id="tdHeadS2">작성자 &nbsp:&nbsp ${viewAnnounce.userName }</span>
+         <span class="tdHeadS">등록일 &nbsp:&nbsp ${viewAnnounce.announceDate }</span>
+      </div>
+     </div> 
+         
+      </td>
+   </tr>
+   
+   <tr>
+      <td id="tdBody">${viewAnnounce.announceContent }<br>
+         <c:if test="${not empty announceBoardFile }">
+            <div id="contentFile" style="height: auto; padding: 10px;    border: 1px solid lightgrey;">
+               <c:forEach var="announceBoardFile" items="${announceBoardFile}">
+                  <img id="announcefile" alt="announcefile" src="/resources/img/file.png" width="22" height="19">
+                  <a href="./download?fileNo=${announceBoardFile.fileNo }"><span id="contentFileSpan"> : ${announceBoardFile.originName }</span></a><br>
+               </c:forEach>
+            </div>
+         </c:if>
+      </td>
+   </tr>
+      
+   <tr>   
+      <td id="tdFoot">
+         <button id="viewBt1" type="button" onclick="location.href='./board'">목록</button>
+      </td>
+   </tr>
 </table>
 
 </div> <!-- #announceviewAll -->
@@ -97,4 +150,3 @@
 <div style="height: -100px;"></div>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
-
