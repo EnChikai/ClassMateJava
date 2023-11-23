@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	$(document).on('click', "input[type='checkbox']", function(){
@@ -16,7 +17,6 @@ $(function(){
 	        this.checked = false;
 	    }
 	});
-
 });
 
 function checkDuplicateId() {
@@ -75,11 +75,20 @@ function validateForm() {
     // 약관 동의 여부를 가져옵니다.
     var agree = $("#cb3:checked").length;
     
-    
     // 모든 필수 필드가 비어 있는지 확인
-   if (userId === "" || userPw === "" || userPwChk === "" || userGender === 0 ||
-        userBirthday === "" || userPhone === "" || userName === "" ||
-        userEmail === "" || postcode === "" || address === "" || detailAddress === "" || agree === 0) {
+   if (	userId === "" ||
+		userPw === "" ||
+		userPwChk === "" ||
+		userGender === 0 ||
+        userBirthday === "" ||
+        userPhone === "" ||
+        userName === "" ||
+        userEmail === "" ||
+        postcode === "" ||
+        address === "" ||
+        detailAddress === ""
+        || agree === 0
+    ) {
         alert("모든 필수 항목을 입력하세요.");
         // 폼 제출 방지
         return false;
@@ -163,92 +172,124 @@ button {
 
 
 
-	<div class="joinDiv">
-		<div class="title">
-		<span id="title">회원가입</span>
-		<div class="decobox"></div>
-		</div>
+<div class="joinDiv">
+	<div class="title">
+	<span id="title">회원가입</span>
+	<div class="decobox"></div>
+	</div><!-- .title -->
+
+	<div class="arrayDiv">
+	<form id="loginForm" action="./join" method="post">
 	
-		<div class="arrayDiv">
-		<form id="loginForm" action="./join" method="post">
-			<label for="userId">아이디</label>
-			<input type="text" id="userId" name="userId" placeholder="아이디 입력" style="width: 393px;">			
-			<input type="button" value="중복확인" onclick="checkDuplicateId()"
-					style="float: right; text-align: center;
-					background-color: rgb(158, 158, 158); color: rgb(255, 255, 255);
-					border-radius: 4px; width: 73px; font-size: 16px; border: 1px solid #ccc; 
-					margin-top: 15px; height: 30px; cursor: pointer;"><br>
-			
-			<label for="userPw">비밀번호</label>
-			<div style="position: relative; display: inline-block;">
-			    <input type="password" id="userPw" name="userPw" placeholder="비밀번호 입력">
-			    <img src="/resources/img/close_eye.png" id="togglePassword" onclick="togglePasswordVisibility('userPw', 'togglePassword')"
-			    	 style="cursor: pointer; position: absolute; right: 5px; top: 50%; transform: translateY(-50%);">
-			</div>
-			<br>
-			
-			<label for="userPwChk">비밀번호 확인</label>
-			<div style="position: relative; display: inline-block;">
-			    <input type="password" id="userPwChk" name="userPwChk" placeholder="비밀번호 확인">
-			    <img src="/resources/img/close_eye.png" id="togglePasswordChk" onclick="togglePasswordVisibility('userPwChk', 'togglePasswordChk')"
-			    	 style="cursor: pointer; position: absolute; right: 5px; top: 50%; transform: translateY(-50%);">
-			</div>
-			<br>
-			
-			<label>성별</label>
-			<input type="checkbox" id="cb1" value="0" name="userGender" style="cursor: pointer; width: 20px; vertical-align: middle;">
-			<label for="cb1" style="text-align: left; width: 40px" >남성</label>
-			<input type="checkbox" id="cb2" value="1" name="userGender" style="cursor: pointer; width: 20px; vertical-align: middle;" >
-			<label for="cb2" style="text-align: left; width: 40px" >여성</label><br>
-				
-			<label for="userBirthday">생년월일</label>
-			<input type="date" id="userBirthday" name="userBirthday"><br>
-			
-			<label for="userPhone">전화번호</label>
-			<input type="text" id="userPhone" name="userPhone" placeholder="전화번호 입력"><br>
-			
-			<label for="userName">이름</label>
-			<input type="text" id="userName" name="userName"><br>
-			
-			<label for="userEmail">이메일</label>
-			<input type="email" id="userEmail" name="userEmail" style="width: 200px">
-			<button type="button" style="background-color: rgb(158, 158, 158); color: rgb(255, 255, 255);
-					border-radius: 4px; width: 73px; font-size: 16px; border: 1px solid #ccc; 
-					margin-top: 6px; height: 30px; cursor: pointer;" >인증확인</button><br>
-			
-			<label for="postcode">주소</label>
-			<input type="text" id="postcode" name="userPost" placeholder="우편번호" style="width: 200px; text-align: left;">
-			<input type="button" onclick="execDaumPostcode()" value="우편번호"
-				   style="background-color: rgb(158, 158, 158); color: rgb(255, 255, 255);
-				   border-radius: 4px; width: 73px; font-size: 16px; 
-				   margin-top: 6px; height: 30px; cursor: pointer; text-align: center;"><br>
-			<label></label>
-			<input type="text" id="address" name="mainAddress" placeholder="주소" style="text-align: left;"><br>
-			<label></label>
-			<input type="text" id="detailAddress" name="subAddress" placeholder="상세주소" style="text-align: left;"><br>
+		<label for="userId">아이디</label>
+		<input type="text" id="userId" name="userId" placeholder="아이디 입력" style="width: 393px;">			
+		<input type="button" value="중복확인" onclick="checkDuplicateId()"
+				style="float: right;
+				text-align: center;
+				background-color: rgb(158, 158, 158);
+				color: rgb(255, 255, 255);
+				border-radius: 4px;
+				width: 73px; font-size: 16px; border: 1px solid #ccc; 
+				margin-top: 15px; height: 30px; cursor: pointer;"><br>
 		
+		<label for="userPw">비밀번호</label>
+		<div style="position: relative; display: inline-block;">
+		    <input type="password" id="userPw" name="userPw" placeholder="비밀번호 입력">
+		    <img src="/resources/img/close_eye.png" id="togglePassword"
+		    	 onclick="togglePasswordVisibility('userPw', 'togglePassword')"
+		    	 style="cursor: pointer;
+		    	 position: absolute;
+		    	 right: 5px; top: 50%;
+		    	 transform: translateY(-50%);">
+		</div>
+		<br>
+		
+		<label for="userPwChk">비밀번호 확인</label>
+		<div style="position: relative; display: inline-block;">
+		    <input type="password" id="userPwChk" name="userPwChk" placeholder="비밀번호 확인">
+		    <img src="/resources/img/close_eye.png" id="togglePasswordChk"
+		    	 onclick="togglePasswordVisibility('userPwChk', 'togglePasswordChk')"
+		    	 style="cursor: pointer;
+		    	 position: absolute;
+		    	 right: 5px; top: 50%;
+		    	 transform: translateY(-50%);">
+		</div>
+		<br>
+		
+		<label>성별</label>
+		<input type="checkbox" id="cb1" value="0" name="userGender" style="cursor: pointer; width: 20px; vertical-align: middle;">
+		<label for="cb1" style="text-align: left; width: 40px" >남성</label>
+		<input type="checkbox" id="cb2" value="1" name="userGender" style="cursor: pointer; width: 20px; vertical-align: middle;" >
+		<label for="cb2" style="text-align: left; width: 40px" >여성</label><br>
 			
-			
-			<label>약관관련</label>
-			<input type="checkbox" id="cb3" value="agree" name="agree" style="cursor: pointer; width: 20px; vertical-align: middle;">
-			<label for="agree" style="text-align: left; width: 120px;">약관 동의 여부</label>
-			<a href="javascript:openModal('modal1');"><button type="button" style="float: right;
-		    		border: none; font-size: 14px;
-		   			border-radius: 4px; height: 33px; width: 90px; text-align: center;
-		   			margin-top: 18px; padding: 2px 4px;
-		   			background-color: rgb(224, 224, 224); color: rgb(64, 64, 64); font-weight: bold;
-		    		cursor: pointer;">자세히 보기</button></a><br><br>
+		<label for="userBirthday">생년월일</label>
+		<input type="date" id="userBirthday" name="userBirthday"><br>
+		
+		<label for="userPhone">전화번호</label>
+		<input type="text" id="userPhone" name="userPhone" placeholder="전화번호 입력"><br>
+		
+		<label for="userName">이름</label>
+		<input type="text" id="userName" name="userName"><br>
+		
+		<label for="userEmail">이메일</label>
+		<input type="email" id="userEmail" name="userEmail" style="width: 200px">
+		<button type="button"
+				style="background-color: rgb(158, 158, 158);
+				color: rgb(255, 255, 255);
+				border-radius: 4px;
+				width: 73px; font-size: 16px;
+				border: 1px solid #ccc; 
+				margin-top: 6px; height: 30px; cursor: pointer;" >인증확인</button><br>
+		
+		<label for="postcode">주소</label>
+		<input type="text" id="postcode" name="userPost" placeholder="우편번호"
+			   style="width: 200px; text-align: left;">
+		<input type="button" onclick="execDaumPostcode()" value="우편번호"
+			   style="background-color: rgb(158, 158, 158);
+			   color: rgb(255, 255, 255);
+			   border-radius: 4px; width: 73px; font-size: 16px; 
+			   margin-top: 6px; height: 30px; cursor: pointer; text-align: center;"><br>
+		<label></label>
+		<input type="text" id="address" name="mainAddress" placeholder="주소" style="text-align: left;"><br>
+		<label></label>
+		<input type="text" id="detailAddress" name="subAddress" placeholder="상세주소" style="text-align: left;"><br>
+	
+		
+		
+		<label>약관관련</label>
+		<input type="checkbox" id="cb3" value="agree" name="agree"
+			   style="cursor: pointer; width: 20px; vertical-align: middle;">
+		<label for="agree" style="text-align: left; width: 120px;">약관 동의 여부</label>
+		<a href="javascript:openModal('modal1');"><button type="button"
+				style="float: right;
+	    		border: none; font-size: 14px;
+	   			border-radius: 4px; height: 33px;
+	   			width: 90px; text-align: center;
+	   			margin-top: 18px; padding: 2px 4px;
+	   			background-color: rgb(224, 224, 224);
+	   			color: rgb(64, 64, 64); font-weight: bold;
+	    		cursor: pointer;">자세히 보기</button></a><br><br>
 		
 		<div class="Btn" style="text-align:center;">
-			<button 
-				style="border: none; font-size: 22px; border-radius: 4px;
-				background-color: #929292; width: 95px; color: rgb(255, 255, 255);
-				height: 40px;
-				cursor: pointer;">취소</button>
+		<button 
+			style="border: none;
+			font-size: 22px;
+			border-radius: 4px;
+			background-color: #929292;
+			width: 95px;
+			height: 40px;
+			color: rgb(255, 255, 255);
+			cursor: pointer;">취소</button>
+				
 		<button id="registerButton" 
-		    style="border: none; font-size: 22px; border-radius: 4px;
-		    background-color: #F1C40F; width: 95px; color: rgb(255, 255, 255);
-		    height: 40px; cursor: pointer;" type="button">등록</button>
+		    style="border: none;
+		    font-size: 22px;
+		    border-radius: 4px;
+		    background-color: #F1C40F;
+		    width: 95px;
+		    height: 40px;
+		    color: rgb(255, 255, 255);
+		    cursor: pointer;" type="button">등록</button>
 		</div>
 		
 		

@@ -3,13 +3,15 @@
 
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
 
+<%-- <% ============================================================================= %> --%>
+
 <style type="text/css">
 
 #userInfo{
 font-size: 35px; 
 font-weight: bold; 
 border-bottom: 9px solid rgb(255,240,177); 
-padding-bottom: 14px; 
+padding-bottom: 8px; 
 text-align: left; 
 padding-left: 27px;
 width: 620px;
@@ -21,7 +23,7 @@ margin-top: 18px;
 
 
 #userInfoTb th{
-padding-left:30px; ; 
+padding-left:30px;
 text-align: right;
 vertical-align: top;
 
@@ -75,6 +77,102 @@ color: white;
 font-weight:bold;
 
 }
+
+#updateBtn{
+background: rgb(158,158,158); 
+box-shadow: 0 0 0 1px #ccc; 
+margin-right: 19px;
+
+}
+
+#updateBtn:hover:not(.active){
+box-shadow: 0 0 0 2px skyblue;
+background: rgb(170,170,170);
+	
+}
+
+#secessionBtn{
+background: black;
+box-shadow: 0 0 0 1px black
+
+}
+
+#secessionBtn:hover:not(.active){
+box-shadow: 0 0 0 2px skyblue;
+background: rgb(50,50,50);
+	
+}
+
+#secessionModal{
+  display:none;
+  position:fixed;
+  width:100%; height:100%;
+  top:0; left:0;
+  background:rgba(0,0,0,0.3);
+}
+
+.secessionModal-con{
+  display:none;
+  position:fixed;
+  top:50%; left:50%;
+  transform: translate(-50%,-50%);
+  max-width: 650px;;
+  min-height: 470px;
+  background:#fff;
+}
+.secessionModal-con .con{
+  font-size:26px; 
+  line-height:1.3;
+  padding-top: 50px;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-bottom: 50px;
+  height: 400px;
+  overflow-y: auto;
+  text-align: center; 
+}
+
+#closeModalBtn{
+border-radius: 3px; 
+border-style: hidden;
+width: 63px; 
+height: 33px;
+color: white;
+font-weight:bold;
+background: black;
+box-shadow: 0 0 0 1px black;
+font-size: 14px;
+
+}
+
+#closeModalBtn:hover:not(.active){
+box-shadow: 0 0 0 2px skyblue;
+background: rgb(50,50,50);
+cursor:pointer
+	
+}
+
+#secessionOkBtn{
+border-radius: 3px; 
+border-style: hidden;
+width: 63px; 
+height: 33px;
+color: white;
+font-weight:bold;
+background: rgb(241,196,15); 
+box-shadow: 0 0 0 1px rgb(230,204,100); 
+margin-right: 19px;
+font-size: 14px;
+
+}
+
+#secessionOkBtn:hover:not(.active){
+box-shadow: 0 0 0 2px skyblue;
+background: rgb(230,204,100);
+cursor:pointer
+	
+}
+
 </style>
 
 <%-- <% ============================================================================= %> --%>
@@ -86,13 +184,48 @@ $(function(){
 	
 	if(gender == 0){
 		$("#genderM").prop('checked',true);
-		
-	}else{
 		$("#genderW").prop('checked',false);
+	}else{
+		$("#genderW").prop('checked',true);
+		$("#genderM").prop('checked',false);
 	}
+	
 })
 </script>
 
+<script type="text/javascript">
+// 모달 열기
+function openSecessionModal(modalname) {
+  $("#secessionModal").fadeIn(300);
+  $("." + modalname).fadeIn(300);
+
+};
+
+// 외부 영역 클릭시 팝업 닫기
+$(document).mouseup(function (e) {
+  var modal = $(".secessionModal-con");
+  if (!modal.is(e.target) && modal.has(e.target).length === 0) {
+    $("#secessionModal").fadeOut(300);
+    modal.fadeOut(300);
+
+   	$('html, body').css({ 'overflow': 'auto', 'height': '100%' });
+
+  }
+});
+
+//닫기 버튼 클릭시 팝업 닫기
+$(function(){
+	  $("#closeSecessionModal").click(function (e) {
+		    var modal = $(".secessionModal-con");
+		      $("#secessionModal").fadeOut(300);
+		      modal.fadeOut(300);
+		      
+		      $('html, body').css({ 'overflow': 'auto', 'height': '100%' });
+		    
+	});
+});
+
+</script>
 
 <%-- <% ============================================================================= %> --%>
 
@@ -159,11 +292,30 @@ $(function(){
 </div>
 
 <div style="margin-top: 72px; margin-bottom: 15px;">
-<button id="updateBtn" style="background: rgb(158,158,158); box-shadow: 0 0 0 1px #ccc; margin-right: 19px;">수정</button>
-<button id="secessionBtn" style="background: black; box-shadow: 0 0 0 1px black;">탈퇴</button>
+<a href="../admin/userInfoUpdate?userNo=${userdata.userNo}"><button id="updateBtn" type="button">수정</button></a>
+<a href="javascript:openSecessionModal('secessionModal');" class="terms" style="text-decoration: none; color: black;"><button id="secessionBtn">탈퇴</button></a>
 </div>
 
 </div>
+
+
+<div id="secessionModal" class="close"></div>
+  <div class="secessionModal-con secessionModal" style="border-radius: 8px;">
+    <div class="con" style="border: 0.5px solid #80808080; margin: 43px; margin-top: 25px;">
+    <p>입력된 회원정보를</p>
+    <p>수정/탈퇴 처리 하시겠습니까?</p>
+    
+    <p style="color: #999; font-size: 16px; padding-top: 33px;">다시 한번 확인 후 진행해주세요</p>
+    
+    <form action="../admin/secessionUser" method="get">
+	<button id="secessionOkBtn">예</button>
+	<input type="text" name="userNo" style="display: none;" value="${userdata.userNo}" readonly="readonly">
+    <a href="javascript:return false;" class="closeSecessionModal" id="closeSecessionModal"><button id="closeModalBtn" style="margin-top: 70px" type="button">아니오</button></a>
+	</form>
+    
+    </div>
+  </div>
 			
-<%-- <% ============================================================================= %> --%>			
+<%-- <% ============================================================================= %> --%>	
+		
 <c:import url="/WEB-INF/views/layout/adminFooter.jsp" />

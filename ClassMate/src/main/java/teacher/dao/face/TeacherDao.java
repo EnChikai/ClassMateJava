@@ -4,6 +4,9 @@ import java.util.List;
 
 import lecture.dto.Class;
 import lecture.dto.ClassVideo;
+import teacher.dto.Teacher;
+import teacher.dto.TeacherApply;
+import teacher.dto.TeacherLicence;
 
 public interface TeacherDao {
 
@@ -78,6 +81,37 @@ public interface TeacherDao {
 	 * @return
 	 */
 	public List<Class> selectTeacherClass(int teacherNo);
+
+	/**
+	 * 강사 신청 시 들어가는 강사 정보
+	 * 
+	 * @param teacherParam 전달된 강사 dto
+	 */
+	/* public void applyTeacherInsert(Teacher teacherParam); */
+
+	/**
+	 * 강사 신청 시 들어가는 강사 사진 정보
+	 * 
+	 * @param teacherParam 전달된 Teacher 객체
+	 */
+	public void applyTeacherImgFile(Teacher teacherParam);
+
+	/**
+	 * 강사 신청 시 들어가는 강사자격증 정보
+	 * 
+	 * @param teacherLicence 전달된 라이센스 객체
+	 */
+	public void applyInsertFile(TeacherLicence teacherLicence);
+
+	/**
+	 * 강사 신청 시 신청 번호와 합격 여부 정보를 삽입한다
+	 * 
+	 * @param teacherApply 전달된 강사 신청 객체
+	 */
+	public void applyPrcInsert(TeacherApply teacherApply);
+
+
+	
 
 	
 }
