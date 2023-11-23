@@ -77,10 +77,7 @@ h3 {
 	<button style="background-color: #9E9E9E;">취소</button>
 
 
-
-
-
-
 </div><!-- .restPw2 -->
 </div><!-- .resetPw -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
+
