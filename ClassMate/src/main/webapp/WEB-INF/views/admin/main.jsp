@@ -14,8 +14,8 @@ border-style: hidden;
 box-shadow: 0 0 0 1px #ccc;
 text-align: center;
 margin-right: 33px;
-margin-left: 560px;
-margin-top: 50px;
+margin-left: 580px;
+margin-top: 30px;
 
 }
 
@@ -58,6 +58,7 @@ $(function(){
 </script>
 
 <%-- <% ============================================================================= %> --%>
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 70px;">
 			
 <table id="profile" >
 <tr>
@@ -84,7 +85,8 @@ $(function(){
 	</td>
 </tr>
 </table>
-			
+
+</div>			
 <%-- <% ============================================================================= %> --%>		
 	
 <c:import url="/WEB-INF/views/layout/adminFooter.jsp" />

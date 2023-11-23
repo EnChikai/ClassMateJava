@@ -15,7 +15,7 @@ border-bottom: 9px solid rgb(255,240,177);
 padding-bottom: 8px; 
 text-align: left; 
 padding-left: 27px;
-width: 620px;
+width: 720px;
 margin-left: auto;
 margin-right: auto;
 margin-top: 18px;
@@ -24,7 +24,7 @@ margin-top: 18px;
 
 
 #userInfoTb th{
-padding-left:30px; 
+padding-left: 80px;
 text-align: right;
 vertical-align: top;
 
@@ -213,8 +213,7 @@ $(function(){
 <button class="topMenuBtn">작성한 게시물</button>
 </div>
 
-<div style="border: 1px solid #ccc; text-align: center; width: 700px; margin-left: 72px; margin-bottom: 20px;">
-
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 70px;">
 <p id="userInfo">회원정보 수정</p>
 
 <form action="../admin/userInfoUpdate" method="post">
@@ -283,6 +282,5 @@ $(function(){
 </form>
 
 </div>
-
 <%-- <% ============================================================================= %> --%>			
 <c:import url="/WEB-INF/views/layout/adminFooter.jsp" />

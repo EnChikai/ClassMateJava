@@ -2,12 +2,60 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
+<%-- 페이징 CSS --%>
 <style type="text/css">
+#pagination {
+   margin-top: -40px;
+   margin-bottom: 50px;
+}
 
+#pagingWaiting {
+   border-radius: 4px; 
+   color: black; 
+   background-color: #f1f3f5; 
+   border: 1px solid #d10d10d10;
+   margin: 3.5px; 
+   text-align: center;"
+
+}
+
+#pagingWaiting {
+   border-radius: 4px; 
+   color: black; 
+   background-color: #f1f3f5; 
+   border: 1px solid #d10d10d10;
+   margin: 3.5px; 
+   text-align: center;"
+
+}
+
+#pagingNow {
+   border-radius: 4px; 
+   color: black; 
+   background-color: rgb(241,196,15); 
+   border: 1px solid rgb(251,206,25);
+   margin: 3.5px; 
+   text-align: center;"
+
+}
+
+#pagingAfter,#pagingBefore {
+   border-radius: 4px; 
+   color: black; 
+   background-color: #f1f3f5; 
+   border: 1px solid #d10d10d10;
+   margin: 3.5px; 
+   text-align: center;
+}
+</style>
+
+<%-- <% ============================================================================= %> --%>
+
+<style type="text/css">
 #userListTb{
 border-top: 2px solid #ccc; 
 border-bottom: 2px solid #ccc; 
-width: 574px; 
+width: 690px; 
 margin: auto;
 
 }
@@ -100,8 +148,10 @@ $(function(){
 });
 </script>
 </c:forEach>
-	
-<div style="border: 1px solid #ccc; text-align: center; width: 700px; margin-top: 60px; margin-left: 72px;">
+
+<%-- <% ============================================================================= %> --%>
+
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 70px;">	
 <div style="font-size: 22px; font-weight:bold; margin-bottom: 17px; margin-top: 40px;">회원 관리</div>
 
 <form id="userListForm" action="../admin/userList" method="get">
@@ -185,89 +235,45 @@ $(function(){
 
 <div style="margin-top: 30px;">
 
+</div>
 <%-- <% ============================================================================= %> --%>
 
-<div>
+<div id="pagination">
+	<ul class="pagination pagination-sm justify-content-center" style="margin-top: 80px;">
 	
-	<ul class="pagination pagination-sm justify-content-center">
-		
-		
-		<%-- 이전 페이지 리스트로 이동 --%>
-		<c:choose>
-			<c:when test="${paging.startPage ne 1 }">
-			<li class="page-item">
-				<a class="page-link" href="<%=request.getContextPath() %>?curPage=${paging.startPage - paging.pageCount }&sort=${sort}&delCheckbox=${delCheckbox}">&laquo;</a>
-			</li>
-			</c:when>
-			<c:when test="${paging.startPage eq 1 }">
-			<li class="page-item">
-				<a class="page-link disabled">&laquo;</a>
-			</li>
-			</c:when>
-		</c:choose>
-		
-		
-		
-		
-		<%-- 이전 페이지로 이동 --%>
-		<c:if test="${paging.curPage > 1 }">
-			<li class="page-item">
-				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage - 1 }&sort=${sort}&delCheckbox=${delCheckbox}">&lt;</a>
+	<!-- 이전 페이지로 이동 -->
+	<c:if test="${paging.curPage > 1 }">
+		<li style="width: 45px;">
+		<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage - 1 }&sort=${sort}&delCheckbox=${delCheckbox}" id="pagingBefore">&lt;</a>
+		</li>
+	</c:if>
+	
+	<!-- 페이징 번호 목록 -->
+	<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
+		<c:if test="${paging.curPage eq i }">
+			<li class="page-item" style="width: 45px;">
+			<a class="page-link active" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}&delCheckbox=${delCheckbox}" id="pagingNow">${i }</a>
 			</li>
 		</c:if>
-		
-		
-		
-	
-		<%-- 페이징 번호 목록 --%>
-		<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
-			<c:if test="${paging.curPage eq i }">
-			<li class="page-item">
-				<a class="page-link active" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}&delCheckbox=${delCheckbox}">${i }</a>
-			</li>
-			</c:if>
-			
-			<c:if test="${paging.curPage ne i }">
-			<li class="page-item">
-				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}&delCheckbox=${delCheckbox}">${i }</a>
-			</li>
-			</c:if>
-		</c:forEach>
-		
-		
-		
-		
-		<%-- 다음 페이지로 이동 --%>
-		<c:if test="${paging.curPage < paging.totalPage }">
-			<li class="page-item">
-				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage + 1 }&sort=${sort}&delCheckbox=${delCheckbox}">&gt;</a>
+		<c:if test="${paging.curPage ne i }">
+			<li class="page-item" style="width: 45px;">
+			<a class="page-link" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}&delCheckbox=${delCheckbox}" id="pagingWaiting">${i }</a>
 			</li>
 		</c:if>
-		
-		
-		
-		
-		<%-- 다음 페이지 리스트로 이동 --%>
-		<c:choose>
-			<c:when test="${paging.endPage ne paging.totalPage }">
-			<li class="page-item">
-				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.endPage + paging.pageCount }&sort=${sort}&delCheckbox=${delCheckbox}">&raquo;</a>
-			</li>
-			</c:when>
-			<c:when test="${paging.endPage eq paging.totalPage }">
-			<li class="page-item">
-				<a class="page-link disabled">&raquo;</a>
-			</li>
-			</c:when>
-		</c:choose>
-
-	</ul>	
-
-</div>
+	</c:forEach>
+	
+	<!-- 다음 페이지로 이동 -->
+	<c:if test="${paging.curPage < paging.totalPage }">
+		<li class="page-item" style="width: 45px;">
+		<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage + 1 }&sort=${sort}&delCheckbox=${delCheckbox}" id="pagingAfter">&gt;</a>
+		</li>
+	</c:if>
+      
+	</ul>
+</div><!--#questionPagination -->	
 
 <%-- <% ============================================================================= %> --%>
 
-</div>
 </div>
 		
 <%-- <% ============================================================================= %> --%>		

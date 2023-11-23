@@ -3,7 +3,11 @@ package admin.service.face;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import board.dto.AnnounceBoard;
+import board.dto.AnnounceBoardFile;
+import board.dto.EventBoard;
 import user.dto.UserInfo;
 import web.util.Paging;
 
@@ -31,12 +35,22 @@ public interface AdminService {
 
 	public int secessionUser(UserInfo userdata);
 
-	public Map<String, Object> getBoardPaging(Paging paging);
+	public Map<String, Object> getBoardPaging(Paging paging, int delCheckbox);
 
-	public Map<String, Object> boardList(Map<String, Object> pagingMap);
+	public Map<String, Object> boardList(Map<String, Object> pagingMap, int delCheckbox);
 
-	public AnnounceBoard getAnnounceView(AnnounceBoard announceBoard);
-	
-	
+	public Map<String, Object> getAnnounceView(AnnounceBoard announceBoard);
+
+	public int writeEvenAnno(String postName, String content, MultipartFile file, int sort, List<MultipartFile> announceFile, List<MultipartFile> eventFile);
+
+	public Map<String, Object> getEventView(EventBoard eventBoard);
+
+	public AnnounceBoardFile getAnnounceFile(AnnounceBoardFile announceBoardFile);
+
+	public int eventUpdate(EventBoard eventBoard, MultipartFile file, int[] delFileno, List<MultipartFile> eventFile);
+
+	public int announceUpdate(AnnounceBoard announceBoard, int[] delFileno, List<MultipartFile> announceFile);
+
+	public int setAnnoExist(AnnounceBoard announceBoard);
 
 }
