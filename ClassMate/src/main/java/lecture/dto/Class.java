@@ -18,7 +18,6 @@ public class Class {
 	private String curriculum;
 	private int onOff;
 	private String headImg;
-	private String content;
 	private int deleteBoolean;
 	
 	public Class() {}
@@ -29,13 +28,12 @@ public class Class {
 				+ ", subCategoryNo=" + subCategoryNo + ", teacher=" + teacher + ", className=" + className
 				+ ", classDate=" + classDate + ", classStart=" + classStart + ", classEnd=" + classEnd + ", maxCount="
 				+ maxCount + ", expense=" + expense + ", classInfo=" + classInfo + ", curriculum=" + curriculum
-				+ ", onOff=" + onOff + ", headImg=" + headImg + ", content=" + content + ", deleteBoolean="
-				+ deleteBoolean + "]";
+				+ ", onOff=" + onOff + ", headImg=" + headImg + ", deleteBoolean=" + deleteBoolean + "]";
 	}
 
 	public Class(int classNo, int teacherNo, int mainCategoryNo, int subCategoryNo, String teacher, String className,
 			Date classDate, Date classStart, Date classEnd, int maxCount, int expense, String classInfo,
-			String curriculum, int onOff, String headImg, String content, int deleteBoolean) {
+			String curriculum, int onOff, String headImg, int deleteBoolean) {
 		super();
 		this.classNo = classNo;
 		this.teacherNo = teacherNo;
@@ -52,7 +50,6 @@ public class Class {
 		this.curriculum = curriculum;
 		this.onOff = onOff;
 		this.headImg = headImg;
-		this.content = content;
 		this.deleteBoolean = deleteBoolean;
 	}
 
@@ -176,14 +173,6 @@ public class Class {
 		this.headImg = headImg;
 	}
 
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
 	public int getDeleteBoolean() {
 		return deleteBoolean;
 	}
@@ -191,7 +180,7 @@ public class Class {
 	public void setDeleteBoolean(int deleteBoolean) {
 		this.deleteBoolean = deleteBoolean;
 	}
-
 	
-
+	
+	
 }

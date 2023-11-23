@@ -122,6 +122,8 @@ button {
 				<a href="${lecture.onOff eq '1' ? '/class/onClass?classNo=' : '/class/offClass?classNo='}${lecture.classNo}"
 					class="stretched-link" style="color: inherit; text-decoration: none;">
 					${lecture.className}</a>
+					${lecture.headImg },
+					${lecture.onOff }
 					<br>
 			</c:forEach>
 		</c:when>
