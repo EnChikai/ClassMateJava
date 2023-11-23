@@ -14,7 +14,7 @@ border-bottom: 9px solid rgb(255,240,177);
 padding-bottom: 8px; 
 text-align: left; 
 padding-left: 27px;
-width: 620px;
+width: 720px;
 margin-left: auto;
 margin-right: auto;
 margin-top: 18px;
@@ -23,7 +23,7 @@ margin-top: 18px;
 
 
 #userInfoTb th{
-padding-left:30px;
+padding-left: 80px;
 text-align: right;
 vertical-align: top;
 
@@ -68,7 +68,7 @@ padding-right: 20px;
 
 }
 
-#updateBtn, #secessionBtn{
+#updateBtn{
 border-radius: 3px; 
 border-style: hidden;
 width: 63px; 
@@ -91,7 +91,17 @@ background: rgb(170,170,170);
 	
 }
 
+</style>
+
+<!-- 모달 -->
+<style type="text/css">
 #secessionBtn{
+border-radius: 3px; 
+border-style: hidden;
+width: 63px; 
+height: 33px;
+color: white;
+font-weight:bold;
 background: black;
 box-shadow: 0 0 0 1px black
 
@@ -172,9 +182,7 @@ background: rgb(230,204,100);
 cursor:pointer
 	
 }
-
 </style>
-
 <%-- <% ============================================================================= %> --%>
 
 <script type="text/javascript">
@@ -235,8 +243,7 @@ $(function(){
 <button class="topMenuBtn">작성한 게시물</button>
 </div>
 
-<div style="border: 1px solid #ccc; text-align: center; width: 700px; margin-left: 72px; margin-bottom: 20px;">
-
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px;">
 <p id="userInfo">회원정보</p>
 
 <div style="text-align: left; margin-left: 62px; margin-bottom: 10px">
@@ -297,7 +304,7 @@ $(function(){
 </div>
 
 </div>
-
+<%-- <% ============================================================================= %> --%>	
 
 <div id="secessionModal" class="close"></div>
   <div class="secessionModal-con secessionModal" style="border-radius: 8px;">
