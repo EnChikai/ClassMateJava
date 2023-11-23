@@ -11,23 +11,29 @@
 
 <style type="text/css">
 
+#questionWrite {
+	margin-top: 70px;
+}
+
 #questionh1 {
    text-align: center;
-   border: 1px solid;
-   color: white;
-   width: 600px;
-   height: 40px;
-   font-size: 140%;
+   margin: 0 auto;
+   border: 1px solid lightgrey;;
+   border-radius: 4px;
+   width: 650px;
+   height: 50px;
+   font-size: 80%;
+   font-weight: normal;
    padding-top: 8px;
-   margin-bottom: 40px;
 }
 
 #questionForm {
-   width: 700px;
-   text-align: left;
-   margin: 0 auto;
-   margin-top: 70px;
-   margin-bottom: 80px;
+	border: 1px solid lightgrey;
+	height: 510px;
+ 	width: 650px;
+	margin: 0 auto;
+	padding-top: 50px;
+	margin-bottom: 80px;
 }
 
 #questionName,#questionUw {
@@ -36,29 +42,31 @@
 }
 
 
-#questionHead {
-   width: 140px;
+#questionCategory {
+   width: 139px;
    height: 28px;
 }
 
 #wButton,#wList {
-   width: 65px;
-   height: 29px;
+   width: 73px;
+   height:35px;
+   font-size: 15px;
    color: white;
+   margin-top: 20px;
    border: none;
    border-radius: 3px;
    background-color: rgb(241, 196, 15)
 }
 
-#questionSummer {
-   width: 450px;
-   margin: 0 auto;
+#questionContent {
+	padding: 10px;
+	resize: none;
 }
 
 .filebox .upload-name {
     display: inline-block;
     border: none;
-    width: 390px;;
+    width: 330px;;
     margin-left: 12px;
     color: #999999;
     font-size: 15px;
@@ -79,54 +87,36 @@
     border: 0;
 }
 
-.note-editable {
-    letter-spacing: 2px;
-}
 
 </style>
 
 <tbody>
 <div id="questionWrite">
 
+   <div id="questionh1">
+      <h1 style="font-weight: normal;">1:1 문의 등록하기</h1>
+   </div>
+
 <form action="./questionWrite" method="post" enctype="multipart/form-data">
    <div id="questionForm">
 
-      <div id="questionh1" style="border: 1px solid gray; border-radius: 4px; height: 600px;">
-         <h1>1:1 문의 등록하기</h1>
-      </div>
-
-         <label id="questionUw" style="word-spacing:15px; margin-left: 85px;">작성자 : </label><span style="display: inline-block; width: 300px; font-size: 14px; color: gray; margin-bottom: 15px;">${userName }</span>
-         <select id="questionHead" name="questionHead" required="required">
+         <label id="questionUw" style="margin-left: 85px; margin-bottom: 13px;">작성자 &nbsp: </label><span style="display: inline-block; width: 250px; font-size: 14px; color: gray; margin-bottom: 15px; margin-left: 25px;">${userName }</span>
+         <select id="questionCategory" name="questionCategory" required="required">
             <option selected disabled>분류</option>
                 <option value="계정">계정</option>
                <option value="결재">결재</option>
-                <option value="클래스">시스템</option>
+                <option value="클래스">클래스</option>
                 <option value="시스템">시스템</option>
             </select>
          
-         <label for="questionTw" style="word-spacing:32px; margin-left: 85px;">제목 : <input type="text" id="questionName" name="questionName" style="margin-left:-19px; width: 444px;"></label><br>
+         <label for="questionTw" style="margin-left: 85px; margin-bottom: 13px;">제목 &nbsp &nbsp : <input type="text" id="questionName" name="questionName" style="width: 393px; margin-left: 23px;"></label><br>
          
-         <!-- <label for="questionCw" style="word-spacing:32px; margin-left: 85px; ">내용 : <textarea rows="20" cols="60" id="freeCw" name="freeCw" placeholder="내용을 입력해주세요" style="padding: 10px; height: 200px;"></textarea></label><br> -->
-      <label for="questionCw" style="word-spacing:2px; margin-left: 85px;">내용 : 
-      <div id="questionSummer" style="margin-top: -20px; margin-left: 175px; margin-bottom: -40px;">
-         <textarea id="questionContent" name="questionContent"></textarea>
-      <script type="text/javascript">
-      $('#questionContent').summernote({
-          placeholder: '내용을 입력해주세요',
-          tabsize: 2,
-          height: 220,
-          width: 450,
-          toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['insert', ['link', 'picture']],
-      //       ['insert', ['picture']],
-          ]
-        });
-      </script>
+      <label for="questionCw" style="margin-left: 85px;">내용 &nbsp &nbsp :
+  
+      <div id="questionCw2" style="margin-top: -20px; margin-left: 177px; margin-bottom: -40px;">
+         <textarea id="questionContent" name="questionContent" cols="53" rows="15" placeholder="내용을 입력해주세요"></textarea>
       </div>
+      
       </label>         
 
       <div class="filebox">

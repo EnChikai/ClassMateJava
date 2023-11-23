@@ -1,5 +1,6 @@
 package board.service.face;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +12,12 @@ import board.dto.EventBoard;
 import board.dto.EventBoardFile;
 import board.dto.FreeBoard;
 import board.dto.FreeBoardFile;
+import board.dto.FreeComment;
+import board.dto.Question;
+import board.dto.QuestionFile;
 import user.dto.UserInfo;
 import web.util.Paging;
+import web.util.PagingQuestion;
 
 public interface BoardService {
 
@@ -36,6 +41,12 @@ public interface BoardService {
 	//자유게시판 상세조회 - 첨부파일 다운로드
 	public FreeBoardFile getFreeFile(FreeBoardFile freeBoardFile);
 
+	//자유게시판 상세보기 - 댓글 입력
+	public void freeCommentInsert(FreeComment freeComment);
+	
+	//자유게시판 상세보기 - 댓글 조회
+	public List<FreeComment> freeCommentList(FreeComment freeComment);
+	
 	//자유게시판 삭제
 	public void deleteFreeBoard(FreeBoard deleteFree);
 
@@ -56,6 +67,28 @@ public interface BoardService {
 
 	//---------------------------------------------------------------
 
+	//자유게시판 수정하기
+	public void update(FreeBoard updateParam, List<MultipartFile> file, int[] delFileno);
 
+	//---------------------------------------------------------------
+	
+	public PagingQuestion getQuestionBoardPaging(PagingQuestion pagingQuestion, UserInfo userInfo);
+
+	//1:1문의게시판 목록 조회
+	public HashMap<String,Object> questionList(PagingQuestion pagingQuestion, UserInfo userInfo, HashMap<String,Object> map);
+
+	//1:1문의게시판 작성하기
+	public void questionWrite(Question question, List<MultipartFile> file);
+	
+	//1:1문의게시판 조회하기
+	public Question questionView(Question viewQuestion);
+
+	//1:1문의게시판 조회하기 - 파일
+	public List<QuestionFile> getAttachQuestionFile(Question viewQuestion);
+
+
+
+	
+	
 
 }

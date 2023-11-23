@@ -1,5 +1,6 @@
 package board.dao.face;
 
+import java.util.HashMap;
 import java.util.List;
 
 import board.dto.AnnounceBoard;
@@ -8,6 +9,9 @@ import board.dto.EventBoard;
 import board.dto.EventBoardFile;
 import board.dto.FreeBoard;
 import board.dto.FreeBoardFile;
+import board.dto.FreeComment;
+import board.dto.Question;
+import board.dto.QuestionFile;
 import user.dto.UserInfo;
 import web.util.Paging;
 
@@ -50,6 +54,12 @@ public interface BoardDao {
 	
 	//자유게시판 상세조회 - 첨부파일 다운로드
 	public FreeBoardFile downFreeFileNo(FreeBoardFile freeBoardFile);
+	
+	//자유게시판 상세조회 - 댓글 입력
+	public void freeCommentInsert(FreeComment freeComment);
+	
+	//자유게시판 상세조회 - 댓글 조회
+	public List<FreeComment> freeCommentList(FreeComment freeComment);
 
 	//자유게시판 파일 삭제
 	public void deleteFreeFileBoardNo(FreeBoard deleteFree);
@@ -77,6 +87,33 @@ public interface BoardDao {
 
 	//이벤트게시판 상세조회 - 첨부파일 조회
 	public List<EventBoardFile> AttachEventFile(EventBoard viewEvent);
+
+	//---------------------------------------------------------------
+
+	//자유게시판 수정하기
+	public void update(FreeBoard updateParam);
+
+	//자유게시판 수정하기 - 파일
+	public void deleteFiles(int[] delFileno);
+
+	//1:1문의게시판 게시글 카운트
+	public int questionCntAll(UserInfo userInfo);
+
+	//1:1문의게시판 목록 조회
+	public List<Question> selectQuestionAll(HashMap<String, Object> map);
+
+	//1:1문의게시판 등록
+	public void questionInsert(Question question);
+
+	//1:1문의게시판 등록 - 파일
+	public void insertFileQuestion(QuestionFile questionFile);
+
+	//1:1문의게시판 상세보기
+	public Question selectQuestionNo(Question viewQuestion);
+
+	//1:1문의게시판 상세보기 - 파일
+	public List<QuestionFile> AttachQuestionFile(Question viewQuestion);
+
 
 
 
