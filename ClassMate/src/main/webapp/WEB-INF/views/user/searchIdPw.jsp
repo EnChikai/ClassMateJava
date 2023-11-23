@@ -7,121 +7,139 @@
 
 /* 아이디/비밀번호 찾기 */
 .idpw2 h1 {
-	text-align: center;
+   text-align: center;
     margin-top: 60px;
     font-weight: bold;
 }
  
 .idpw {
-	border: 1px solid #ccc;
-    width: 680px;
-    height: 660px;
-   	margin: 120px auto;
-	margin-bottom: 160px;
+   border: 1px solid #ccc;
+   padding: 40px;
+   max-width: 460px;
+   margin: 100px auto;
+   margin-bottom: 160px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.idpw2 h4 {
-    margin-left: 185px;
-    margin-top: 40px;
-    font-weight: bold;
-    font-size: 18px;
+.idpw h1 {
+   font-weight: bold;
+   margin-bottom: 20px;
+   color: #333;
+   text-align: center;
+}
+
+.idpw h4 {
+   font-weight: bold;
+   font-size: 18px;
+   margin-top: 20px;
+   margin-left: 17%;
+   color: #555;
 }
 
 .idpw input {
-	border: 1px solid #ccc;
-	height: 35px;
-    margin-left: -6px;
-    width: 252px;
+    border: 1px solid #ddd;
+    margin: 3px -6px;
+    width: 45%;
     border-radius: 3px;
     vertical-align: middle;
+    padding: 13px;
 }
 
 .idpw label {
-    margin-left: 185px;
+    margin-left: 17%;
     text-align: center;
 }
 
-.findId {
-	line-height: 2.5;
+.idpw hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    width: 55%;
+    margin: 0 auto; /* 가운데 정렬을 위해 추가 */
 }
 
-.findId button {
+button {
     display: block;
     margin: 0 auto;
-    margin-top: 40px;
+    margin-top: 20px;
     background-color: #F1C40F;
-    font-size: 13px;
     color: rgb(255, 255, 255);
     text-align: center;
-    line-height: 2em;
     border: none;
     border-radius: 4px;
-    width: 100px;
+   padding: 10px 13px;
+   cursor: pointer;
+}
+
+#email {
+   border: 1px solid black; 
+   border-radius: 4px;
+   background-color: black;
+   color: white;
+   padding: 10px 10px;
+   vertical-align: middle;
+}
+
+#nameId {
+   border: 1px solid black;
+   border-radius: 4px;
+   background-color: black;
+   color: white;
+   padding: 10px 18px;
+   vertical-align: middle;
+}
+
+#id {
+   border: 1px solid black;
+   border-radius: 4px;
+   background-color: black;
+   color: white;
+   padding: 10px 10px;
+   vertical-align: middle;
+}
+
+#namePw {
+   border: 1px solid black;
+   border-radius: 4px;
+   background-color: black;
+   color: white;
+   padding: 10px 18px;
+   vertical-align: middle;
 }
 
 </style>
 
 
 <div class="idpw">
-<div class="idpw2">
 
-<form action="${pageContext.request.contextPath}/user/searchIdPw" method="post">
+<!-- 아이디 찾기 폼 -->
+<form id="findIdForm" action="/user/searchIdPw" method="post">
 
-	<h1>아이디/비밀번호 찾기</h1>
-	 
-	<div>
-	<h4>아이디로 찾기</h4>
-	
-	<div class="findId">
-	<label style="border: 1px solid black; 
-		   border-radius: 4px;
-		   background-color: black;
-		   color: white;
-		   padding: 7px 9px;
-		   vertical-align: middle;">이메일</label>
-	<input type="text" name="userEmail"><br>
-	
-	<label style="border: 1px solid black;
-		   border-radius: 4px;
-		   background-color: black;
-		   color: white;
-		   padding: 7px 17px;
-		   vertical-align: middle;">이름</label>
-	<input type="text" name="userName"><br>
-	
-	<button>아이디 찾기</button><br>
-	
-	<hr style=" border: none; border-top: 1px solid gray;
-    text-align: center; width: 43%;
-    margin: 0 auto; /* 가운데 정렬을 위해 추가 */
-    margin-bottom: 50px;">
-	
-	
-	<h4>비밀번호로 찾기</h4>
+   <h1>아이디/비밀번호 찾기</h1>
+    
+   <h4>아이디 찾기</h4>
+   
+   <label id="email" for="userEmail">이메일</label>
+   <input type="text" id="userEmail" name="userEmail" required><br>
+   <label id="nameId" for="userName">이름</label>
+   <input type="text" id="userName" name="userName" required><br>
+   
+   <button>아이디 찾기</button><br>
+</form>
 
-	<label style="border: 1px solid black;
-		   border-radius: 4px;
-		   background-color: black;
-		   color: white;
-		   padding: 7px 9px;
-		   vertical-align: middle;">아이디</label>
-	<input type="text" name="userId"><br>
-	
-	<label style="border: 1px solid black;
-	  	   border-radius: 4px;
-	  	   background-color: black;
-	  	   color: white;
-		   padding: 7px 17px;
-		   vertical-align: middle;">이름</label>
-	<input type="text" name="userName"><br>
-	
-	<button>비밀번호 찾기</button>
+   <hr>
+   
+   <!-- 비밀번호 찾기 폼 -->
+   <form id="findPwForm" action="/user/resetPw" method="post">
+   <h4>비밀번호 찾기</h4>
 
-	</div><!-- .findId -->
-
-	</div>
-	</form>
-	
-</div><!-- .idpw2 -->
+   <label id="id" for="userId">아이디</label>
+   <input type="text" name="userId"><br>
+   <label id="namePw" for="userName">이름</label>
+   <input type="text" id="userName" name="userName"><br>
+   
+   <button>비밀번호 찾기</button>
+   </form><!-- .findPwForm -->
 </div><!-- .idpw -->
+
+   
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

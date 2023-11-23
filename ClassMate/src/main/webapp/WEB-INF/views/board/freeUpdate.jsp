@@ -29,6 +29,7 @@
    margin: 0 auto;
    margin-top: 70px;
    margin-bottom: 80px;
+   height: auto;
 }
 
 #freeName,#freeUu {
@@ -44,8 +45,9 @@
 }
 
 #uButton,#uList {
-   width: 65px;
-   height: 29px;
+   width: 73px;
+   height:35px;
+   font-size: 15px;
    color: white;
    border: none;
    border-radius: 3px;
@@ -64,6 +66,7 @@
     margin-left: 12px;
     color: #999999;
     font-size: 15px;
+    margin-bottom: 35px;
 }
 
 .filebox label {
@@ -85,6 +88,21 @@
     letter-spacing: 2px;
 }
 
+#contentFile {
+   width: 500px;
+   height: 30px;
+   margin: 0 auto;
+   line-height: 1.8;
+   padding: 15px;
+   border: 1px solid lightgrey;
+   height: auto;
+   text-align: center;
+}
+
+#contentFileSpan {
+	vertical-align: text-bottom;
+}
+
 </style>
 
 <tbody>
@@ -92,13 +110,13 @@
 
 <form action="./freeUpdate" method="post" enctype="multipart/form-data">
    <div id="freeFormUpdate">
-   <fieldset style="border: 1px solid gray; border-radius: 4px; height: 600px;">
+   <fieldset style="border: 1px solid gray; border-radius: 4px; height: auto; padding-bottom: 40px;">
 
       <legend id="freelegendUpdate">게시글 수정</legend>
 
-         <label for="freeTu" style="word-spacing:32px; margin-left: 85px;">제목 : </label><span style="display: inline-block; width: 400px; font-size: 14px; color: gray; margin-bottom: 15px;">${paramFree.freeName}</span><br>
+         <label for="freeTu" style="word-spacing:33px; margin-left: 85px;">제목 : </label><span style="display: inline-block; width: 400px; font-size: 14px; color: gray; margin-bottom: 15px; margin-left: -17px;">${paramFree.freeName}</span><br>
          
-         <label id="freeUu" style="word-spacing:15px; margin-left: 85px;">작성자 : </label><span style="display: inline-block; width: 300px; font-size: 14px; color: gray; margin-bottom: 15px;">${paramFree.userName}</span>
+         <label id="freeUu" style="word-spacing:16px; margin-left: 85px;">작성자 : </label><span style="display: inline-block; width: 300px; font-size: 14px; color: gray; margin-bottom: 15px;">${paramFree.userName}</span>
          
          <select id="freeHead" name="freeHead" required="required">
             <option disabled>말머리</option>
@@ -112,7 +130,7 @@
 	            </c:if>
             </select>
 
-      <label for="freeCu" style="word-spacing:2px; margin-left: 85px;">내용 : 
+      <label for="freeCu" style="word-spacing:2px; margin-left: 85px;">내용&nbsp &nbsp &nbsp: 
       <div id="freeSummer" style="margin-top: -12px; margin-left: 175px; margin-bottom: -40px;">
          <textarea id="freeContent" name="freeContent">${paramFree.freeContent }</textarea>
       <script type="text/javascript">
@@ -144,7 +162,8 @@
           </span>
       </div>
       
-      <div id="contentFile" style="height: auto; padding: 10px; 	border: 1px solid lightgrey;">
+      <c:if test="${not empty freeBoardFile }">
+      <div id="contentFile">
 			<c:forEach var="freeBoardFile" items="${freeBoardFile}">
 				<img id="freefile" alt="freefile" src="/resources/img/file.png" width="22" height="19">
 						<a href="./download?fileNo=${freeBoardFile.fileNo }">
@@ -153,6 +172,7 @@
 		      	<input type="checkbox" class="d-none" name="delFileno" value="${freeBoardFile.fileNo }"><br>
 			</c:forEach>
 	  </div>
+      </c:if>
       
 		<script type="text/javascript">
 		$(() => {
@@ -190,6 +210,7 @@
          </div>
    
    <input name="userNo" style="display: none;" readonly="readonly" value="${userNo}" >
+   <input name="freeNo" style="display: none;" readonly="readonly" value="${paramFree.freeNo}" >
    </fieldset>
 </div>
 </form>

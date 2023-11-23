@@ -30,12 +30,14 @@
 	    SELECT A.*, U.user_name AS userName
 	    FROM announce_board A
 	    JOIN user_info U ON A.user_no = U.user_no
+	    WHERE A.announce_exist = '0'
 	</select>
 	  
 	<select id="selectEventAll" resultType="EventBoard">
 	    SELECT E.*, U.user_name AS userName
 	    FROM event_board E
 	    JOIN user_info U ON E.user_no = U.user_no
+	    WHERE E.event_exist = '0'
 	</select>
   
   	<select id="writeUserId" resultType="UserInfo" parameterType="String">
@@ -159,7 +161,95 @@
   		</where>
   	</select>
   
+  	<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
   
+    <delete id="deleteFiles" parameterType="int[]">
+      DELETE free_board_file
+      <where>
+         file_no IN
+         <foreach collection="array" item="no" open="(" close=")" separator=",">
+            #{no }
+         </foreach>
+      </where>
+   </delete>
   
+  	 <update id="update" parameterType="FreeBoard">
+      UPDATE free_board
+      <set>
+         , free_head = #{freeHead }
+         , free_content = #{freeContent }
+      </set>
+      <where>
+         free_no = #{freeNo }
+      </where>
+   </update>
+  
+  	<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  
+	<select id="questionCntAll" resultType="int" parameterType="UserInfo">
+		SELECT count(*) FROM question
+		WHERE user_no = #{userNo }
+	</select>
+  
+  	<select id="selectQuestionAll" resultType="Question" parameterType="HashMap">
+	    SELECT B.*, U.user_name AS userName
+	    FROM (
+	        SELECT rownum rnum, F.*
+	        FROM (
+	            SELECT *
+	            FROM question
+	            WHERE question_exist = '0'
+	            AND user_no = #{userInfo.userNo }
+	            ORDER BY question_no DESC
+	        ) F
+	    ) B
+	    JOIN user_info U ON B.user_no = U.user_no
+	    WHERE B.rnum BETWEEN #{pagingQuestion.startNo} AND #{pagingQuestion.endNo}
+	</select>
+  
+  	<insert id="questionInsert" parameterType="Question" useGeneratedKeys="true" keyProperty="questionNo">
+  		<selectKey keyProperty="questionNo" resultType="int" order="BEFORE">
+  			SELECT question_seq.nextval FROM dual
+  		</selectKey>
+  		INSERT INTO question (question_no, user_no, question_category, question_name, question_content)
+  		VALUES (#{questionNo}, #{userNo}, #{questionCategory}, #{questionName}, #{questionContent})
+  	</insert>
+  
+  	<insert id="insertFileQuestion" parameterType="QuestionFile" >
+  		INSERT INTO question_file (file_no, question_no, origin_name, stored_name)
+  		VALUES (question_file_seq.nextval, #{questionNo}, #{originName}, #{storedName})
+  	</insert>
+  
+    <select id="selectQuestionNo" resultType="Question" parameterType="Question">
+        SELECT F.*, U.user_name AS userName
+        FROM question F
+        JOIN user_info U ON F.user_no = U.user_no
+        WHERE F.question_no = #{questionNo}
+    </select>
+  
+  	<select id="AttachQuestionFile" resultType="QuestionFile" parameterType="QuestionFile">
+  		SELECT
+  			file_no, question_no, origin_name, stored_name
+  		FROM question_file
+  		<where>
+  			question_no = #{questionNo}
+  		</where>
+  	</select>
+  
+  	<insert id="freeCommentInsert" parameterType="FreeComment" useGeneratedKeys="true" keyProperty="freeCommentNo">
+  		<selectKey keyProperty="freeCommentNo" resultType="int" order="BEFORE">
+  			SELECT free_comment_seq.nextval FROM dual
+  		</selectKey>
+  		INSERT INTO free_comment (free_comment_no, free_no, free_comment_content)
+  		VALUES (#{freeCommentNo}, #{freeNo}, #{freeCommentContent})
+  	</insert>
+  
+  	<select id="freeCommentList" resultType="FreeComment" parameterType="FreeComment">
+		SELECT * 
+		FROM free_comment FC
+		JOIN free_board F ON FC.free_no = F.free_no
+		JOIN user_info U ON F.user_no = U.user_no
+		WHERE FC.free_no = ${freeNo}
+    </select>
   
  </mapper>

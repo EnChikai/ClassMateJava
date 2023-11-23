@@ -9,10 +9,17 @@
 <style type="text/css">
 
 .defaultWidth{
-	margin-left: 495px;
-	margin-right: 495px;
+	text-align: justify;
 	margin-top: 60px;
+	margin-bottom: 100px;
 }
+
+#boardtb tr th {
+	border-top: 1.8px solid black; 
+	border-bottom: 1.8px solid black;
+	background-color: #cdcaba63;
+}
+
 #boardtitle {
 	margin-top: 2em;
 	border: 1px;
@@ -37,10 +44,14 @@
 	vertical-align: middle;
 	width: 910px;
 }
+#boardtb tr th, #boardtb tr td {
+	border-left: 0;
+	border-right: 0;
+}
 
 #boardToptr {
 	height: 40px;
-	font-size: 15px;;
+	font-size: 15px;
 }
 
 #boardFree,#boardAnnounce, #boardEvent {
@@ -53,10 +64,11 @@
 	margin-top: 15px;;
 	margin-right: 15px;
 	width: 70px;
-	height: 35px;
+	height: 33px;
 	background-color: black;
 	color: white;
 	border-radius: 4px;
+	border: none;
 }
 
 #boardPaging1 {
