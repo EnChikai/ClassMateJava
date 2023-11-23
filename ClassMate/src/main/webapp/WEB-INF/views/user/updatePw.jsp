@@ -31,8 +31,16 @@ button {
 	<h1>비밀번호 재설정이 완료되었습니다</h1>
 	<p style="color: rgb(127, 127, 127); font-size: 16px; margin-top: 14px">설정된 비밀번호로 로그인이 가능합니다</p>
 
-	<a href="./login"><button>로그인 하기</button></a>
+    <!-- JavaScript를 사용하여 버튼 클릭 시 로그인 페이지로 이동 -->
+    <button onclick="redirectToLoginPage()">로그인 하기</button>
 </div>
+
+<script>
+    function redirectToLoginPage() {
+        // 로그인 페이지로 이동
+        window.location.href = './login';
+    }
+</script>
 
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

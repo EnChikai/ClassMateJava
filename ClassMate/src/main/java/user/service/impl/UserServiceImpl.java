@@ -65,5 +65,19 @@ public class UserServiceImpl implements UserService{
 		return result;
 	}
 
+	@Override
+	public UserInfo searchInfo(UserInfo userInfo) {
+		return userDao.searchInfo(userInfo);
+	}
 
+	@Override
+	public boolean checkUserInfo(UserInfo userInfo) {
+	    return userDao.checkUserInfo(userInfo) > 0;
+	}
+
+	@Override
+	public int updatePw(UserInfo userInfo) {
+	      // 비밀번호 업데이트 로직
+        return userDao.updatePw(userInfo);
+	}
 }

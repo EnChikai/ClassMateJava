@@ -11,23 +11,29 @@
 
 <style type="text/css">
 
+#questionWrite {
+	margin-top: 70px;
+}
+
 #questionh1 {
    text-align: center;
-   border: 1px solid;
-   color: white;
-   width: 600px;
-   height: 40px;
-   font-size: 140%;
+   margin: 0 auto;
+   border: 1px solid lightgrey;;
+   border-radius: 4px;
+   width: 650px;
+   height: 50px;
+   font-size: 80%;
+   font-weight: normal;
    padding-top: 8px;
-   margin-bottom: 40px;
 }
 
 #questionForm {
-   width: 700px;
-   text-align: left;
-   margin: 0 auto;
-   margin-top: 70px;
-   margin-bottom: 80px;
+	border: 1px solid lightgrey;
+	height: auto;
+ 	width: 650px;
+	margin: 0 auto;
+	padding-top: 50px;
+	margin-bottom: 80px;
 }
 
 #questionName,#questionUw {
@@ -36,128 +42,120 @@
 }
 
 
-#questionHead {
+#questionCategory {
    width: 140px;
    height: 28px;
 }
 
-#wButton,#wList {
-   width: 65px;
-   height: 29px;
+#contentFileSpan {
+	vertical-align: text-bottom;
+}
+
+#wList {
+   width: 73px;
+   height:35px;
+   font-size: 15px;
    color: white;
+   margin-top: 30px;
+   margin-bottom: 50px;
    border: none;
    border-radius: 3px;
    background-color: rgb(241, 196, 15)
 }
 
-#questionSummer {
-   width: 450px;
+#questionCw2 {
+	margin-top: -20px;
+	margin-left: 90px;
+	margin-bottom: -40px;
+	width: 380px;
+	height: 200px;
+}
+
+#divHr {
+	width: 500px;
+	margin: 0 auto;
+	margin-bottom: 10px;
+}
+
+#contentFile {
+   width: 500px;
    margin: 0 auto;
+   line-height: 1.8;
+   padding: 15px;
+   margin-top: 10px;
 }
 
-.filebox .upload-name {
-    display: inline-block;
-    border: none;
-    width: 390px;;
-    margin-left: 12px;
-    color: #999999;
-    font-size: 15px;
+#answersh4 {
+	font-weight:normal;
+	color: red;
+	margin-left: 85px;
+	text-align: justify;
+	width: 475px;
 }
 
-.filebox label {
-    display: inline-block;
-    cursor: pointer;
-    margin-top: 50px;
-}
-
-.filebox input[type="file"] {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-}
-
-.note-editable {
-    letter-spacing: 2px;
+#answer {
+	margin-top: -20px;
+	margin-left: 90px;
+	margin-bottom: -40px;
+	width: 380px;
+	height: 100px;
 }
 
 </style>
 
 <tbody>
-<div id="questionView">
+<div id="questionWrite">
 
-<form action="./questionView" method="post" enctype="multipart/form-data">
-   <div id="questionForm">
+   <div id="questionh1">
+      <h1 style="font-weight: normal;">1:1 문의 확인하기</h1>
+   </div>
 
-      <div id="questionh1" style="border: 1px solid gray; border-radius: 4px; height: 600px;">
-         <h1>1:1 문의 확인하기</h1>
+<form action="./questionView" method="get" enctype="multipart/form-data">
+<div id="questionForm">
+
+      <div id="questionUw" style="margin-left: 85px; margin-bottom: 13px;">작성자 &nbsp &nbsp: 
+      	<span style="display: inline-block; width: 250px; margin-left: 12px; color: gray;">${viewQuestion.userName }</span>
+      <select id="questionCategory" name="questionCategory" required="required">
+         <option selected disabled>${viewQuestion.questionCategory }</option>
+         </select>
       </div>
-
-         <div id="questionUw" style="word-spacing:15px; margin-left: 85px;">작성자 : 
-            <span id="questionName" style="display: inline-block; width: 300px; font-size: 14px; color: gray; margin-bottom: 15px;">${userName }</span>
-         </div>
-         <select id="questionHead" name="questionHead" required="required">
-            <option selected disabled>분류</option>
-                <option value="계정">계정</option>
-               <option value="결재">결재</option>
-                <option value="클래스">시스템</option>
-                <option value="시스템">시스템</option>
-            </select>
+        
+      <div id="questionTw" style="margin-left: 85px; margin-bottom: 13px;">제목 &nbsp &nbsp &nbsp: 
+      	<span style="display: inline-block; width: 390px; margin-left: 15px;">${viewQuestion.questionName }</span>
+      </div>
          
-         <div id="questionTw" style="word-spacing:32px; margin-left: 85px;">제목 : 
-            <span id="questionTitle" style="margin-left:-19px; width: 444px;"></span></label>
-         </div><br>
+      <div id="questionCw" style="margin-left: 85px;">내용 &nbsp &nbsp &nbsp:
+	      <div id="questionCw2">
+	         <span>${viewQuestion.questionContent }</span>
+	      </div>
+      </div>         
 
-         <!-- <label for="questionCw" style="word-spacing:32px; margin-left: 85px; ">내용 : <textarea rows="20" cols="60" id="freeCw" name="freeCw" placeholder="내용을 입력해주세요" style="padding: 10px; height: 200px;"></textarea></label><br> -->
-      <label for="questionCw" style="word-spacing:2px; margin-left: 85px;">내용 : 
-      <div id="questionSummer" style="margin-top: -20px; margin-left: 175px; margin-bottom: -40px;">
-         <textarea id="questionContent" name="questionContent"></textarea>
-      <script type="text/javascript">
-      $('#questionContent').summernote({
-          placeholder: '내용을 입력해주세요',
-          tabsize: 2,
-          height: 220,
-          width: 450,
-          toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['insert', ['link', 'picture']],
-      //       ['insert', ['picture']],
-          ]
-        });
-      </script>
-      </div>
-      </label>         
+       <c:if test="${not empty questionFile }">
+          <div id="contentFile" style="height: auto;  border: 1px solid lightgrey; text-align: center;">
+             <c:forEach var="questionFile" items="${questionFile}">
+                <img id="questionfile" alt="questionfile" src="/resources/img/file.png" width="22" height="19">
+                <span id="contentFileSpan"> : ${questionFile.originName }</span><br>
+             </c:forEach>
+          </div>
+   		</c:if>
+   		
+	<br><br>
 
-      <div class="filebox">
-       <span style="margin-left: 85px;">첨부파일 : 
-          <input class="upload-name" value="파일을 첨부해주세요">
-             <label for="file"><img alt="freefile" src="/resources/img/freefile.png" width="55px" height="22px" style="vertical-align: middle;"></label> 
-             <input type="file" id="file" name="file" multiple="multiple">
-          </span>
+	<div id="divHr">
+		<hr>
+	</div>	
+	
+	<br>
+	
+	  <div style="margin-left: 85px; color: red;">답변&nbsp &nbsp &nbsp:
+	      <div id="answer">
+	         <span>${viewQuestion.answerContent }</span>
+	      </div>
       </div>
 
-   <script type="text/javascript">
-       $("#file").on('change', function () {
-           var files = $("#file")[0].files;
-           var fileName = "";
-           for (var i = 0; i < files.length; i++) {
-               fileName += files[i].name;
-               if (i < files.length - 1) {
-                   fileName += ", ";
-               }
-           }
-           $(".upload-name").val(fileName);
-       });
-   </script>
-
-         <div style="text-align: center; margin-top: 40px;">
-         <button id="wList" type="button" onclick="location.href='./question'" style="background-color: black; cursor: pointer;">목록</button>
-         </div>
+     <div style="text-align: center; margin-top: 40px;">
+     	<button id="wList" type="button" onclick="location.href='./question'" style="background-color: black; cursor: pointer;">목록</button>
+     </div>
    
    <input name="userNo" style="display: none;" readonly="readonly" value="${userNo}" >
 </div>
