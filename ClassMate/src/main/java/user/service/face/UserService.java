@@ -5,16 +5,16 @@ import user.dto.UserInfo;
 
 public interface UserService {
 
-	public void join(UserInfo userInfo);
+	public void join(UserInfo userInfo); //회원가입
 	
-	public UserInfo loginPost(UserInfo userInfo);
+	public UserInfo loginPost(UserInfo userInfo); //로그인
 
-	public Teacher getTeacherNo(Teacher teacher);
+	public Teacher getTeacherNo(Teacher teacher); //강사 번호 조회
 
-	public boolean checkDuplicateId(String userId);
+	public boolean checkDuplicateId(String userId); //중복 ID확인
 
 	/**
-	 * 기존 회원정보 뽑아오기
+	 * 기존 회원정보 가져오기
 	 * 
 	 * @param userInfo (userNo만 포함)
 	 * @return userInfo (모든 데이터 포함)
@@ -25,7 +25,16 @@ public interface UserService {
 
 	public int updateUserData(UserInfo userInfo);
 
+	public UserInfo searchInfo(UserInfo userInfo); //아이디 찾기
 
+	/**
+	 * 아이디와 이름을 기반으로 사용자 정보를 확인합니다.
+	 * @param userInfo - 아이디와 이름이 포함된 사용자 정보
+	 * @return true: 사용자 정보가 일치, false: 사용자 정보 불일치
+	 */
+	public boolean checkUserInfo(UserInfo userInfo);
+
+	public int updatePw(UserInfo userInfo);
 
 
 }
