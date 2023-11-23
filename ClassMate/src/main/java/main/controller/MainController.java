@@ -203,41 +203,59 @@ public class MainController {
 	       logger.info("버튼타입안에 뭐가 있어? : {}", buttonType);
 	       logger.info("클래스안에 뭐가 있어? : {}", cLass);
 	       logger.info("유저번호안에 뭐가 있어? : {}", session.getAttribute("userNo"));
-	       
-	       
-	       
-	       int res = mainService.basket(cLass, session);
-
 	       Map<String, String> response = new HashMap<>();
-
-	       // ON클래스인데 장바구니 안에 있는 ON클래스와 중복일 경우
-	       if ( cLass.getOnOff() == 1 && res == 1 ) {
-	           response.put("redirect", "/main/onClassView?classNo=" + cLass.getClassNo());
-	           response.put("error", "장바구니에 같은 ON클래스("+cLass.getClassName()+")가 들어있습니다.");
-	       }
-
-	       // OFF클래스인데 장바구니 안에 있는 OFF클래스와 중복일 경우
-	       else if ( cLass.getOnOff() == 0 && res == 1 ) {
-	           response.put("redirect", "/main/offClassView?classNo=" + cLass.getClassNo());
-	           response.put("error", "장바구니에 같은 OFF클래스("+cLass.getClassName()+")가 들어있습니다.");
-	       }
 	       
-	       // ON클래스인데 장바구니를 눌렀을 경우
-	       else if ( cLass.getOnOff() == 1 && buttonType.equals("basket") ) {
-	           response.put("redirect", "/main/onClassView?classNo=" + cLass.getClassNo());
-	       }
+	     //이미 결제한 경우 장바구니 or 클래스 시작하기를 눌렀을 경우
+	       boolean duplicationPayment =  mainService.payment(cLass);
 	       
-	       // OFF클래스인데 장바구니를 눌렀을 경우
-	       else if ( cLass.getOnOff() == 0 && buttonType.equals("basket") ) {
-	           response.put("redirect", "/main/offClassView?classNo=" + cLass.getClassNo());
-	       }
 	       
-	       // ON클래스, OFF클래스인데 장바구니안에 있는 ON클래스, OFF클래스가 중복이 아닐 경우(insert 된 경우)
-	       // ON클래스, OFF클래스가 클래스 시작하기를 눌렀을 경우
-	       else {
-	       response.put("redirect", "/payment/basket");
+	       if( duplicationPayment = true ) {
+		       int res = mainService.basket(cLass, session);
+	
+	
+		       // ON클래스인데 장바구니 안에 있는 ON클래스와 중복일 경우
+		       if ( cLass.getOnOff() == 1 && res == 1 ) {
+		           response.put("redirect", "/main/onClassView?classNo=" + cLass.getClassNo());
+		           response.put("error", "장바구니에 같은 ON클래스("+cLass.getClassName()+")가 들어있습니다.");
+		       }
+	
+		       // OFF클래스인데 장바구니 안에 있는 OFF클래스와 중복일 경우
+		       else if ( cLass.getOnOff() == 0 && res == 1 ) {
+		           response.put("redirect", "/main/offClassView?classNo=" + cLass.getClassNo());
+		           response.put("error", "장바구니에 같은 OFF클래스("+cLass.getClassName()+")가 들어있습니다.");
+		       }
+		       
+		       // ON클래스인데 장바구니를 눌렀을 경우
+		       else if ( cLass.getOnOff() == 1 && buttonType.equals("basket") ) {
+		           response.put("redirect", "/main/onClassView?classNo=" + cLass.getClassNo());
+		       }
+		       
+		       // OFF클래스인데 장바구니를 눌렀을 경우
+		       else if ( cLass.getOnOff() == 0 && buttonType.equals("basket") ) {
+		           response.put("redirect", "/main/offClassView?classNo=" + cLass.getClassNo());
+		       }	       
+		       
+		       // ON클래스, OFF클래스인데 장바구니안에 있는 ON클래스, OFF클래스가 중복이 아닐 경우(insert 된 경우)
+		       // ON클래스, OFF클래스가 클래스 시작하기를 눌렀을 경우
+		       else {
+		       response.put("redirect", "/payment/basket");
+		       }
+	       }else {
+	    	   
+		       // ON클래스인데 주문결제한 경우
+		       if ( cLass.getOnOff() == 1 ) {
+		           response.put("redirect", "/main/onClassView?classNo=" + cLass.getClassNo());
+		           response.put("error", "이미 결제한 상품입니다.");
+		       }
+	
+		       // OFF클래스인데 장바구니 안에 있는 OFF클래스와 중복일 경우
+		       else if ( cLass.getOnOff() == 0 ) {
+		           response.put("redirect", "/main/offClassView?classNo=" + cLass.getClassNo());
+		           response.put("error", "이미 결제한 상품입니다.");
+		       }
+		       
 	       }
-
+	    	   
 	       return response;
 	   }
 

@@ -49,7 +49,7 @@
 <div class="container">
 <span class="TOP5"><strong>이벤트 썸네일</strong></span><br>
 <c:forEach var="list" items="${selectByEventFileList }">
-<a href="/board/eventView?eventNo=${list.eventNo }">${list.headImg }</a>
+<a href="/board/eventView?eventNo=${list.eventNo }"><img src="/upload/${list.headImg }"></a>
 </c:forEach>
 </div>
 
