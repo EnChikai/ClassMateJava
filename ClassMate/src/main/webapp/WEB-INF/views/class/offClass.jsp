@@ -27,7 +27,6 @@
                 커리큘럼: ${lecture.curriculum}<br>
                 온/오프라인: ${lecture.onOff}<br>
                 헤더 이미지: <img src="${lecture.headImg}" alt="Class Image"/><br>
-                내용: ${lecture.content}<br>
                 삭제 여부: ${lecture.deleteBoolean}<br>
                 주소 번호: ${address.addressNo }<br>
                	상세 주소: ${address.mainAddress }<br>
