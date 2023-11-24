@@ -46,6 +46,25 @@ public class SearchServiceImpl implements SearchService{
 //-----------------------------------------------------------------------------
 
 	@Override
+	public SearchPaging getClassTitlePaging(SearchPaging param) {
+		//총 게시글 수 조회
+		int totalCount = searchDao.selectClassTitleCntAll(param);
+		
+		//페이징 객체 생성(페이징 계산)
+		SearchPaging paging = new SearchPaging( totalCount, param.getCurPage() );
+		paging.setSearch( param.getSearch() );
+		
+		return paging;
+	}
+	
+	@Override
+	public List<Class> classTitleList(SearchPaging paging) {
+		return searchDao.selectClassTitleAll(paging);
+	}
+	
+//-----------------------------------------------------------------------------
+
+	@Override
 	public SearchPaging getNickPaging(SearchPaging param) {
 		logger.info("getNickPaging()");
 		//총 게시글 수 조회

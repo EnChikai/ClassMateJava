@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>내가 수강한 클래스 나열 페이지</title>
     <style>
-        body {
+    	body {
             background-color: #f8f9fa;
         }
         .header {
