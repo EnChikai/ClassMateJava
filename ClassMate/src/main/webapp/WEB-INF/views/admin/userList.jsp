@@ -232,7 +232,7 @@ $(function(){
 	<th class="userListTh" width="10%">강사 여부<br>
 </tr>
 
-<c:forEach items="${list }" var="list"> 
+<c:forEach var="list" items="${list }"> 
 	<tr class="userListTr" >
 		<td class="userListTd userInfo${list.userNo }">${list.userNo }</td>
 		<td class="userListTd userInfo${list.userNo }">${list.userId }</td>

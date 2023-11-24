@@ -43,7 +43,7 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Override
 	public Map<String, Object> getDashBoardInfo() {
-
+		logger.info("getDashBoardInfo()");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		//미탈퇴 인원

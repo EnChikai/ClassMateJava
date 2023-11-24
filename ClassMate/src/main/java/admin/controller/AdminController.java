@@ -22,6 +22,7 @@ import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
 import payment.dto.OrderTb;
+import teacher.dto.Teacher;
 import teacher.dto.TeacherApply;
 import user.dto.UserInfo;
 import web.util.Paging;
@@ -225,6 +226,20 @@ public class AdminController {
 		model.addAttribute("paging",paging);
 		model.addAttribute("map",map);
 		model.addAttribute("passCheckbox", passCheckbox);
+		
+	}
+	
+	@GetMapping("/admin/teacherApplyView")
+	public void teacherApplyGet(
+			
+			TeacherApply teacherApply
+			, Teacher teacher
+			
+			){
+		logger.info("/admin/teacherApplyView [GET]");
+		logger.info("teacherApply : {}", teacherApply.getTeacherNo() );
+		logger.info("teacher : {}", teacher.getTeacherNo() );
+		
 		
 	}
 	

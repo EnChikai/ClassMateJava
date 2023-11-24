@@ -143,6 +143,22 @@ $(function(){
 
 </script>
 <%-- <% ============================================================================= %> --%>
+<%-- 클릭시 강사신청 상세보기로 --%>
+<c:forEach var="teacherList" items="${map.teacherList }" > 
+<script>
+$(function(){
+	
+	$(".applyId${teacherList.teacherNo }").click(function(){
+		
+		
+		location.href = '../admin/teacherApplyView?curPage=${paging.curPage}&passCheckbox=${passCheckbox}&teacherNo=${teacherList.teacherNo}';
+		
+	})
+	
+});
+</script>
+</c:forEach>
+<%-- <% ============================================================================= %> --%>
 <div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px;">
 
 
@@ -189,20 +205,24 @@ $(function(){
 
 <c:if test="${paging.totalCount > 0}">
 <c:forEach var="i" begin="0" end="${paging.totalCount-1}" >
+<c:set var="teacherList" value="${map.teacherList[i] }" />
+<c:set var="teacherApplyList" value="${map.teacherApplyList[i] }" />
+<c:set var="teacherApplyList" value="${map.teacherApplyList[i] }" />
+
 	<tr class="applyListTr">
 		<td class="applyListTd">
 			<%=i++ %>
 		</td>
-		<td class="applyListTd">
-			<c:set var="teacherList" value="${map.teacherList[i] }" />
+		<td class="applyListTd applyId${teacherList.teacherNo }">
+			
 			<c:out value="${teacherList.teacherTitle }" />
 		</td>
-		<td class="applyListTd">
-			<c:set var="teacherApplyList" value="${map.teacherApplyList[i] }" />
+		<td class="applyListTd applyId${teacherList.teacherNo }">
+			
 			<fmt:formatDate value="${teacherApplyList.applyDate}" pattern="yyyy-MM-dd HH:mm:ss" />
 		</td>
-		<td class="applyListTd">
-			<c:set var="teacherApplyList" value="${map.teacherApplyList[i] }" />
+		<td class="applyListTd applyId${teacherList.teacherNo }">
+			
 			<c:if test="${teacherApplyList.passOrNot eq 0}">
 				미처리
 			</c:if>
@@ -228,7 +248,7 @@ $(function(){
 	<!-- 이전 페이지로 이동 -->
 	<c:if test="${paging.curPage > 1 }">
 		<li style="width: 45px;">
-		<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage - 1 }" id="pagingBefore">&lt;</a>
+		<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage - 1 }&passCheckbox=${passCheckbox}" id="pagingBefore">&lt;</a>
 		</li>
 	</c:if>
 	
@@ -236,12 +256,12 @@ $(function(){
 	<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
 		<c:if test="${paging.curPage eq i }">
 			<li class="page-item" style="width: 45px;">
-			<a class="page-link active" href="<%= request.getContextPath() %>?curPage=${i }" id="pagingNow">${i }</a>
+			<a class="page-link active" href="<%= request.getContextPath() %>?curPage=${i }&passCheckbox=${passCheckbox}" id="pagingNow">${i }</a>
 			</li>
 		</c:if>
 		<c:if test="${paging.curPage ne i }">
 			<li class="page-item" style="width: 45px;">
-			<a class="page-link" href="<%= request.getContextPath() %>?curPage=${i }" id="pagingWaiting">${i }</a>
+			<a class="page-link" href="<%= request.getContextPath() %>?curPage=${i }&passCheckbox=${passCheckbox}" id="pagingWaiting">${i }</a>
 			</li>
 		</c:if>
 	</c:forEach>
@@ -249,7 +269,7 @@ $(function(){
 	<!-- 다음 페이지로 이동 -->
 	<c:if test="${paging.curPage < paging.totalPage }">
 		<li class="page-item" style="width: 45px;">
-		<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage + 1 }" id="pagingAfter">&gt;</a>
+		<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage + 1 }&passCheckbox=${passCheckbox}" id="pagingAfter">&gt;</a>
 		</li>
 	</c:if>
       
