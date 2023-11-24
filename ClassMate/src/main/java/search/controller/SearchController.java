@@ -63,6 +63,19 @@ public class SearchController {
 		model.addAttribute("list", list);
 	}
 	
+	//클래스이름 검색어 입력시 강의 리스트 나열
+	@RequestMapping("/classTitle")
+	public void class_title(SearchPaging param, Model model) {
+		logger.info("param : {}", param);
+		SearchPaging paging = searchService.getClassTitlePaging(param);
+		logger.info("{}", paging);
+		
+		List<Class> list = searchService.classTitleList(paging);
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+	}
+	
 	//닉네임 검색어 입력시 검색어가 포함된 닉네임 유저의 게시글 리스트 나열
 	@RequestMapping("/nick")
 	public void nick(SearchPaging param, Model model) {
