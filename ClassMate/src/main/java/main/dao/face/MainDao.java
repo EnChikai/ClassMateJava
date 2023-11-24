@@ -37,7 +37,7 @@ public interface MainDao {
 
 	public List<Class> onClassViewList(Class cLass);
 
-	public int duplicationPayment(Class cLass);
+	public Integer duplicationPayment(Map<String, Object> map);
 	
 	public Integer duplicationBasket(Map<String, Object> map);
 

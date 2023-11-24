@@ -72,7 +72,6 @@
 		${list.curriculum }<br>
 		${list.onOff }<br>
 		${list.headImg }<br>
-		${list.content }<br>
 		<input type="text" id="classNo" value="${list.classNo}" style="display: none;" readonly="readonly">
 	    <input type="text" id="onOff" value="${list.onOff}" style="display: none;" readonly="readonly">
 	    <input type="text" id="className" value="${list.className}" style="display: none;" readonly="readonly">

@@ -175,11 +175,19 @@ public class MainServiceImpl implements MainService{
 	}
 	
 	@Override
-	public boolean payment(Class cLass) {
+	public boolean payment(Class cLass, HttpSession session) {
 		
-		int res = mainDao.duplicationPayment(cLass);
+		Map<String,Object> map = new HashMap<>();
+		map.put("cLass", cLass);
+		map.put("userNo", session.getAttribute("userNo"));
+		System.err.println(session.getAttribute("userNo"));
 		
-		if( res == 1) {
+		
+		Integer res = mainDao.duplicationPayment(map);
+		
+		logger.info("아니 뭔데? {}", res);
+		
+		if( res == null || res == 0 ) {
 			return true;
 		}
 		

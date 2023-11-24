@@ -118,17 +118,16 @@
 	 	WHERE class_no = #{classNo}
 	 </select>
 	 
-	 <select id="duplicationPayment" resultType="int" parameterType="Class">
+	 <select id="duplicationPayment" resultType="Integer" parameterType="Map">
 	 	SELECT * FROM class C
 	 	join order_tb O ON C.class_no = O.class_no
-	 	WHERE C.class_no = #{classNo}
+	 	WHERE C.class_no = #{cLass.classNo}
 	 	AND user_no = #{userNo}
 	 </select>
 	 
-	 <!-- 유저번호 세션값 담아줘서 맵으로 넘기기 -->
-	 <select id="duplicationBasket" resultType="Integer" parameterType="Class">
+	 <select id="duplicationBasket" resultType="Integer" parameterType="Map">
 	 	SELECT * FROM basket
-	 	WHERE class_no = #{classNo}
+	 	WHERE class_no = #{cLass.classNo}
 	 	AND user_no = #{userNo}
 	 </select>
 	 
