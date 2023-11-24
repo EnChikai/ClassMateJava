@@ -22,6 +22,7 @@ import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
 import payment.dto.OrderTb;
+import teacher.dto.TeacherApply;
 import user.dto.UserInfo;
 import web.util.Paging;
 
@@ -32,6 +33,7 @@ public class AdminController {
 	
 	@Autowired private AdminService adminService;
 	
+	//--- 메인 ---
 	@GetMapping("/admin/main")
 	public void adminMainPageGet(
 			
@@ -59,7 +61,8 @@ public class AdminController {
 	}
 	
 	//==========================================================================================
-
+	//--- 유저 관리 ---
+	
 	@GetMapping("/admin/userList")
 	public void userInfoListGet(
 			
@@ -190,6 +193,43 @@ public class AdminController {
 	}
 	
 	//==========================================================================================
+	//--- 강사 심사 관리 ---
+	
+	@GetMapping("/admin/teacherApply")
+	public void teacherApplyGet(
+			
+			Paging paging
+			, Model model
+			, HttpServletRequest request
+			, Map<String,Object> map
+			
+			){
+		logger.info("/admin/teacherApply [GET]");
+		
+		int passCheckbox = 0; 
+		logger.info("delCheckbox디폴트 : {}", passCheckbox);
+		if(request.getParameter("passCheckbox") != null) {
+			if(Integer.parseInt((request.getParameter("passCheckbox")))==1) {
+				passCheckbox = 1;
+			}
+			logger.info("delCheckbox확인 : {}", passCheckbox);
+		}
+		
+		paging = adminService.getApplyPaging(paging, passCheckbox);
+		logger.info("paging : {}", paging);
+		
+		
+		map = adminService.selectTeacherApplyList(paging, passCheckbox);
+		logger.info("selectTeacherApplyList : {}", map);
+		
+		model.addAttribute("paging",paging);
+		model.addAttribute("map",map);
+		model.addAttribute("passCheckbox", passCheckbox);
+		
+	}
+	
+	//==========================================================================================
+	//--- 게시판 관리 ---
 	
 	@GetMapping("/admin/board")
 	public void board(
@@ -411,16 +451,30 @@ public class AdminController {
 		return "redirect:/admin/announceView?announceNo="+announceBoard.getAnnounceNo();
 	}
 	
-	@PostMapping("/admin/announceDelet")
-	public String announceDeletGet(
+	@PostMapping("/admin/announceDelete")
+	public String announceDeleteGet(
 			
 			AnnounceBoard announceBoard
 			, Model model
 			
 			) {
-		logger.info("/admin/announceDelet [Post] {}", announceBoard.getAnnounceNo());
+		logger.info("/admin/announceDelete [Post] {}", announceBoard.getAnnounceNo());
 		
-//		adminService.announceDelet(announceBoard);
+		adminService.announceDelete(announceBoard);
+		
+		return "redirect:/admin/board";
+	}
+	
+	@PostMapping("/admin/eventDelete")
+	public String eventDeleteGet(
+			
+			EventBoard eventBoard
+			, Model model
+			
+			) {
+		logger.info("/admin/eventDelete [Post] {}", eventBoard.getEventNo());
+		
+		adminService.eventDelete(eventBoard);
 		
 		return "redirect:/admin/board";
 	}

@@ -6,6 +6,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <% String order = Long.toString(new Date().getTime()); %>
 
+<%-- 개별 결제 0원일때 결제 없이 바로 수강신청되도록 해야함 --%>
+
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />

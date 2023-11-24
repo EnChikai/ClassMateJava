@@ -161,7 +161,7 @@ $(function(){
 
 <%-- <% ============================================================================= %> --%>
 
-<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 70px;">	
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px;">	
 <div style="font-size: 22px; font-weight:bold; margin-bottom: 17px; margin-top: 40px;">회원 관리</div>
 
 <form id="userListForm" action="../admin/userList" method="get">

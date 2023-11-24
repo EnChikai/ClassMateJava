@@ -72,7 +72,7 @@ $(function(){
 </script>
 
 <%-- <% ============================================================================= %> --%>
-<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 70px; height: 500px;">
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px; height: 500px;">
 
 <div id="userCount">
 그래프로 만들기<br>
