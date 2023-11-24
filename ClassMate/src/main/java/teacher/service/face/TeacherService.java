@@ -5,7 +5,9 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import lecture.dto.Address;
 import lecture.dto.Class;
@@ -69,8 +71,8 @@ public interface TeacherService {
 	 * @param singleFile 전달되는 단일이미지파일 리스트
 	 */
 	public void classRegist(Teacher teacherParam, UserInfo userParam, Class registLecture, Address addressParam, 
-			ClassVideo classVideoParam, MainCategory mainCategoryParam, SubCategory subCategoryParam, List<MultipartFile> file, 
-			List<MultipartFile> singleFile, HttpSession session);
+			ClassVideo classVideoParam, MainCategory mainCategoryParam, SubCategory subCategoryParam, MultipartHttpServletRequest request
+			, @RequestParam("fileCount") int fileCount, List<MultipartFile> singleFile, HttpSession session);
 
 	
 	/**
