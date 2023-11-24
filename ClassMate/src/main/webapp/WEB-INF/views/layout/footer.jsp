@@ -255,9 +255,10 @@ a:hover {
 
 </style>
 
+</body>
 
 <hr>
-<div class="footer">
+<div class="footer" style="margin-left: 20px; margin-bottom: 70px;">
 
 <div id="modal" class="close"></div>
   <div class="modal-con modal1" style="border-radius: 8px;">
@@ -329,5 +330,4 @@ a:hover {
 
 </div>
 
-</body>
 </html>

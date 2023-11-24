@@ -206,10 +206,10 @@ public class MainController {
 	       Map<String, String> response = new HashMap<>();
 	       
 	     //이미 결제한 경우 장바구니 or 클래스 시작하기를 눌렀을 경우
-	       boolean duplicationPayment =  mainService.payment(cLass);
+	       boolean duplicationPayment =  mainService.payment(cLass, session);
 	       
 	       
-	       if( duplicationPayment = true ) {
+	       if( duplicationPayment == true ) {
 		       int res = mainService.basket(cLass, session);
 	
 	
@@ -233,22 +233,24 @@ public class MainController {
 		       // OFF클래스인데 장바구니를 눌렀을 경우
 		       else if ( cLass.getOnOff() == 0 && buttonType.equals("basket") ) {
 		           response.put("redirect", "/main/offClassView?classNo=" + cLass.getClassNo());
-		       }	       
+		       }
 		       
 		       // ON클래스, OFF클래스인데 장바구니안에 있는 ON클래스, OFF클래스가 중복이 아닐 경우(insert 된 경우)
 		       // ON클래스, OFF클래스가 클래스 시작하기를 눌렀을 경우
 		       else {
 		       response.put("redirect", "/payment/basket");
 		       }
-	       }else {
+		       
+	       }
+	       if( duplicationPayment == false ) {
 	    	   
-		       // ON클래스인데 주문결제한 경우
+		       // ON클래스인데 결제한 경우
 		       if ( cLass.getOnOff() == 1 ) {
 		           response.put("redirect", "/main/onClassView?classNo=" + cLass.getClassNo());
 		           response.put("error", "이미 결제한 상품입니다.");
 		       }
 	
-		       // OFF클래스인데 장바구니 안에 있는 OFF클래스와 중복일 경우
+		       // OFF클래스인데 결제한 경우
 		       else if ( cLass.getOnOff() == 0 ) {
 		           response.put("redirect", "/main/offClassView?classNo=" + cLass.getClassNo());
 		           response.put("error", "이미 결제한 상품입니다.");
