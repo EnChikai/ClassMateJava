@@ -36,5 +36,7 @@ public interface UserService {
 
 	public int updatePw(UserInfo userInfo);
 
+	public boolean updatePassword(String userPw);
+
 
 }

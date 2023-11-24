@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,50 +71,71 @@ public class UserController {
        return modelAndView;
    }
    
+//   @GetMapping("/resetPw")
+//   public void resetPw() {
+//	   logger.info("resetPw");
+//	   
+//   }
+//
+//   @PostMapping("/resetPw")
+//   public ModelAndView resetPwPost(@ModelAttribute("userInfo") UserInfo userInfo) {
+//       logger.info("post sdfsdfastwsgsdhfgjhdfjdfjhdgjhdgsw");
+//       logger.info("userInfo : {}", userInfo);
+//
+//       // 입력된 아이디와 이름이 DB에 저장된 정보와 일치하는지 확인
+//       boolean isValidUser = userService.checkUserInfo(userInfo);
+//       logger.info("isValidUser : {}", isValidUser);
+//       
+//       // ModelAndView 객체 생성
+//       ModelAndView modelAndView = new ModelAndView();
+//
+//       if (isValidUser) {
+//           // 검증이 성공한 경우, 사용자 정보를 ModelAndView에 추가
+//           modelAndView.addObject("userInfo", userInfo);
+//           logger.info("modelAndView : {}", modelAndView);
+//           
+//           // 이동할 뷰의 경로 설정
+//           modelAndView.setViewName("user/resetPw");
+//           
+//       } else {
+//           // 사용자 정보가 유효하지 않은 경우, 실패 메시지 등을 추가하고 다시 입력 페이지로 이동할 수 있도록 설정
+//           modelAndView.addObject("errorMessage", "유효하지 않은 사용자 정보입니다. 다시 시도하세요.");
+//           modelAndView.setViewName("user/searchIdPw"); // 상황에 맞게 뷰 이름을 조정하세요
+//       } 
+//       // ModelAndView 반환
+//       return modelAndView;
+//   }
+
    @GetMapping("/resetPw")
-   public void resetPw() {}
-
-   @PostMapping("/resetPw")
-   public ModelAndView resetPwPost(UserInfo userInfo) {
-       logger.info("post");
-       logger.info("userInfo : {}", userInfo);
-
-       // 입력된 아이디와 이름이 DB에 저장된 정보와 일치하는지 확인
-       boolean isValidUser = userService.checkUserInfo(userInfo);
-
-       // ModelAndView 객체 생성
-       ModelAndView modelAndView = new ModelAndView();
-
-       if (isValidUser) {
-           // 검증이 성공한 경우, 사용자 정보를 ModelAndView에 추가
-           modelAndView.addObject("userInfo", userInfo);
-           // 이동할 뷰의 경로 설정
-           modelAndView.setViewName("user/resetPw");
-
-           // 사용자가 입력한 새로운 비밀번호로 변경
-           int updateResult = userService.updatePw(userInfo);
-
-           if (updateResult == 1) {
-               // 업데이트가 성공하면 이동할 뷰의 경로 설정
-               modelAndView.addObject("user/updatePw", true);
-           } else {
-               // 업데이트 실패 시 처리 (알림 메시지 등)
-               modelAndView.addObject("updateFailed", true);
-           }
-       } else {
-           // 검증이 실패한 경우, 알림 메시지를 모델에 추가
-           modelAndView.addObject("invalidUser", true);
-           // 이동할 뷰의 경로 설정
-           modelAndView.setViewName("user/searchIdPw");
-       }
-
-       // ModelAndView 반환
-       return modelAndView;
+   public String resetPwGet() {
+       return "user/resetPw";
    }
 
+   @PostMapping("/resetPw")
+   public String resetPwPost(@ModelAttribute("userInfo") UserInfo userInfo, Model model) {
+
+       // 여기서 DB에 비밀번호 재설정 로직 추가
+       boolean isPasswordUpdated = userService.updatePassword(userInfo.getUserPw());
+
+       if (isPasswordUpdated) {
+           // 비밀번호가 성공적으로 업데이트된 경우
+           return "redirect:/user/updatePwChk"; // 로그인 페이지로 이동하도록 수정
+       } else {
+           model.addAttribute("errorMessage", "비밀번호 재설정에 실패했습니다. 다시 시도하세요.");
+           return "user/resetPw";
+       }
+   }
    
    @GetMapping("/userPwChk")
-   public void userPwChk() {}
+   public ModelAndView userPwChk() {
+	   return new ModelAndView("userPwChk");
+   }
+   
+//   @PostMapping("/userPwChk")
+//   public void userPwChkPost(HttpSession session, Model model) {
+//	  userInfo.setUserPw = session.getAttribute("userPw");
+//	  UserInfo userInfo = new UserInfo();
+//   }
 
    @GetMapping("/updatePw")
    public void updatePw() {}

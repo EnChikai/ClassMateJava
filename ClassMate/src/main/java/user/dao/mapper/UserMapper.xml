@@ -98,11 +98,16 @@
 	</select>
     
     <!-- 비밀번호 업데이트 -->
-	<update id="updatePw" parameterType="user.dto.UserInfo">
-	    UPDATE user_info
-	    SET USER_PW = #{userPw}
-	    WHERE USER_NO = #{userNo}
-	</update>
+<!-- 	<update id="updatePw" parameterType="user.dto.UserInfo"> -->
+<!-- 	    UPDATE user_info -->
+<!-- 	    SET USER_PW = #{userPw} -->
+<!-- 	    WHERE USER_NO = #{userNo} -->
+<!-- 	</update> -->
     
+	<update id="updatePassword" parameterType="user.dto.UserInfo">
+        UPDATE user_info
+        SET USER_PW = #{userPw}
+        WHERE USER_NO = #{userNo}
+    </update>    
     
  </mapper>
