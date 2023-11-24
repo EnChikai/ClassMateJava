@@ -28,7 +28,7 @@ $(document).ready(function () {
     });
 
     // 마우스를 올리면 글자색과 언더라인 변경
-    $("#classMateMenu").mouseover(function () {
+    $(".headerTh").mouseover(function () {
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "white");
             $(this).css("text-decoration", "underline");
@@ -42,7 +42,7 @@ $(document).ready(function () {
     });
 
     // 클릭 시 스타일 고정 및 토글
-    $("#classMateMenu").click(function () {
+    $(".headerTh").click(function () {
         $(this).toggleClass("clicked");
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "black");
@@ -106,16 +106,16 @@ a{
 <div class="headerMenu">
 <table style="margin-left: auto; margin-right: auto; font-size: 15px;">
    <tr>
-      <th class="headerTh"><a href="/main/mainCategory" id="classMateMenu">카테고리</a></th>
-      <th class="headerTh"><a href="/board/board" id="classMateMenu">게시판</a></th>
-      <th class="headerTh"><a href="" id="classMateMenu">검색</a></th>
+      <th class="headerTh" id=""><a href="/main/mainCategory">카테고리</a></th>
+      <th class="headerTh"><a href="/board/board">게시판</a></th>
+      <th class="headerTh">검색</th>
       <c:if test="${isLogin!=null }">
-      <th class="headerTh"><a href="/payment/basket" id="classMateMenu">장바구니</a></th>
+      <th class="headerTh"><a href="/payment/basket">장바구니</a></th>
       </c:if>
       <c:if test="${isLogin==null }">
-      <th class="headerTh"><a href="/user/login" id="classMateMenu">장바구니</a></th>
+      <th class="headerTh"><a href="/user/login">장바구니</a></th>
       </c:if>
-      <th class="headerTh"><span style="cursor: pointer;" id="classMateMenu">ClassMate</span></th>
+      <th class="headerTh" id="classMateMenu"><span style="cursor: pointer;">ClassMate</span></th>
    </tr>
 </table>
 
@@ -135,8 +135,6 @@ a{
    </div>
    </c:if>
    
-   
-   <!-- 강사번호로 강사페이지를 보게 해주는게 아니라 강사합격여부로 보여줘야됨 ( 강사합격여부 1 ) -->
    <c:if test="${isLogin!=null && teacherNo!=null}">
    <div class="container " style="text-align: center; margin-left: 625px; margin-top: 25px; font-size: small;">
       <span class="col"><strong><a href="/user/mypageMain">마이페이지</a></strong></span>
