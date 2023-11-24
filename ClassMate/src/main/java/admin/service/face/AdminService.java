@@ -8,11 +8,21 @@ import org.springframework.web.multipart.MultipartFile;
 import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
+import payment.dto.OrderTb;
 import user.dto.UserInfo;
 import web.util.Paging;
 
 public interface AdminService {
 
+	/**
+	 * 대쉬보드 정보를 가져온다
+	 * 
+	 * @return 가져온 대쉬보드 정보 Map
+	 */
+	public Map<String, Object> getDashBoardInfo();
+
+	//========================================================================================================
+	
 	/**
 	 * 유저 목록을 위한 페이징 객체를 생성
 	 * 
@@ -31,26 +41,36 @@ public interface AdminService {
 
 	public UserInfo userInfo(UserInfo userdata);
 
-	public int userInfoUpdate(UserInfo userdata);
+	public void userInfoUpdate(UserInfo userdata);
 
-	public int secessionUser(UserInfo userdata);
+	public void secessionUser(UserInfo userdata);
 
+	public Paging getOrderPaging(Paging paging, OrderTb orderTb);
+	
+	//========================================================================================================
+	
 	public Map<String, Object> getBoardPaging(Paging paging, int delCheckbox);
 
 	public Map<String, Object> boardList(Map<String, Object> pagingMap, int delCheckbox);
 
 	public Map<String, Object> getAnnounceView(AnnounceBoard announceBoard);
 
-	public int writeEvenAnno(String postName, String content, MultipartFile file, int sort, List<MultipartFile> announceFile, List<MultipartFile> eventFile);
+	public void writeEvenAnno(String postName, String content, MultipartFile file, int sort, List<MultipartFile> announceFile, List<MultipartFile> eventFile);
 
 	public Map<String, Object> getEventView(EventBoard eventBoard);
 
 	public AnnounceBoardFile getAnnounceFile(AnnounceBoardFile announceBoardFile);
 
-	public int eventUpdate(EventBoard eventBoard, MultipartFile file, int[] delFileno, List<MultipartFile> eventFile);
+	public void eventUpdate(EventBoard eventBoard, MultipartFile file, int[] delFileno, List<MultipartFile> eventFile);
 
-	public int announceUpdate(AnnounceBoard announceBoard, int[] delFileno, List<MultipartFile> announceFile);
+	public void announceUpdate(AnnounceBoard announceBoard, int[] delFileno, List<MultipartFile> announceFile);
 
-	public int setAnnoExist(AnnounceBoard announceBoard);
+	public void setAnnoExist(AnnounceBoard announceBoard);
+
+	public Map<String, Object> getPaymentList(Paging paging, OrderTb orderTb);
+
+	public void setEventExist(EventBoard eventBoard);
+
+	public void announceDelet(AnnounceBoard announceBoard);
 
 }

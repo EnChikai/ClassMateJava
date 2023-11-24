@@ -21,6 +21,7 @@ import admin.service.face.AdminService;
 import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
+import payment.dto.OrderTb;
 import user.dto.UserInfo;
 import web.util.Paging;
 
@@ -32,11 +33,19 @@ public class AdminController {
 	@Autowired private AdminService adminService;
 	
 	@GetMapping("/admin/main")
-	public void adminMainPageGet() {
+	public void adminMainPageGet(
+			
+			Model model
+			
+			) {
 		logger.info("/admin/main [GET]");
 		
-		//제작중
+		//데쉬보드 제작중
 		
+		Map<String, Object> dashBoardInfo = adminService.getDashBoardInfo();
+		
+		model.addAttribute("userCount",dashBoardInfo.get("userCount"));
+		model.addAttribute("secessionUserCount",dashBoardInfo.get("secessionUserCount"));
 		
 	}
 	
@@ -49,7 +58,7 @@ public class AdminController {
 		return "redirect:/main/main";
 	}
 	
-	//--------------------------------------------------------------------------
+	//==========================================================================================
 
 	@GetMapping("/admin/userList")
 	public void userInfoListGet(
@@ -138,28 +147,49 @@ public class AdminController {
 			) {
 		logger.info("/admin/userInfoUpdate [POST] {}", userdata);
 		
-		int result = adminService.userInfoUpdate(userdata);
-		logger.info("result : {}", result);
+		adminService.userInfoUpdate(userdata);
 		
 		return "redirect:/admin/userDetailedInfo?userNo="+userdata.getUserNo();
 		
 	}
 	
-	@GetMapping("/admin/secessionUser")
+	@PostMapping("/admin/secessionUser")
 	public String secessionUserGet(
 			
 			UserInfo userdata
 			
 			) {
 		logger.info("/admin/secessionUser [GET] {}", userdata.getUserNo());
-
-		int result = adminService.secessionUser(userdata);
-		logger.info("result {}", result);
+		
+		adminService.secessionUser(userdata);
 		
 		return "redirect:/admin/userList";
 	}
 	
-	//--------------------------------------------------------------------------
+	@GetMapping("/admin/userPaymentList")
+	public void userPaymentListGet(
+			
+			OrderTb orderTb
+			, Model model
+			, Paging paging
+			
+			) {
+		logger.info("/admin/userpaymentList [GET] {}", orderTb.getUserNo());
+		
+		//페이징 계산
+		paging = adminService.getOrderPaging(paging, orderTb);
+		logger.info("paging : {}", paging);
+		
+		Map<String,Object> map = adminService.getPaymentList(paging, orderTb);
+		logger.info("getPaymentList() : {}", map);
+		
+		model.addAttribute("paging",paging);
+		model.addAttribute("orderTb",orderTb);
+		model.addAttribute("map",map);
+		
+	}
+	
+	//==========================================================================================
 	
 	@GetMapping("/admin/board")
 	public void board(
@@ -235,8 +265,7 @@ public class AdminController {
 			) {
 		logger.info("/admin/setAnnounceExist [GET] {}",announceBoard.getAnnounceNo());
 		
-		int result = adminService.setAnnoExist(announceBoard);
-		logger.info("result : {}",result);
+		adminService.setAnnoExist(announceBoard);
 
 		
 		return "redirect:/admin/board";
@@ -264,8 +293,7 @@ public class AdminController {
 		logger.info("file : {}", file);
 		logger.info("sort : {}", sort);
 		
-		int result = adminService.writeEvenAnno(postName, content, file, sort, announceFile, eventFile);
-		logger.info("result : {}", result);
+		adminService.writeEvenAnno(postName, content, file, sort, announceFile, eventFile);
 		
 		return "redirect:/admin/board";
 	}
@@ -284,6 +312,19 @@ public class AdminController {
 		model.addAttribute("eventBoard", map.get("eventBoard"));
 		model.addAttribute("eventBoardFile", map.get("eventBoardFile"));
 		
+	}
+	
+	@GetMapping("/admin/setEventExist")
+	public String setEventExistGet(
+			
+			EventBoard eventBoard
+			
+			) {
+		logger.info("/admin/setEventExist [GET] {}",eventBoard.getEventNo());
+		
+		adminService.setEventExist(eventBoard);
+		
+		return "redirect:/admin/board";
 	}
 	
 	@RequestMapping("/admin/annoFileDownload")
@@ -331,8 +372,7 @@ public class AdminController {
 		logger.info("getEventContent {}",eventBoard.getEventContent());
 		logger.info("delFileno {}", Arrays.toString(delFileno));
 		
-		int result = adminService.eventUpdate(eventBoard, file, delFileno, eventFile);
-		logger.info("result : {}", result);
+		adminService.eventUpdate(eventBoard, file, delFileno, eventFile);
 		
 		return "redirect:/admin/eventView?eventNo="+eventBoard.getEventNo();
 	}
@@ -366,9 +406,23 @@ public class AdminController {
 		logger.info("getEventContent {}",announceBoard.getAnnounceContent());
 		logger.info("delFileno {}", Arrays.toString(delFileno));
 		
-		int result = adminService.announceUpdate(announceBoard, delFileno, announceFile);
-		logger.info("result : {}", result);
+		adminService.announceUpdate(announceBoard, delFileno, announceFile);
 		
 		return "redirect:/admin/announceView?announceNo="+announceBoard.getAnnounceNo();
 	}
+	
+	@PostMapping("/admin/announceDelet")
+	public String announceDeletGet(
+			
+			AnnounceBoard announceBoard
+			, Model model
+			
+			) {
+		logger.info("/admin/announceDelet [Post] {}", announceBoard.getAnnounceNo());
+		
+//		adminService.announceDelet(announceBoard);
+		
+		return "redirect:/admin/board";
+	}
+	
 }

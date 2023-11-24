@@ -22,8 +22,11 @@ import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
 import board.dto.EventBoardFile;
+import payment.dto.OrderTb;
+import payment.dto.Payment;
 import user.dto.UserInfo;
 import web.util.Paging;
+import lecture.dto.Class;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -34,6 +37,30 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Autowired ServletContext context;
 	
+	@Override
+	public Map<String, Object> getDashBoardInfo() {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//미탈퇴 인원
+		int secessionParam = 0;
+		int userCount = adminDao.getUserCountAll(secessionParam);
+		logger.info("userList : {}", userCount);
+		
+		
+		//탈퇴 인원
+		secessionParam = 1;
+		int secessionUserCount = adminDao.getUserCountAll(secessionParam);
+		logger.info("secessionUserList : {}", secessionUserCount);
+
+		map.put("userCount", userCount);
+		map.put("secessionUserCount", secessionUserCount);
+		
+		return map;
+	}
+	
+	//================================================================================
+
 	@Override
 	public Paging  getUserPaging(Paging param, int delCheckbox) {
 		logger.info("getPaging()");
@@ -100,7 +127,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int userInfoUpdate(UserInfo userdata) {
+	public void userInfoUpdate(UserInfo userdata) {
 		logger.info("userInfoUpdate()");
 		
 		int result = 0;
@@ -109,11 +136,10 @@ public class AdminServiceImpl implements AdminService{
 		}
 		logger.info("updata result : {}", result);
 		
-		return result;
 	}
 
 	@Override
-	public int secessionUser(UserInfo userdata) {
+	public void secessionUser(UserInfo userdata) {
 		
 		int result = 0;
 		if(userdata.getUserNo() != 0) {
@@ -121,9 +147,67 @@ public class AdminServiceImpl implements AdminService{
 		}
 		logger.info("setSecessionUser result : {}", result);
 		
-		return 0;
 	}
 
+	@Override
+	public Paging getOrderPaging(Paging param, OrderTb orderTb) {
+		logger.info("getOrderPaging()");
+		
+		//총 주문 수 조회
+		int totalCount = adminDao.selectOrderCnt(orderTb);
+		logger.info("totalCount : {}",totalCount);
+		
+		//페이징 객체 생성(페이징 계산)
+		Paging paging = new Paging(totalCount, param.getCurPage());
+		
+		return paging;
+	}
+	
+	@Override
+	public Map<String, Object> getPaymentList(Paging paging, OrderTb orderTb) {
+		logger.info("getPaymentList()");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		map.put("paging", paging);
+		map.put("orderTb", orderTb);
+		
+		List<OrderTb> orderList = adminDao.selectUserOrder(map);
+		
+		map.put("orderList", orderList);
+		
+		List<Payment> paymentList = new ArrayList<Payment>();
+		List<Class> classList = new ArrayList<Class>();
+		
+		for(int i = 0; i<orderList.size(); i++) {
+			logger.info(i+". selectUserOrder() : {}", orderList );
+		}
+		
+		if(paging.getTotalCount() != 0) {
+		
+			paymentList = adminDao.selectUserPayment(map);
+			
+			for(int i = 0; i<paymentList.size(); i++) {
+				logger.info(i+". selectUserPayment() : {}", paymentList );
+				
+				Class classInfo = adminDao.selectClassNameByClassNo(orderList.get(i).getClassNo());
+				classList.add(classInfo);
+				
+				logger.info(i+". selectClassNameByClassNo() : {}", classList );
+				
+			}
+
+			resultMap.put("orderList", orderList);
+			resultMap.put("paymentList", paymentList);
+			resultMap.put("classList", classList);
+		}
+		
+		return resultMap;
+	}
+	
+	//================================================================================
+	
 	@Override
 	public Map<String, Object> getBoardPaging(Paging param, int delCheckbox) {
 		logger.info("getPaging()");
@@ -214,7 +298,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int writeEvenAnno(String postName, String content, MultipartFile file, int sort
+	public void writeEvenAnno(String postName, String content, MultipartFile file, int sort
 			, List<MultipartFile> announceFile, List<MultipartFile> eventFile) {
 		logger.info("writeEvenAnno() : {}");
 		
@@ -243,7 +327,7 @@ public class AdminServiceImpl implements AdminService{
 			
 			//첨부파일이 없을 경우 처리
 			if( announceFile.size() == 0 ) {
-				return result;
+				return;
 			}
 			
 			int selectNo = 0; 
@@ -268,7 +352,7 @@ public class AdminServiceImpl implements AdminService{
 			
 			//첨부파일이 없을 경우 처리
 			if( eventFile.size() == 0 ) {
-				return result;
+				return;
 			}
 			
 			int selectNo = 1; 
@@ -278,9 +362,7 @@ public class AdminServiceImpl implements AdminService{
 			}
 
 		}
-			
 		
-		return result;
 	}
 	
 	private int insertFile(MultipartFile file, int boardNo, int selectNo) {
@@ -440,7 +522,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int eventUpdate(EventBoard eventBoard, MultipartFile file, int[] delFileno, List<MultipartFile> eventFile) {
+	public void eventUpdate(EventBoard eventBoard, MultipartFile file, int[] delFileno, List<MultipartFile> eventFile) {
 		logger.info("eventUpdate() : {}");
 		int result = 0; 
 		
@@ -468,7 +550,7 @@ public class AdminServiceImpl implements AdminService{
 		
 		//첨부파일이 없을 경우 처리
 		if( eventFile.size() == 0) {
-			return result;
+			return;
 		}
 		
 		int selectNo = 1; 
@@ -482,11 +564,11 @@ public class AdminServiceImpl implements AdminService{
 			result = adminDao.deleteEventFiles( delFileno );
 		}
 				
-		return result;
+		return;
 	}
 
 	@Override
-	public int announceUpdate(AnnounceBoard announceBoard, int[] delFileno, List<MultipartFile> announceFile) {
+	public void announceUpdate(AnnounceBoard announceBoard, int[] delFileno, List<MultipartFile> announceFile) {
 		logger.info("announceUpdate() : {}");
 		int result = 0; 
 		
@@ -509,7 +591,7 @@ public class AdminServiceImpl implements AdminService{
 		
 		//첨부파일이 없을 경우 처리
 		if( announceFile.size() == 0) {
-			return result;
+			return;
 		}
 		
 		int selectNo = 0; 
@@ -523,17 +605,45 @@ public class AdminServiceImpl implements AdminService{
 			result = adminDao.deleteAnnoFiles( delFileno );
 		}
 				
-		return result;
+		return;
 	}
 
 	@Override
-	public int setAnnoExist(AnnounceBoard announceBoard) {
+	public void setAnnoExist(AnnounceBoard announceBoard) {
 		logger.info("announceUpdate() : {}");
 		
 		int result = adminDao.updateAnnoExist(announceBoard);
 		logger.info("공지 exist result : {}", result);
 		
-		return result;
 	}
-	
+
+	@Override
+	public void setEventExist(EventBoard eventBoard) {
+		logger.info("setEventUpdate() : {}");
+		
+		int result = adminDao.updateEventExist(eventBoard);
+		logger.info("이벤트 exist result : {}", result);
+		
+	}
+
+	@Override
+	public void announceDelet(AnnounceBoard announceBoard) {
+		logger.info("announceDelet() : {}");
+
+		
+		int result = 0;
+		result = adminDao.deleteAnnoFile(announceBoard);
+		
+		if(result != 0) {
+			logger.info("파일 있음 삭제 완료 : {}", result);
+			
+		}else {
+			logger.info("파일 없음 삭제 실패 : {}", result);
+			
+		}
+		
+		result = adminDao.deleteAnnoInfo(announceBoard);
+		logger.info("공지 삭제 결과 : {}", result);
+	}
+
 }
