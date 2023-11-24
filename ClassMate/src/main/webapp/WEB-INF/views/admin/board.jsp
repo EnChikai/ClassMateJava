@@ -5,54 +5,13 @@
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
 
 <%-- <% ============================================================================= %> --%>
-<%-- 페이징 CSS --%>
-<style type="text/css">
-#pagination {
-   margin-bottom: 20px;
-}
-
-#pagingWaiting {
-   border-radius: 4px; 
-   color: black; 
-   background-color: #f1f3f5; 
-   border: 1px solid #d10d10d10;
-   margin: 3.5px; 
-   text-align: center;"
-
-}
-
-#pagingWaiting {
-   border-radius: 4px; 
-   color: black; 
-   background-color: #f1f3f5; 
-   border: 1px solid #d10d10d10;
-   margin: 3.5px; 
-   text-align: center;"
-
-}
-
-#pagingNow {
-   border-radius: 4px; 
-   color: black; 
-   background-color: rgb(251,206,25); 
-   border: 1px solid rgb(241,196,15);
-   margin: 3.5px; 
-   text-align: center;"
-
-}
-
-#pagingAfter,#pagingBefore {
-   border-radius: 4px; 
-   color: black; 
-   background-color: #f1f3f5; 
-   border: 1px solid #d10d10d10;
-   margin: 3.5px; 
-   text-align: center;
-}
-</style>
-<%-- <% ============================================================================= %> --%>
 
 <style type="text/css">
+.boardManagement{
+background: rgb(241,196,15);
+
+}
+
 #boardInfo{
 font-size: 17px; 
 padding-bottom: 8px; 
@@ -78,9 +37,9 @@ vertical-align: bottom;
 }
 
 .checked{
-background: rgb(243,156,18);
+background: rgb(241,196,15);
 border-style: hidden;
-box-shadow: 0 0 0 1px rgb(243,156,18);
+box-shadow: 0 0 0 1px rgb(231,186,5);
 color: white;
 font-weight:bold;
 font-size: 19px;
@@ -163,6 +122,53 @@ margin-left: 5px;
 
 </style>
 
+
+<%-- 페이징 CSS --%>
+<style type="text/css">
+#pagination {
+   margin-bottom: 20px;
+}
+
+#pagingWaiting {
+   border-radius: 4px; 
+   color: black; 
+   background-color: #f1f3f5; 
+   border: 1px solid #d10d10d10;
+   margin: 3.5px; 
+   text-align: center;"
+
+}
+
+#pagingWaiting {
+   border-radius: 4px; 
+   color: black; 
+   background-color: #f1f3f5; 
+   border: 1px solid #d10d10d10;
+   margin: 3.5px; 
+   text-align: center;"
+
+}
+
+#pagingNow {
+   border-radius: 4px; 
+   color: black; 
+   background-color: rgb(251,206,25); 
+   border: 1px solid rgb(241,196,15);
+   margin: 3.5px; 
+   text-align: center;"
+
+}
+
+#pagingAfter,#pagingBefore {
+   border-radius: 4px; 
+   color: black; 
+   background-color: #f1f3f5; 
+   border: 1px solid #d10d10d10;
+   margin: 3.5px; 
+   text-align: center;
+}
+</style>
+
 <%-- <% ============================================================================= %> --%>
 <script type="text/javascript">
 $(function(){
@@ -200,7 +206,7 @@ $(function(){
 	
 	$(".announceInfo${announceBoardList.announceNo }").click(function(){
 		
-		location.href = '../admin/announceView?announceNo=${announceBoardList.announceNo }';
+		location.href = '../admin/announceView?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&announceNo=${announceBoardList.announceNo }';
 		
 	})
 	
@@ -215,7 +221,7 @@ $(function(){
 	
 $(".eventInfo${eventBoardList.eventNo }").click(function(){
 		
-		location.href = '../admin/eventView?eventNo=${eventBoardList.eventNo }';
+		location.href = '../admin/eventView?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&eventNo=${eventBoardList.eventNo }';
 		
 	})
 	

@@ -45,6 +45,10 @@
 			, #{payment.payMethod}, #{payment.provider}, #{payment.cardName})
 	</insert>
 	
+	<insert id="insertClassList" parameterType="Basket">
+		INSERT INTO class_list (list_no, user_no, class_no, teacher_no)
+		VALUES (class_list_seq.nextval, ${userNo}, ${classNo}, (SELECT teacher_no FROM class WHERE class_no = ${classNo}))
+	</insert>
 	
 	<delete id="deleteBasket" parameterType="Basket">
 		DELETE FROM basket

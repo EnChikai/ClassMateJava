@@ -9,6 +9,10 @@
 <%-- <% ============================================================================= %> --%>
 
 <style type="text/css">
+.boardManagement{
+background: rgb(241,196,15);
+
+}
 
 #evnetInfo{
 font-size: 35px; 
