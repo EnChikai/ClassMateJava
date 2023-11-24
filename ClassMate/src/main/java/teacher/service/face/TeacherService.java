@@ -7,11 +7,16 @@ import javax.servlet.http.HttpSession;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
 
+import lecture.dto.Address;
 import lecture.dto.Class;
+import lecture.dto.ClassVideo;
 import lecture.dto.QuestionAnswer;
+import main.dto.MainCategory;
+import main.dto.SubCategory;
 import teacher.dto.Teacher;
 import teacher.dto.TeacherApply;
 import teacher.dto.TeacherLicence;
+import user.dto.UserInfo;
 import web.util.TeacherMainPaging;
 
 public interface TeacherService {
@@ -51,11 +56,21 @@ public interface TeacherService {
 	/**
 	 * 강의 등록 처리
 	 *  + 강의 파일들을 첨부한다 (on클래스 영상 여러 개 첨부 가능, off 클래스 주소)
+	 * @param userParam 
+	 * @param teacherParam 
 	 *  
 	 * @param registLecture 강의 정보 객체
-	 * @param file 첨부파일 리스트
+	 * @param subCategoryParam 	전달되는 서브카테고리 객체
+	 * @param mainCategoryParam 전달되는 메인카테고리 객체
+	 * @param classVideoParam  전달되는 클래스비디오 객체
+	 * @param addressParam  전달되는 주소 객체
+	 * @param file 전달되는 강의 첨부파일 리스트
+	 * @param session 
+	 * @param singleFile 전달되는 단일이미지파일 리스트
 	 */
-	public void classRegist(Class registLecture, List<MultipartFile> file);
+	public void classRegist(Teacher teacherParam, UserInfo userParam, Class registLecture, Address addressParam, 
+			ClassVideo classVideoParam, MainCategory mainCategoryParam, SubCategory subCategoryParam, List<MultipartFile> file, 
+			List<MultipartFile> singleFile, HttpSession session);
 
 	
 	/**
