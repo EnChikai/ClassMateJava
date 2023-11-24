@@ -7,6 +7,10 @@
 <%-- <% ============================================================================= %> --%>
 
 <style type="text/css">
+.userManagement{
+	background: rgb(241,196,15);
+	
+}
 
 #userInfo{
 font-size: 35px; 
@@ -15,7 +19,7 @@ border-bottom: 9px solid rgb(255,240,177);
 padding-bottom: 8px; 
 text-align: left; 
 padding-left: 27px;
-width: 620px;
+width: 720px;
 margin-left: auto;
 margin-right: auto;
 margin-top: 18px;
@@ -24,7 +28,7 @@ margin-top: 18px;
 
 
 #userInfoTb th{
-padding-left:30px; 
+padding-left: 80px;
 text-align: right;
 vertical-align: top;
 
@@ -57,9 +61,9 @@ vertical-align: bottom;
 }
 
 .checked{
-background: rgb(243,156,18);
+background: rgb(241,196,15);
 border-style: hidden;
-box-shadow: 0 0 0 1px rgb(243,156,18);
+box-shadow: 0 0 0 1px rgb(231,186,5);
 color: white;
 font-weight:bold;
 font-size: 19px;
@@ -209,12 +213,11 @@ $(function(){
 
 <div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
 <button style="margin-left: 1px;" class="topMenuBtn checked">회원정보 관리</button>
-<button class="topMenuBtn">결제/수강 내역</button>
+<a href="../admin/userPaymentList?userNo=${userdata.userNo}"><button class="topMenuBtn">결제/수강 내역</button></a>
 <button class="topMenuBtn">작성한 게시물</button>
 </div>
 
-<div style="border: 1px solid #ccc; text-align: center; width: 700px; margin-left: 72px; margin-bottom: 20px;">
-
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px;">
 <p id="userInfo">회원정보 수정</p>
 
 <form action="../admin/userInfoUpdate" method="post">
@@ -283,6 +286,5 @@ $(function(){
 </form>
 
 </div>
-
 <%-- <% ============================================================================= %> --%>			
 <c:import url="/WEB-INF/views/layout/adminFooter.jsp" />

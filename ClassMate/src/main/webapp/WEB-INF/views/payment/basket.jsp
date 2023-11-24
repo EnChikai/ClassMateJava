@@ -107,14 +107,36 @@
 	text-align: center; 
 	font-weight:bold; 
 	color: white;
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 
 }
 
+.moveInfo{
+	background: rgb(190,190,190);
+	font-size: 16px;
+	border-radius: 3px;
+	border-style: hidden;
+	box-shadow: 0 0 0 1px rgb(190,190,190);
+	font-weight:bold;
+	color: white;
+	margin-bottom: 5px; 
+	padding-left: 3px;
+	padding-right: 3px;
+	float: right;
+
+}
+
+.moveInfo:hover:not(.active){
+	box-shadow: 0 0 0 2px skyblue;
+	background: rgb(170,170,170);
+	cursor:pointer;
+}
+	
 .pInfo{
 margin-bottom: 5px;
 
 }
+
 </style>
 
 <%-- <% ============================================================================= %> --%>
@@ -449,6 +471,20 @@ $(function(){
 </script>
 </c:forEach>
 
+<%--상세보기로 이동 --%>
+<c:forEach items="${classList }" var="classList">
+<script type="text/javascript">
+$(function(){
+	$(".moveOffInfo${classList.classNo}").click(function(){
+		location.href = '../main/offClassView?classNo=${classList.classNo}';
+	})
+	$(".moveOnInfo${classList.classNo}").click(function(){
+		location.href = '../main/onClassView?classNo=${classList.classNo}';
+	})
+})
+</script>
+</c:forEach>
+
 <%-- <% ============================================================================= %> --%>
 
 <div style="text-align: center; margin-bottom: 40px; margin-top: 84px;">
@@ -486,31 +522,44 @@ $(function(){
 		<td class="basketTableInfoTd" style="border-right: 2px solid #ccc; text-align: center; padding-left: 19px;" width="10%">
 			<input style="width: 20px; height: 20px;" id="checkbox${classList.classNo}" value="${classList.expense}" class="checkBoxes" name="checkbox" type="checkbox">
 		</td>
+		
+		
 		<td class="basketTableInfoTd" width="20%">
 			<img alt="강의_이미지" src="/resources/img/sample_img2.png" width="195px" height="130px">
 		</td>
+		
+		
 		<td class="basketTableInfoTd" width="30%" style="vertical-align: top; padding-top: 15px">
 			<c:if test="${classList.onOff eq 0}">
-				<p class="onOffClass pInfo" style="width: 90;" >오프클래스</p>
+				<p class="onOffClass pInfo" style="width: 90; float: left;" >오프클래스</p>
+				<p class="moveOffInfo${classList.classNo} moveInfo">상세보기</p>
 			</c:if>
 			<c:if test="${classList.onOff ne 0}">
-				<p class="onOffClass pInfo" style="width: 75;" >온클래스</p>
+				<p class="onOffClass pInfo" style="width: 75; float: left;" >온클래스</p>
+				<p class="moveOnInfo${classList.classNo} moveInfo" >상세보기</p>
 			</c:if>
+			<br><br>
 			<input style="display: none;" class="classNoInput" readonly="readonly" type="text" value="${classList.classNo}"/>
 			<p class="pInfo" style="font-weight:bold;">${classList.className }</p>
 			<p class="pInfo">강사명 : ${classList.teacher }</p>
-			<p  class="pInfo" id="classInfo" >${classList.classInfo }</p>
+			<p class="pInfo" id="classInfo" >${classList.classInfo }</p>
 			<input style="display: none;" id="teacher${classList.classNo}" readonly="readonly" type="text" value="teacher${classList.classNo}"/>
 			<input style="display: none;" class="classNameInput" readonly="readonly" type="text" value="${classList.className}"/>
 		</td>
+		
+		
 		<td class="basketTableInfoTd" style="text-align: left;" width="20%">
 			<p class="pInfo" style="width: 150px; padding-left: 20px;">${classList.classStart }~</p>
 			<p class="pInfo" style="width: 150px; padding-left: 20px;">${classList.classEnd }</p>
 		</td>
+		
+		
 		<td style="text-align: center;" class="basketTableInfoTd" width="30%">
 			<p class="pInfo" ><fmt:formatNumber type="number" maxFractionDigits="3" value="${classList.expense }"/>원</p>
 			<input style="display: none;" id="number${classList.classNo}" readonly="readonly" type="text" value="<fmt:formatNumber type="number" maxFractionDigits="3" value="${classList.expense }"/>">
 		</td>
+		
+		
 		<td class="basketTableInfoTd" width="15%">
 			<button type="button" id="OneBtn${classList.classNo}" class="paymentOneBtn">결제</button><br>
 			<form action="../payment/basket" method="post">

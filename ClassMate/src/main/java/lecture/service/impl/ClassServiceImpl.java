@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,5 +91,13 @@ public class ClassServiceImpl implements ClassService {
 	public void insertQA(QuestionAnswer questionAnswer) {
 
 	classDao.insertQA(questionAnswer);
+	}
+	
+	@Override
+	public UserInfo userCk(HttpSession session) {
+		int userNo = (int)session.getAttribute("userNo");
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserNo(userNo);
+		return userInfo;
 	}
 }

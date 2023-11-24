@@ -17,7 +17,7 @@
 		SELECT 
 			a.class_no, a.teacher_no, a.main_category_no, a.sub_category_no, 
 			a.teacher, a.class_name, a.class_date, a.class_start, a.class_end, a.max_count,
-			a.expense, a.class_info, a.curriculum, a.on_off, a.head_img, a.delete_boolean, a.content
+			a.expense, a.class_info, a.curriculum, a.on_off, a.head_img, a.delete_boolean
 		FROM class a INNER JOIN class_list b
 		ON a.class_no = b.class_no
 		<where>
@@ -29,7 +29,7 @@
 		SELECT 
 			class_no, teacher_no, main_category_no, sub_category_no, 
 			teacher, class_name, class_date, class_start, class_end, max_count,
-			expense, class_info, curriculum, on_off, head_img, delete_boolean, content
+			expense, class_info, curriculum, on_off, head_img, delete_boolean
 		FROM class
 		<where>
 			AND class_no = #{classNo}

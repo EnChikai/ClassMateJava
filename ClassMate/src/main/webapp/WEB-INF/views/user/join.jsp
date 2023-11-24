@@ -5,22 +5,33 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
+
 $(function(){
-	$(document).on('click', "input[type='checkbox']", function(){
-	    if(this.checked) {
-	        const checkboxes = $("input[name='userGender']");
-	        for(let ind = 0; ind < checkboxes.length; ind++){
-	            checkboxes[ind].checked = false;
-	        }
-	        this.checked = true;
-	    } else {
-	        this.checked = false;
-	    }
-	});
+    $(document).on('click', "input[type='checkbox']", function(){
+        // 성별 체크박스인 경우에만 로직 수행
+        if (this.name === 'userGender') {
+            if (this.checked) {
+                // 선택된 경우 다른 성별 체크박스들을 선택 해제
+                $("input[name='userGender']").not(this).prop('checked', false);
+            } 
+            // 선택이 해제된 경우에는 아무런 처리 필요 없음
+        } else if (this.name === 'agree') {
+            // 약관 동의 체크박스를 클릭한 경우에는 아무런 처리 필요 없음
+        } else {
+            // 다른 모든 체크박스인 경우 성별 체크박스를 선택 해제하지 않음
+        }
+    });
 });
 
 function checkDuplicateId() {
+	// 사용자 아이디를 가져옵니다.
     var userId = $("#userId").val();
+	
+    // 사용자 아이디가 비어 있는지 체크
+    if (!userId) {
+        alert("아이디를 입력하세요.");
+        return;
+    }
     
     // AJAX를 사용하여 Controller에게 중복 확인 요청
     $.ajax({
@@ -42,6 +53,7 @@ function checkDuplicateId() {
 }
 
 function togglePasswordVisibility(inputId, iconId) {
+    // 비밀번호 가리기/보이기 토글 로직
     var passwordInput = document.getElementById(inputId);
     var togglePasswordButton = document.getElementById(iconId);
 
@@ -55,12 +67,10 @@ function togglePasswordVisibility(inputId, iconId) {
 }
 
 function validateForm() {
-    // 유효성 검사 로직을 여기에 추가
+    // 필드 값 가져오기
     var userId = $("#userId").val();
     var userPw = $("#userPw").val();
     var userPwChk = $("#userPwChk").val();
-    
-    // 필요한 경우 더 많은 필드를 추가
     var userBirthday = $("#userBirthday").val();
     var userPhone = $("#userPhone").val();
     var userName = $("#userName").val();
@@ -90,31 +100,42 @@ function validateForm() {
         || agree === 0
     ) {
         alert("모든 필수 항목을 입력하세요.");
-        // 폼 제출 방지
-        return false;
+        return false; // 폼 제출 방지
     }else{
-    	
-    	// 필요한 경우 더 많은 유효성 검사 로직 추가
+        // 추가 유효성 검사
 		if (userPw !== userPwChk) {
-        alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-        // 폼 제출 방지
-        return false;
-    }else {
-        // 모든 검사가 통과되면 폼 제출 진행
-    	$("#loginForm").submit();
+	        alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+	        return false; // 폼 제출 방지
+	    }else {
+            // 모든 검사가 통과되면 폼을 수동으로 제출
+            document.getElementById("loginForm").submit();
     	}
 	}
 }
 
 $(document).ready(function () {
+    // Enter 키 감지
+    $(document).on('keypress', function (e) {
+        // Enter 키의 keyCode는 13
+        if (e.which === 13) {
+            // 폼 유효성 검사 함수 호출
+            validateForm();
+        }
+    });
+
+    // 등록 버튼 클릭 시 폼 유효성 검사 후 리다이렉션
     $("#registerButton").click(function () {
         if (validateForm()) {
-            // 유효성 검사가 통과하면 폼 제출 진행
             location.href = '${pageContext.request.contextPath}/user/joinOk';
         }
     });
 });
 
+function registerButtonClick() {
+    if (validateForm()) {
+        location.href = '${pageContext.request.contextPath}/user/joinOk';
+    }
+}
 
 </script>
 <style type="text/css">
@@ -155,6 +176,7 @@ label {
 	text-align:right;
 	width:120px;
 	font-weight:bold;
+	vertical-align: middle;
 }
 
 button {

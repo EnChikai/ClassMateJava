@@ -9,19 +9,20 @@
  
  
   <select id="selectUser" resultType="UserInfo" parameterType="UserInfo">
-	SELECT * FROM user_info
-  	<where> 
-  		AND USER_ID = #{userId}
-		AND USER_PW = #{userPw}	
-  	</where>
+   SELECT * FROM user_info
+     <where> 
+        AND USER_ID = #{userId}
+      AND USER_PW = #{userPw}   
+     </where>
   </select>
 
+	<!-- 강사 번호 조회 -->
   <select id="getTeachNo" resultType="Teacher" parameterType="Teacher" > <!-- //강사 번호 -->
-  		SELECT * FROM teacher <!-- //강사 번호 -->
-  	<where>  <!-- //강사 번호 -->
-  		AND user_no = #{userNo} <!-- //강사 번호 -->
-  	</where> <!-- //강사 번호 -->
-  </select> <!-- //강사 번호 -->
+        SELECT * FROM teacher 
+     <where>  
+        AND user_no = #{userNo}
+     </where> 
+  </select> 
   
       <!-- 아이디 중복 확인 -->
     <select id="checkDuplicateId" resultType="int" parameterType="String">
@@ -29,45 +30,49 @@
     </select>
     
     <select id="selectUserByNo" resultType="UserInfo" parameterType="UserInfo">
-	SELECT * FROM user_info
-  	<where> 
-  		AND USER_NO = #{userNo}
-  	</where>
+   SELECT * FROM user_info
+     <where> 
+        AND USER_NO = #{userNo}
+     </where>
   </select>
 
-	
-<!-- 	<delete id="deleteUserData" parameterType="user.dto.UserInfo"> -->
-<!-- 	DELETE FROM user_info -->
-<!-- 		<where> -->
-<!-- 			AND USER_NO = #{userNo} -->
-<!-- 		</where> -->
-<!-- 	</delete> -->
+   
+<!--    <delete id="deleteUserData" parameterType="user.dto.UserInfo"> -->
+<!--    DELETE FROM user_info -->
+<!--       <where> -->
+<!--          AND USER_NO = #{userNo} -->
+<!--       </where> -->
+<!--    </delete> -->
 
-	<update id="updateUserDataout" parameterType="user.dto.UserInfo">
-		UPDATE user_info
-		SET
-			user_secession = 1
-		<where>
-			user_no = #{userNo}
-		</where>
-	</update>
-	
-	<update id="updateUserData" parameterType="user.dto.UserInfo">
-	    UPDATE user_info
-	    SET
-	    	USER_ID = #{userId},
-	        USER_GENDER = #{userGender},
-	        USER_BIRTHDAY = #{userBirthday},
-	        USER_PHONE = #{userPhone},
-	        USER_NAME = #{userName},
-	        MAIN_ADDRESS = #{mainAddress},
-	        SUB_ADDRESS = #{subAddress},
-	        USER_POST = #{userPost},
-	        USER_DATE_CREATED = sysdate
-	    WHERE
-	        USER_NO = #{userNo}
-	</update>
-	
+
+	<!-- 회원 정보 탈퇴 처리 -->
+   <update id="updateUserDataout" parameterType="user.dto.UserInfo">
+      UPDATE user_info
+      SET
+         user_secession = 1
+      <where>
+         user_no = #{userNo}
+      </where>
+   </update>
+   
+   <!-- 회원 정보 수정 -->
+   <update id="updateUserData" parameterType="user.dto.UserInfo">
+       UPDATE user_info
+       SET
+          USER_ID = #{userId},
+           USER_GENDER = #{userGender},
+           USER_BIRTHDAY = #{userBirthday},
+           USER_PHONE = #{userPhone},
+           USER_NAME = #{userName},
+           MAIN_ADDRESS = #{mainAddress},
+           SUB_ADDRESS = #{subAddress},
+           USER_POST = #{userPost},
+           USER_DATE_CREATED = sysdate
+       WHERE
+           USER_NO = #{userNo}
+   </update>
+   
+	<!-- 회원 정보 등록 -->
     <insert id="insertUser" parameterType="user.dto.UserInfo">
         INSERT INTO user_info
         VALUES (user_info_seq.nextval , #{userId}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, #{userName }, #{userEmail}, #{mainAddress}, #{subAddress}, #{userPost}, #{userSecession}, sysdate)
@@ -77,5 +82,32 @@
         SELECT COUNT(*) FROM user_info WHERE USER_ID = #{userId}
     </select>
     
+    <!-- 이메일/이름으로 아이디 찾기 -->
+    <select id="searchInfo" parameterType="user.dto.UserInfo" resultType="UserInfo"> 
+       SELECT USER_ID
+       FROM user_info
+       <where>
+       AND (USER_EMAIL = #{userEmail} OR USER_NAME = #{userName})
+       </where>
+    </select>
+    
+    <!-- 입력된 아이디와 이름이 DB에 저장된 정보와 일치하는지 확인 -->
+	<select id="checkUserInfo" resultType="int" parameterType="user.dto.UserInfo">
+	    SELECT COUNT(*) FROM user_info
+	    WHERE USER_ID = #{userId} AND USER_NAME = #{userName}
+	</select>
+    
+    <!-- 비밀번호 업데이트 -->
+<!-- 	<update id="updatePw" parameterType="user.dto.UserInfo"> -->
+<!-- 	    UPDATE user_info -->
+<!-- 	    SET USER_PW = #{userPw} -->
+<!-- 	    WHERE USER_NO = #{userNo} -->
+<!-- 	</update> -->
+    
+	<update id="updatePassword" parameterType="user.dto.UserInfo">
+        UPDATE user_info
+        SET USER_PW = #{userPw}
+        WHERE USER_NO = #{userNo}
+    </update>    
     
  </mapper>

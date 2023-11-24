@@ -106,6 +106,9 @@ public class PaymentServiceImpl implements PaymentService{
 			basket.setUserNo((int) userNo);
 			basket.setClassNo(classNo[i]);
 			
+			result = paymentDao.insertClassList(basket);
+			logger.info("insetClassList:{}",result);
+			
 			result = paymentDao.deleteBasket(basket);
 			logger.info("deleteBasket:{}",result);
 		}

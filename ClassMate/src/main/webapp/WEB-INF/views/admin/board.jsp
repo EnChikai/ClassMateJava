@@ -7,29 +7,18 @@
 <%-- <% ============================================================================= %> --%>
 
 <style type="text/css">
+.boardManagement{
+background: rgb(241,196,15);
+
+}
 
 #boardInfo{
 font-size: 17px; 
 padding-bottom: 8px; 
 text-align: center; 
-width: 620px;
 margin-left: auto;
 margin-right: auto;
 margin-top: 18px;
-
-}
-
-
-#boardInfoTb th{
-padding-left:30px;
-text-align: right;
-vertical-align: top;
-
-}
-
-#boardInfoTb td{
-padding-left: 42px; 
-padding-bottom: 7px;
 
 }
 
@@ -48,9 +37,9 @@ vertical-align: bottom;
 }
 
 .checked{
-background: rgb(243,156,18);
+background: rgb(241,196,15);
 border-style: hidden;
-box-shadow: 0 0 0 1px rgb(243,156,18);
+box-shadow: 0 0 0 1px rgb(231,186,5);
 color: white;
 font-weight:bold;
 font-size: 19px;
@@ -63,7 +52,7 @@ padding-right: 20px;
 #boardListTb{
 border-top: 2px solid #ccc; 
 border-bottom: 2px solid #ccc; 
-width: 574px; 
+width: 690px; 
 margin: auto;
 
 }
@@ -90,11 +79,11 @@ text-align: center;
 
 #boardNameInfo{
 display: inline-block;
-width: 420px;
+width: 484px;
 white-space: nowrap;
 overflow: hidden;
 text-overflow: ellipsis;
-padding-top: 1px;
+height: 30px;
 
 }
 
@@ -122,6 +111,62 @@ cursor:pointer;
 
 }
 
+#delCheckbox{
+position:absolute;
+width:20px;
+height:20px;
+top:10%;
+margin-left: 5px;
+
+}
+
+</style>
+
+
+<%-- 페이징 CSS --%>
+<style type="text/css">
+#pagination {
+   margin-bottom: 20px;
+}
+
+#pagingWaiting {
+   border-radius: 4px; 
+   color: black; 
+   background-color: #f1f3f5; 
+   border: 1px solid #d10d10d10;
+   margin: 3.5px; 
+   text-align: center;"
+
+}
+
+#pagingWaiting {
+   border-radius: 4px; 
+   color: black; 
+   background-color: #f1f3f5; 
+   border: 1px solid #d10d10d10;
+   margin: 3.5px; 
+   text-align: center;"
+
+}
+
+#pagingNow {
+   border-radius: 4px; 
+   color: black; 
+   background-color: rgb(251,206,25); 
+   border: 1px solid rgb(241,196,15);
+   margin: 3.5px; 
+   text-align: center;"
+
+}
+
+#pagingAfter,#pagingBefore {
+   border-radius: 4px; 
+   color: black; 
+   background-color: #f1f3f5; 
+   border: 1px solid #d10d10d10;
+   margin: 3.5px; 
+   text-align: center;
+}
 </style>
 
 <%-- <% ============================================================================= %> --%>
@@ -136,6 +181,22 @@ $(function(){
 	
 });
 
+$(function(){
+	
+	var delCheckbox = document.getElementById("delCheckbox");
+	
+	$("#delCheckbox").click(function(){
+		if($(this).is(":checked")){
+			delCheckbox.value = 1;
+			$('#boardListForm').submit();
+		} else {
+			delCheckbox.value = 0; 
+			$('#boardListForm').submit();
+		}
+	})
+	
+});
+
 </script>
 
 <%-- 클릭시 공지 상세보기로 --%>
@@ -145,7 +206,22 @@ $(function(){
 	
 	$(".announceInfo${announceBoardList.announceNo }").click(function(){
 		
-		location.href = '../admin/announceView?announceNo=${announceBoardList.announceNo }';
+		location.href = '../admin/announceView?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&announceNo=${announceBoardList.announceNo }';
+		
+	})
+	
+});
+</script>
+</c:forEach>
+
+<%-- 클릭시 이벤트 상세보기로 --%>
+<c:forEach items="${eventBoardList }" var="eventBoardList"> 
+<script>
+$(function(){
+	
+$(".eventInfo${eventBoardList.eventNo }").click(function(){
+		
+		location.href = '../admin/eventView?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&eventNo=${eventBoardList.eventNo }';
 		
 	})
 	
@@ -161,11 +237,8 @@ $(function(){
 <button class="topMenuBtn">1:1문의</button>
 </div>
 
-<div style="border: 1px solid #ccc; text-align: center; width: 700px; margin-left: 72px; margin-bottom: 20px;">
-
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px;">
 <p id="boardInfo">< 이벤트 및 공지사항 ></p>
-
-<div style="text-align: left; margin-left: auto; margin-bottom: 10px">
 
 <div style="text-align: left; margin-left: 62px; margin-bottom: 10px">
 
@@ -185,8 +258,21 @@ $(function(){
 </select>
 </c:if>
 
+<div style="position:relative; float: right; margin-right: 87px;" >
+		
+		<c:if test="${delCheckbox eq 0}">
+        	삭제 게시물 조회<input id="delCheckbox" type="checkbox" name="delCheckbox" value="0">
+        </c:if>
+        <c:if test="${delCheckbox eq 1}">
+        	삭제 게시물 조회<input id="delCheckbox" type="checkbox" name="delCheckbox" value="1" checked="checked">
+		</c:if>
+		
+</div>
+
 </form>
 </div>
+	
+	
 		
 <table id="boardListTb">	
 	
@@ -222,89 +308,49 @@ $(function(){
 <a href="../admin/writeEventAnno"><button id="insertBtn">등록</button></a>
 </div>
 
-<%-- <% ============================================================================= %> --%>
-
 <div style="margin-top: 8px;">
-	
-	<ul class="pagination pagination-sm justify-content-center">
-		
-		
-		<%-- 이전 페이지 리스트로 이동 --%>
-		<c:choose>
-			<c:when test="${paging.startPage ne 1 }">
-			<li class="page-item">
-				<a class="page-link" href="<%=request.getContextPath() %>?curPage=${paging.startPage - paging.pageCount }&sort=${sort}&delCheckbox=${delCheckbox}">&laquo;</a>
-			</li>
-			</c:when>
-			<c:when test="${paging.startPage eq 1 }">
-			<li class="page-item">
-				<a class="page-link disabled">&laquo;</a>
-			</li>
-			</c:when>
-		</c:choose>
-		
-		
-		<%-- 이전 페이지로 이동 --%>
-		<c:if test="${paging.curPage > 1 }">
-			<li class="page-item">
-				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage - 1 }&sort=${sort}">&lt;</a>
-			</li>
-		</c:if>
-		
-		
-		
-	
-		<%-- 페이징 번호 목록 --%>
-		<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
-			<c:if test="${paging.curPage eq i }">
-			<li class="page-item">
-				<a class="page-link active" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}">${i }</a>
-			</li>
-			</c:if>
-			
-			<c:if test="${paging.curPage ne i }">
-			<li class="page-item">
-				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}">${i }</a>
-			</li>
-			</c:if>
-		</c:forEach>
-		
-		
-		
-		
-		<%-- 다음 페이지로 이동 --%>
-		<c:if test="${paging.curPage < paging.totalPage }">
-			<li class="page-item">
-				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage + 1 }&sort=${sort}">&gt;</a>
-			</li>
-		</c:if>
-		
-		
-		
-		
-		<%-- 다음 페이지 리스트로 이동 --%>
-		<c:choose>
-			<c:when test="${paging.endPage ne paging.totalPage }">
-			<li class="page-item">
-				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.endPage + paging.pageCount }&sort=${sort}">&raquo;</a>
-			</li>
-			</c:when>
-			<c:when test="${paging.endPage eq paging.totalPage }">
-			<li class="page-item">
-				<a class="page-link disabled">&raquo;</a>
-			</li>
-			</c:when>
-		</c:choose>
-
-	</ul>	
 
 <%-- <% ============================================================================= %> --%>
+
+<div id="pagination">
+	<ul class="pagination pagination-sm justify-content-center">
 	
+	<!-- 이전 페이지로 이동 -->
+	<c:if test="${paging.curPage > 1 }">
+		<li style="width: 45px;">
+		<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage - 1 }&sort=${sort}&delCheckbox=${delCheckbox}" id="pagingBefore">&lt;</a>
+		</li>
+	</c:if>
+	
+	<!-- 페이징 번호 목록 -->
+	<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
+		<c:if test="${paging.curPage eq i }">
+			<li class="page-item" style="width: 45px;">
+			<a class="page-link active" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}&delCheckbox=${delCheckbox}" id="pagingNow">${i }</a>
+			</li>
+		</c:if>
+		<c:if test="${paging.curPage ne i }">
+			<li class="page-item" style="width: 45px;">
+			<a class="page-link" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}&delCheckbox=${delCheckbox}" id="pagingWaiting">${i }</a>
+			</li>
+		</c:if>
+	</c:forEach>
+	
+	<!-- 다음 페이지로 이동 -->
+	<c:if test="${paging.curPage < paging.totalPage }">
+		<li class="page-item" style="width: 45px;">
+		<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage + 1 }&sort=${sort}&delCheckbox=${delCheckbox}" id="pagingAfter">&gt;</a>
+		</li>
+	</c:if>
+      
+	</ul>
+</div><!--#questionPagination -->	
+
+<%-- <% ============================================================================= %> --%>
+
+</div>	
 </div>
 
-</div>
-</div>
-	
 <%-- <% ============================================================================= %> --%>
 		
 <c:import url="/WEB-INF/views/layout/adminFooter.jsp" />

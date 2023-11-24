@@ -9,25 +9,42 @@
 
 <style type="text/css">
 
-.defaultWidth{
-   margin-left: 495px;
-   margin-right: 495px;
-   margin-top: 60px;
+.defaultWidth {
+	margin-top: 70px;
+	margin-bottom: 90px;
+}
+
+td {
+	font-size: 14px;
 }
 
 #questionTitle, #generalQuestionTitle {
-   margin-top: 2em;
-   border: 1px;
-   width: 910px;
-   height: 50px;
-   font-size: 150%;
-   text-align: center;
-   margin: 0 auto;
+	width: 910px;
+	height: 60px;
+	font-size: 110%;
+	text-align: center;
+	margin: 0 auto;
+	border: 1px solid;
 }
 
 #questionTitleh2, #generalQuestionTitleh2 {
-   padding-top: 25px;
-   font-weight: bold;
+   margin-top: 14px;
+   font-weight: normal;
+   font-size: 24px;
+   vertical-align: middle;
+}
+
+#qWrite {
+	width: 80px;
+	height: 32px;
+	color: white;
+	border: none;
+	border-radius: 3px;
+	background-color: black;
+	font-size: 15px;
+	vertical-align: middle;
+	float: right;
+	margin-right: 20px;
 }
 
 #questiontb {
@@ -50,6 +67,8 @@
 
 
 #questionWritebt {
+	display: block;
+	margin-bottom: 10px;
    margin-top: 15px;;
    margin-right: 15px;
    width: 70px;
@@ -57,6 +76,11 @@
    background-color: black;
    color: white;
    border-radius: 4px;
+}
+
+#questionPagination {
+	margin-top: -40px;
+	margin-bottom: 50px;
 }
 
 #questionPaging1 {
@@ -90,6 +114,23 @@
    margin: 0 auto;
 }
 
+#generalQuestiontb {
+   text-align: center;
+   margin: 0 auto;
+   margin-top: 25px;
+   vertical-align: middle;
+   width: 910px;
+}
+
+#questionImg {
+	margin-top: 40px;
+	text-align: center;
+}
+
+#gqImg {
+	text-align: center;
+}
+
 </style>
 
 
@@ -98,7 +139,7 @@
 
    <div id="questionDivOut">
       <div id="questionTitle">
-      <h2 id="questionTitleh2">1:1 문의내역
+      <h2 id="questionTitleh2" style="margin-left: 80px;">1:1 문의내역
          <button id="qWrite" type="button" onclick="location.href='./questionWrite'">문의등록</button>
       </h2>
       </div><!-- #questionTitle -->
@@ -117,16 +158,53 @@
          <c:forEach var="questionList" items="${questionList }">
             <tr id="question">
                <td>${questionList.questionNo }</td>
-               <td>${questionList.questionHead }</td>
-               <td><a href="/board/freeView?freeNo=${questionList.questionNo }">${questionList.questionName }</a></td>
+               <td>${questionList.questionCategory }</td>
+               <td><a href="/board/questionView?questionNo=${questionList.questionNo }">${questionList.questionName }</a></td>
                <td>${questionList.userName }</td>
                <td>${questionList.questionDate }</td>
-               <td>${questionList.questionHit }</td>
+               <td>${questionList.answer }</td>
             </tr>
          </c:forEach>
          </table>
       </div><!-- #questionAllTb -->
          
+   </div><!-- #questionDivOut -->
+
+
+   <div id="questionPagination">
+      <ul class="pagination pagination-sm justify-content-center" style="margin-top: 80px;">
+      
+         <!-- 이전 페이지로 이동 -->
+         <c:if test="${pagingQuestion.curPage > 1 }">
+             <li style="width: 45px;">
+                 <a class="page-link" href="./question?curPage=${pagingQuestion.curPage - 1 }" id="questionPaging6">&lt;</a>
+             </li>
+         </c:if>
+               
+         <!-- 페이징 번호 목록 -->
+         <c:forEach var="i" begin="${pagingQuestion.startPage }" end="${pagingQuestion.endPage }">
+            <c:if test="${pagingQuestion.curPage eq i }">
+            <li class="page-item" style="width: 45px;">
+               <a class="page-link active" href="./question?curPage=${i }" id="questionPaging1">${i }</a>
+            </li>
+            </c:if>
+            <c:if test="${pagingQuestion.curPage ne i }">
+            <li class="page-item" style="width: 45px;">
+               <a class="page-link" href="./question?curPage=${i }" id="questionPaging2">${i }</a>
+            </li>
+            </c:if>
+         </c:forEach>
+         
+         <!-- 다음 페이지로 이동 -->
+         <c:if test="${pagingQuestion.curPage < pagingQuestion.totalPage }">
+             <li class="page-item" style="width: 45px;">
+                 <a class="page-link" href="./question?curPage=${pagingQuestion.curPage + 1 }" id="questionPaging3">&gt;</a>
+             </li>
+         </c:if>
+         
+      </ul>
+   </div><!--#questionPagination -->
+
       <div id="generalQuestionTitle">
          <h2 id="generalQuestionTitleh2">자주 묻는 질문 Q&A</h2>
       </div><!-- #questionTitle -->
@@ -165,42 +243,9 @@
             </tr>
          </table>
    
-   </div><!-- #questionDivOut -->
-
-
-   <div id="questionPagination">
-      <ul class="pagination pagination-sm justify-content-center" style="margin-top: 80px;">
-      
-         <!-- 이전 페이지로 이동 -->
-         <c:if test="${paging.curPage > 1 }">
-             <li style="width: 45px;">
-                 <a class="page-link" href="./question?curPage=${paging.curPage - 1 }" id="questionPaging6">&lt;</a>
-             </li>
-         </c:if>
-               
-         <!-- 페이징 번호 목록 -->
-         <c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
-            <c:if test="${paging.curPage eq i }">
-            <li class="page-item" style="width: 45px;">
-               <a class="page-link active" href="./question?curPage=${i }" id="questionPaging1">${i }</a>
-            </li>
-            </c:if>
-            <c:if test="${paging.curPage ne i }">
-            <li class="page-item" style="width: 45px;">
-               <a class="page-link" href="./question?curPage=${i }" id="questionPaging2">${i }</a>
-            </li>
-            </c:if>
-         </c:forEach>
-         
-         <!-- 다음 페이지로 이동 -->
-         <c:if test="${paging.curPage < paging.totalPage }">
-             <li class="page-item" style="width: 45px;">
-                 <a class="page-link" href="./question?curPage=${paging.curPage + 1 }" id="questionPaging3">&gt;</a>
-             </li>
-         </c:if>
-         
-      </ul>
-   </div><!--#questionPagination -->
+  		<div id="questionImg">
+  			<img id="gqImg" alt="자주 묻는 질문 페이징" src="/resources/img/paging.png" width="250px;" height="40px;">
+  		</div>
 
 </div><!-- defaultWidth -->
 

@@ -6,7 +6,16 @@
   
   <mapper namespace="admin.dao.face.AdminDao">
   
-    <select id="userInfoCntAll" parameterType="int">
+  	<select id="getUserCountAll" resultType="int" parameterType="int">
+  	SELECT count(*)	FROM user_info	
+  	WHERE user_no > 0
+		AND user_secession = ${secessionParam}
+	ORDER BY user_no
+  	</select>
+  
+    <!-- ================================================================================================================== -->
+  
+    <select id="userInfoCntAll" resultType="int" parameterType="int">
   	SELECT count(*) FROM user_info
   	WHERE user_secession = ${delCheckbox}
   	</select>
@@ -65,12 +74,52 @@
   		WHERE user_no = ${userNo}
   	</update>
   	
-  	<select id="announceBoardCntAll" resultType="int">
-  	SELECT count(*) FROM announce_board
+  	<select id="selectOrderCnt" resultType="int" parameterType="OrderTb">
+  	SELECT count(*) FROM order_tb
+  	WHERE user_no = ${userNo}
   	</select>
   	
-  	<select id="eventBoardCntAll" resultType="int">
-  	SELECT count(*) FROM announce_board
+  	<select id="selectUserOrder" resultType="OrderTb" parameterType="Map">
+  		SELECT * FROM (
+    		SELECT rownum rnum, B.* FROM(
+      			SELECT
+					order_no, user_no, class_no, merchant_uid
+		        FROM order_tb
+		        WHERE user_no = ${orderTb.userNo}
+   			)B
+		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+  	</select>
+  	
+  <select id="selectUserPayment" resultType="Payment" parameterType="Map">
+    SELECT * FROM (
+        SELECT rownum rnum, B.* FROM(
+        
+            <foreach collection="orderList" item="orderTb" separator="UNION ALL">
+                SELECT
+                pay_no, order_no, pay_date, payment, pay_method, provider, card_name
+                FROM payment
+                WHERE order_no = #{orderTb.orderNo}
+            </foreach>
+            
+        ) B
+    ) WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+	</select>
+
+	<select id="selectClassNameByClassNo" resultType="Class" parameterType="int">
+  	SELECT class_name FROM class
+  	WHERE class_no = ${classNo}
+  	</select>
+  	
+  	<!-- ================================================================================================================== -->
+  	
+  	<select id="announceBoardCntAll" resultType="int" parameterType="int">
+  	SELECT count(*) FROM announce_board 
+  	WHERE announce_exist = ${announceExist}
+  	</select>
+  	
+  	<select id="eventBoardCntAll" resultType="int" parameterType="int">
+  	SELECT count(*) FROM event_board 
+  	WHERE event_exist = ${eventExist}
   	</select>
   	
   	<select id="selectEventBoardAll" resultType="EventBoard" parameterType="Map">
@@ -79,6 +128,7 @@
       			SELECT
 				event_no, user_no, event_head, event_date, event_hit, event_name, event_content, event_exist, head_img
 				FROM event_board
+				WHERE event_exist = 0
 		        ORDER BY event_no DESC
    			)B
 		)WHERE rnum BETWEEN #{eventPaging.startNo} AND #{eventPaging.endNo}
@@ -90,6 +140,31 @@
       			SELECT
 				announce_no, user_no, announce_head, announce_date, announce_hit, announce_name, announce_content, announce_exist
 				FROM announce_board
+				WHERE announce_exist = 0
+		        ORDER BY announce_no DESC
+   			)B
+		)WHERE rnum BETWEEN #{announcePaging.startNo} AND #{announcePaging.endNo}
+  	</select>
+  	
+  	<select id="selectEventBoardDel" resultType="EventBoard" parameterType="Map">
+  		SELECT * FROM (
+    		SELECT rownum rnum, B.* FROM(
+      			SELECT
+				event_no, user_no, event_head, event_date, event_hit, event_name, event_content, event_exist, head_img
+				FROM event_board
+				WHERE event_exist = 1
+		        ORDER BY event_no DESC
+   			)B
+		)WHERE rnum BETWEEN #{eventPaging.startNo} AND #{eventPaging.endNo}
+  	</select>
+  	
+  	<select id="selectAnnounceBoardDel" resultType="AnnounceBoard" parameterType="Map">
+  		SELECT * FROM (
+    		SELECT rownum rnum, B.* FROM(
+      			SELECT
+				announce_no, user_no, announce_head, announce_date, announce_hit, announce_name, announce_content, announce_exist
+				FROM announce_board
+				WHERE announce_exist = 1
 		        ORDER BY announce_no DESC
    			)B
 		)WHERE rnum BETWEEN #{announcePaging.startNo} AND #{announcePaging.endNo}
@@ -98,10 +173,135 @@
   	<select id="selectAnnounceNo" resultType="AnnounceBoard" parameterType="AnnounceBoard">
   		SELECT
 			announce_no, user_no, announce_head, announce_date, announce_hit, announce_name, announce_content, announce_exist
+			, (select user_name FROM user_info WHERE user_no = 0) user_name
         FROM Announce_board
   		WHERE announce_no = ${announceNo}
   	</select>
   	
+  	<insert id="insertAnnounceInfo" parameterType="AnnounceBoard">
+  		<selectKey order="BEFORE" resultType="int" keyProperty="announceNo">
+			SELECT announce_board_seq.nextval FROM dual
+		</selectKey> 
+  		INSERT INTO announce_board (announce_no, user_no, announce_head, announce_name, announce_content, announce_exist)
+  		VALUES (#{announceNo}, 0, #{announceHead}, #{announceName}, #{announceContent}, 0)
+  	</insert>
+  	
+  	<insert id="insertEventInfo" parameterType="EventBoard">
+  		<selectKey order="BEFORE" resultType="int" keyProperty="eventNo">
+			SELECT event_board_seq.nextval FROM dual
+		</selectKey> 
+  		INSERT INTO event_board (event_no, user_no, event_head, event_name, event_content, event_exist, head_img)
+  		VALUES (#{eventNo}, 0, #{eventHead}, #{eventName}, #{eventContent}, 0, #{headImg})
+  	</insert>
+  	
+  	<update id="headImg" parameterType="EventBoard">
+  		UPDATE event_board
+  		SET head_img = #{headImg} 
+  		WHERE event_no = ${eventNo}
+  	</update>
+  	
+  	 <select id="selectEventNo" resultType="EventBoard" parameterType="EventBoard">
+  		SELECT
+			event_no, user_no, event_head, event_date, event_hit, event_name, event_content, event_exist, head_img
+			, (select user_name FROM user_info WHERE user_no = 0) user_name
+        FROM event_board
+  		WHERE event_no = ${eventNo}
+  	</select>
+  	
+  	<insert id="insertAnnoFile" parameterType="AnnounceBoardFile">
+		<selectKey order="BEFORE" resultType="int" keyProperty="fileNo">
+			SELECT announce_board_file_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO announce_board_file ( file_no, announce_no, origin_name, stored_name )
+		VALUES ( #{fileNo}, #{announceNo}, #{originName}, #{storedName} )
+	</insert>
   	
   	
+  	<select id="selectAnnounceFile" resultType="AnnounceBoardFile" parameterType="AnnounceBoard">
+  		SELECT
+			file_no, announce_no, origin_name, stored_name
+        FROM announce_board_file
+  		WHERE announce_no = ${announceNo}
+  	</select>
+  	
+  	<insert id="insertEventFile" parameterType="EventBoardFile">
+		<selectKey order="BEFORE" resultType="int" keyProperty="fileNo">
+			SELECT event_board_file_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO event_board_file ( file_no, event_no, origin_name, stored_name )
+		VALUES ( #{fileNo}, #{eventNo}, #{originName}, #{storedName} )
+	</insert>
+	
+	<select id="selectEventFile" resultType="EventBoardFile" parameterType="EventBoard">
+  		SELECT
+			file_no, event_no, origin_name, stored_name
+        FROM event_board_file
+  		WHERE event_no = ${eventNo}
+  	</select>
+  	
+  	<select id="selectAnnoFileByFileNo" resultType="AnnounceBoardFile" parameterType="AnnounceBoardFile">
+  		SELECT
+			file_no, announce_no, origin_name, stored_name
+        FROM announce_board_file
+  		WHERE file_no = ${fileNo}
+  	</select>
+  	
+  	<update id="updateEventInfo" parameterType="EventBoard">
+  		UPDATE event_board
+  		SET event_name = #{eventName} 
+  			, event_content = #{eventContent}
+  		WHERE event_no = ${eventNo}
+  	</update>
+  	
+  	<delete id="deleteEventFiles" parameterType="int[]">
+		DELETE event_board_file
+		<where>
+			file_no IN
+			<foreach collection="array" item="no" open="(" close=")" separator=",">
+				#{no }
+			</foreach>
+		</where>
+	</delete>
+	
+	<update id="updateAnnoInfo" parameterType="AnnounceBoard">
+  		UPDATE announce_board
+  		SET announce_name = #{announceName} 
+  			, announce_content = #{announceContent}
+  		WHERE announce_no = ${announceNo}
+  	</update>
+  	
+  	<delete id="deleteAnnoFiles" parameterType="int[]">
+		DELETE announce_board_file
+		<where>
+			file_no IN
+			<foreach collection="array" item="no" open="(" close=")" separator=",">
+				#{no }
+			</foreach>
+		</where>
+	</delete>
+  	
+  	<update id="updateAnnoExist" parameterType="AnnounceBoard">
+  		UPDATE announce_board
+  		SET announce_exist = 1 
+  		WHERE announce_no = ${announceNo}
+  	</update>
+  	
+  	<update id="updateEventExist" parameterType="EventBoard">
+  		UPDATE event_board
+  		SET event_exist = 1 
+  		WHERE event_no = ${eventNo}
+  	</update>
+  	
+  	<delete id="deleteAnnoFile" parameterType="AnnounceBoard">
+		DELETE announce_board_file
+		WHERE announce_no = ${announce_no}
+	</delete>
+	
+	<delete id="deleteAnnoInfo" parameterType="AnnounceBoard">
+		DELETE announce_board
+		WHERE announce_no = ${announce_no}
+	</delete>
+  	  	  	
   </mapper>

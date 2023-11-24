@@ -6,6 +6,10 @@
 <%-- <% ============================================================================= %> --%>
 
 <style type="text/css">
+.userManagement{
+	background: rgb(241,196,15);
+	
+}
 
 #userInfo{
 font-size: 35px; 
@@ -14,7 +18,7 @@ border-bottom: 9px solid rgb(255,240,177);
 padding-bottom: 8px; 
 text-align: left; 
 padding-left: 27px;
-width: 620px;
+width: 720px;
 margin-left: auto;
 margin-right: auto;
 margin-top: 18px;
@@ -23,7 +27,7 @@ margin-top: 18px;
 
 
 #userInfoTb th{
-padding-left:30px;
+padding-left: 80px;
 text-align: right;
 vertical-align: top;
 
@@ -56,9 +60,9 @@ vertical-align: bottom;
 }
 
 .checked{
-background: rgb(243,156,18);
+background: rgb(241,196,15);
 border-style: hidden;
-box-shadow: 0 0 0 1px rgb(243,156,18);
+box-shadow: 0 0 0 1px rgb(231,186,5);
 color: white;
 font-weight:bold;
 font-size: 19px;
@@ -68,7 +72,7 @@ padding-right: 20px;
 
 }
 
-#updateBtn, #secessionBtn{
+#updateBtn{
 border-radius: 3px; 
 border-style: hidden;
 width: 63px; 
@@ -91,7 +95,17 @@ background: rgb(170,170,170);
 	
 }
 
+</style>
+
+<!-- 모달 -->
+<style type="text/css">
 #secessionBtn{
+border-radius: 3px; 
+border-style: hidden;
+width: 63px; 
+height: 33px;
+color: white;
+font-weight:bold;
 background: black;
 box-shadow: 0 0 0 1px black
 
@@ -172,9 +186,7 @@ background: rgb(230,204,100);
 cursor:pointer
 	
 }
-
 </style>
-
 <%-- <% ============================================================================= %> --%>
 
 <script type="text/javascript">
@@ -231,12 +243,13 @@ $(function(){
 
 <div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
 <button style="margin-left: 1px;" class="topMenuBtn checked">회원정보 관리</button>
-<button class="topMenuBtn">결제/수강 내역</button>
+<a href="../admin/userPaymentList?userNo=${userdata.userNo}"><button class="topMenuBtn">결제/수강 내역</button></a>
 <button class="topMenuBtn">작성한 게시물</button>
 </div>
 
-<div style="border: 1px solid #ccc; text-align: center; width: 700px; margin-left: 72px; margin-bottom: 20px;">
+<%-- <% ============================================================================= %> --%>
 
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px;">
 <p id="userInfo">회원정보</p>
 
 <div style="text-align: left; margin-left: 62px; margin-bottom: 10px">
@@ -297,7 +310,7 @@ $(function(){
 </div>
 
 </div>
-
+<%-- <% ============================================================================= %> --%>	
 
 <div id="secessionModal" class="close"></div>
   <div class="secessionModal-con secessionModal" style="border-radius: 8px;">
@@ -307,7 +320,7 @@ $(function(){
     
     <p style="color: #999; font-size: 16px; padding-top: 33px;">다시 한번 확인 후 진행해주세요</p>
     
-    <form action="../admin/secessionUser" method="get">
+    <form action="../admin/secessionUser" method="post">
 	<button id="secessionOkBtn">예</button>
 	<input type="text" name="userNo" style="display: none;" value="${userdata.userNo}" readonly="readonly">
     <a href="javascript:return false;" class="closeSecessionModal" id="closeSecessionModal"><button id="closeModalBtn" style="margin-top: 70px" type="button">아니오</button></a>

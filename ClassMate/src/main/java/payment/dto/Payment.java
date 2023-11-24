@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Payment {
 	private int payNo;
-	private long orderNo;
+	private int orderNo;
 	private Date payDate;
 	private int payment;
 	private String payMethod;
@@ -13,7 +13,7 @@ public class Payment {
 	
 	public Payment() {}
 
-	public Payment(int payNo, long orderNo, Date payDate, int payment, String payMethod, String provider,
+	public Payment(int payNo, int orderNo, Date payDate, int payment, String payMethod, String provider,
 			String cardName) {
 		super();
 		this.payNo = payNo;
@@ -39,11 +39,11 @@ public class Payment {
 		this.payNo = payNo;
 	}
 
-	public long getOrderNo() {
+	public int getOrderNo() {
 		return orderNo;
 	}
 
-	public void setOrderNo(long orderNo) {
+	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
 	}
 
@@ -86,4 +86,5 @@ public class Payment {
 	public void setCardName(String cardName) {
 		this.cardName = cardName;
 	}
+
 }

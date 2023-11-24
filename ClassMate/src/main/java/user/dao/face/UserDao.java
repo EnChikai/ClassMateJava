@@ -21,5 +21,13 @@ public interface UserDao {
 
 	public int updateUserData(UserInfo userInfo);
 
+	public UserInfo searchInfo(UserInfo userInfo);
+
+	public int checkUserInfo(UserInfo userInfo);
+
+	public int updatePw(int userNo, String userPw);
+
+	public int updatePassword(String userPw);
+
 
 }

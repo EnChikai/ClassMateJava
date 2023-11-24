@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
 		logger.info("userInfo : {}", userInfo);
 //		int data = userDao.deleteUserData( userInfo );
 		int data = userDao.updateUserDataout( userInfo );
-		logger.info("a: {}",data);
+		logger.info("data: {}",data);
 		return data;
 		
 	}
@@ -65,5 +65,28 @@ public class UserServiceImpl implements UserService{
 		return result;
 	}
 
+	@Override
+	public UserInfo searchInfo(UserInfo userInfo) {
+		return userDao.searchInfo(userInfo);
+	}
 
+	@Override
+	public boolean checkUserInfo(UserInfo userInfo) {
+	    return userDao.checkUserInfo(userInfo) > 0;
+	}
+
+    @Override
+    public int updatePw(UserInfo userInfo) {
+//    	int data = userDao.updatePw(userInfo.getUserNo(), userInfo.getUserPw());
+//    	logger.info("data : {}", data);
+//        return data;
+    	return 0;
+    }
+
+	@Override
+	public boolean updatePassword(String userPw) {
+		 int result = userDao.updatePassword(userPw);
+		// 업데이트된 행 수가 1이면 성공, 그렇지 않으면 실패
+		return result == 1;
+	}
 }

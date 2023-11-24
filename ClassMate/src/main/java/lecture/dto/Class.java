@@ -173,7 +173,6 @@ public class Class {
 		this.headImg = headImg;
 	}
 
-
 	public int getDeleteBoolean() {
 		return deleteBoolean;
 	}
@@ -181,7 +180,7 @@ public class Class {
 	public void setDeleteBoolean(int deleteBoolean) {
 		this.deleteBoolean = deleteBoolean;
 	}
-
 	
-
+	
+	
 }

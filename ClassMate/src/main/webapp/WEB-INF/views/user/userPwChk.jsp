@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <style type="text/css">
-.resetPw {
+.pwChk {
 	text-align: center;
 	border: 1px solid #ccc;
 	width: 545px;
@@ -11,11 +11,18 @@
     margin: 145px auto 145px auto;	
 }
 
-.resetPw2 {
+.pwChk2 {
 	line-height: 3;
 }
 
-.resetPw2 
+.pwChk2 label {
+	border: 1px solid black; 
+	border-radius: 4px; 
+	background-color: black; 
+	color: white; 
+	padding: 9px 21px; 
+	vertical-align: middle;
+}
 
 button {
     margin: 0 auto;
@@ -46,7 +53,7 @@ h3 {
 
 #title {
 	border: 1px solid;
-	width: 543px;
+	width: 544px;
 	height: 60px;
 	background-color: black;
 	margin-top: 30px;
@@ -63,24 +70,21 @@ h3 {
 
 </style>
 
-<div class="resetPw">
+<div class="pwChk">
 
-	<div id="title"><label>정보확인</label></div>
+	<div id="title">
+		<label>정보확인</label>
+	</div>
 	<h3>개인정보 확인을 위해 비밀번호를 입력해주세요.</h3>
+	<div class="pwChk2">
+		<form action="/userPwChk" method="post">
+			<label for="password">비밀번호</label>
+			<input type="password" name="password"><br>
 
-	<div class="resetPw2">
-	<label style="border: 1px solid black; border-radius: 4px; background-color: black; color: white;
-		   padding: 9px 21px; vertical-align: middle;">비밀번호</label>
-	<input type="password"><br>
-	
-	<button>확인</button>
-	<button style="background-color: #9E9E9E;">취소</button>
-
-
-
-
-
-
-</div><!-- .restPw2 -->
-</div><!-- .resetPw -->
+			<button type="submit">확인</button>
+			<button style="background-color: #9E9E9E;">취소</button>
+		</form>
+	</div><!-- .pwChk -->
+</div><!-- .pwChk2 -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
+

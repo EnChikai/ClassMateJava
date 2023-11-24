@@ -22,19 +22,19 @@
                     buttonType: buttonType
                 },
                 success: function (response) {
+                	
                     var redirectUrl = response.redirect;
 
                     if (response.error && response.error !== "") {
                         // alert 창을 먼저 표시
                         alert(response.error);
 
-                        setTimeout(function () {
                             if (redirectUrl) {
                                 window.location.href = redirectUrl;
                             } else {
                                 console.log("리다이렉트 URL이 없습니다.");
                             }
-                        }, 0);  // 0 밀리초(0초) 후에 실행
+
                     } else if (redirectUrl) {
                         // alert 창이 필요 없는 경우 바로 페이지 전환
                         window.location.href = redirectUrl;

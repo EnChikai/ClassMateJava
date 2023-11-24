@@ -102,26 +102,26 @@ button {
 		<label id="member">'OOO'님 의</label><br> <label id="member2">마이페이지입니다</label>
 
 		<div class="titleBtn">
-			<a href="/class/myOnClassList"><button
-					style="background-color: #9E9E9E;">ON클래스 강의실</button></a> <a
-				href="/user/updateUserData"><button>회원정보수정</button></a>
-		</div>
-	</div>
-	<!-- .title1 -->
-</div>
-<!-- .title -->
+			<a href="/class/myOnClassList">
+			<button style="background-color: #9E9E9E;">ON클래스 강의실</button></a>
+			<a href="/user/userPwChk"><button>회원정보수정</button></a>
+		</div><!-- .titleBtn -->
+	</div><!-- .title1 -->
+</div><!-- .title -->
 
 
 <div class="OnOff">
 	<div id="text">
 		<label id="classIng">진행중인 ON/OFF 클래스</label>
-	</div><!-- .text -->
+	</div><!-- #text -->
 	<c:choose>
 		<c:when test="${not empty lecture}">
 			<c:forEach var="lecture" items="${lecture}">
 				<a href="${lecture.onOff eq '1' ? '/class/onClass?classNo=' : '/class/offClass?classNo='}${lecture.classNo}"
 					class="stretched-link" style="color: inherit; text-decoration: none;">
 					${lecture.className}</a>
+					${lecture.headImg },
+					${lecture.onOff }
 					<br>
 			</c:forEach>
 		</c:when>

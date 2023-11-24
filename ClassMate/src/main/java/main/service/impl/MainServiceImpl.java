@@ -173,20 +173,31 @@ public class MainServiceImpl implements MainService{
 	public List<Class> ClassViewList(Class cLass) {
 		return mainDao.onClassViewList(cLass);
 	}
+	
+	@Override
+	public boolean payment(Class cLass) {
+		
+		int res = mainDao.duplicationPayment(cLass);
+		
+		if( res == 1) {
+			return true;
+		}
+		
+		return false;
+	}
 
 	@Override
 	public int basket(Class cLass, HttpSession session) {
 		
 		//Class 중복검사
-		Integer res = mainDao.duplicationBasket(cLass);
-		System.out.println(res);
+		Map<String,Object> map = new HashMap<>();
+		map.put("userNo", session.getAttribute("userNo"));
+		map.put("cLass", cLass);
+		Integer res = mainDao.duplicationBasket(map);
 
 		
 		//Class 중복아니니까 insert 진행
 		if( res == null ) {
-		Map<String,Object> map = new HashMap<>();
-		map.put("userNo", session.getAttribute("userNo"));
-		map.put("cLass", cLass);
 		mainDao.insertBasket(map);
 		
 		return 0;
@@ -194,6 +205,8 @@ public class MainServiceImpl implements MainService{
 		
 		return 1;
 	}
+
+
 
 
 }

@@ -14,18 +14,13 @@ public class Question {
 	private String answer;
 	private String answerContent;
 	
+	private String userName;
+	
 	public Question() {}
 
-	@Override
-	public String toString() {
-		return "Question [questionNo=" + questionNo + ", userNo=" + userNo + ", questionCategory=" + questionCategory
-				+ ", questionName=" + questionName + ", questionContent=" + questionContent + ", questionDate="
-				+ questionDate + ", questionHit=" + questionHit + ", questionExist=" + questionExist + ", answer="
-				+ answer + ", answerContent=" + answerContent + "]";
-	}
-
 	public Question(int questionNo, int userNo, String questionCategory, String questionName, String questionContent,
-			Date questionDate, int questionHit, String questionExist, String answer, String answerContent) {
+			Date questionDate, int questionHit, String questionExist, String answer, String answerContent,
+			String userName) {
 		super();
 		this.questionNo = questionNo;
 		this.userNo = userNo;
@@ -37,6 +32,15 @@ public class Question {
 		this.questionExist = questionExist;
 		this.answer = answer;
 		this.answerContent = answerContent;
+		this.userName = userName;
+	}
+
+	@Override
+	public String toString() {
+		return "Question [questionNo=" + questionNo + ", userNo=" + userNo + ", questionCategory=" + questionCategory
+				+ ", questionName=" + questionName + ", questionContent=" + questionContent + ", questionDate="
+				+ questionDate + ", questionHit=" + questionHit + ", questionExist=" + questionExist + ", answer="
+				+ answer + ", answerContent=" + answerContent + ", userName=" + userName + "]";
 	}
 
 	public int getQuestionNo() {
@@ -118,6 +122,13 @@ public class Question {
 	public void setAnswerContent(String answerContent) {
 		this.answerContent = answerContent;
 	}
-	
-	
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 }
