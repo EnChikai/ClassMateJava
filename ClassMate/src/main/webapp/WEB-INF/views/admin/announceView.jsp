@@ -7,6 +7,10 @@
 <%-- <% ============================================================================= %> --%>
 
 <style type="text/css">
+.boardManagement{
+background: rgb(241,196,15);
+
+}
 
 #announceInfo{
 font-size: 35px; 
@@ -22,7 +26,6 @@ margin-top: 18px;
 display: block;
 
 }
-
 
 #announceInfoTb th{
 text-align: center;
@@ -105,8 +108,8 @@ p{
 margin-bottom: 0px;
 
 }
-
 </style>
+
 
 <!-- 비할성화 모달 -->
 <style type="text/css">
@@ -325,7 +328,7 @@ $(function(){
 <div id="existModal" class="close"></div>
   <div class="existModal-con existModal" style="border-radius: 8px;">
     <div class="con" style="border: 0.5px solid #80808080; margin: 43px; margin-top: 25px;">
-    <p style="margin-top: 30px;">공지사항을</p>
+    <p style="margin-top: 30px;">공지사항 게시물을</p>
     <p>비활성화 하시겠습니까?</p>
     
     <p style="color: #999; font-size: 16px; padding-top: 33px;">다시 한번 확인 후 진행해주세요</p>
@@ -343,12 +346,12 @@ $(function(){
 <div id="delModal" class="close"></div>
   <div class="delModal-con delModal" style="border-radius: 8px;">
     <div class="con" style="border: 0.5px solid #80808080; margin: 43px; margin-top: 25px;">
-    <p style="margin-top: 30px;">공지사항을</p>
+    <p style="margin-top: 30px;">공지사항 게시물을</p>
     <p>삭제 하시겠습니까?</p>
     
     <p style="color: #999; font-size: 16px; padding-top: 33px;">다시 한번 확인 후 진행해주세요</p>
     
-    <form action="../admin/setAnnounceDel" method="get">
+    <form action="../admin/announceDelet" method="post">
 	<button id="delOkBtn">예</button>
 	<input type="text" name="announceNo" style="display: none;" value="${announceBoard.announceNo}" readonly="readonly">
     <a href="javascript:return false;" class="closeDelModal" id="closeDelModal"><button class="closeModalBtn" style="margin-top: 70px" type="button">아니오</button></a>

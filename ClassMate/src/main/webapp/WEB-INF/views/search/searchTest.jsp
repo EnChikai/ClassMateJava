@@ -14,18 +14,28 @@
         <br>
         <input type="submit" value="검색">
     </form>
+    <hr>
     <form method="post" action="/search/sub">
         <label for="search">서브 검색어:</label>
         <input type="text" id="search" name="search" required>
         <br>
         <input type="submit" value="검색">
     </form>
+    <hr>
+    <form method="post" action="/search/classTitle">
+        <label for="search">강의 검색어:</label>
+        <input type="text" id="search" name="search" required>
+        <br>
+        <input type="submit" value="검색">
+    </form>
+    <hr>
     <form method="post" action="/search/title">
         <label for="search">제목 검색어:</label>
         <input type="text" id="search" name="search" required>
         <br>
         <input type="submit" value="검색">
     </form>
+    <hr>
     <form method="post" action="/search/nick">
         <label for="search">이름 검색어:</label>
         <input type="text" id="search" name="search" required>

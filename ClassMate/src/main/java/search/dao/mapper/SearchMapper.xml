@@ -59,6 +59,41 @@
     	)
 	</select>
     
+    <sql id="selectBoard4">
+		SELECT
+			class_no, teacher_no, main_category_no
+			, sub_category_no, teacher, class_name
+			, class_date, class_start, class_end
+			, max_count, expense, class_info, on_off
+			, head_img, delete_boolean, curriculum
+		FROM class
+	</sql>
+
+	<sql id="searchCond4">
+		<if test="search != null and !''.equals(search)">
+		<where>
+				class_name LIKE '%' || #{search} || '%'	
+		</where>
+		</if>
+	</sql>
+
+    <select id="selectClassTitleAll" resultType="Class" parameterType="web.util.SearchPaging">
+    	SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				<include refid="selectBoard4" />
+				<include refid="searchCond4" />
+				ORDER BY class_no DESC
+		    ) B
+		) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+    </select>
+	
+	<select id="selectClassTitleCntAll" resultType="int" parameterType="web.util.SearchPaging">
+		SELECT count(*) FROM (
+    		<include refid="selectBoard4"/>
+    		<include refid="searchCond4"/>
+    	)
+	</select>
+    
     <sql id="selectBoard2">
 		SELECT
 			free_no, user_no, free_head, free_date, free_hit, free_name, free_content

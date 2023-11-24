@@ -3,6 +3,8 @@ package lecture.service.face;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import user.dto.UserInfo;
 import lecture.dto.Class;
 import lecture.dto.QuestionAnswer;
@@ -22,5 +24,7 @@ public interface ClassService {
 	public List<Class> myLectureOn(UserInfo userInfo);
 
 	public void insertQA(QuestionAnswer questionAnswer);
+
+	public UserInfo userCk(HttpSession session);
 	
 }
