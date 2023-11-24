@@ -10,9 +10,8 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
-
-
-    $("#classMateMenu").mouseup(function () {
+    // ClassMateMenu 클릭 이벤트
+    $("#classMateMenu").click(function () {
         // 토글 기능 추가
         $("#yourToggleElementId").toggle();
 
@@ -20,9 +19,34 @@ $(document).ready(function () {
         if ($("#yourToggleElementId").is(":visible")) {
             // 토글이 열린 경우
             $("#classMateMenu").css("color", "white");
+            $("#classMateMenu").css("text-decoration", "underline");
         } else {
             // 토글이 닫힌 경우
-            $("#classMateMenu").css("color", "black"); // 예시로 배경색을 원래 색으로 변경
+            $("#classMateMenu").css("color", "black");
+            $("#classMateMenu").css("text-decoration", "none");
+        }
+    });
+
+    // 마우스를 올리면 글자색과 언더라인 변경
+    $("#classMateMenu").mouseover(function () {
+        if (!$(this).hasClass("clicked")) {
+            $(this).css("color", "white");
+            $(this).css("text-decoration", "underline");
+        }
+    }).mouseout(function () {
+        // 마우스를 떼면 초기 스타일로 변경
+        if (!$(this).hasClass("clicked")) {
+            $(this).css("color", "black");
+            $(this).css("text-decoration", "none");
+        }
+    });
+
+    // 클릭 시 스타일 고정 및 토글
+    $("#classMateMenu").click(function () {
+        $(this).toggleClass("clicked");
+        if (!$(this).hasClass("clicked")) {
+            $(this).css("color", "black");
+            $(this).css("text-decoration", "none");
         }
     });
 });
@@ -82,41 +106,43 @@ a{
 <div class="headerMenu">
 <table style="margin-left: auto; margin-right: auto; font-size: 15px;">
    <tr>
-      <th class="headerTh"><a href="/main/mainCategory" style="text-decoration: none; color: black; height: 55px;">카테고리</a></th>
-      <th class="headerTh"><a href="/board/board" style="text-decoration: none; color: black; height: 55px;">게시판</a></th>
-      <th class="headerTh" style="height: 55px;">검색</th>
+      <th class="headerTh"><a href="/main/mainCategory" id="classMateMenu">카테고리</a></th>
+      <th class="headerTh"><a href="/board/board" id="classMateMenu">게시판</a></th>
+      <th class="headerTh"><a href="" id="classMateMenu">검색</a></th>
       <c:if test="${isLogin!=null }">
-      <th class="headerTh"><a href="/payment/basket" style="text-decoration: none; color: black; height: 55px;">장바구니</a></th>
+      <th class="headerTh"><a href="/payment/basket" id="classMateMenu">장바구니</a></th>
       </c:if>
       <c:if test="${isLogin==null }">
-      <th class="headerTh"><a href="/user/login" style="text-decoration: none; color: black; height: 55px;">장바구니</a></th>
+      <th class="headerTh"><a href="/user/login" id="classMateMenu">장바구니</a></th>
       </c:if>
-      <th class="headerTh" id="classMateMenu"><span style="cursor: pointer; height: 55px;">ClassMate</span></th>
+      <th class="headerTh"><span style="cursor: pointer;" id="classMateMenu">ClassMate</span></th>
    </tr>
 </table>
 
 <div id="yourToggleElementId" class="yourToggleClass">
    <c:if test="${isLogin==null}">
    <div style="text-align: center; margin-left: 334px; margin-top: 25px; font-size: small;">
-      <span><strong><a href="/user/login" style="text-decoration: none; color: black;">로그인</a></strong></span>
+      <span><strong><a href="/user/login">로그인</a></strong></span>
    </div>
    </c:if>
    
    <c:if test="${isLogin!=null && teacherNo==null}">
    <div class="container " style="text-align: center; margin-left: 625px; margin-top: 25px; font-size: small;">
-      <span class="col"><strong><a href="/user/mypageMain" style="text-decoration: none; color: black;">마이페이지</a></strong></span>
+      <span class="col"><strong><a href="/user/mypageMain">마이페이지</a></strong></span>
       <span class="col"><strong>강사신청</strong></span>
-      <span class="col"><strong><a href="/board/question" style="text-decoration: none; color: black;">1:1문의</a></strong></span>
-      <span class="col"><strong><a href="/user/logout" style="text-decoration: none; color: black;">로그아웃</a></strong></span>
+      <span class="col"><strong><a href="/board/question">1:1문의</a></strong></span>
+      <span class="col"><strong><a href="/user/logout">로그아웃</a></strong></span>
    </div>
    </c:if>
    
+   
+   <!-- 강사번호로 강사페이지를 보게 해주는게 아니라 강사합격여부로 보여줘야됨 ( 강사합격여부 1 ) -->
    <c:if test="${isLogin!=null && teacherNo!=null}">
    <div class="container " style="text-align: center; margin-left: 625px; margin-top: 25px; font-size: small;">
-      <span class="col"><strong><a href="/user/mypageMain" style="text-decoration: none; color: black;">마이페이지</a></strong></span>
-      <span class="col"><strong><a href="/teacher/main" style="text-decoration: none; color: black;">강사페이지</a></strong></span>
-      <span class="col"><strong><a href="/board/question" style="text-decoration: none; color: black;">1:1문의</a></strong></span>
-      <span class="col"><strong><a href="/user/logout" style="text-decoration: none; color: black;">로그아웃</a></strong></span>
+      <span class="col"><strong><a href="/user/mypageMain">마이페이지</a></strong></span>
+      <span class="col"><strong><a href="/teacher/main">강사페이지</a></strong></span>
+      <span class="col"><strong><a href="/board/question">1:1문의</a></strong></span>
+      <span class="col"><strong><a href="/user/logout">로그아웃</a></strong></span>
    </div>
    </c:if>
 
