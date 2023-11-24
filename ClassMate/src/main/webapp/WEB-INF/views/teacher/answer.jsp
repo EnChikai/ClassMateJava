@@ -20,6 +20,8 @@ $(function(){
 	      
 	      $('#userListForm').submit();
 	      
+	      location.href = "/teacher/regist";
+	      
 	   })
 	   
 	});

@@ -21,84 +21,289 @@
 </div>
 <hr>
 
-
-
-<table>
+<%-- <table>
 <tr>
-	<td class="table-info">강사</td><td>${user.userName }</td>
+	<td class="table-info" id="onInsert1">영상 업로드</td><td id="onInsert2"><div><input type="file" class="form-control" name="file" id="file" multiple="multiple"></div></td>
+	<td id="onInsert3">
+	<c:set var="i" value="0" />
+	<c:set var="j" value="4" />
+	<table>
+	  <c:forEach items="${video }" var="video">
+	    <c:if test="${i%j == 0 }">
+	    <tr>
+	    </c:if>
+	       <td>${video.videoLesson } 회차</td>
+	    <c:if test="${i%j == j-1 }">
+	    </tr>
+	    </c:if>
+	    <c:set var="i" value="${i+1 }" />
+	  </c:forEach>
+	</table>
+	</td>
 </tr>
+</table> --%>
+
+<%-- <table>
 <tr>
-	<td class="table-info">카테고리</td>
+	<td class="table-info">영상 업로드</td><td></td>
 	<td>
-	 <label for="categoryU">대분류:</label>
-	<select name="categoryU" id="categoryU" onchange="categoryUchange()">
-	<option value="cook">요리</option>
-	<option value="beauty">뷰티</option>
-	<option value="sports">스포츠</option>
-	<option value="selfDevelopement">자기개발</option>
-	<option value="design">디자인</option>
-	<option value="communication">커뮤니케이션</option>
-	<option value="business">비즈니스</option>
-	<option value="create">창작</option>
-	<option value="it">IT</option>
-	</select>
-	>
-	<label for="categoryD">소분류:</label>
-	<select name="categoryD" id="categoryD" disabled>
-	</select>
+	<c:set var="i" value="0" />
+	<c:set var="j" value="4" />
+	<table>
+	  <c:forEach items="${video }" var="video">
+	    <c:if test="${i%j == 0 }">
+	    <tr>
+	    </c:if>
+	       <td>${4*j + i } 회차</td>
+	    <c:if test="${i%j == j-1 }">
+	    </tr>
+	    </c:if>
+	    <c:set var="i" value="${i+1 }" />
+	  </c:forEach>
+	</table>
 	</td>
 </tr>
 </table>
 
-</script>
-
-<div id="address1">서울 영등포구 국회대로 494</div>
-<input type="button" onclick="execDaumPostcode()" value="지도 보기">
-<div id="map" style="width:90%;height:350px;margin-top:10px;display:none"></div>
-
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7386d9c0dc5cbff30aa6aa3fde01768b&libraries=services"></script>
 <script>
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-        mapOption = {
-            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-            level: 5 // 지도의 확대 레벨
-        };
 
-    //지도를 미리 생성
-    var map = new daum.maps.Map(mapContainer, mapOption);
-    //주소-좌표 변환 객체를 생성
-    var geocoder = new daum.maps.services.Geocoder();
-    //마커를 미리 생성
-    var marker = new daum.maps.Marker({
-        position: new daum.maps.LatLng(37.537187, 127.005476),
-        map: map
-    });
+var num = 1;
 
+var t = "<table border='1' style='margin: auto; text-align: center'>";
 
-    function execDaumPostcode() {
-                
-                // 주소로 상세 정보를 검색
-                geocoder.addressSearch('서울 영등포구 국회대로 494', function(results, status) {
-                    // 정상적으로 검색이 완료됐으면
-                    if (status === daum.maps.services.Status.OK) {
+for(var i=1; i<11; i++) {
+	
+	t += "<tr>";	//행
+	
+	
+	if(i%2 == 1) {
+	for(var k=1; k<5; k++) {
+		
+		t += "<td style='background-color: gray;'>" + num +"</td>";
+				
+		num++;
+		
+		}
+	} else	{
+		
+		for(var k=1; k<5; k++) {
+			
+			t += "<td>" + ((i/2-1)*4 + k) + '회차' + "삭제" + "</td>";
+						
+			}
+	
+	}
+	
+	t += "</tr>";
+	
+	
+}
+ t += "</table>";
 
-                        var result = results[0]; //첫번째 결과의 값을 활용
+ console.log(t);
+ 
+ document.write(t);
 
-                        // 해당 주소에 대한 좌표를 받아서
-                        var coords = new daum.maps.LatLng(result.y, result.x);
-                        // 지도를 보여준다.
-                        mapContainer.style.display = "block";
-                        map.relayout();
-                        // 지도 중심을 변경한다.
-                        map.setCenter(coords);
-                        // 마커를 결과값으로 받은 위치로 옮긴다.
-                        marker.setPosition(coords)
-                    }
-                });
-            
-    }
 </script>
+ 
+  
+    
+    
+    
+    <div id="calculator_addBtn">
+      <button type="button" id="add_class">강의 추가</button>
+    </div>
+<script>
+
+var num = 1;
+
+var t = "<table id='calculator_table' border='1' style='margin: auto; text-align: center'>";
+
+for(var i=1; i<6; i++) {
+	
+	t += "<tr>";	//행
+	
+	
+	
+	for(var k=1; k<5; k++) {
+		
+		t += "<td>"+"<div>" + num + "회차" + "</div>" + "<div style='margin-bottom: 2px;'>"+ "아" +"</div>"
+		+"<div>"+"<button class='td_delete' onclick='td_delete_event(this)'>"+"삭제"+"</button>"+"</div>" +"</td>";
+				
+		num++;
+		
+		}
+	
+	
+	t += "</tr>";
+	
+	
+}
+ t += "</table>";
+
+ console.log(t);
+ 
+ document.write(t);
+
+</script> --%>
+
+
+
+
+
+
+
+
+<!-- <style type="text/css">
+.filebox label {
+  display: inline-block;
+  padding: .5em .75em;
+  color: #999;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #fdfdfd;
+  cursor: pointer;
+  border: 1px solid #ebebeb;
+  border-bottom-color: #e2e2e2;
+  border-radius: .25em;
+}
+
+.filebox input[type="file"] {  /* 파일 필드 숨기기 */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip:rect(0,0,0,0);
+  border: 0;
+}
+</style>
+
+
+<div class="form-group">
+	<label>동적테이블 행추가하기</label>
+	<button type=button class='btn btn-default' id='btn_add' style='float:right; margin-bottom:5px;'>추가버튼</button>	
+</div>
+
+<table id='table_ipaddr'> 	
+	<tbody>
+	<tr>
+		<td>
+			<div class="label_group">
+			<label for="manager_ipaddr_label">행</label>
+			</div>
+		</td>
+		<td>	
+			<div class="form_group" style="margin:5px;">
+				<input name="manager_ipaddr" class="form-control" class='ipaddr' 
+                	style='width:300px; float:left; margin-right:5px'>
+				<button type="button" name="btn_delete" class="btn btn-default btn-sm" style="height:30px">
+				<span class="glyphicon glyphicon-minus"></span>
+				</button>
+			</div>
+		</td>
+	</tr>
+</tbody>
+</table>     -->   
+
+
+<hr>
+<hr>
+
+<div id="file-container">
+  <!-- Initial file input field -->
+  <input type="file" name="file" id="file1" onchange="fileChanged()" />
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var maxRows = 4;  // 최대 행 수
+  var maxCols = 5;  // 최대 열 수
+  var num = 1;
+
+  // Function to handle file input change
+  function fileChanged() {
+    // Check if the table exists, if not, create it
+    if (!document.getElementById('dynamic-table')) {
+      createTable();
+    }
+
+    // Get the table
+    var table = document.getElementById('dynamic-table');
+
+    // Check if a new row needs to be added
+    if (table.rows.length >= maxRows) {
+      alert("테이블이 최대 크기에 도달했습니다.");
+      return;
+    }
+
+    // Add a new row to the table
+    var newRow = table.insertRow();
+
+    // Add new cells to the row
+    for (var i = 0; i < maxCols; i++) {
+      var newCell = newRow.insertCell();
+
+      // Create file input element
+      var fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.name = 'file';
+      fileInput.id = 'file' + num;
+      fileInput.onchange = fileChanged;
+
+      // Create delete button element
+      var deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.onclick = function () {
+        deleteColumn(newCell.cellIndex);
+      };
+
+      // Append file input and delete button to the cell
+      newCell.appendChild(fileInput);
+      newCell.appendChild(deleteButton);
+
+      // Increment the num variable
+      num++;
+    }
+  }
+
+  // Function to create the initial table
+  function createTable() {
+    var table = document.createElement('table');
+    table.id = 'dynamic-table';
+    table.border = '1';
+
+    // Append the table to the body
+    document.body.appendChild(table);
+
+    // Add the initial row
+    addRow();
+  }
+
+  // Function to add a new row to the table
+  function addRow() {
+    for (var i = 0; i < maxRows; i++) {
+      fileChanged();
+    }
+  }
+
+  // Function to delete a column from the table
+  function deleteColumn(cellIndex) {
+    var table = document.getElementById('dynamic-table');
+    for (var i = 0; i < table.rows.length; i++) {
+      table.rows[i].deleteCell(cellIndex);
+    }
+  }
+
+  // Add initial file input
+  fileChanged();
+});
+</script>
+
+
+
   
 <c:import url="/WEB-INF/views/layout/pagination.jsp" />
 </div>
