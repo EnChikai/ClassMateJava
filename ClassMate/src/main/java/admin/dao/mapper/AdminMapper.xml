@@ -6,6 +6,15 @@
   
   <mapper namespace="admin.dao.face.AdminDao">
   
+  	<select id="getUserCountAll" resultType="int" parameterType="int">
+  	SELECT count(*)	FROM user_info	
+  	WHERE user_no > 0
+		AND user_secession = ${secessionParam}
+	ORDER BY user_no
+  	</select>
+  
+    <!-- ================================================================================================================== -->
+  
     <select id="userInfoCntAll" resultType="int" parameterType="int">
   	SELECT count(*) FROM user_info
   	WHERE user_secession = ${delCheckbox}
@@ -64,6 +73,44 @@
   		set user_secession = 1
   		WHERE user_no = ${userNo}
   	</update>
+  	
+  	<select id="selectOrderCnt" resultType="int" parameterType="OrderTb">
+  	SELECT count(*) FROM order_tb
+  	WHERE user_no = ${userNo}
+  	</select>
+  	
+  	<select id="selectUserOrder" resultType="OrderTb" parameterType="Map">
+  		SELECT * FROM (
+    		SELECT rownum rnum, B.* FROM(
+      			SELECT
+					order_no, user_no, class_no, merchant_uid
+		        FROM order_tb
+		        WHERE user_no = ${orderTb.userNo}
+   			)B
+		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+  	</select>
+  	
+  <select id="selectUserPayment" resultType="Payment" parameterType="Map">
+    SELECT * FROM (
+        SELECT rownum rnum, B.* FROM(
+        
+            <foreach collection="orderList" item="orderTb" separator="UNION ALL">
+                SELECT
+                pay_no, order_no, pay_date, payment, pay_method, provider, card_name
+                FROM payment
+                WHERE order_no = #{orderTb.orderNo}
+            </foreach>
+            
+        ) B
+    ) WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+	</select>
+
+	<select id="selectClassNameByClassNo" resultType="Class" parameterType="int">
+  	SELECT class_name FROM class
+  	WHERE class_no = ${classNo}
+  	</select>
+  	
+  	<!-- ================================================================================================================== -->
   	
   	<select id="announceBoardCntAll" resultType="int" parameterType="int">
   	SELECT count(*) FROM announce_board 
@@ -240,5 +287,21 @@
   		SET announce_exist = 1 
   		WHERE announce_no = ${announceNo}
   	</update>
+  	
+  	<update id="updateEventExist" parameterType="EventBoard">
+  		UPDATE event_board
+  		SET event_exist = 1 
+  		WHERE event_no = ${eventNo}
+  	</update>
+  	
+  	<delete id="deleteAnnoFile" parameterType="AnnounceBoard">
+		DELETE announce_board_file
+		WHERE announce_no = ${announce_no}
+	</delete>
+	
+	<delete id="deleteAnnoInfo" parameterType="AnnounceBoard">
+		DELETE announce_board
+		WHERE announce_no = ${announce_no}
+	</delete>
   	  	  	
   </mapper>

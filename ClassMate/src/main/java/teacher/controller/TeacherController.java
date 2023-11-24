@@ -45,6 +45,9 @@ public class TeacherController {
 	
 	@GetMapping("/check")
 	public void check() {}
+
+	@GetMapping("/NewFile")
+	public void newFile() {}
 	
 	@GetMapping("/answer")
 	public void answer(ModelMap map, HttpSession session, TeacherMainPaging param) {
@@ -71,8 +74,13 @@ public class TeacherController {
 			
 			) {
 		
+	    //int userNo = (int) session.getAttribute("userNo"); //로그인 시 세션에 저장된 유저넘버
+	    int userNo = 2;
+
 		//teacherParam.setUserNo((int) session.getAttribute("userNo"));
 		
+	    teacherParam.setUserNo(userNo);
+	    
 		//logger.info("insertParam {}", teacherParam);
 		//logger.info("insertLicenceParam {}", teacherLicenceParam);
 		//logger.info("insertLicenceParam {}", singleFile);
@@ -131,7 +139,7 @@ public class TeacherController {
 			 		Teacher teacherParam
 				, UserInfo userParam
 				, Class classParam
-				, Address adressParam
+				, Address addressParam
 				, ClassVideo classVideoParam
 				, MainCategory mainCategoryParam
 				, SubCategory subCategoryParam
@@ -139,13 +147,18 @@ public class TeacherController {
 				, List<MultipartFile> singleFile	
 				, HttpSession session			
 				, Model model
-				
-			 ) {
+			 	) {
 		 
-			// int userNO = (int) session.getAttribute("userNo"); //로그인 시 세션에 저장된 유저넘버
-			int userNo = 2; //유저번호가 2번이라는 가정 하에 진행
+		 logger.info("classParam {}", classParam);
+		 logger.info("addressParam {}", addressParam);
+		 logger.info("categoryBParam {}", mainCategoryParam);
+		 logger.info("categoryDParam {}", subCategoryParam);
+		 
+		 
+
 		
-		// teacherService.classRegist(registLecture, file);
+			teacherService.classRegist(teacherParam, userParam, classParam, addressParam, classVideoParam, 
+					mainCategoryParam, subCategoryParam, file, singleFile, session);
 		 
 		 return null;//"redirect:./detail?classNo=" + registLecture.getClassNo();
 	 }

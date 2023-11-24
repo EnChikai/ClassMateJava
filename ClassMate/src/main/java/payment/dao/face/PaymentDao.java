@@ -47,6 +47,8 @@ public interface PaymentDao {
 
 	public int insertPaymentList(Map<String, Object> map);
 
+	public int insertClassList(Basket basket);
+	
 	public int deleteBasket(Basket basket);
 
 	public List<OrderTb> selectOrderList(String merchantUid);
@@ -56,6 +58,8 @@ public interface PaymentDao {
 	public List<Class> selectClassNoByMerchantUid(String merchantUid);
 
 	public List<Class> selectClassNameListByOrder(int classNo);
+
+
 
 
 }

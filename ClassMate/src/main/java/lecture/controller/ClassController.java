@@ -29,12 +29,14 @@ public class ClassController {
 	@Autowired ClassService classService;
 	
 	@GetMapping("/onClass")
-	public void onClassLecture(Class viewClass, Model model, Map<String, Object> map, HttpSession session) {
+	public void onClassLecture(
+			Class viewClass
+			, Model model
+			, Map<String, Object> map
+			, HttpSession session) {
 		logger.info("/class/onClass");
-		int userNo = (int)session.getAttribute("userNo");
 		
-		UserInfo userInfo = new UserInfo();
-		userInfo.setUserNo(userNo);
+		UserInfo userInfo = classService.userCk(session);
 		
 		map = classService.lectureOn(viewClass);
 		
@@ -46,12 +48,11 @@ public class ClassController {
 	}
 	
 	@GetMapping("/myOnClassList")
-	public void myOnClassList(Model model, HttpSession session) {
+	public void myOnClassList(
+			Model model
+			, HttpSession session) {
 		logger.info("/class/myOnClassList");
-		logger.info("session : {}", session.getAttribute("userNo"));
-		int userNo = (int)session.getAttribute("userNo");
-		UserInfo userInfo = new UserInfo();
-		userInfo.setUserNo(userNo);
+		UserInfo userInfo = classService.userCk(session);
 		
 		List<Class> lecture = classService.allLecture(userInfo);
 		
@@ -64,12 +65,14 @@ public class ClassController {
 	}
 	
 	@GetMapping("/offClass")
-	public void offClass(Class viewClass, Model model, Map<String, Object> map, HttpSession session) {
+	public void offClass(
+			Class viewClass
+			, Model model
+			, Map<String, Object> map
+			, HttpSession session) {
 		logger.info("/class/offClass");
 		
-		int userNo = (int)session.getAttribute("userNo");
-		UserInfo userInfo = new UserInfo();
-		userInfo.setUserNo(userNo);
+		UserInfo userInfo = classService.userCk(session);
 		
 		map = classService.lectureOff(viewClass);
 		
@@ -80,12 +83,13 @@ public class ClassController {
 	}
 	
 	@GetMapping("/onClassQABoardList")
-	public void onClassQABoardList(Class viewClass, Model model, HttpSession session) {
+	public void onClassQABoardList(
+			Class viewClass
+			, Model model
+			, HttpSession session) {
 		logger.info("/class/onClassQABoardList");
 		
-		int userNo = (int)session.getAttribute("userNo");
-		UserInfo userInfo = new UserInfo();
-		userInfo.setUserNo(userNo);
+		UserInfo userInfo = classService.userCk(session);
 		
 		logger.info("viewClass : {}",viewClass);
 		
@@ -94,13 +98,13 @@ public class ClassController {
 	}
 	
 	@GetMapping("/onClassQAWrite")
-	public void onClassQAWrite(Class viewClass, Model model, HttpSession session) {
+	public void onClassQAWrite(
+			Class viewClass
+			, Model model
+			, HttpSession session) {
 		logger.info("/class/onClassQAWrite");
 		
-		int userNo = (int)session.getAttribute("userNo");
-		UserInfo userInfo = new UserInfo();
-		
-		userInfo.setUserNo(userNo);
+		UserInfo userInfo = classService.userCk(session);
 		
 		logger.info("viewClass : {}",viewClass);
 		
@@ -110,7 +114,10 @@ public class ClassController {
 	}
 	
 	@PostMapping("/onClassQAWrite")
-	public String onClassQAWritePost(QuestionAnswer questionAnswer, Model model, HttpSession session) {
+	public String onClassQAWritePost(
+			QuestionAnswer questionAnswer
+			, Model model
+			, HttpSession session) {
 		logger.info("/class/onClassQAWrite");
 		
 		logger.info("questionTitle : {}", questionAnswer);
@@ -119,7 +126,7 @@ public class ClassController {
 		
 		classService.insertQA(questionAnswer);
 		
-		return "redirect: /class/onClassQABoardList";
+		return "redirect: /class/onClassQABoardList?classNo=" + questionAnswer.getClassNo();
 	}
 	
 }

@@ -176,6 +176,7 @@ label {
 	text-align:right;
 	width:120px;
 	font-weight:bold;
+	vertical-align: middle;
 }
 
 button {

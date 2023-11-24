@@ -15,6 +15,10 @@
 <%-- <% ============================================================================= %> --%>
 
 <style type="text/css">
+.boardManagement{
+background: rgb(241,196,15);
+
+}
 
 #boardInfo{
 font-size: 35px; 

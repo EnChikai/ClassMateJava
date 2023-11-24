@@ -40,6 +40,15 @@ public interface SearchService {
 	public SearchPaging getSubPaging(SearchPaging param);
 	
 	
+	/**
+	 * 클래스명을 입력했을때 나오는 클래스 검색결과
+	 * 
+	 * @param paging
+	 * @return
+	 */
+	public List<Class> classTitleList(SearchPaging paging);
+	public SearchPaging getClassTitlePaging(SearchPaging param);
+	
 
 	/**
 	 * 닉네임을 입력했을때 나오는 게시글 검색결과

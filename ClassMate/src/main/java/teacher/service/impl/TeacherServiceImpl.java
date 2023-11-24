@@ -15,14 +15,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import lecture.dto.Address;
 import lecture.dto.Class;
 import lecture.dto.ClassVideo;
 import lecture.dto.QuestionAnswer;
+import main.dto.MainCategory;
+import main.dto.SubCategory;
 import teacher.dao.face.TeacherDao;
 import teacher.dto.Teacher;
 import teacher.dto.TeacherApply;
 import teacher.dto.TeacherLicence;
 import teacher.service.face.TeacherService;
+import user.dto.UserInfo;
 import web.util.TeacherMainPaging;
 
 @Service
@@ -66,54 +70,154 @@ public class TeacherServiceImpl implements TeacherService {
 		return detailLecture;
 	}
 
+
 	@Override
-	public void classRegist(Class registLecture, List<MultipartFile> file) {
-	
+	@Transactional
+	public void classRegist(Teacher teacherParam, UserInfo userParam, Class registLecture, Address addressParam,
+			ClassVideo classVideoParam, MainCategory mainCategoryParam, SubCategory subCategoryParam,
+			List<MultipartFile> file, List<MultipartFile> singleFile, HttpSession session) {
 		
-		teacherDao.classInsert(registLecture);
+		//int userNo = (int) session.getAttribute("userNo"); //로그인 시 세션에 저장된 유저넘버
+		int userNo = 2; //유저번호가 2번이라는 가정 하에 진행
+		
+		int teacherNo = teacherDao.selectByUserNo(userNo);
+		
+		UserInfo userInfo = teacherDao.selectNameByUserNo(userNo);
+		
+		logger.info("메인카테고리 {}", mainCategoryParam);
+		//maincategory 번호를 추출함
+		int mainCategoryNo = teacherDao.selectByCategoryName(mainCategoryParam);
+		
+		//subcategory파라미터에 maincategory번호를 넣어줌 
+		subCategoryParam.setMainCategoryNo(mainCategoryNo);
+		
+		//subcategory 번호를 추출함
+		int subCategoryNo = teacherDao.selectBySubCategoryName(subCategoryParam);
+
+		//class 파라미터에 강사 번호를 넣어줌
+		registLecture.setTeacherNo(teacherNo);
+		
+		//class 파라미터에 강사 이름을 넣어줌
+		registLecture.setTeacher(userInfo.getUserName());
+		
+		//class 파라미터에 maincategorynumber를 넣어줌
+		registLecture.setMainCategoryNo(mainCategoryNo);
+
+		//class 파라미터에 subcategorynumber를 넣어줌
+		registLecture.setSubCategoryNo(subCategoryNo);
+		
+		//class 파라미터에 deleteboolean을 0으로 넣어줌(강의 유지)
+		registLecture.setDeleteBoolean(0);
+		
+		int classNo = teacherDao.selectByInsertClassNo();
+		
+		registLecture.setClassNo(classNo);
+		
+		for(MultipartFile f : singleFile) {
+			this.classInsert( f, registLecture );
+		}
+		
+		
+		
+		if (registLecture.getOnOff() == 0 ) {
 			
+			addressParam.setClassNo(classNo);
 			
+			teacherDao.insertAddress(addressParam);
 			
+		} else {
+			
+			classVideoParam.setClassNo(classNo);
+			
+			for(MultipartFile f : file) {
+			this.classRegistFile( f, classVideoParam );
+			}
+			
+		}
+		
+		
 		
 	}
 	
-	public void classRegistFile(MultipartFile file, int videoLesson) {
-		
-		//빈 파일 처리
-		if( file.getSize() <= 0 ) {
-			return;
-		}
+
+	private void classInsert(MultipartFile singleFile, Class registLecture) {
 		
 		//파일이 저장될 경로
-		String storedPath = context.getRealPath("upload");
-		
-		//upload 폴더 생성
-		File storedFolder = new File(storedPath);
-		storedFolder.mkdir();
-		
-		//저장될 파일 이름
-		String originName = file.getOriginalFilename();
-		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
-		
-		//저장할 파일 객체
-		File dest = new File(storedFolder, storedName);
-		
-		try {
-			file.transferTo(dest);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		ClassVideo classVideo = new ClassVideo();
-		classVideo.setVideoLesson(videoLesson);
-		classVideo.setOriginName(originName);
-		classVideo.setStoredName(storedName);
-		
-		teacherDao.onClassInsertFile(classVideo);
+				String storedPath = context.getRealPath("upload");
+				
+				//upload 폴더 생성
+				File storedFolder = new File(storedPath);
+				storedFolder.mkdir();
+				
+				
+				//저장될 파일 이름
+				String originName = singleFile.getOriginalFilename();
+				String headImg = originName + UUID.randomUUID().toString().split("-")[4];
+				
+				
+				//저장할 파일 객체
+				File dest = new File(storedFolder, headImg);
+			
+				
+				try {
+					singleFile.transferTo(dest);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				//---------------------------------------------------------------------------
+				
+				
+				
+				registLecture.setHeadImg(headImg);
+				
+				logger.info("teacherImport {}", registLecture);
+				
+				teacherDao.registClassInsert(registLecture);
 		
 	}
+
+	private void classRegistFile(MultipartFile file, ClassVideo classVideoParam) {
+		
+		//빈 파일 처리
+				if( file.getSize() <= 0 ) {
+					return;
+				}
+				
+				//파일이 저장될 경로
+				String storedPath = context.getRealPath("upload");
+				
+				//upload 폴더 생성
+				File storedFolder = new File(storedPath);
+				storedFolder.mkdir();
+				
+				//저장될 파일 이름
+				String originName = file.getOriginalFilename();
+				String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+				
+				//저장할 파일 객체
+				File dest = new File(storedFolder, storedName);
+				
+				try {
+					file.transferTo(dest);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				//여기부터 시작 동영상강의를 회차별로 넣도록 jsp부터 구현해야한다 22일 할일!@
+//				ClassVideo classVideo = new ClassVideo();
+//				classVideo.setVideoLesson(videoLesson);
+//				classVideo.setOriginName(originName);
+//				classVideo.setStoredName(storedName);
+//				
+//				teacherDao.onClassInsertFile(classVideo);
+				
+		
+	}
+
 
 	@Override
 	public TeacherMainPaging getAnswerPaging(TeacherMainPaging param, int userNo) {
@@ -265,6 +369,7 @@ public class TeacherServiceImpl implements TeacherService {
 		
 		teacherDao.applyInsertFile( teacherLicence );
 	}
+
 				
 
 }

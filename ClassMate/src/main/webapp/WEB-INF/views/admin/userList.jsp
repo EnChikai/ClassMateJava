@@ -2,6 +2,57 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
+
+<%-- <% ============================================================================= %> --%>
+
+<style type="text/css">
+.userManagement{
+	background: rgb(241,196,15);
+	
+}
+
+#userListTb{
+border-top: 2px solid #ccc; 
+border-bottom: 2px solid #ccc; 
+width: 690px; 
+margin: auto;
+
+}
+
+.userListTh{
+background: rgb(220,220,220);
+border-bottom: 2px solid #ccc;
+font-size: 15px;
+padding-top: 5px;
+padding-bottom: 5px;
+
+}
+
+.userListTd{
+border-bottom: 1px solid #ccc; 
+font-size: 15px;
+padding-top: 2px;
+padding-bottom: 2px;
+padding-right: 0;
+
+}
+
+#delCheckbox{
+position:absolute;
+width:20px;
+height:20px;
+top:10%;
+margin-left: 5px;
+
+}
+
+.userListTd:hover:not(.active){
+cursor:pointer;
+
+}
+</style>
+
+
 <%-- 페이징 CSS --%>
 <style type="text/css">
 #pagination {
@@ -47,51 +98,10 @@
    margin: 3.5px; 
    text-align: center;
 }
+
 </style>
 
 <%-- <% ============================================================================= %> --%>
-
-<style type="text/css">
-#userListTb{
-border-top: 2px solid #ccc; 
-border-bottom: 2px solid #ccc; 
-width: 690px; 
-margin: auto;
-
-}
-
-.userListTh{
-background: rgb(220,220,220);
-border-bottom: 2px solid #ccc;
-font-size: 15px;
-padding-top: 5px;
-padding-bottom: 5px;
-
-}
-
-.userListTd{
-border-bottom: 1px solid #ccc; 
-font-size: 15px;
-padding-top: 2px;
-padding-bottom: 2px;
-padding-right: 0;
-
-}
-
-#delCheckbox{
-position:absolute;
-width:20px;
-height:20px;
-top:10%;
-margin-left: 5px;
-
-}
-
-.userListTd:hover:not(.active){
-cursor:pointer;
-
-}
-</style>
 
 <script type="text/javascript">
 $(function(){
@@ -141,7 +151,7 @@ $(function(){
 	$(".userInfo${list.userNo}").click(function(){
 		
 		
-		location.href = '../admin/userDetailedInfo?userNo=${list.userNo}';
+		location.href = '../admin/userDetailedInfo?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&userNo=${list.userNo}';
 		
 	})
 	
