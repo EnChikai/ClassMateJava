@@ -2,6 +2,7 @@ package teacher.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,7 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import lecture.dto.Address;
 import lecture.dto.Class;
@@ -74,8 +77,8 @@ public class TeacherServiceImpl implements TeacherService {
 	@Override
 	@Transactional
 	public void classRegist(Teacher teacherParam, UserInfo userParam, Class registLecture, Address addressParam,
-			ClassVideo classVideoParam, MainCategory mainCategoryParam, SubCategory subCategoryParam,
-			List<MultipartFile> file, List<MultipartFile> singleFile, HttpSession session) {
+			ClassVideo classVideoParam, MainCategory mainCategoryParam, SubCategory subCategoryParam, MultipartHttpServletRequest request
+			, @RequestParam("fileCount") int fileCount, List<MultipartFile> singleFile, HttpSession session) {
 		
 		//int userNo = (int) session.getAttribute("userNo"); //로그인 시 세션에 저장된 유저넘버
 		int userNo = 2; //유저번호가 2번이라는 가정 하에 진행
@@ -129,10 +132,66 @@ public class TeacherServiceImpl implements TeacherService {
 			
 			classVideoParam.setClassNo(classNo);
 			
-			for(MultipartFile f : file) {
-			this.classRegistFile( f, classVideoParam );
-			}
+			logger.info("파일 카운트 {}", fileCount);
+
+		    try {
+		        List<MultipartFile> files = new ArrayList<>();
+
+		        int[] numberFiles =  new int [fileCount];
+		        
+		        for (int i = 1; i <= fileCount; i++) {
+		            MultipartFile file = request.getFile("fileInput_" + i);
+		            // 파일에 대한 처리 수행
+		            // files 리스트에 파일 추가 또는 다른 처리 수행
+		            
+		          //파일이 저장될 경로
+					String storedPath = context.getRealPath("upload");
+					
+					//upload 폴더 생성
+					File storedFolder = new File(storedPath);
+					storedFolder.mkdir();
+					
+					//저장될 파일 이름
+					String originName = file.getOriginalFilename();
+					String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+					
+					//저장할 파일 객체
+					File dest = new File(storedFolder, storedName);
+					
+					try {
+						file.transferTo(dest);
+					} catch (IllegalStateException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					//여기부터 시작 동영상강의를 회차별로 넣도록 jsp부터 구현해야한다 22일 할일!@
+					classVideoParam.setOriginName(originName);
+					classVideoParam.setStoredName(storedName);
+
+					
+					logger.info("파일 {}", files);
+					
+					// input type=number에 대한 처리 수행
+					String numberInputValue = request.getParameter("numberInput_" + i);
+					int numberInput = Integer.parseInt(numberInputValue);
+					
+					classVideoParam.setVideoLesson(numberInput);
+					logger.info("숫자 입력값 {}", numberInput);
+					
+					numberFiles [i-1] = numberInput;
+		            
+		            files.add(file);
+		     
+		            teacherDao.onClassInsertFile(classVideoParam);
+		        }
+		        // 여기서 files 리스트를 사용하여 파일에 대한 추가적인 처리 수행	       
+		    } catch (Exception e) {
+		       
+		    }
 			
+						
 		}
 		
 		
@@ -179,44 +238,44 @@ public class TeacherServiceImpl implements TeacherService {
 		
 	}
 
-	private void classRegistFile(MultipartFile file, ClassVideo classVideoParam) {
-		
-		//빈 파일 처리
-				if( file.getSize() <= 0 ) {
-					return;
-				}
-				
-				//파일이 저장될 경로
-				String storedPath = context.getRealPath("upload");
-				
-				//upload 폴더 생성
-				File storedFolder = new File(storedPath);
-				storedFolder.mkdir();
-				
-				//저장될 파일 이름
-				String originName = file.getOriginalFilename();
-				String storedName = originName + UUID.randomUUID().toString().split("-")[4];
-				
-				//저장할 파일 객체
-				File dest = new File(storedFolder, storedName);
-				
-				try {
-					file.transferTo(dest);
-				} catch (IllegalStateException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				//여기부터 시작 동영상강의를 회차별로 넣도록 jsp부터 구현해야한다 22일 할일!@
-//				ClassVideo classVideo = new ClassVideo();
-//				classVideo.setVideoLesson(videoLesson);
-//				classVideo.setOriginName(originName);
-//				classVideo.setStoredName(storedName);
+//	private void classRegistFile(MultipartFile file, ClassVideo classVideoParam) {
+//		
+//		//빈 파일 처리
+//				if( file.getSize() <= 0 ) {
+//					return;
+//				}
 //				
-//				teacherDao.onClassInsertFile(classVideo);
-				
-		
-	}
+//				//파일이 저장될 경로
+//				String storedPath = context.getRealPath("upload");
+//				
+//				//upload 폴더 생성
+//				File storedFolder = new File(storedPath);
+//				storedFolder.mkdir();
+//				
+//				//저장될 파일 이름
+//				String originName = file.getOriginalFilename();
+//				String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+//				
+//				//저장할 파일 객체
+//				File dest = new File(storedFolder, storedName);
+//				
+//				try {
+//					file.transferTo(dest);
+//				} catch (IllegalStateException e) {
+//					e.printStackTrace();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//				//여기부터 시작 동영상강의를 회차별로 넣도록 jsp부터 구현해야한다 22일 할일!@
+////				ClassVideo classVideo = new ClassVideo();
+////				classVideo.setVideoLesson(videoLesson);
+////				classVideo.setOriginName(originName);
+////				classVideo.setStoredName(storedName);
+////				
+////				teacherDao.onClassInsertFile(classVideo);
+//				
+//		
+//	}
 
 
 	@Override
