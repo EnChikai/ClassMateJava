@@ -24,6 +24,8 @@ import board.dto.EventBoard;
 import board.dto.EventBoardFile;
 import payment.dto.OrderTb;
 import payment.dto.Payment;
+import teacher.dto.Teacher;
+import teacher.dto.TeacherApply;
 import user.dto.UserInfo;
 import web.util.Paging;
 import lecture.dto.Class;
@@ -36,6 +38,8 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired private AdminDao adminDao;
 	
 	@Autowired ServletContext context;
+	
+	//--- 메인 ---
 	
 	@Override
 	public Map<String, Object> getDashBoardInfo() {
@@ -60,7 +64,8 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	//================================================================================
-
+	//--- 유저 관리 ---
+	
 	@Override
 	public Paging  getUserPaging(Paging param, int delCheckbox) {
 		logger.info("getPaging()");
@@ -205,8 +210,60 @@ public class AdminServiceImpl implements AdminService{
 		
 		return resultMap;
 	}
+	//================================================================================
+	//--- 강사 신청 관리 ---
+	
+	@Override
+	public Paging getApplyPaging(Paging param, int passCheckbox) {
+	logger.info("getApplyPaging()");
+		
+		//총 게시글 수 조회
+		int totalCount = adminDao.selectApplyCntAll(passCheckbox);
+		logger.info("totalCount : {}",totalCount);
+		
+		//페이징 객체 생성(페이징 계산)
+		Paging paging = new Paging(totalCount, param.getCurPage());
+		
+		return paging;
+	}
+	
+	@Override
+	public Map<String, Object> selectTeacherApplyList(Paging paging, int passCheckbox) {
+
+		List<Teacher> teacherList = new ArrayList<Teacher>();
+		List<TeacherApply> teacherApplyList = new ArrayList<TeacherApply>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		map.put("paging",paging);
+		map.put("passCheckbox",passCheckbox);
+		
+		if(paging.getTotalCount() != 0) {
+				
+			teacherApplyList = adminDao.selectTeacherApplyAll(map);
+			for(int i=0; i<teacherApplyList.size(); i++) {
+				logger.info("selectTeacherApplyAll : {}",teacherApplyList);
+				
+			}
+			
+			map.put("teacherApplyList",teacherApplyList);
+	
+			teacherList = adminDao.selectTeacherInfoAll(map);
+			for(int i=0; i<teacherList.size(); i++) {
+				logger.info("selectTeacherInfoAll : {}",teacherList);
+				
+			}
+		
+			result.put("teacherList",teacherList);
+			result.put("teacherApplyList",teacherApplyList);
+		}
+		
+		return result;
+	}
+
 	
 	//================================================================================
+	//--- 게시판 관리 ---
 	
 	@Override
 	public Map<String, Object> getBoardPaging(Paging param, int delCheckbox) {
@@ -627,10 +684,9 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public void announceDelet(AnnounceBoard announceBoard) {
-		logger.info("announceDelet() : {}");
+	public void announceDelete(AnnounceBoard announceBoard) {
+		logger.info("announceDelet() : {}", announceBoard);
 
-		
 		int result = 0;
 		result = adminDao.deleteAnnoFile(announceBoard);
 		
@@ -644,6 +700,26 @@ public class AdminServiceImpl implements AdminService{
 		
 		result = adminDao.deleteAnnoInfo(announceBoard);
 		logger.info("공지 삭제 결과 : {}", result);
+		
+	}
+
+	@Override
+	public void eventDelete(EventBoard eventBoard) {
+		logger.info("eventDelet() : {}", eventBoard);
+
+		int result = 0;
+		result = adminDao.deleteEventFile(eventBoard);
+		
+		if(result != 0) {
+			logger.info("파일 있음 삭제 완료 : {}", result);
+			
+		}else {
+			logger.info("파일 없음 삭제 실패 : {}", result);
+			
+		}
+		
+		result = adminDao.deleteEventInfo(eventBoard);
+		logger.info("이벤트 삭제 결과 : {}", result);		
 	}
 
 }

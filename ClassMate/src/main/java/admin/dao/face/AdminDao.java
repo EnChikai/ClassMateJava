@@ -10,10 +10,14 @@ import board.dto.EventBoardFile;
 import lecture.dto.Class;
 import payment.dto.OrderTb;
 import payment.dto.Payment;
+import teacher.dto.Teacher;
+import teacher.dto.TeacherApply;
 import user.dto.UserInfo;
+import web.util.Paging;
 
 public interface AdminDao {
-
+	
+	//--- 메인 ---
 	/**
 	 * 탈퇴저리되지 않은 유저의 정보를 리스트 형식으로 가져온다
 	 * 
@@ -25,7 +29,8 @@ public interface AdminDao {
 	
 
 	//========================================================================================================
-
+	//--- 유저 관리 ---
+	
 	/**
 	 * 전체 유저 수를 조회한다
 	 * @param delCheckbox 
@@ -54,6 +59,16 @@ public interface AdminDao {
 	public Class selectClassNameByClassNo(int i);
 	
 	//========================================================================================================
+	//--- 강사 심사 관리 ---
+	
+	public int selectApplyCntAll(int passCheckbox);
+	
+	public List<TeacherApply> selectTeacherApplyAll(Map<String, Object> map);
+	
+	public List<Teacher> selectTeacherInfoAll(Map<String, Object> map);
+	
+	//========================================================================================================
+	//--- 게시판 관리 ---
 	
 	public int announceBoardCntAll(int delCheckbox);
 
@@ -102,5 +117,9 @@ public interface AdminDao {
 	public int deleteAnnoFile(AnnounceBoard announceBoard);
 
 	public int deleteAnnoInfo(AnnounceBoard announceBoard);
+
+	public int deleteEventFile(EventBoard eventBoard);
+
+	public int deleteEventInfo(EventBoard eventBoard);
 
 }

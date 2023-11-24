@@ -114,8 +114,8 @@ $(() => {
 </script>
 <%-- <% ============================================================================= %> --%>
 
-<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 70px;">
-<p id="announceInfo" style="margin-bottom: 1rem">이벤트 수정</p>
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px;">
+<p id="announceInfo" style="margin-bottom: 1rem">공지사항 수정</p>
 
 <!-- 썸네일 테스트 -->
 <!-- <div> -->

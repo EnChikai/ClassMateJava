@@ -6,22 +6,26 @@ public class Teacher {
 	private String teacherImg;
 	private String teacherInfo;
 	private String teacherCareer;
+	private String teacherTitle;
 	
 	public Teacher() {}
 
 	@Override
 	public String toString() {
 		return "Teacher [teacherNo=" + teacherNo + ", userNo=" + userNo + ", teacherImg=" + teacherImg
-				+ ", teacherInfo=" + teacherInfo + ", teacherCareer=" + teacherCareer + "]";
+				+ ", teacherInfo=" + teacherInfo + ", teacherCareer=" + teacherCareer + ", teacherTitle=" + teacherTitle
+				+ "]";
 	}
 
-	public Teacher(int teacherNo, int userNo, String teacherImg, String teacherInfo, String teacherCareer) {
+	public Teacher(int teacherNo, int userNo, String teacherImg, String teacherInfo, String teacherCareer,
+			String teacherTitle) {
 		super();
 		this.teacherNo = teacherNo;
 		this.userNo = userNo;
 		this.teacherImg = teacherImg;
 		this.teacherInfo = teacherInfo;
 		this.teacherCareer = teacherCareer;
+		this.teacherTitle = teacherTitle;
 	}
 
 	public int getTeacherNo() {
@@ -63,6 +67,16 @@ public class Teacher {
 	public void setTeacherCareer(String teacherCareer) {
 		this.teacherCareer = teacherCareer;
 	}
+
+	public String getTeacherTitle() {
+		return teacherTitle;
+	}
+
+	public void setTeacherTitle(String teacherTitle) {
+		this.teacherTitle = teacherTitle;
+	}
+
+	
 	
 	
 }
