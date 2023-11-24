@@ -7,7 +7,7 @@
 		</tr>
 		<tr>
 			<th class="adminPage underMenu">
-				<div class="menuFontPadding changeBack">
+				<div class="menuFontPadding changeBack userManagement">
 				<a style="text-decoration: none; color: white;" href="./userList">회원 관리</a>
 				</div>
 			</th>
@@ -32,7 +32,7 @@
 		</tr>
 		<tr>
 			<th class="adminPage underMenu">
-				<div class="menuFontPadding changeBack">
+				<div class="menuFontPadding changeBack boardManagement">
 				<a style="text-decoration: none; color: white;" href="./board">게시판 관리</a>
 				</div>
 			</th>
