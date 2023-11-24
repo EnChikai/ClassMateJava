@@ -57,13 +57,6 @@ public interface TeacherDao {
 
 
 	/**
-	 * on클래스 동영상 파일을 저장한다
-	 * 
-	 * @param classVideo 전달된 classVido 객체 정보
-	 */
-	public void onClassInsertFile(ClassVideo classVideo);
-
-	/**
 	 * 클래스 번호로 등록된 강의의 수
 	 * 
 	 * @param classNo 전달된 클래스 번호 정보
@@ -153,6 +146,13 @@ public interface TeacherDao {
 	 */
 	public void insertAddress(Address addressParam);
 
+	
+	/**
+	 * on클래스 동영상 파일을 저장한다
+	 * 
+	 * @param classVideo 전달된 classVido 객체 정보
+	 */
+	public void onClassInsertFile(ClassVideo classVideoParam);
 
 
 	

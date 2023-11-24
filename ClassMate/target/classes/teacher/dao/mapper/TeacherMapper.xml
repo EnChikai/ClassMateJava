@@ -68,8 +68,8 @@ SELECT teacher_no FROM teacher
 	<selectKey order="BEFORE" resultType="int" keyProperty="teacherNo">
 			SELECT teacher_seq.nextval FROM dual
 	</selectKey>
-	INSERT INTO teacher (teacher_no, user_no, teacher_img, teacher_info, teacher_career)
-	VALUES ( #{teacherNo}, #{userNo}, #{teacherImg}, #{teacherInfo}, #{teacherCareer}) 
+	INSERT INTO teacher (teacher_no, user_no, teacher_img, teacher_info, teacher_career, teacher_title)
+	VALUES ( #{teacherNo}, #{userNo}, #{teacherImg}, #{teacherInfo}, #{teacherCareer}, #{teacherTitle}) 
 </insert>
 
 <insert id="applyInsertFile" parameterType="TeacherLicence">
@@ -84,8 +84,8 @@ SELECT teacher_no FROM teacher
 	<selectKey order="BEFORE" resultType="int" keyProperty="applyNo">
 			SELECT teacher_apply_seq.nextval FROM dual
 	</selectKey>
-	INSERT INTO teacher_apply (apply_no, teacher_no, pass_or_not)
-	VALUES (#{applyNo}, #{teacherNo}, #{passOrNot})		
+	INSERT INTO teacher_apply (apply_no, teacher_no, pass_or_not, apply_date)
+	VALUES (#{applyNo}, #{teacherNo}, #{passOrNot}, SYSTIMESTAMP)		
 </insert>
 
 <select id="selectNameByUserNo" resultType="UserInfo" parameterType="int">
@@ -113,7 +113,7 @@ SELECT teacher_no FROM teacher
 </select>
 
 <select id="selectByInsertClassNo" resultType="int">
-	SELECT teacher_seq.nextval FROM dual
+	SELECT class_seq.nextval FROM dual
 </select>
 
 <insert id="registClassInsert" parameterType="Class">
@@ -130,5 +130,16 @@ SELECT teacher_no FROM teacher
 	INSERT INTO address (address_no, class_no, main_address, sub_address)
 	VALUES (#{addressNo}, #{classNo}, #{mainAddress}, #{subAddress})
 </insert>
+
+<insert id="onClassInsertFile" parameterType="ClassVideo">
+<selectKey order="BEFORE" resultType="int" keyProperty="videoNo">
+			SELECT class_video_seq.nextval FROM dual
+	</selectKey>
+	INSERT INTO class_video (video_no, class_no, video_lesson, origin_name, stored_name)
+	VALUES (#{videoNo}, #{classNo}, #{videoLesson}, #{originName}, #{storedName})
+
+</insert>
+
+
 
 </mapper>
