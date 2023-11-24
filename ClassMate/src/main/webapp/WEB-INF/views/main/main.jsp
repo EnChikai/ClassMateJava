@@ -59,7 +59,7 @@
 <div class="container">
 <span class="TOP5"><strong>인기 ON TOP5</strong></span><br>
 <c:forEach var="list" items="${onClassOrderTopList }">
-<a href="/main/onClassView?classNo=${list.classNo }">${list.headImg }
+<a href="/main/onClassView?classNo=${list.classNo }"><img src="/upload/${list.headImg }">
 ${list.className }</a>
 </c:forEach>
 </div>
@@ -69,7 +69,7 @@ ${list.className }</a>
 <div class="on-container">
 <span class="TOP5"><strong>인기 OFF TOP5</strong></span><br>
 <c:forEach var="list" items="${offClassOrderTopList }">
-<a href="/main/offClassView?classNo=${list.classNo }">${list.headImg }
+<a href="/main/offClassView?classNo=${list.classNo }"><img src="/upload/${list.headImg }">
 ${list.className }</a>
 </c:forEach>
 </div>
@@ -79,10 +79,10 @@ ${list.className }</a>
 <div class="on-container">
 <span class="TOP5"><strong>추천 ON/OFF</strong></span><br>
   <c:forEach var="i" begin="0" end="4">
-    <a href="/main/onClassView?classNo=${onRecommended[i].classNo }">${onRecommended[i].headImg}
+    <a href="/main/onClassView?classNo=${onRecommended[i].classNo }"><img src="/upload/${onRecommended[i].headImg}">
     ${onRecommended[i].className}</a>
 
-    <a href="/main/offClassView?classNo=${offRecommended[i].classNo }">${offRecommended[i].headImg}
+    <a href="/main/offClassView?classNo=${offRecommended[i].classNo }"><img src="/upload/${offRecommended[i].headImg}">
     ${offRecommended[i].className}</a>
   </c:forEach>
 </div>
