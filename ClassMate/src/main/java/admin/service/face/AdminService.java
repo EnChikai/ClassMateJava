@@ -9,11 +9,13 @@ import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
 import payment.dto.OrderTb;
+import teacher.dto.TeacherApply;
 import user.dto.UserInfo;
 import web.util.Paging;
 
 public interface AdminService {
 
+	//--- 메인 ---
 	/**
 	 * 대쉬보드 정보를 가져온다
 	 * 
@@ -22,6 +24,7 @@ public interface AdminService {
 	public Map<String, Object> getDashBoardInfo();
 
 	//========================================================================================================
+	//--- 유저 관리 ---
 	
 	/**
 	 * 유저 목록을 위한 페이징 객체를 생성
@@ -48,6 +51,14 @@ public interface AdminService {
 	public Paging getOrderPaging(Paging paging, OrderTb orderTb);
 	
 	//========================================================================================================
+	//--- 강사 심사 관리 ---
+	
+	public Paging getApplyPaging(Paging paging, int passCheckbox);
+	
+	public Map<String, Object> selectTeacherApplyList(Paging paging, int passCheckbox);
+	
+	//========================================================================================================
+	//--- 게시판 관리 ---
 	
 	public Map<String, Object> getBoardPaging(Paging paging, int delCheckbox);
 
@@ -65,12 +76,14 @@ public interface AdminService {
 
 	public void announceUpdate(AnnounceBoard announceBoard, int[] delFileno, List<MultipartFile> announceFile);
 
-	public void setAnnoExist(AnnounceBoard announceBoard);
-
 	public Map<String, Object> getPaymentList(Paging paging, OrderTb orderTb);
+
+	public void setAnnoExist(AnnounceBoard announceBoard);
 
 	public void setEventExist(EventBoard eventBoard);
 
-	public void announceDelet(AnnounceBoard announceBoard);
+	public void announceDelete(AnnounceBoard announceBoard);
+
+	public void eventDelete(EventBoard eventBoard);
 
 }
