@@ -13,12 +13,14 @@ background: rgb(241,196,15);
 }
 
 #boardInfo{
-font-size: 17px; 
 padding-bottom: 8px; 
 text-align: center; 
 margin-left: auto;
 margin-right: auto;
-margin-top: 18px;
+margin-top: 40px;
+margin-bottom: 17px; 
+font-size: 22px; 
+font-weight:bold;
 
 }
 
@@ -196,6 +198,18 @@ $(function(){
 	})
 	
 });
+
+$(function(){
+	
+    $('.boardListTr').mouseover(function() {
+        $(this).children('td').css('background-color', '#e9e9e9'); 
+    });
+
+    $('.boardListTr').mouseout(function() {
+        $(this).children('td').css('background-color', 'initial');
+    });
+
+})
 
 </script>
 

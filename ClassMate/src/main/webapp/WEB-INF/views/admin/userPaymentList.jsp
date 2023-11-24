@@ -129,6 +129,20 @@ padding-right: 20px;
 </style>
 
 <%-- <% ============================================================================= %> --%>
+<script type="text/javascript">
+$(function(){
+	
+    $('.userListTd').mouseover(function() {
+        $(this).children('td').css('background-color', '#e9e9e9'); 
+    });
+
+    $('.userListTd').mouseout(function() {
+        $(this).children('td').css('background-color', 'initial');
+    });
+
+})
+</script>
+<%-- <% ============================================================================= %> --%>
 
 <div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
 <a href="../admin/userDetailedInfo?userNo=${orderTb.userNo}"><button style="margin-left: 1px;" class="topMenuBtn">회원정보 관리</button></a>
@@ -189,6 +203,9 @@ padding-right: 20px;
 </c:if>
 
 </table>
+
+<%-- <% ============================================================================= %> --%>	
+<%-- 페이징 --%>	
 
 <c:if test="${paging.totalCount > 0}">
 <div id="pagination">

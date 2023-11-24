@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="calendar.dao.face.CalendarDao">
+
+	<select id="selectSchedule" resultType="calendar.dto.Calendar" parameterType="calendar.dto.Calendar">
+		SELECT A.user_no, B.class_start, B.class_end, B.class_name
+		FROM class_list A
+		INNER JOIN class B
+		ON A.class_no = B.class_no
+		<where>
+			user_no = #{userNo}
+		</where>
+	</select>
+
+	<insert id="insertSchedule" parameterType="calendar.dto.Calendar">
+		INSERT INTO schedule
+		VALUES (schedule_seq.nextval(), #{userNo}, #{scheduleName}, #{startDate}, #{endDate} ,#{content})
+	</insert>
+	
+</mapper>

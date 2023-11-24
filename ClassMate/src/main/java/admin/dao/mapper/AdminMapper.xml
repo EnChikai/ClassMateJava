@@ -6,6 +6,7 @@
   
   <mapper namespace="admin.dao.face.AdminDao">
   
+ 	 <!-- 메인 -->
   	<select id="getUserCountAll" resultType="int" parameterType="int">
   	SELECT count(*)	FROM user_info	
   	WHERE user_no > 0
@@ -14,7 +15,8 @@
   	</select>
   
     <!-- ================================================================================================================== -->
-  
+  	<!-- 유저 관리 -->
+  	
     <select id="userInfoCntAll" resultType="int" parameterType="int">
   	SELECT count(*) FROM user_info
   	WHERE user_secession = ${delCheckbox}
@@ -111,6 +113,42 @@
   	</select>
   	
   	<!-- ================================================================================================================== -->
+  	<!-- 강사 신청 관리 -->
+  	
+  	<select id="selectApplyCntAll" resultType="int" parameterType="int">
+  	SELECT count(*)	FROM teacher_apply	
+  	WHERE pass_or_not = ${passCheckbox}
+  	</select>
+  	
+  	<select id="selectTeacherApplyAll" resultType="TeacherApply" parameterType="map">
+  		SELECT * FROM (
+    		SELECT rownum rnum, B.* FROM(
+      			SELECT
+					apply_no, teacher_no, apply_date, pass_or_not
+		        FROM teacher_apply
+		        WHERE pass_or_not = ${passCheckbox}
+		        ORDER BY teacher_no
+   			)B
+		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+  	</select>
+  	
+  	<select id="selectTeacherInfoAll" resultType="Teacher" parameterType="map">
+  		SELECT * FROM (
+    		SELECT rownum rnum, B.* FROM(
+    		
+    		  <foreach collection="teacherApplyList" item="teacherApplyList" separator="UNION ALL">
+      			SELECT
+					teacher_no, user_no, teacher_img, teacher_title, teacher_info, teacher_career
+		        FROM teacher
+		        WHERE teacher_no = ${teacherApplyList.teacherNo}
+		      </foreach>
+		      
+   			)B
+		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+  	</select>
+  	
+  	<!-- ================================================================================================================== -->
+  	<!-- 게시판 관리 -->
   	
   	<select id="announceBoardCntAll" resultType="int" parameterType="int">
   	SELECT count(*) FROM announce_board 
@@ -296,12 +334,22 @@
   	
   	<delete id="deleteAnnoFile" parameterType="AnnounceBoard">
 		DELETE announce_board_file
-		WHERE announce_no = ${announce_no}
+		WHERE announce_no = ${announceNo}
 	</delete>
 	
 	<delete id="deleteAnnoInfo" parameterType="AnnounceBoard">
 		DELETE announce_board
-		WHERE announce_no = ${announce_no}
+		WHERE announce_no = ${announceNo}
+	</delete>
+	
+	<delete id="deleteEventFile" parameterType="EventBoard">
+		DELETE event_board_file
+		WHERE event_no = ${eventNo}
+	</delete>
+	
+	<delete id="deleteEventInfo" parameterType="EventBoard">
+		DELETE event_board
+		WHERE event_no = ${eventNo}
 	</delete>
   	  	  	
   </mapper>

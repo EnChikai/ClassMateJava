@@ -103,8 +103,9 @@ button {
 
 		<div class="titleBtn">
 			<a href="/class/myOnClassList">
-			<button style="background-color: #9E9E9E;">ON클래스 강의실</button></a>
-			<a href="/user/userPwChk"><button>회원정보수정</button></a>
+				<button style="background-color: #9E9E9E;">ON클래스 강의실</button></a>
+			<a href="/user/userPwChk">
+				<button>회원정보수정</button></a>
 		</div><!-- .titleBtn -->
 	</div><!-- .title1 -->
 </div><!-- .title -->
