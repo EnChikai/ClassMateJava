@@ -56,7 +56,7 @@ button {
 <h3>회원님께서 찾으시는 정보는 아래와 같습니다</h3>
 
    <label for="userId">아이디</label>
-   <input type="text" id="userId" name="userId" value="${userInfo.userId}" readonly><br>
+   <input type="text" id="userId" name="userId" value="${userId}" readonly><br>
    
    
    
