@@ -108,6 +108,21 @@ button {
 
 </style>
 
+<script type="text/javascript">
+	var isPassworCoincide = ${isPassworCoincide}
+	console.log(isPassworCoincide)
+	if(isPassworCoincide == false) {
+		alert('회원 정보가 일치하지않습니다')
+	} 
+	var isIdCoincide = ${isIdCoincide}
+	console.log(isIdCoincide)
+	if(isIdCoincide == false) {
+		alert('회원 정보가 일치하지않습니다')
+	} 
+
+
+</script>
+
 
 <div class="idpw">
 
@@ -129,7 +144,7 @@ button {
    <hr>
    
    <!-- 비밀번호 찾기 폼 -->
-   <form id="findPwForm" action="/user/resetPw" method="post">
+   <form id="findPwForm" action="/user/checkPw" method="post">
    <h4>비밀번호 찾기</h4>
 
    <label id="id" for="userId">아이디</label>

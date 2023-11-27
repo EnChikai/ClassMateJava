@@ -4,8 +4,94 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<script type="text/javascript">
 
+/* ON 클래스 TOP 5 */
+/* 버튼 클릭 시 한칸씩 넘어가기 */
+    $(document).ready(function () {
+        var currentIndex = 0;
+        var itemWidth = $(".lecture-item-on").outerWidth();
+        var itemCount = $(".lecture-item-on").length;
+        var visibleItemCount = 3; // 한 번에 보여지는 아이템 개수
+
+        $("#nextBtn-on").on("click", function () {
+            if (currentIndex < itemCount - visibleItemCount) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+
+        $("#prevBtn-on").on("click", function () {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+
+        function updateCarousel() {
+            var translateValue = -currentIndex * itemWidth;
+            $("#carousel-inner-on").css("transform", "translateX(" + translateValue + "px)");
+        }
+    });
+    
+/* OFF 클래스 TOP 5 */
+/* 버튼 클릭 시 한칸씩 넘어가기 */
+    $(document).ready(function () {
+        var currentIndex = 0;
+        var itemWidth = $(".lecture-item-off").outerWidth();
+        var itemCount = $(".lecture-item-off").length;
+        var visibleItemCount = 3; // 한 번에 보여지는 아이템 개수
+
+        $("#nextBtn-off").on("click", function () {
+            if (currentIndex < itemCount - visibleItemCount) {	
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+
+        $("#prevBtn-off").on("click", function () {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+
+        function updateCarousel() {
+            var translateValue = -currentIndex * itemWidth;
+            $("#carousel-inner-off").css("transform", "translateX(" + translateValue + "px)");
+        }
+    });
+    
+/* ON/OFF 클래스 TOP 5 */
+/* 버튼 클릭 시 한칸씩 넘어가기 */
+    $(document).ready(function () {
+        var currentIndex = 0;
+        var itemWidth = $(".lecture-item-onOff").outerWidth();
+        var itemCount = $(".lecture-item-onOff").length;
+        var visibleItemCount = 4; // 한 번에 보여지는 아이템 개수
+
+        $("#nextBtn-onOff").on("click", function () {
+            if (currentIndex < itemCount - visibleItemCount) {	
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+
+        $("#prevBtn-onOff").on("click", function () {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+
+        function updateCarousel() {
+            var translateValue = -currentIndex * itemWidth;
+            $("#carousel-inner-onOff").css("transform", "translateX(" + translateValue + "px)");
+        }
+    });
+</script>
 
 
 
@@ -24,21 +110,206 @@
 	display: inline-block;
 	padding: 15px;
 	border-radius:5% 5% 0 0;
-	margin-left: 15px;
 }
+
+
 
 .defaultWidth{
 	margin-left: 400px;
 	margin-right: 400px;
-	margin-top: 35px;
+    margin-top: 60px;
+	margin-bottom: 60px;
+}
+
+.carousel-indicators{
+
+	justify-content: right;
+	
+	margin-right: 3%;
+
+	margin-left: 3%;
+	
+	left: 650px;
+}
+
+.carousel-indicators [data-bs-target] {
+
+  box-sizing: content-box;
+
+  flex: 0 1 auto;
+
+  width: 10px;
+
+  height: 10px;
+
+  border-radius:50%;
+
+  padding: 0;
+
+  margin-right: 3px;
+
+  margin-left: 3px;
+
+  text-indent: -999px;
+
+  cursor: pointer;
+
+  background-color: black;
+
+  background-clip: padding-box;
+
+  border: 0;
+
+  border-top: 10px solid transparent;
+
+  border-bottom: 10px solid transparent;
+
+  opacity: .8;
+
+  transition: opacity .6s ease;
+
+}
+
+.carousel-indicators .active{
+
+background-color: #F0C610;
+
+}
+
+/* ON 클래스 TOP 5 */
+
+/* 버튼 클릭 시 한칸씩 넘어가기 */
+#carousel-container-on {
+    overflow: hidden;
+}
+
+#carousel-inner-on {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.lecture-item-on {
+    flex: 0 0 auto;
+    width: 33.33%; /* 한 번에 3개의 아이템을 보여줍니다. */
+    box-sizing: border-box;
+}
+
+/* 이전/다음 버튼에 스타일 추가 */
+#prevBtn-on, #nextBtn-on {
+    padding-right: 6;
+    padding-left: 6;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 187px;
+    margin-right: 6px;
+}
+
+/* 강의 아이템 스타일 추가 */
+.lecture-item-on {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container-on {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 6px;
+}
+
+/* OFF 클래스 TOP 5 */
+/* 버튼 클릭 시 한칸씩 넘어가기 */
+#carousel-container-off {
+    overflow: hidden;
+}
+
+#carousel-inner-off {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.lecture-item-off {
+    flex: 0 0 auto;
+    width: 33.33%; /* 한 번에 3개의 아이템을 보여줍니다. */
+    box-sizing: border-box;
+}
+
+/* 이전/다음 버튼에 스타일 추가 */
+#prevBtn-off, #nextBtn-off {
+    padding-right: 6;
+    padding-left: 6;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 187px;
+    margin-right: 6px;
+}
+
+/* 강의 아이템 스타일 추가 */
+.lecture-item-off {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container-off {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 3px;
 }
 
 
+/* ON/OFF 클래스 TOP 10 */
+/* 버튼 클릭 시 한칸씩 넘어가기 */
+#carousel-container-onOff {
+    overflow: hidden;
+}
 
+#carousel-inner-onOff {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
 
+.lecture-item-onOff {
+    flex: 0 0 auto;
+    width: 25%; /* 한 번에 3개의 아이템을 보여줍니다. */
+    box-sizing: border-box;
+}
 
+/* 이전/다음 버튼에 스타일 추가 */
+#prevBtn-onOff, #nextBtn-onOff {
+    padding-right: 6;
+    padding-left: 6;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 187px;
+    margin-right: 6px;
+}
 
+/* 강의 아이템 스타일 추가 */
+.lecture-item-onOff {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
+.container-onOff {
+	display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border: 1px solid #ccc;
+    margin-right: 12px;
+    margin-left: 11px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+a:hover{
+	color: #F0C610;
+	text-decoration: underline;
+}
+        
 </style>
 
 
@@ -46,46 +317,117 @@
 
 <div class="defaultWidth">
 
-<div class="container">
-<span class="TOP5"><strong>이벤트 썸네일</strong></span><br>
-<c:forEach var="list" items="${selectByEventFileList }">
-<a href="/board/eventView?eventNo=${list.eventNo }"><img src="/upload/${list.headImg }"></a>
-</c:forEach>
+<div class="container" style="margin-top: 60px;">
+
+<div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
+    <div class="carousel-indicators">
+		<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    
+    	<c:forEach var="list"  items="${selectByEventFileList }" begin="1" varStatus="status">
+			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.count }" aria-label="Slide ${status.count }"></button>
+		</c:forEach>
+		
+	</div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <a href="/board/eventView?eventNo=${selectByEventFileList[0].eventNo }"><img data-bs-slide-to="0" style="width: 900px; height: 300px;" src="/upload/${selectByEventFileList[0].headImg }"></a>
+    </div>
+    <c:forEach var="list"  items="${selectByEventFileList }" begin="1" varStatus="status">
+    	<div class="carousel-item">
+			<a href="/board/eventView?eventNo=${list.eventNo }"><img data-bs-slide-to="${status.count }" style="width: 900px; height: 300px;" src="/upload/${list.headImg }"></a>
+    	</div>
+	</c:forEach>
+
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
 </div>
 
 <br><br><br>
 
+<div class="container-on">
+<span class="TOP5"><strong>인기 ON TOP5</strong></span><span style="border: 1px solid #ccc; padding-left: 636px; margin-right: 30px;"></span>
+<button id="prevBtn-on">&lt;</button>
+<button id="nextBtn-on">&gt;</button>
+</div>
 
-<div class="container">
-<span class="TOP5"><strong>인기 ON TOP5</strong></span><br>
-<c:forEach var="list" items="${onClassOrderTopList }">
-<a href="/main/onClassView?classNo=${list.classNo }">${list.headImg }
-${list.className }</a>
-</c:forEach>
+<div id="carousel-container-on">
+    <div id="carousel-inner-on" class="lecture-list-on">
+        <!-- 강의 목록은 서버에서 가져와 동적으로 생성되어야 합니다. 여기서는 간단히 하드코딩으로 생성합니다. -->
+        <c:forEach var="list" items="${onClassOrderTopList}" varStatus="status">
+            <div class="lecture-item-on">
+                <a href="/main/onClassView?classNo=${list.classNo}">
+                    <img style="width: 280px;" src="/upload/${list.headImg}">
+                    <p>${list.className}</p>
+                </a>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+
+
+<br><br><br>
+
+<div class="container-off">
+<span class="TOP5"><strong>인기 OFF TOP5</strong></span><span style="border: 1px solid #ccc; padding-left: 636px; margin-right: 30px;"></span>
+<button id="prevBtn-off">&lt;</button>
+<button id="nextBtn-off">&gt;</button>
+</div>
+
+<div id="carousel-container-off">
+    <div id="carousel-inner-off" class="lecture-list-off">
+        <!-- 강의 목록은 서버에서 가져와 동적으로 생성되어야 합니다. 여기서는 간단히 하드코딩으로 생성합니다. -->
+        <c:forEach var="list" items="${offClassOrderTopList}" varStatus="status">
+            <div class="lecture-item-off">
+                <a href="/main/onClassView?classNo=${list.classNo}">
+                    <img style="width: 280px;" src="/upload/${list.headImg}">
+                    <p>${list.className}</p>
+                </a>
+            </div>
+        </c:forEach>
+    </div>
 </div>
 
 <br><br><br>
 
-<div class="on-container">
-<span class="TOP5"><strong>인기 OFF TOP5</strong></span><br>
-<c:forEach var="list" items="${offClassOrderTopList }">
-<a href="/main/offClassView?classNo=${list.classNo }">${list.headImg }
-${list.className }</a>
-</c:forEach>
+<div class="container-onOff">
+<span><strong>추천 ON/OFF</strong></span><span style="padding-left: 310px; margin-right: 10px;"></span>
+<button id="prevBtn-onOff">&lt;</button>
+<button style="margin-right: 10px;" id="nextBtn-onOff">&gt;</button>
 </div>
 
-<br><br><br>
-
-<div class="on-container">
-<span class="TOP5"><strong>추천 ON/OFF</strong></span><br>
-  <c:forEach var="i" begin="0" end="4">
-    <a href="/main/onClassView?classNo=${onRecommended[i].classNo }">${onRecommended[i].headImg}
-    ${onRecommended[i].className}</a>
-
-    <a href="/main/offClassView?classNo=${offRecommended[i].classNo }">${offRecommended[i].headImg}
-    ${offRecommended[i].className}</a>
-  </c:forEach>
+<div id="carousel-container-onOff">
+    <div id="carousel-inner-onOff" class="lecture-list-onOff">
+        <!-- 강의 목록은 서버에서 가져와 동적으로 생성되어야 합니다. 여기서는 간단히 하드코딩으로 생성합니다. -->
+        <%-- <c:forEach var="list" items="${offClassOrderTopList}" varStatus="status"> --%>
+        <c:forEach var="i" begin="0" end="4">
+        
+            <div class="lecture-item-onOff">
+                <a href="/main/onClassView?classNo=${onRecommended[i].classNo }">
+                    <img style="width: 200px;" src="/upload/${onRecommended[i].headImg}">
+                    <p>${onRecommended[i].className}</p>
+                </a>
+            </div>
+            
+            <div class="lecture-item-onOff">
+                <a href="/main/offClassView?classNo=${offRecommended[i].classNo }">
+                    <img style="width: 200px;" src="/upload/${offRecommended[i].headImg}">
+                    <p>${offRecommended[i].className}</p>
+                </a>
+            </div>
+            
+        </c:forEach>
+    </div>
 </div>
+
 
 </div>
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

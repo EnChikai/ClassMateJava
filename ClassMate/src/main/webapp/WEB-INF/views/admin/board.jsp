@@ -5,6 +5,124 @@
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
 
 <%-- <% ============================================================================= %> --%>
+
+<style type="text/css">
+.boardManagement{
+background: rgb(241,196,15);
+
+}
+
+#boardInfo{
+padding-bottom: 8px; 
+text-align: center; 
+margin-left: auto;
+margin-right: auto;
+margin-top: 40px;
+margin-bottom: 17px; 
+font-size: 22px; 
+font-weight:bold;
+
+}
+
+.topMenuBtn{
+background: white;
+border-radius: 3px; 
+border-style: hidden;
+box-shadow: 0 0 0 1px #ccc;
+font-size:14px;
+padding-top : 12px;
+padding-bottom : 12px;
+padding-left: 14px; 
+padding-right: 14px;
+vertical-align: bottom;
+
+}
+
+.checked{
+background: rgb(241,196,15);
+border-style: hidden;
+box-shadow: 0 0 0 1px rgb(231,186,5);
+color: white;
+font-weight:bold;
+font-size: 19px;
+vertical-align: bottom;
+padding-left: 20px; 
+padding-right: 20px;
+
+}
+
+#boardListTb{
+border-top: 2px solid #ccc; 
+border-bottom: 2px solid #ccc; 
+width: 690px; 
+margin: auto;
+
+}
+
+.boardListTh{
+background: rgb(220,220,220);
+border-bottom: 2px solid #ccc;
+font-size: 15px;
+padding-top: 5px;
+padding-bottom: 5px;
+text-align: center;
+
+}
+
+.boardListTd{
+border-bottom: 1px solid #ccc; 
+font-size: 15px;
+padding-top: 2px;
+padding-bottom: 2px;
+padding-right: 0;
+text-align: center;
+
+}
+
+#boardNameInfo{
+width: 484px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+height: 30px;
+}
+
+#insertBtn{
+border-radius: 3px; 
+border-style: hidden;
+width: 44px; 
+height: 30px;
+color: white;
+font-size: 13px;
+font-weight:bold;
+background: black;
+box-shadow: 0 0 0 1px black
+
+}
+
+#insertBtn:hover:not(.active){
+box-shadow: 0 0 0 2px skyblue;
+background: rgb(50,50,50);
+	
+}
+
+.boardListTd:hover:not(.active){
+cursor:pointer;
+
+}
+
+#delCheckbox{
+position:absolute;
+width:20px;
+height:20px;
+top:10%;
+margin-left: 5px;
+
+}
+
+</style>
+
+
 <%-- 페이징 CSS --%>
 <style type="text/css">
 #pagination {
@@ -50,118 +168,6 @@
    text-align: center;
 }
 </style>
-<%-- <% ============================================================================= %> --%>
-
-<style type="text/css">
-#boardInfo{
-font-size: 17px; 
-padding-bottom: 8px; 
-text-align: center; 
-margin-left: auto;
-margin-right: auto;
-margin-top: 18px;
-
-}
-
-.topMenuBtn{
-background: white;
-border-radius: 3px; 
-border-style: hidden;
-box-shadow: 0 0 0 1px #ccc;
-font-size:14px;
-padding-top : 12px;
-padding-bottom : 12px;
-padding-left: 14px; 
-padding-right: 14px;
-vertical-align: bottom;
-
-}
-
-.checked{
-background: rgb(243,156,18);
-border-style: hidden;
-box-shadow: 0 0 0 1px rgb(243,156,18);
-color: white;
-font-weight:bold;
-font-size: 19px;
-vertical-align: bottom;
-padding-left: 20px; 
-padding-right: 20px;
-
-}
-
-#boardListTb{
-border-top: 2px solid #ccc; 
-border-bottom: 2px solid #ccc; 
-width: 690px; 
-margin: auto;
-
-}
-
-.boardListTh{
-background: rgb(220,220,220);
-border-bottom: 2px solid #ccc;
-font-size: 15px;
-padding-top: 5px;
-padding-bottom: 5px;
-text-align: center;
-
-}
-
-.boardListTd{
-border-bottom: 1px solid #ccc; 
-font-size: 15px;
-padding-top: 2px;
-padding-bottom: 2px;
-padding-right: 0;
-text-align: center;
-
-}
-
-#boardNameInfo{
-display: inline-block;
-width: 484px;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-height: 30px;
-
-}
-
-#insertBtn{
-border-radius: 3px; 
-border-style: hidden;
-width: 44px; 
-height: 30px;
-color: white;
-font-size: 13px;
-font-weight:bold;
-background: black;
-box-shadow: 0 0 0 1px black
-
-}
-
-#insertBtn:hover:not(.active){
-box-shadow: 0 0 0 2px skyblue;
-background: rgb(50,50,50);
-	
-}
-
-.boardListTd:hover:not(.active){
-cursor:pointer;
-
-}
-
-#delCheckbox{
-position:absolute;
-width:20px;
-height:20px;
-top:10%;
-margin-left: 5px;
-
-}
-
-</style>
 
 <%-- <% ============================================================================= %> --%>
 <script type="text/javascript">
@@ -191,6 +197,18 @@ $(function(){
 	
 });
 
+$(function(){
+	
+    $('.boardListTr').mouseover(function() {
+        $(this).children('td').css('background-color', '#e9e9e9'); 
+    });
+
+    $('.boardListTr').mouseout(function() {
+        $(this).children('td').css('background-color', 'initial');
+    });
+
+})
+
 </script>
 
 <%-- 클릭시 공지 상세보기로 --%>
@@ -200,7 +218,7 @@ $(function(){
 	
 	$(".announceInfo${announceBoardList.announceNo }").click(function(){
 		
-		location.href = '../admin/announceView?announceNo=${announceBoardList.announceNo }';
+		location.href = '../admin/announceView?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&announceNo=${announceBoardList.announceNo }';
 		
 	})
 	
@@ -215,7 +233,7 @@ $(function(){
 	
 $(".eventInfo${eventBoardList.eventNo }").click(function(){
 		
-		location.href = '../admin/eventView?eventNo=${eventBoardList.eventNo }';
+		location.href = '../admin/eventView?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&eventNo=${eventBoardList.eventNo }';
 		
 	})
 	

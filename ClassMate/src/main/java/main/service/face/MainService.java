@@ -32,7 +32,7 @@ public interface MainService {
 
 	public List<Class> ClassViewList(Class cLass);
 	
-	public boolean payment(Class cLass);
+	public boolean payment(Class cLass, HttpSession session);
 
 	public int basket(Class cLass, HttpSession session);
 

@@ -2,11 +2,15 @@ package teacher.dao.face;
 
 import java.util.List;
 
+import lecture.dto.Address;
 import lecture.dto.Class;
 import lecture.dto.ClassVideo;
+import main.dto.MainCategory;
+import main.dto.SubCategory;
 import teacher.dto.Teacher;
 import teacher.dto.TeacherApply;
 import teacher.dto.TeacherLicence;
+import user.dto.UserInfo;
 
 public interface TeacherDao {
 
@@ -51,20 +55,6 @@ public interface TeacherDao {
 	 */
 	public Class selectByClassNo(Class lecture);
 
-	
-	/**
-	 * 입력된 강의 정도를 DB에 저장한다
-	 * 
-	 * @param registLecture 입력된 클래스 객체의 정보
-	 */
-	public void classInsert(Class registLecture);
-
-	/**
-	 * on클래스 동영상 파일을 저장한다
-	 * 
-	 * @param classVideo 전달된 classVido 객체 정보
-	 */
-	public void onClassInsertFile(ClassVideo classVideo);
 
 	/**
 	 * 클래스 번호로 등록된 강의의 수
@@ -109,6 +99,60 @@ public interface TeacherDao {
 	 * @param teacherApply 전달된 강사 신청 객체
 	 */
 	public void applyPrcInsert(TeacherApply teacherApply);
+
+	/**
+	 *  유저번호와 동일한 유저 이름을 조회한다
+	 * @param userNo 전달된 유저번호
+	 * @return
+	 */
+	public UserInfo selectNameByUserNo(int userNo);
+
+	
+	/**
+	 * 메인 카테고리 번호를 조회한다
+	 * 
+	 * @param mainCategoryParam 전달된 메인 카테고리 값
+	 * @return
+	 */
+	public int selectByCategoryName(MainCategory mainCategoryParam);
+
+	
+	/**
+	 * 서브 카테고리 번호를 조회한다
+	 * 
+	 * @param subCategoryParam 전달된 서브 카테고리 값 (메인카테고리넘버, 서브카테고리네임)
+	 * @return
+	 */
+	public int selectBySubCategoryName(SubCategory subCategoryParam);
+
+	/**
+	 * 강의 번호를 sequence로 생성한다
+	 * 
+	 * @return
+	 */
+	public int selectByInsertClassNo();
+
+	/**
+	 * 강의 클래스를 등록한다
+	 * 
+	 * @param registLecture 전달된 클래스 파라미터 값 (강의 영상, 주소 제외 강의 영상과 주소는 따로 DB가 존재한다)
+	 */
+	public void registClassInsert(Class registLecture);
+
+	/**
+	 * onOff 값이 0일 때 주소 파라미터를 서버 addreddDB에 삽입한다
+	 * 
+	 * @param addressParam 전달된 주소 파타미터
+	 */
+	public void insertAddress(Address addressParam);
+
+	
+	/**
+	 * on클래스 동영상 파일을 저장한다
+	 * 
+	 * @param classVideo 전달된 classVido 객체 정보
+	 */
+	public void onClassInsertFile(ClassVideo classVideoParam);
 
 
 	

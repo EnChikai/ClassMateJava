@@ -19,6 +19,20 @@ margin-top: 30px;
 
 }
 
+#userCount{
+width:300px;
+height: 200px;
+float: left;
+border-collapse: collapse;
+border-radius: 3px;
+border-style: hidden;
+box-shadow: 0 0 0 1px #ccc;
+text-align: center;
+margin-left: 33px;
+margin-top: 30px;
+
+}
+
 .profileTh, .profileTd{
 border: 1px solid #ccc;
 border-collapse:collapse;    
@@ -58,8 +72,14 @@ $(function(){
 </script>
 
 <%-- <% ============================================================================= %> --%>
-<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 70px;">
-			
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px; height: 500px;">
+
+<div id="userCount">
+그래프로 만들기<br>
+유저수 : ${userCount }<br>
+탈퇴 유저수 : ${secessionUserCount }<br>
+</div>
+
 <table id="profile" >
 <tr>
 <th class="profileTh">

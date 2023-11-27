@@ -25,7 +25,7 @@ public interface UserService {
 
 	public int updateUserData(UserInfo userInfo);
 
-	public UserInfo searchInfo(UserInfo userInfo); //아이디 찾기
+	public String searchInfo(UserInfo userInfo); //아이디 찾기
 
 	/**
 	 * 아이디와 이름을 기반으로 사용자 정보를 확인합니다.
@@ -35,6 +35,16 @@ public interface UserService {
 	public boolean checkUserInfo(UserInfo userInfo);
 
 	public int updatePw(UserInfo userInfo);
+	
+    /**
+     * 비밀번호 업데이트
+     * @param userInfo - 비밀번호 업데이트에 필요한 정보를 가진 객체
+     * @return true: 업데이트 성공, false: 업데이트 실패
+     */
+	public boolean updatePassword(UserInfo userInfo);
+
+	public boolean findPassword(UserInfo userInfo);
+
 
 
 }

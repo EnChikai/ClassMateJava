@@ -21,6 +21,10 @@ import admin.service.face.AdminService;
 import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
+import board.dto.EventBoardFile;
+import payment.dto.OrderTb;
+import teacher.dto.Teacher;
+import teacher.dto.TeacherApply;
 import user.dto.UserInfo;
 import web.util.Paging;
 
@@ -31,12 +35,21 @@ public class AdminController {
 	
 	@Autowired private AdminService adminService;
 	
+	//--- 메인 ---
 	@GetMapping("/admin/main")
-	public void adminMainPageGet() {
+	public void adminMainPageGet(
+			
+			Model model
+			
+			) {
 		logger.info("/admin/main [GET]");
 		
-		//제작중
+		//데쉬보드 제작중
 		
+		Map<String, Object> dashBoardInfo = adminService.getDashBoardInfo();
+		
+		model.addAttribute("userCount",dashBoardInfo.get("userCount"));
+		model.addAttribute("secessionUserCount",dashBoardInfo.get("secessionUserCount"));
 		
 	}
 	
@@ -49,8 +62,9 @@ public class AdminController {
 		return "redirect:/main/main";
 	}
 	
-	//--------------------------------------------------------------------------
-
+	//==========================================================================================
+	//--- 유저 관리 ---
+	
 	@GetMapping("/admin/userList")
 	public void userInfoListGet(
 			
@@ -138,28 +152,124 @@ public class AdminController {
 			) {
 		logger.info("/admin/userInfoUpdate [POST] {}", userdata);
 		
-		int result = adminService.userInfoUpdate(userdata);
-		logger.info("result : {}", result);
+		adminService.userInfoUpdate(userdata);
 		
 		return "redirect:/admin/userDetailedInfo?userNo="+userdata.getUserNo();
 		
 	}
 	
-	@GetMapping("/admin/secessionUser")
+	@PostMapping("/admin/secessionUser")
 	public String secessionUserGet(
 			
 			UserInfo userdata
 			
 			) {
 		logger.info("/admin/secessionUser [GET] {}", userdata.getUserNo());
-
-		int result = adminService.secessionUser(userdata);
-		logger.info("result {}", result);
+		
+		adminService.secessionUser(userdata);
 		
 		return "redirect:/admin/userList";
 	}
 	
-	//--------------------------------------------------------------------------
+	@GetMapping("/admin/userPaymentList")
+	public void userPaymentListGet(
+			
+			OrderTb orderTb
+			, Model model
+			, Paging paging
+			
+			) {
+		logger.info("/admin/userpaymentList [GET] {}", orderTb.getUserNo());
+		
+		//페이징 계산
+		paging = adminService.getOrderPaging(paging, orderTb);
+		logger.info("paging : {}", paging);
+		
+		Map<String,Object> map = adminService.getPaymentList(paging, orderTb);
+		logger.info("getPaymentList() : {}", map);
+		
+		model.addAttribute("paging",paging);
+		model.addAttribute("orderTb",orderTb);
+		model.addAttribute("map",map);
+		
+	}
+	
+	//==========================================================================================
+	//--- 강사 심사 관리 ---
+	
+	@GetMapping("/admin/teacherApply")
+	public void teacherApplyGet(
+			
+			Paging paging
+			, Model model
+			, HttpServletRequest request
+			, Map<String,Object> map
+			
+			){
+		logger.info("/admin/teacherApply [GET]");
+		
+		int passCheckbox = 0; 
+		logger.info("delCheckbox디폴트 : {}", passCheckbox);
+		if(request.getParameter("passCheckbox") != null) {
+			if(Integer.parseInt((request.getParameter("passCheckbox")))==1) {
+				passCheckbox = 1;
+			}
+			logger.info("delCheckbox확인 : {}", passCheckbox);
+		}
+		
+		paging = adminService.getApplyPaging(paging, passCheckbox);
+		logger.info("paging : {}", paging);
+		
+		
+		map = adminService.selectTeacherApplyList(paging, passCheckbox);
+		logger.info("selectTeacherApplyList : {}", map);
+		
+		model.addAttribute("paging",paging);
+		model.addAttribute("map",map);
+		model.addAttribute("passCheckbox", passCheckbox);
+		
+	}
+	
+	@GetMapping("/admin/teacherApplyView")
+	public void teacherApplyViewGet(
+			
+			TeacherApply teacherApply
+			, Model model
+			
+			){
+		logger.info("/admin/teacherApplyView [GET]");
+		logger.info("teacherApply : {}", teacherApply.getTeacherNo() );
+		
+		Map<String,Object> map = adminService.selectTeacherApply(teacherApply);
+		logger.info("map : {}", map );
+
+		model.addAttribute("teacher",map.get("teacher"));
+		model.addAttribute("teacherApply",map.get("teacherApply"));
+		model.addAttribute("userInfo",map.get("userInfo"));
+		model.addAttribute("teacherLicence",map.get("teacherLicence"));
+		
+	}
+	
+	@PostMapping("/admin/teacherApplyView")
+	public String teacherApplyViewPost(
+			
+			TeacherApply teacherApply
+			
+			){
+		logger.info("/admin/teacherApplyView [GET]");
+		logger.info("getTeacherNo : {}", teacherApply.getTeacherNo() );
+		logger.info("getPassOrNot : {}", teacherApply.getPassOrNot() );
+		
+		adminService.teacherPassOrFAil(teacherApply);
+		
+		return "redirect:/admin/teacherApply";
+		
+	}
+	
+	
+	
+	//==========================================================================================
+	//--- 게시판 관리 ---
 	
 	@GetMapping("/admin/board")
 	public void board(
@@ -235,8 +345,7 @@ public class AdminController {
 			) {
 		logger.info("/admin/setAnnounceExist [GET] {}",announceBoard.getAnnounceNo());
 		
-		int result = adminService.setAnnoExist(announceBoard);
-		logger.info("result : {}",result);
+		adminService.setAnnoExist(announceBoard);
 
 		
 		return "redirect:/admin/board";
@@ -264,8 +373,7 @@ public class AdminController {
 		logger.info("file : {}", file);
 		logger.info("sort : {}", sort);
 		
-		int result = adminService.writeEvenAnno(postName, content, file, sort, announceFile, eventFile);
-		logger.info("result : {}", result);
+		adminService.writeEvenAnno(postName, content, file, sort, announceFile, eventFile);
 		
 		return "redirect:/admin/board";
 	}
@@ -286,19 +394,17 @@ public class AdminController {
 		
 	}
 	
-	@RequestMapping("/admin/annoFileDownload")
-	public String announceFileDown(
+	@GetMapping("/admin/setEventExist")
+	public String setEventExistGet(
 			
-			AnnounceBoardFile announceBoardFile
-			, Model model
+			EventBoard eventBoard
 			
 			) {
+		logger.info("/admin/setEventExist [GET] {}",eventBoard.getEventNo());
 		
-		//첨부파일 정보 조회
-		announceBoardFile = adminService.getAnnounceFile( announceBoardFile );
-		model.addAttribute("announceBoardFile", announceBoardFile);
+		adminService.setEventExist(eventBoard);
 		
-		return "down";
+		return "redirect:/admin/board";
 	}
 	
 	@GetMapping("/admin/eventUpdate")
@@ -331,8 +437,7 @@ public class AdminController {
 		logger.info("getEventContent {}",eventBoard.getEventContent());
 		logger.info("delFileno {}", Arrays.toString(delFileno));
 		
-		int result = adminService.eventUpdate(eventBoard, file, delFileno, eventFile);
-		logger.info("result : {}", result);
+		adminService.eventUpdate(eventBoard, file, delFileno, eventFile);
 		
 		return "redirect:/admin/eventView?eventNo="+eventBoard.getEventNo();
 	}
@@ -366,9 +471,91 @@ public class AdminController {
 		logger.info("getEventContent {}",announceBoard.getAnnounceContent());
 		logger.info("delFileno {}", Arrays.toString(delFileno));
 		
-		int result = adminService.announceUpdate(announceBoard, delFileno, announceFile);
-		logger.info("result : {}", result);
+		adminService.announceUpdate(announceBoard, delFileno, announceFile);
 		
 		return "redirect:/admin/announceView?announceNo="+announceBoard.getAnnounceNo();
 	}
+	
+	@RequestMapping("/admin/annoFileDownload")
+	public String announceFileDown(
+			
+			AnnounceBoardFile announceBoardFile
+			, Model model
+			
+			) {
+		logger.info("/admin/announceFileDown [GET] {}",announceBoardFile);
+		
+		//첨부파일 정보 조회
+		announceBoardFile = adminService.getAnnounceFile( announceBoardFile );
+		logger.info("getAnnounceFile : {}",announceBoardFile);
+
+		model.addAttribute("announceBoardFile", announceBoardFile);
+		
+		return "adminDown";
+	}
+	
+	@RequestMapping("/admin/eventFileDownload")
+	public String eventFileDown(
+			
+			EventBoardFile eventBoardFile
+			, Model model
+			
+			) {
+		logger.info("/admin/eventFileDown [GET] {}",eventBoardFile);
+		
+		//첨부파일 정보 조회
+		eventBoardFile = adminService.getEventFile( eventBoardFile );
+		logger.info("getEventFile : {}",eventBoardFile);
+
+		model.addAttribute("eventBoardFile", eventBoardFile);
+		
+		return "adminDown";
+	}
+	
+	@RequestMapping("/admin/eventHeadImgDownload")
+	public String eventHeadImgDown(
+			
+			EventBoard eventBoard
+			, Model model
+			
+			) {
+		logger.info("/admin/eventHeadImgDown [GET] {}",eventBoard.getEventNo());
+		
+		//첨부파일 정보 조회
+		eventBoard = adminService.getEventHeadImg( eventBoard );
+		logger.info("getEventFile : {}",eventBoard);
+
+		model.addAttribute("eventBoard", eventBoard);
+		
+		return "adminDown";
+	}
+	
+	@PostMapping("/admin/announceDelete")
+	public String announceDeleteGet(
+			
+			AnnounceBoard announceBoard
+			, Model model
+			
+			) {
+		logger.info("/admin/announceDelete [Post] {}", announceBoard.getAnnounceNo());
+		
+		adminService.announceDelete(announceBoard);
+		
+		return "redirect:/admin/board";
+	}
+	
+	@PostMapping("/admin/eventDelete")
+	public String eventDeleteGet(
+			
+			EventBoard eventBoard
+			, Model model
+			
+			) {
+		logger.info("/admin/eventDelete [Post] {}", eventBoard.getEventNo());
+		
+		adminService.eventDelete(eventBoard);
+		
+		return "redirect:/admin/board";
+	}
+	
 }

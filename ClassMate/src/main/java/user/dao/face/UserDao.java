@@ -21,11 +21,22 @@ public interface UserDao {
 
 	public int updateUserData(UserInfo userInfo);
 
-	public UserInfo searchInfo(UserInfo userInfo);
+	public String searchInfo(UserInfo userInfo);
 
 	public int checkUserInfo(UserInfo userInfo);
 
-	public int updatePw(UserInfo userInfo);
+	public int updatePw(int userNo, String userPw);
+
+//	public int updatePassword(String userPw);
+	
+    /**
+     * 비밀번호 업데이트
+     * @param userInfo - 비밀번호 업데이트에 필요한 정보를 가진 객체
+     * @return 업데이트된 행의 수
+     */
+	public int updatePassword(UserInfo userInfo);
+
+	public String selectByUserId(UserInfo userInfo);
 
 
 }

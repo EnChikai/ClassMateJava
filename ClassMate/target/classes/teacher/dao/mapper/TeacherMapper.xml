@@ -7,8 +7,8 @@
 <mapper namespace="teacher.dao.face.TeacherDao">
 
 <sql id="selectClass">
-SELECT class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_start, 
-		class_end, max_count, expense, class_info, curriculum, on_off, content, delete_boolean
+SELECT class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start,  
+		class_end, max_count, expense, class_info, curriculum, on_off, head_img, delete_boolean
 	FROM class
 </sql>
 
@@ -49,16 +49,6 @@ SELECT teacher_no FROM teacher
 	</where>
 </select>
 
-<insert id="classInsert" parameterType="Class">
-	<selectKey order="BEFORE" resultType="int" keyProperty="classNo">
-			SELECT class_seq.nextval FROM dual
-	</selectKey>
-		INSERT INTO board ( class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_start, 
-		class_end, max_count, expense, class_info, curriculum, on_off, content, delete_boolean )
-		VALUES ( #{classNo}, #{teacherNo}, #{mainCategoryNo}, #{subCategoryNo}, #{teacher}, #{className}, #{classStart},
-		 #{classEnd}, #{maxCount}, #{expense}, #{classInfo}, #{curriculum}, #{onOff}, #{content}, #{deleteBoolean} )
-</insert>
-
 <select id="selectAnswerCntAll" resultType="int" parameterType="int">
 	SELECT count(*) FROM ()
 	<include refid="questionAnswer" />
@@ -78,25 +68,78 @@ SELECT teacher_no FROM teacher
 	<selectKey order="BEFORE" resultType="int" keyProperty="teacherNo">
 			SELECT teacher_seq.nextval FROM dual
 	</selectKey>
-	INSERT INTO teacher (teacher_no, user_no, teacher_img, teacher_info, teacher_career)
-	VALUES ( #{teacherNo}, #{userNo}, #{teacherImg}, #{teacherInfo}, #{teacherCareer}) 
+	INSERT INTO teacher (teacher_no, user_no, teacher_img, teacher_info, teacher_career, teacher_title)
+	VALUES ( #{teacherNo}, #{userNo}, #{teacherImg}, #{teacherInfo}, #{teacherCareer}, #{teacherTitle}) 
 </insert>
 
 <insert id="applyInsertFile" parameterType="TeacherLicence">
 	<selectKey order="BEFORE" resultType="int" keyProperty="licenceNo">
 			SELECT teacher_licence_seq.nextval FROM dual
 	</selectKey>
-	INSERT INTO teacher_licence ( licence_no, teacher_no, licence_img )
-		VALUES ( #{licenceNo}, #{teacherNo}, #{licenceImg})
+	INSERT INTO teacher_licence ( licence_no, teacher_no, origin_name, stored_name )
+		VALUES ( #{licenceNo}, #{teacherNo}, #{originName}, #{storedName})
 </insert>
 
 <insert id="applyPrcInsert" parameterType="TeacherApply">
 	<selectKey order="BEFORE" resultType="int" keyProperty="applyNo">
 			SELECT teacher_apply_seq.nextval FROM dual
 	</selectKey>
-	INSERT INTO teacher_apply (apply_no, teacher_no, pass_or_not)
-	VALUES (#{applyNo}, #{teacherNo}, #{passOrNot})		
+	INSERT INTO teacher_apply (apply_no, teacher_no, pass_or_not, apply_date)
+	VALUES (#{applyNo}, #{teacherNo}, #{passOrNot}, SYSTIMESTAMP)		
 </insert>
+
+<select id="selectNameByUserNo" resultType="UserInfo" parameterType="int">
+	SELECT  user_name FROM user_info
+		<where>
+			AND user_no = #{userNo}
+		</where>
+
+</select>
+
+
+<select id="selectByCategoryName" resultType="int" parameterType="MainCategory">
+	SELECT main_category_no FROM main_category
+		<where>
+			AND main_category_name = #{mainCategoryName}
+		</where>
+</select>
+
+<select id="selectBySubCategoryName" resultType="int" parameterType="SubCategory">
+	SELECT sub_category_no FROM sub_category
+		<where>
+			AND main_category_no = #{mainCategoryNo}
+			AND sub_category_name = #{subCategoryName}
+		</where>
+</select>
+
+<select id="selectByInsertClassNo" resultType="int">
+	SELECT class_seq.nextval FROM dual
+</select>
+
+<insert id="registClassInsert" parameterType="Class">
+	INSERT INTO class (class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start, 
+		class_end, max_count, expense, class_info, curriculum, on_off, head_img, delete_boolean)
+		VALUES (#{classNo}, #{teacherNo}, #{mainCategoryNo}, #{subCategoryNo}, #{teacher}, #{className}, SYSDATE, #{classStart}, 
+		#{classEnd}, #{maxCount}, #{expense}, #{classInfo}, #{curriculum}, #{onOff}, #{headImg}, #{deleteBoolean})
+</insert>
+
+<insert id="insertAddress" parameterType="address">
+<selectKey order="BEFORE" resultType="int" keyProperty="addressNo">
+			SELECT address_seq.nextval FROM dual
+	</selectKey>
+	INSERT INTO address (address_no, class_no, main_address, sub_address)
+	VALUES (#{addressNo}, #{classNo}, #{mainAddress}, #{subAddress})
+</insert>
+
+<insert id="onClassInsertFile" parameterType="ClassVideo">
+<selectKey order="BEFORE" resultType="int" keyProperty="videoNo">
+			SELECT class_video_seq.nextval FROM dual
+	</selectKey>
+	INSERT INTO class_video (video_no, class_no, video_lesson, origin_name, stored_name)
+	VALUES (#{videoNo}, #{classNo}, #{videoLesson}, #{originName}, #{storedName})
+
+</insert>
+
 
 
 </mapper>

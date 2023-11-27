@@ -19,7 +19,7 @@ button {
 	border-radius: 4px;
 	text-align: center;
 	width: 400px;
-	margin-top: 115px;
+	margin-top: 45px;
     margin-bottom: 150px;
 }
 

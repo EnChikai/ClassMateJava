@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,66 +55,95 @@ public class UserController {
        logger.info("userInfo : {}", userInfo);
 
        // 이메일과 이름을 기반으로 사용자 정보를 가져옵니다.
-       UserInfo idInfo = userService.searchInfo(userInfo);
+       String idInfo = userService.searchInfo(userInfo);
        logger.info("idInfo : {}", idInfo);
 
        // ModelAndView 객체 생성
        ModelAndView modelAndView = new ModelAndView();
        
-       // 검색된 사용자 정보를 ModelAndView에 추가
-       modelAndView.addObject("userInfo", idInfo);
-       
-       // 이동할 뷰의 경로 설정
-       modelAndView.setViewName("user/searchUserId");
-
-       // ModelAndView 반환
-       return modelAndView;
-   }
-   
-   @GetMapping("/resetPw")
-   public void resetPw() {}
-
-   @PostMapping("/resetPw")
-   public ModelAndView resetPwPost(UserInfo userInfo) {
-       logger.info("post");
-       logger.info("userInfo : {}", userInfo);
-
-       // 입력된 아이디와 이름이 DB에 저장된 정보와 일치하는지 확인
-       boolean isValidUser = userService.checkUserInfo(userInfo);
-
-       // ModelAndView 객체 생성
-       ModelAndView modelAndView = new ModelAndView();
-
-       if (isValidUser) {
-           // 검증이 성공한 경우, 사용자 정보를 ModelAndView에 추가
-           modelAndView.addObject("userInfo", userInfo);
-           // 이동할 뷰의 경로 설정
-           modelAndView.setViewName("user/resetPw");
-
-           // 사용자가 입력한 새로운 비밀번호로 변경
-           int updateResult = userService.updatePw(userInfo);
-
-           if (updateResult == 1) {
-               // 업데이트가 성공하면 이동할 뷰의 경로 설정
-               modelAndView.addObject("user/updatePw", true);
-           } else {
-               // 업데이트 실패 시 처리 (알림 메시지 등)
-               modelAndView.addObject("updateFailed", true);
-           }
+       if( idInfo != null ) {
+    	   // 검색된 사용자 정보를 ModelAndView에 추가
+    	   modelAndView.addObject("userId", idInfo);
+    	   // 이동할 뷰의 경로 설정
+    	   modelAndView.setViewName("user/searchUserId");
        } else {
-           // 검증이 실패한 경우, 알림 메시지를 모델에 추가
-           modelAndView.addObject("invalidUser", true);
-           // 이동할 뷰의 경로 설정
+           modelAndView.addObject("isIdCoincide", false );
            modelAndView.setViewName("user/searchIdPw");
        }
 
        // ModelAndView 반환
        return modelAndView;
    }
+   
+   @GetMapping("/resetPw")
+   public String resetPwGet() {
+       return "user/resetPw";
+   }
 
+//   @PostMapping("/resetPw")
+//   public String resetPwPost(@ModelAttribute("userInfo") UserInfo userInfo, Model model) {
+//
+//       // 여기서 DB에 비밀번호 재설정 로직 추가
+//       boolean isPasswordUpdated = userService.updatePassword(userInfo.getUserPw());
+//
+//       if (isPasswordUpdated) {
+//           // 비밀번호가 성공적으로 업데이트된 경우
+//           return "redirect:/user/updatePwChk"; // 로그인 페이지로 이동하도록 수정
+//       } else {
+//           model.addAttribute("errorMessage", "비밀번호 재설정에 실패했습니다. 다시 시도하세요.");
+//           return "user/resetPw";
+//       }
+//   }
+   
+   	 @PostMapping("/checkPw")
+   	 public ModelAndView checkPw(@ModelAttribute("userInfo") UserInfo userInfo ) {
+   		 
+   		 System.out.println("받아온 정보 : " + userInfo);
+         // 사용자 비밀번호 업데이트 시도
+         boolean isPasswordCoincide = userService.findPassword(userInfo);
+
+         ModelAndView modelAndView = new ModelAndView();
+
+         if (isPasswordCoincide) { // 회원정보가 일치 할 때 
+        	 modelAndView.addObject("userInfo", userInfo);
+             modelAndView.setViewName("user/resetPw"); // 업데이트 완료 페이지로 이동
+         } else {
+             modelAndView.addObject("errorMessage", "비밀번호 재설정에 실패했습니다.");
+             modelAndView.addObject("isPassworCoincide", false );
+             modelAndView.setViewName("user/searchIdPw"); // 실패 시 비밀번호 재설정 페이지로 다시 이동
+         }
+         return modelAndView;
+   	 }
+   	 
+   @PostMapping("/resetPw")
+   public ModelAndView resetPwPost(@ModelAttribute("userInfo") UserInfo userInfo) {
+       // 사용자 비밀번호 업데이트 시도
+	   System.out.println("현재 아이디 = " + userInfo.getUserId());
+	   System.out.println("변경할 비밀 번호 = " + userInfo.getUserPw());
+       boolean isPasswordUpdated = userService.updatePassword(userInfo);
+
+       ModelAndView modelAndView = new ModelAndView();
+
+       if ( isPasswordUpdated ) {
+           // 비밀번호 업데이트 성공
+           modelAndView.setViewName("user/updatePw"); // 업데이트 완료 페이지로 이동
+       } else {
+           // 비밀번호 업데이트 실패
+           modelAndView.addObject("errorMessage", "비밀번호 재설정에 실패했습니다.");
+           modelAndView.setViewName("user/resetPw"); // 실패 시 비밀번호 재설정 페이지로 다시 이동
+       }
+       return modelAndView;
+   }
    
    @GetMapping("/userPwChk")
-   public void userPwChk() {}
+   public String userPwChkGet() {
+	   return "user/userPwChk";
+   }
+   
+   @PostMapping("/userPwChk")
+   public void userPwChkPost() {
+	   
+   }
 
    @GetMapping("/updatePw")
    public void updatePw() {}

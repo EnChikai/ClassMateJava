@@ -19,40 +19,50 @@ function togglePasswordVisibility(inputId, iconId) {
     }
 }
 
-function checkPasswordMatch() {
-    var password = document.getElementById('userPw').value;
-    var confirmPassword = document.getElementById('userPwChk').value;
+// //함수 호출을 폼 제출 이벤트에 바인딩
+// $(document).ready(function () {
+//     $('#resetPwForm').submit(function (event) {
+//         event.preventDefault(); // 기본 제출 동작 방지
+//         checkPasswordMatch();
+//     });
+// });
 
-    if (password !== confirmPassword) {
-        alert('비밀번호가 일치하지 않습니다.');
-        return false;
-    }
+// function checkPasswordMatch() {
+//     var password = document.getElementById('userPw').value;
+//     var confirmPassword = document.getElementById('userPwChk').value;
 
-    // 서버로 비밀번호 확인 요청
-    $.ajax({
-        type: 'POST',
-        url: '/user/resetPwPost', // 실제로는 해당 URL을 서버에 맞게 수정해야 합니다.
-        data: {
-            userPw: password
-        },
-        success: function (data) {
-            if (data.success) {
-                // 서버에서 비밀번호 확인 성공 시 처리
-                alert('비밀번호 재설정이 완료되었습니다.');
-                window.location.href = '/user/updatePw'; // 비밀번호 재설정이 성공하면 updatePw 페이지로 이동
-            } else {
-                // 서버에서 비밀번호 확인 실패 시 처리
-                alert('비밀번호 확인에 실패했습니다.');
-            }
-        },
-        error: function () {
-            // 통신 오류 시 처리
-            alert('서버와의 통신 중 오류가 발생했습니다.');
-        }
-    });
+//     if (password !== confirmPassword) {
+//         alert('비밀번호가 일치하지 않습니다.');
+//         return false;
+//     }
 
-    return false; // 기존의 동작 방지
-}
+//     // 서버로 비밀번호 확인 요청
+//    $.ajax({
+//         type: 'POST',
+//         url: '/user/resetPw',
+//         contentType: 'application/json',  // 데이터 전송 형식 설정
+//         dataType: 'json',  // 데이터 수신 형식 설정
+//         data: JSON.stringify({
+//             userPw: password
+//         }),
+//         success: function (data) {
+//             if (data.success) {
+//                 // 서버에서 비밀번호 확인 성공 시 처리
+//                 alert('비밀번호 재설정이 완료되었습니다.');
+//                 window.location.href = '/user/updatePw';
+//             } else {
+//                 // 서버에서 비밀번호 확인 실패 시 처리
+//                 alert('비밀번호 확인에 실패했습니다.');
+//             }
+//         },
+//         error: function () {
+//             // 통신 오류 시 처리
+//             alert('서버와의 통신 중 오류가 발생했습니다.');
+//         }
+//     });
+
+//     return false; // 기존의 동작 방지
+// }
 </script>
 
 <style>
@@ -73,8 +83,7 @@ function checkPasswordMatch() {
     line-height: 3;
 }
 
-button {
-    display: block;
+#confirmButton {
     margin-top: 40px;
     background-color: #F1C40F;
     font-size: 17px;
@@ -90,8 +99,8 @@ input {
     border: 1px solid #ccc;
     height: 40px;
     width: 250px;
+    margin: 0 -6px;
     border-radius: 3px;
-    margin-bottom: 10px;
     padding-right: 30px; /* 오른쪽 여백을 주어 이미지가 겹치지 않도록 함 */
 }
 
@@ -109,21 +118,24 @@ input {
     <h3 style="color: #333; margin-bottom: 16px; font-size: 17px;">비밀번호를 재설정합니다</h3>
 
     <div class="resetPw2">
+    <form id="resetPwForm" method="post" action="/user/resetPw">
+    	<input type="hidden" name="userId" value="${userInfo.userId }">
         <div style="position: relative;">
             <label style="border: 1px solid black; border-radius: 4px; background-color: black; color: white; padding: 9px 21px; vertical-align: middle;">비밀번호</label>
-            <input type="password" id="userPw">
+            <input type="password" id="userPw" name="userPw">
             <img src="/resources/img/close_eye.png" class="eyeIcon" id="togglePassword"
                 onclick="togglePasswordVisibility('userPw', 'togglePassword')">
         </div>
 
         <div style="position: relative;">
             <label style="border: 1px solid black; border-radius: 4px; background-color: black; color: white; padding: 9px 5px; vertical-align: middle;">비밀번호확인</label>
-            <input type="password" id="userPwChk">
+            <input type="password" id="userPwChk" name="userPwChk">
             <img src="/resources/img/close_eye.png" class="eyeIcon" id="togglePasswordChk"
                 onclick="togglePasswordVisibility('userPwChk', 'togglePasswordChk')">
         </div>
 
-        <button>확인</button>
+        <button id="confirmButton" type="submit">확인</button>
+	</form>
     </div><!-- .resetPw2 -->
 </div><!-- .resetPw -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

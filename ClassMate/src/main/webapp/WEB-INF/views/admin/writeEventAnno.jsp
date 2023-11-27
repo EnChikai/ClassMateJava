@@ -15,6 +15,10 @@
 <%-- <% ============================================================================= %> --%>
 
 <style type="text/css">
+.boardManagement{
+background: rgb(241,196,15);
+
+}
 
 #boardInfo{
 font-size: 35px; 
@@ -146,7 +150,7 @@ $(function(){
 });
 </script>
 <%-- <% ============================================================================= %> --%>
-<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 70px;">
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px;">
 
 <p id="boardInfo">공지사항/이벤트 등록</p>
 

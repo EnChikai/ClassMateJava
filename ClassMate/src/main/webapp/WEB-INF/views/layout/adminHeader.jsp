@@ -10,7 +10,7 @@
 
 #underLineBlack{
 border-bottom: 138px solid black;
-width: 280px;
+width: 282px;
 float: left;
 }
 

@@ -6,6 +6,10 @@
 <%-- <% ============================================================================= %> --%>
 
 <style type="text/css">
+.userManagement{
+	background: rgb(241,196,15);
+	
+}
 
 #userInfo{
 font-size: 35px; 
@@ -56,9 +60,9 @@ vertical-align: bottom;
 }
 
 .checked{
-background: rgb(243,156,18);
+background: rgb(241,196,15);
 border-style: hidden;
-box-shadow: 0 0 0 1px rgb(243,156,18);
+box-shadow: 0 0 0 1px rgb(231,186,5);
 color: white;
 font-weight:bold;
 font-size: 19px;
@@ -95,7 +99,7 @@ background: rgb(170,170,170);
 
 <!-- 모달 -->
 <style type="text/css">
-#secessionBtn{
+#secessionBtn, #delBtn{
 border-radius: 3px; 
 border-style: hidden;
 width: 63px; 
@@ -107,13 +111,13 @@ box-shadow: 0 0 0 1px black
 
 }
 
-#secessionBtn:hover:not(.active){
+#secessionBtn:hover:not(.active), #delBtn:hover:not(.active){
 box-shadow: 0 0 0 2px skyblue;
 background: rgb(50,50,50);
 	
 }
 
-#secessionModal{
+#secessionModal, #delModal{
   display:none;
   position:fixed;
   width:100%; height:100%;
@@ -121,7 +125,7 @@ background: rgb(50,50,50);
   background:rgba(0,0,0,0.3);
 }
 
-.secessionModal-con{
+.secessionModal-con, .delModal-con{
   display:none;
   position:fixed;
   top:50%; left:50%;
@@ -130,7 +134,7 @@ background: rgb(50,50,50);
   min-height: 470px;
   background:#fff;
 }
-.secessionModal-con .con{
+.secessionModal-con .con, .delModal-con .con{
   font-size:26px; 
   line-height:1.3;
   padding-top: 50px;
@@ -142,7 +146,7 @@ background: rgb(50,50,50);
   text-align: center; 
 }
 
-#closeModalBtn{
+.closeModalBtn{
 border-radius: 3px; 
 border-style: hidden;
 width: 63px; 
@@ -155,14 +159,14 @@ font-size: 14px;
 
 }
 
-#closeModalBtn:hover:not(.active){
+.closeModalBtn:hover:not(.active){
 box-shadow: 0 0 0 2px skyblue;
 background: rgb(50,50,50);
 cursor:pointer
 	
 }
 
-#secessionOkBtn{
+#secessionOkBtn, #delOkBtn{
 border-radius: 3px; 
 border-style: hidden;
 width: 63px; 
@@ -176,7 +180,7 @@ font-size: 14px;
 
 }
 
-#secessionOkBtn:hover:not(.active){
+#secessionOkBtn:hover:not(.active), #delOkBtn:hover:not(.active){
 box-shadow: 0 0 0 2px skyblue;
 background: rgb(230,204,100);
 cursor:pointer
@@ -233,15 +237,47 @@ $(function(){
 	});
 });
 
+//삭제 모달 열기
+function openDelModal(modalname) {
+  $("#delModal").fadeIn(300);
+  $("." + modalname).fadeIn(300);
+
+};
+
+// 외부 영역 클릭시 팝업 닫기
+$(document).mouseup(function (e) {
+  var modal = $(".delModal-con");
+  if (!modal.is(e.target) && modal.has(e.target).length === 0) {
+    $("#delModal").fadeOut(300);
+    modal.fadeOut(300);
+
+   	$('html, body').css({ 'overflow': 'auto', 'height': '100%' });
+
+  }
+});
+
+//닫기 버튼 클릭시 팝업 닫기
+$(function(){
+	  $("#closeDelModal").click(function (e) {
+		    var modal = $(".delModal-con");
+		      $("#delModal").fadeOut(300);
+		      modal.fadeOut(300);
+		      
+		      $('html, body').css({ 'overflow': 'auto', 'height': '100%' });
+		    
+	});
+});
 </script>
 
 <%-- <% ============================================================================= %> --%>
 
 <div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
 <button style="margin-left: 1px;" class="topMenuBtn checked">회원정보 관리</button>
-<button class="topMenuBtn">결제/수강 내역</button>
+<a href="../admin/userPaymentList?userNo=${userdata.userNo}"><button class="topMenuBtn">결제/수강 내역</button></a>
 <button class="topMenuBtn">작성한 게시물</button>
 </div>
+
+<%-- <% ============================================================================= %> --%>
 
 <div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px;">
 <p id="userInfo">회원정보</p>
@@ -298,12 +334,21 @@ $(function(){
 </table>
 </div>
 
+<c:if test="${userdata.userSecession eq 0}">
 <div style="margin-top: 72px; margin-bottom: 15px;">
 <a href="../admin/userInfoUpdate?userNo=${userdata.userNo}"><button id="updateBtn" type="button">수정</button></a>
 <a href="javascript:openSecessionModal('secessionModal');" class="terms" style="text-decoration: none; color: black;"><button id="secessionBtn">탈퇴</button></a>
 </div>
+</c:if>
+
+<c:if test="${userdata.userSecession eq 1}">
+<div style="margin-top: 72px; margin-bottom: 15px;">
+<a href="javascript:openDelModal('delModal');" class="terms" style="text-decoration: none; color: black;"><button id="delBtn">삭제</button></a>
+</div>
+</c:if>
 
 </div>
+
 <%-- <% ============================================================================= %> --%>	
 
 <div id="secessionModal" class="close"></div>
@@ -314,15 +359,32 @@ $(function(){
     
     <p style="color: #999; font-size: 16px; padding-top: 33px;">다시 한번 확인 후 진행해주세요</p>
     
-    <form action="../admin/secessionUser" method="get">
+    <form action="../admin/secessionUser" method="post">
 	<button id="secessionOkBtn">예</button>
 	<input type="text" name="userNo" style="display: none;" value="${userdata.userNo}" readonly="readonly">
-    <a href="javascript:return false;" class="closeSecessionModal" id="closeSecessionModal"><button id="closeModalBtn" style="margin-top: 70px" type="button">아니오</button></a>
+    <a href="javascript:return false;" class="closeSecessionModal" id="closeSecessionModal"><button class="closeModalBtn" style="margin-top: 70px" type="button">아니오</button></a>
 	</form>
     
     </div>
   </div>
-			
+
+<%-- 삭제 --%>	
+<div id="delModal" class="close"></div>
+  <div class="delModal-con delModal" style="border-radius: 8px;">
+    <div class="con" style="border: 0.5px solid #80808080; margin: 43px; margin-top: 25px;">
+    <p style="margin-top: 30px;">해당 이용자를</p>
+    <p>삭제 하시겠습니까?</p>
+    
+    <p style="color: #999; font-size: 16px; padding-top: 28px;">다시 한번 확인 후 진행해주세요</p>
+    
+    <form action="../admin/userDelete" method="post">
+	<button id="delOkBtn">예</button>
+	<input type="text" name="userNo" style="display: none;" value="${userdata.userNo}" readonly="readonly">
+    <a href="javascript:return false;" class="closeDelModal" id="closeDelModal"><button class="closeModalBtn" style="margin-top: 70px" type="button">아니오</button></a>
+	</form>
+    
+    </div>
+  </div>						
 <%-- <% ============================================================================= %> --%>	
 		
 <c:import url="/WEB-INF/views/layout/adminFooter.jsp" />

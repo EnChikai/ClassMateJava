@@ -37,6 +37,9 @@ function readURL(input) {
 	<td class="table-info">강사 이름</td><td><input type="text" name="userName" id="userName" readonly="readonly"></td>
 </tr>
 <tr>
+	<td class="table-info">강사 신청 제목</td><td><input type="text" name="teacherTitle" id="teacherTitle"></td>
+</tr>
+<tr>
 	<td class="table-info">관련 자격증</td><td><input type="text" name= "teacherCareer" id="teacherCareer"></td>
 </tr>
 <tr>

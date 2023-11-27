@@ -7,6 +7,10 @@
 <%-- <% ============================================================================= %> --%>
 
 <style type="text/css">
+.boardManagement{
+background: rgb(241,196,15);
+
+}
 
 #announceInfo{
 font-size: 35px; 
@@ -22,7 +26,6 @@ margin-top: 18px;
 display: block;
 
 }
-
 
 #announceInfoTb th{
 text-align: center;
@@ -105,15 +108,15 @@ p{
 margin-bottom: 0px;
 
 }
-
 </style>
+
 
 <!-- 비할성화 모달 -->
 <style type="text/css">
-#existBtn, #delBtn{
+#existBtn{
 border-radius: 3px; 
 border-style: hidden;
-width: 63px; 
+width: 65px; 
 height: 33px;
 color: white;
 font-weight:bold;
@@ -123,9 +126,27 @@ margin-right: 19px;
 
 }
 
-#existBtn:hover:not(.active), #delBtn:hover:not(.active){
+#existBtn:hover:not(.active){
 box-shadow: 0 0 0 2px skyblue;
 background: rgb(170,170,170);
+	
+}
+
+#delBtn{
+border-radius: 3px; 
+border-style: hidden;
+width: 63px; 
+height: 33px;
+color: white;
+font-weight:bold;
+background: black;
+box-shadow: 0 0 0 1px black
+
+}
+
+#delBtn:hover:not(.active){
+box-shadow: 0 0 0 2px skyblue;
+background: rgb(50,50,50);
 	
 }
 
@@ -267,7 +288,7 @@ $(function(){
 </script>
 
 <%-- <% ============================================================================= %> --%>
-<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 70px;">
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px;">
 
 <p id="announceInfo" style="margin-bottom: 1rem">공지사항 조회</p>
 
@@ -287,17 +308,20 @@ $(function(){
 			</td>	
 	</tr>
 	
-	<c:if test="${not empty announceBoardFile }">
 	<tr>
 		<th>첨부파일</th>
 			<td colspan="3">
-			<c:forEach var="announceBoardFile" items="${announceBoardFile }">
-<%-- 			<a href="./annoFileDownload?fileNo=${announceBoardFile.fileNo }">${announceBoardFile.originName }</a><br>			 --%>
-			<a>${announceBoardFile.originName }</a><br>			
-			</c:forEach>
+			<c:if test="${not empty announceBoardFile }">
+				<c:forEach var="announceBoardFile" items="${announceBoardFile }">
+				<a href="./annoFileDownload?fileNo=${announceBoardFile.fileNo }">${announceBoardFile.originName }</a><br>			
+				</c:forEach>
+			</c:if>
+			
+			<c:if test="${empty announceBoardFile }">
+				파일이 없습니다
+			</c:if>
 			</td>
 	</tr>
-	</c:if>
 	
 	<tr>
 		<th>내용</th>
@@ -325,7 +349,7 @@ $(function(){
 <div id="existModal" class="close"></div>
   <div class="existModal-con existModal" style="border-radius: 8px;">
     <div class="con" style="border: 0.5px solid #80808080; margin: 43px; margin-top: 25px;">
-    <p style="margin-top: 30px;">공지사항을</p>
+    <p style="margin-top: 30px;">공지사항 게시물을</p>
     <p>비활성화 하시겠습니까?</p>
     
     <p style="color: #999; font-size: 16px; padding-top: 33px;">다시 한번 확인 후 진행해주세요</p>
@@ -343,12 +367,12 @@ $(function(){
 <div id="delModal" class="close"></div>
   <div class="delModal-con delModal" style="border-radius: 8px;">
     <div class="con" style="border: 0.5px solid #80808080; margin: 43px; margin-top: 25px;">
-    <p style="margin-top: 30px;">공지사항을</p>
+    <p style="margin-top: 30px;">공지사항 게시물을</p>
     <p>삭제 하시겠습니까?</p>
     
     <p style="color: #999; font-size: 16px; padding-top: 33px;">다시 한번 확인 후 진행해주세요</p>
     
-    <form action="../admin/setAnnounceDel" method="get">
+    <form action="../admin/announceDelete" method="post">
 	<button id="delOkBtn">예</button>
 	<input type="text" name="announceNo" style="display: none;" value="${announceBoard.announceNo}" readonly="readonly">
     <a href="javascript:return false;" class="closeDelModal" id="closeDelModal"><button class="closeModalBtn" style="margin-top: 70px" type="button">아니오</button></a>

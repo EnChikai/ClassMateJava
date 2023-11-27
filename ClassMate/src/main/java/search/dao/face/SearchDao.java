@@ -14,6 +14,10 @@ public interface SearchDao {
 	public int selectSubCntAll(SearchPaging param);
 	
 	public List<Class> selectSubAll(SearchPaging paging);
+	
+	public int selectClassTitleCntAll(SearchPaging param);
+	
+	public List<Class> selectClassTitleAll(SearchPaging paging);
 
 	public int selectNickCntAll(SearchPaging param);
 	

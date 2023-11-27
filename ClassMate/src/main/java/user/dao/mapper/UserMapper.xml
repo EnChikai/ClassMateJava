@@ -83,11 +83,12 @@
     </select>
     
     <!-- 이메일/이름으로 아이디 찾기 -->
-    <select id="searchInfo" parameterType="user.dto.UserInfo" resultType="UserInfo"> 
+    <select id="searchInfo" parameterType="user.dto.UserInfo"> 
        SELECT USER_ID
        FROM user_info
        <where>
-       AND (USER_EMAIL = #{userEmail} OR USER_NAME = #{userName})
+       AND USER_EMAIL = #{userEmail} 
+       AND USER_NAME = #{userName}
        </where>
     </select>
     
@@ -98,11 +99,23 @@
 	</select>
     
     <!-- 비밀번호 업데이트 -->
-	<update id="updatePw" parameterType="user.dto.UserInfo">
-	    UPDATE user_info
-	    SET USER_PW = #{userPw}
-	    WHERE USER_NO = #{userNo}
-	</update>
+<!-- 	<update id="updatePw" parameterType="user.dto.UserInfo"> -->
+<!-- 	    UPDATE user_info -->
+<!-- 	    SET USER_PW = #{userPw} -->
+<!-- 	    WHERE USER_NO = #{userNo} -->
+<!-- 	</update> -->
     
+	<update id="updatePassword" parameterType="user.dto.UserInfo">
+        UPDATE user_info
+        SET USER_PW = #{userPw}
+        WHERE USER_id = #{userId}
+    </update> 
+    
+    <select id="selectByUserId" parameterType="user.dto.UserInfo">
+    	SELECT user_pw
+    	FROM user_info
+    	WHERE user_id = #{userId}
+    	AND user_name = #{userName}
+    </select>   
     
  </mapper>
