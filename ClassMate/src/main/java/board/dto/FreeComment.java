@@ -10,22 +10,26 @@ public class FreeComment {
 	private Date freeCommentDate;
 	
 	private String userName;
+	private int userNo;
 	
 	public FreeComment() {}
 
-	public FreeComment(int freeCommentNo, int freeNo, String freeCommentContent, Date freeCommentDate, String userName) {
+	public FreeComment(int freeCommentNo, int freeNo, String freeCommentContent, Date freeCommentDate, String userName,
+			int userNo) {
 		super();
 		this.freeCommentNo = freeCommentNo;
 		this.freeNo = freeNo;
 		this.freeCommentContent = freeCommentContent;
 		this.freeCommentDate = freeCommentDate;
 		this.userName = userName;
+		this.userNo = userNo;
 	}
 
 	@Override
 	public String toString() {
-		return "FreeComent [freeCommentNo=" + freeCommentNo + ", freeNo=" + freeNo + ", freeCommentContent="
-				+ freeCommentContent + ", freeCommentDate=" + freeCommentDate + ", userName=" + userName + "]";
+		return "FreeComment [freeCommentNo=" + freeCommentNo + ", freeNo=" + freeNo + ", freeCommentContent="
+				+ freeCommentContent + ", freeCommentDate=" + freeCommentDate + ", userName=" + userName + ", userNo="
+				+ userNo + "]";
 	}
 
 	public int getFreeCommentNo() {
@@ -68,4 +72,14 @@ public class FreeComment {
 		this.userName = userName;
 	}
 
+	public int getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
+
+	
+	
 }
