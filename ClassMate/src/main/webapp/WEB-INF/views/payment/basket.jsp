@@ -348,18 +348,26 @@ IMP.init('imp04411553')
 		 	    	 });
 		
 		   	  	$(function(){ 
-	    	    	 var overlay = $('<div id="overlay"></div>');
-	    	    	       overlay.css({
-	    	    	          'position': 'fixed',
-	    	    	          'top': 0,
-	    	    	          'left': 0,
-	    	    	          'width': '100%',
-	    	    	          'height': '100%',
-	    	    	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
-	    	    	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
-	    	    	       });
-	    	    	  $('body').append(overlay);
-	    	    })
+			    	 var overlay = $('<div id="overlay"></div>');
+		    	    	 overlay.css({
+			    	          'position': 'fixed',
+			    	          'top': 0,
+			    	          'left': 0,
+			    	          'width': '100%',
+			    	          'height': '100%',
+			    	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
+			    	          'z-index': 9998 // 다른 요소들 위에 나타나도록 설정
+			    	       });
+			    	 var loading = $('<img src="/resources/img/loading.webp" id="loading">');
+			    	 	 loading.css({
+			    	          'position': 'fixed',
+			    	          'top': '40%',
+			    	          'left': '44.5%',
+			    	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
+			    	       });
+			    	  $('body').append(overlay);
+			    	  $('body').append(loading);
+			    })
 		   	  	setTimeout(function() {
 		   			location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
 		   		}, 1500);
@@ -381,6 +389,60 @@ IMP.init('imp04411553')
 	})
 })
 </script>
+
+<%-- 무료 결제 --%>
+<c:forEach items="${classList }" var="classList">
+<script type="text/javascript">
+$(function(){
+	
+	var classNoAll = new Array();
+
+	classNoAll[0] = ${classList.classNo}
+
+	console.log(classNoAll);
+	
+	$("#freeBtn${classList.classNo}").click(function(){
+		 $.ajax({
+	            type: "POST",
+	            url: '../payment/insertInfo',
+	      		dataType: 'json',
+	            data : {"merchantUid": <%=order %>
+	            	, "provider": "free"
+	            	, "payMethod": "free"
+	            	, "cardName": "none"
+	            	, "classNo" : classNoAll[0]
+	            }
+
+	    	 });
+			
+		 $(function(){ 
+	    	 var overlay = $('<div id="overlay"></div>');
+    	    	 overlay.css({
+	    	          'position': 'fixed',
+	    	          'top': 0,
+	    	          'left': 0,
+	    	          'width': '100%',
+	    	          'height': '100%',
+	    	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
+	    	          'z-index': 9998 // 다른 요소들 위에 나타나도록 설정
+	    	       });
+	    	 var loading = $('<img src="/resources/img/loading.webp" id="loading">');
+	    	 	 loading.css({
+	    	          'position': 'fixed',
+	    	          'top': '40%',
+	    	          'left': '44.5%',
+	    	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
+	    	       });
+	    	  $('body').append(overlay);
+	    	  $('body').append(loading);
+	    })
+   	  	setTimeout(function() {
+   			location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
+   		}, 1500);
+	})
+})
+</script>
+</c:forEach>
 
 <%-- 개별 결제 --%>
 <c:forEach items="${classList }" var="classList">
@@ -445,16 +507,24 @@ $(function(){
 				
 	    	 	$(function(){ 
 	    	    	 var overlay = $('<div id="overlay"></div>');
-	    	    	       overlay.css({
-	    	    	          'position': 'fixed',
-	    	    	          'top': 0,
-	    	    	          'left': 0,
-	    	    	          'width': '100%',
-	    	    	          'height': '100%',
-	    	    	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
-	    	    	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
-	    	    	       });
+		    	    	 overlay.css({
+	   	    	          'position': 'fixed',
+	   	    	          'top': 0,
+	   	    	          'left': 0,
+	   	    	          'width': '100%',
+	   	    	          'height': '100%',
+	   	    	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
+	   	    	          'z-index': 9998 // 다른 요소들 위에 나타나도록 설정
+	   	    	       });
+	    	    	 var loading = $('<img src="/resources/img/loading.webp" id="loading">');
+	    	    	 	 loading.css({
+	   	    	          'position': 'fixed',
+	   	    	          'top': '50%',
+	   	    	          'left': '50%',
+	   	    	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
+	   	    	       });
 	    	    	  $('body').append(overlay);
+	    	    	  $('loading').append(overlay);
 	    	    })
 		   	  	setTimeout(function() {
 		   			location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
@@ -563,7 +633,19 @@ $(function(){
 		
 		
 		<td class="basketTableInfoTd" width="15%">
+		
+			<c:if test="${classList.expense eq 0}">
+			<form action="../payment/basket" method="post">
+			<button type="button" id="freeBtn${classList.classNo}" class="paymentOneBtn">결제</button><br>
+			</form>
+			</c:if>
+			
+			<c:if test="${classList.expense ne 0}">
+			<form action="../payment/basket" method="post">
 			<button type="button" id="OneBtn${classList.classNo}" class="paymentOneBtn">결제</button><br>
+			</form>
+			</c:if>
+			
 			<form action="../payment/basket" method="post">
 			<button id="deleteBtn">삭제</button>
 			<input style="display: none;" readonly="readonly" type="text" name="classNo" value="${classList.classNo}"/>

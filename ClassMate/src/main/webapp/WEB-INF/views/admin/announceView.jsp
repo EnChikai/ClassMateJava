@@ -116,7 +116,7 @@ margin-bottom: 0px;
 #existBtn{
 border-radius: 3px; 
 border-style: hidden;
-width: 63px; 
+width: 65px; 
 height: 33px;
 color: white;
 font-weight:bold;
@@ -308,17 +308,20 @@ $(function(){
 			</td>	
 	</tr>
 	
-	<c:if test="${not empty announceBoardFile }">
 	<tr>
 		<th>첨부파일</th>
 			<td colspan="3">
-			<c:forEach var="announceBoardFile" items="${announceBoardFile }">
-<%-- 			<a href="./annoFileDownload?fileNo=${announceBoardFile.fileNo }">${announceBoardFile.originName }</a><br>			 --%>
-			<a>${announceBoardFile.originName }</a><br>			
-			</c:forEach>
+			<c:if test="${not empty announceBoardFile }">
+				<c:forEach var="announceBoardFile" items="${announceBoardFile }">
+				<a href="./annoFileDownload?fileNo=${announceBoardFile.fileNo }">${announceBoardFile.originName }</a><br>			
+				</c:forEach>
+			</c:if>
+			
+			<c:if test="${empty announceBoardFile }">
+				파일이 없습니다
+			</c:if>
 			</td>
 	</tr>
-	</c:if>
 	
 	<tr>
 		<th>내용</th>

@@ -173,10 +173,10 @@ $(function(){
 		<div style="position:relative; float: right; margin-right: 87px; margin-bottom: 5px;" >
 		
 		<c:if test="${passCheckbox eq 0}">
-        	처리 완료 조회<input id="passCheckbox" type="checkbox" name="passCheckbox" value="0">
+        	합격자 조회<input id="passCheckbox" type="checkbox" name="passCheckbox" value="0">
         </c:if>
         <c:if test="${passCheckbox eq 1}">
-        	처리 완료 조회<input id="passCheckbox" type="checkbox" name="passCheckbox" value="1" checked="checked">
+        	합격자 조회<input id="passCheckbox" type="checkbox" name="passCheckbox" value="1" checked="checked">
 		</c:if>
 		
         </div>
@@ -214,11 +214,9 @@ $(function(){
 			<%=i++ %>
 		</td>
 		<td class="applyListTd applyId${teacherList.teacherNo }">
-			
 			<c:out value="${teacherList.teacherTitle }" />
 		</td>
 		<td class="applyListTd applyId${teacherList.teacherNo }">
-			
 			<fmt:formatDate value="${teacherApplyList.applyDate}" pattern="yyyy-MM-dd HH:mm:ss" />
 		</td>
 		<td class="applyListTd applyId${teacherList.teacherNo }">
@@ -227,7 +225,7 @@ $(function(){
 				미처리
 			</c:if>
 			<c:if test="${teacherApplyList.passOrNot eq 1}">
-				처리
+				완료
 			</c:if>
 		</td>
 	</tr>
