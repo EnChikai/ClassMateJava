@@ -26,6 +26,7 @@ import payment.dto.OrderTb;
 import payment.dto.Payment;
 import teacher.dto.Teacher;
 import teacher.dto.TeacherApply;
+import teacher.dto.TeacherLicence;
 import user.dto.UserInfo;
 import web.util.Paging;
 import lecture.dto.Class;
@@ -43,7 +44,7 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Override
 	public Map<String, Object> getDashBoardInfo() {
-
+		logger.info("getDashBoardInfo()");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		//미탈퇴 인원
@@ -229,6 +230,7 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Override
 	public Map<String, Object> selectTeacherApplyList(Paging paging, int passCheckbox) {
+		logger.info("selectTeacherApplyList()");
 
 		List<Teacher> teacherList = new ArrayList<Teacher>();
 		List<TeacherApply> teacherApplyList = new ArrayList<TeacherApply>();
@@ -261,6 +263,50 @@ public class AdminServiceImpl implements AdminService{
 		return result;
 	}
 
+	@Override
+	public Map<String, Object> selectTeacherApply(TeacherApply teacherApply) {
+		logger.info("selectTeacherApply()");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		Teacher teacher = adminDao.selectTeacherInfo(teacherApply);
+		logger.info("selectTeacherApply() : {}", teacher);
+
+		teacherApply = adminDao.selectTeacherApply(teacherApply);		
+		logger.info("selectTeacherApply() : {}", teacherApply);
+		
+		UserInfo userInfo = adminDao.selectUserName(teacher);
+		logger.info("selectUserTeacherNo() : {}", userInfo);
+		
+		String teacherLicence = adminDao.selectTeacherLicence(teacher);
+		logger.info("selectUserTeacherNo() : {}", userInfo);
+		
+		map.put("teacher", teacher);
+		map.put("teacherApply", teacherApply);
+		map.put("userInfo", userInfo);
+		map.put("teacherLicence", teacherLicence);
+		
+		return map;
+	}
+	
+	@Override
+	public void teacherPassOrFAil(TeacherApply teacherApply) {
+
+		int result = adminDao.updateTeacherApply(teacherApply);
+		logger.info("result() : {}", result);
+		
+		if(teacherApply.getPassOrNot().equals("0")) {
+			result = adminDao.deleteTeacherApply(teacherApply);
+			logger.info("deleteTeacherApply() : {}", result);
+
+			result = adminDao.deleteTeacherLicence(teacherApply);
+			logger.info("deleteTeacherLicence() : {}", result);
+
+			result = adminDao.deleteTeacherInfo(teacherApply);
+			logger.info("deleteTeacherInfo() : {}", result);
+		}
+		
+	}
 	
 	//================================================================================
 	//--- 게시판 관리 ---
@@ -571,14 +617,6 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public AnnounceBoardFile getAnnounceFile(AnnounceBoardFile announceBoardFile) {
-
-		announceBoardFile = adminDao.selectAnnoFileByFileNo(announceBoardFile);
-		
-		return announceBoardFile;
-	}
-
-	@Override
 	public void eventUpdate(EventBoard eventBoard, MultipartFile file, int[] delFileno, List<MultipartFile> eventFile) {
 		logger.info("eventUpdate() : {}");
 		int result = 0; 
@@ -684,6 +722,22 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
+	public AnnounceBoardFile getAnnounceFile(AnnounceBoardFile announceBoardFile) {
+
+		announceBoardFile = adminDao.selectAnnoFileByFileNo(announceBoardFile);
+		
+		return announceBoardFile;
+	}
+	
+	@Override
+	public EventBoardFile getEventFile(EventBoardFile eventBoardFile) {
+		
+		eventBoardFile = adminDao.selectEventFileByFileNo(eventBoardFile);
+		
+		return eventBoardFile;
+	}
+	
+	@Override
 	public void announceDelete(AnnounceBoard announceBoard) {
 		logger.info("announceDelet() : {}", announceBoard);
 
@@ -720,6 +774,14 @@ public class AdminServiceImpl implements AdminService{
 		
 		result = adminDao.deleteEventInfo(eventBoard);
 		logger.info("이벤트 삭제 결과 : {}", result);		
+	}
+
+	@Override
+	public EventBoard getEventHeadImg(EventBoard eventBoard) {
+		
+		eventBoard = adminDao.selectEventNo(eventBoard);
+		
+		return eventBoard;
 	}
 
 }

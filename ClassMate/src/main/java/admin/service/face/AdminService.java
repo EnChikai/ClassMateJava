@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
+import board.dto.EventBoardFile;
 import payment.dto.OrderTb;
 import teacher.dto.TeacherApply;
 import user.dto.UserInfo;
@@ -70,8 +71,6 @@ public interface AdminService {
 
 	public Map<String, Object> getEventView(EventBoard eventBoard);
 
-	public AnnounceBoardFile getAnnounceFile(AnnounceBoardFile announceBoardFile);
-
 	public void eventUpdate(EventBoard eventBoard, MultipartFile file, int[] delFileno, List<MultipartFile> eventFile);
 
 	public void announceUpdate(AnnounceBoard announceBoard, int[] delFileno, List<MultipartFile> announceFile);
@@ -85,5 +84,15 @@ public interface AdminService {
 	public void announceDelete(AnnounceBoard announceBoard);
 
 	public void eventDelete(EventBoard eventBoard);
+
+	public Map<String, Object> selectTeacherApply(TeacherApply teacherApply);
+
+	public void teacherPassOrFAil(TeacherApply teacherApply);
+
+	public AnnounceBoardFile getAnnounceFile(AnnounceBoardFile announceBoardFile);
+	
+	public EventBoardFile getEventFile(EventBoardFile eventBoardFile);
+
+	public EventBoard getEventHeadImg(EventBoard eventBoard);
 
 }

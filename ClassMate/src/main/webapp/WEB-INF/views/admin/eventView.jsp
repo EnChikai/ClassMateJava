@@ -83,7 +83,7 @@ margin-bottom: 0px;
 #existBtn{
 border-radius: 3px; 
 border-style: hidden;
-width: 63px; 
+width: 65px; 
 height: 33px;
 color: white;
 font-weight:bold;
@@ -187,6 +187,18 @@ background: rgb(230,204,100);
 cursor:pointer
 	
 }
+
+#fileName {
+color: rgb(13,110,253); 
+text-decoration: underline;
+cursor:pointer;
+}
+
+#fileName:hover:not(.active), #delOkBtn:hover:not(.active){
+color: rgb(240,198,16); 
+	
+}
+
 </style>
 
 <%-- <% ============================================================================= %> --%>
@@ -198,7 +210,17 @@ $(function(){
    
    headImg = headImg.replace(trimmedPart,'');
    
-   $("#fileName").text(headImg)
+   if(headImg != null){
+	   $("#fileName").text(headImg);
+   }else{
+	   $("#fileName").text("파일이 없습니다");
+   }
+   
+   $("#fileName").click(function(){
+	   location.href = './eventHeadImgDownload?eventNo=${eventBoard.eventNo}';
+	   
+	   
+   })
    
 });
 </script>
@@ -293,20 +315,24 @@ $(function(){
 	<c:if test="${not empty eventBoard.headImg }">
 	<tr>
 		<th>썸네일</th>
-			<td colspan="3"><p id="fileName"></p></td>
+			<td colspan="3"><a id="fileName"></a></td>
 	</tr>
 	</c:if>
 	
-	<c:if test="${not empty eventBoardFile }">
 	<tr>
 		<th>첨부파일</th>
 			<td colspan="3">
-			<c:forEach var="eventBoardFile" items="${eventBoardFile }">
-			<a>${eventBoardFile.originName }</a><br>			
-			</c:forEach>
+			<c:if test="${not empty eventBoardFile }">
+				<c:forEach var="eventBoardFile" items="${eventBoardFile }">
+				<a href="./eventFileDownload?fileNo=${eventBoardFile.fileNo }">${eventBoardFile.originName }</a><br>			
+				</c:forEach>
+			</c:if>
+			
+			<c:if test="${empty eventBoardFile }">
+				파일이 없습니다
+			</c:if>
 			</td>
 	</tr>
-	</c:if>
 	
 	<tr>
 		<th>내용</th>
