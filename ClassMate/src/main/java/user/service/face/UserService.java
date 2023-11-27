@@ -45,7 +45,6 @@ public interface UserService {
 
 	public boolean findPassword(UserInfo userInfo);
 
-//	public boolean updatePassword(String userPw);
 
 
 }
