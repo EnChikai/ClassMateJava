@@ -54,7 +54,8 @@
 .defaultWidth{
 	margin-left: 400px;
 	margin-right: 400px;
-	margin-top: 35px;
+    margin-top: 60px;
+	margin-bottom: 60px;
 }
 </style>
 <c:import url="/WEB-INF/views/layout/header.jsp" />
@@ -71,7 +72,7 @@
 		${list.classInfo }<br>
 		${list.curriculum }<br>
 		${list.onOff }<br>
-		${list.headImg }<br>
+		<img style="width: 250px;" src="/upload/${list.headImg }"><br>
 		<input type="text" id="classNo" value="${list.classNo}" style="display: none;" readonly="readonly">
 	    <input type="text" id="onOff" value="${list.onOff}" style="display: none;" readonly="readonly">
 	    <input type="text" id="className" value="${list.className}" style="display: none;" readonly="readonly">
