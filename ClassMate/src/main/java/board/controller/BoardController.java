@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -47,7 +48,6 @@ public class BoardController {
 //		logger.info("/board/board [GET]");
 		
 		paging = boardService.getBoardPaging(paging);
-//	    logger.info("paging : {}", paging);
 		
 		//게시판 조회
 		map = boardService.listBoard(paging);
@@ -106,7 +106,6 @@ public class BoardController {
 		}
 		//상세보기 게시글 조회
 		viewFree = boardService.freeView(viewFree);
-//		logger.info("{}", viewFree);
 		
 		//모델값 전달
 		model.addAttribute("viewFree", viewFree);
@@ -114,29 +113,60 @@ public class BoardController {
 		//첨부파일 정보 전달
 		List<FreeBoardFile> freeBoardFile = boardService.getAttachFreeFile( viewFree );
 		model.addAttribute("freeBoardFile", freeBoardFile);
-//		logger.info("freeBoardFile:{}", freeBoardFile);
 
+		//기존 댓글 불러오기
+		List<FreeComment> freeCommentList = boardService.freeCommentList(freeComment); 
+		model.addAttribute("freeCommentList", freeCommentList);
+		
 		return "board/freeView";
 	}
-	
-	
-	
+	//댓글 리스트 입력하기
+//	if( freeComment.getFreeCommentContent() != null ) {
+//		freeComment.setFreeNo((int)session.getAttribute("userNo"));
+//        boardService.freeCommentInsert(freeComment);
+//	}
+//	
+//	List<FreeComment> freeCommentList = boardService.freeCommentList(freeComment);
+//	logger.info("음 {}",freeCommentList);
+//FreeComment freeComment
 	@PostMapping("/freeView")
 	@ResponseBody 
-	public List<FreeComment> freeCommentView( FreeComment freeComment ) {
-
-		//댓글 리스트 입력하기
-		if( freeComment.getFreeCommentContent() != null ) {
-		boardService.freeCommentInsert(freeComment);
-		}
+	public Map<String,Object> freeComment(HttpSession session, @RequestParam Map<String,Object> userInfo ) {
+		logger.info("유저인포");
+		logger.info(userInfo.toString());
+		UserInfo user = new UserInfo();
+		user.setUserId((String)session.getAttribute("userId"));
+		logger.info(user.toString());
+		user = boardService.getUserInfo(user);
+//		
+		FreeComment freeComment = new FreeComment();
+		freeComment.setFreeNo(Integer.parseInt((String)userInfo.get("freeNo")));
+		freeComment.setUserNo(user.getUserNo());
+		freeComment.setFreeCommentContent((String) userInfo.get("freeCommentContent"));
+//		
+		freeComment = boardService.freeCommentInsert(freeComment);
+		freeComment.setUserName(user.getUserName());
 		
-		List<FreeComment> freeCommentList = boardService.freeCommentList(freeComment);
-		logger.info("음 {}",freeCommentList);
-
-		return freeCommentList;
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("freeCommentContent",freeComment.getFreeCommentContent());
+		map.put("userName", freeComment.getUserName());
+		map.put("freeCommentDate",freeComment.getFreeCommentDate());
+		
+		return map;
 		
 	}
 	
+	@GetMapping("/freeView/comments")
+	@ResponseBody
+	public List<FreeComment> freeViewCommentComments(FreeComment freeComment, HttpSession session) {
+		freeComment.setFreeNo((int)session.getAttribute("userNo"));
+		
+		
+		List<FreeComment> freeCommentList = boardService.freeCommentList(freeComment);
+		logger.info("기쁨의 눈물 {}",freeCommentList);
+		
+		return freeCommentList;
+	}
 	
 	//자유게시판 상세보기 - 첨부파일 다운로드
 	@RequestMapping("/download")
@@ -175,7 +205,6 @@ public class BoardController {
 		
 		//상세보기 게시글 조회
 		viewAnnounce = boardService.announceView(viewAnnounce);
-//		logger.info("{}", viewAnnounce);
 		
 		//모델값 전달
 		model.addAttribute("viewAnnounce", viewAnnounce);
@@ -183,7 +212,6 @@ public class BoardController {
 		//첨부파일 정보 전달
 		List<AnnounceBoardFile> announceBoardFile = boardService.getAttachAnnounceFile( viewAnnounce );
 		model.addAttribute("announceBoardFile", announceBoardFile);
-//		logger.info("announceBoardFile:{}", announceBoardFile);
 
 		return "board/announceView";
 	}
@@ -209,7 +237,6 @@ public class BoardController {
 		
 		//상세보기 게시글 조회
 		viewEvent = boardService.EventView(viewEvent);
-//		logger.info("{}", viewEvent);
 		
 		//모델값 전달
 		model.addAttribute("viewEvent", viewEvent);
@@ -217,7 +244,6 @@ public class BoardController {
 		//첨부파일 정보 전달
 		List<EventBoardFile> eventBoardFile = boardService.getAttachEventFile( viewEvent );
 		model.addAttribute("eventBoardFile", eventBoardFile);
-//		logger.info("eventBoardFile:{}", eventBoardFile);
 
 		return "board/eventView";
 	}
@@ -247,7 +273,6 @@ public class BoardController {
 		//자유게시판 번호로 자유게시글 조회
 		logger.info("아 왜 안되냐고freeUpadate{}",paramFree.getFreeNo());
 		paramFree = boardService.freeView(paramFree);
-//		logger.info("유주상스{}", paramFree);
 		if( paramFree.getFreeHead().equals("자유")) {
 			model.addAttribute("freeHead",1);
 		} else if(paramFree.getFreeHead().equals("모임")) {
@@ -259,7 +284,6 @@ public class BoardController {
 //		
 		//첨부파일 정보 전달
 		List<FreeBoardFile> freeBoardFile = boardService.getAttachFreeFile( paramFree );
-//		logger.info("유주상이문제다 {}", freeBoardFile);
 		model.addAttribute("freeBoardFile", freeBoardFile);
 		
 	}
@@ -270,16 +294,10 @@ public class BoardController {
 			, List<MultipartFile> file
 			, int[] delFileno
 			, HttpSession session
-//			, @SessionAttribute("id") String id
-//			, @SessionAttribute("nick") String nick
-//			
+			
 			, Model model) {
-//		
-//			updateParam.setWriterId( id );
-//			updateParam.setWriterNick( nick );
 		
 		logger.info("userNo 안에 뭐가 있어? : {}",updateParam.getFreeNo());
-//		updateParam.setWriterId((String) session.getAttribute("id"));
 		updateParam.setUserNo((int) session.getAttribute("userNo"));
 		
 		boardService.update(updateParam, file, delFileno);

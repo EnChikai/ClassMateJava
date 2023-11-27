@@ -42,7 +42,7 @@ public interface BoardService {
 	public FreeBoardFile getFreeFile(FreeBoardFile freeBoardFile);
 
 	//자유게시판 상세보기 - 댓글 입력
-	public void freeCommentInsert(FreeComment freeComment);
+	public FreeComment freeCommentInsert(FreeComment freeComment);
 	
 	//자유게시판 상세보기 - 댓글 조회
 	public List<FreeComment> freeCommentList(FreeComment freeComment);
@@ -85,6 +85,8 @@ public interface BoardService {
 
 	//1:1문의게시판 조회하기 - 파일
 	public List<QuestionFile> getAttachQuestionFile(Question viewQuestion);
+
+	public UserInfo getUserInfo(UserInfo user);
 
 
 

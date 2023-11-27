@@ -149,7 +149,7 @@ td {
             <tr class="table-warning" id="questionToptr">
                <th>번호</th>
                <th width="90px;">분류</th>
-               <th>문의내용</th>
+               <th width="380px;">문의내용</th>
                <th>작성자</th>
                <th>등록일</th>
                <th>확인여부</th>

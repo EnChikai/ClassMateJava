@@ -158,8 +158,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void freeCommentInsert(FreeComment freeComment) {
+	public FreeComment freeCommentInsert(FreeComment freeComment) {
 		boardDao.freeCommentInsert(freeComment);
+		System.out.println("프리코멘트넘버는");
+		System.out.println(freeComment.getFreeCommentNo());
+		freeComment = boardDao.selectByFreeNo(freeComment);
+		return freeComment;
 	}
 	
 	@Override
@@ -323,6 +327,12 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<QuestionFile> getAttachQuestionFile(Question viewQuestion) {
 		return boardDao.AttachQuestionFile(viewQuestion);
+	}
+
+	@Override
+	public UserInfo getUserInfo(UserInfo user) {
+		
+		return boardDao.selectByuserId(user);
 	}
 
 
