@@ -28,7 +28,7 @@ $(function(){
 
 
 function changeSelection(){
-	var selectedElement = document.getElementById("classCheck");
+	var selectedElement = document.getElementById("classNo");
 
 
    
@@ -43,7 +43,7 @@ function changeSelection(){
 <div class="title">
 <h3 style="display: inline-block;">ONF클래스 질문/답변 조회</h3>
 <div id= "all">
-    <select class="dropTag" name="classCheck" id="classCheck" onchange="changeSelection()">
+    <select class="dropTag" name="classNo" id="classNo" onchange="changeSelection()">
     	<option selected disabled> --선택-- </option>
        		<c:forEach var="dl" items = "${dropList }">
        		<option value="${dl.classNo }">${dl.className }</option>

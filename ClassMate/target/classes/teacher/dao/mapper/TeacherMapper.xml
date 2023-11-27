@@ -76,8 +76,8 @@ SELECT teacher_no FROM teacher
 	<selectKey order="BEFORE" resultType="int" keyProperty="licenceNo">
 			SELECT teacher_licence_seq.nextval FROM dual
 	</selectKey>
-	INSERT INTO teacher_licence ( licence_no, teacher_no, licence_img )
-		VALUES ( #{licenceNo}, #{teacherNo}, #{licenceImg})
+	INSERT INTO teacher_licence ( licence_no, teacher_no, origin_name, stored_name )
+		VALUES ( #{licenceNo}, #{teacherNo}, #{originName}, #{storedName})
 </insert>
 
 <insert id="applyPrcInsert" parameterType="TeacherApply">
