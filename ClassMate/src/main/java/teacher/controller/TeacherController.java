@@ -88,12 +88,13 @@ public class TeacherController {
 	}
 	
 	@GetMapping("/answer")
-	public void answer(ModelMap map, HttpSession session, TeacherMainPaging param) {
+	public String answer(ModelMap map, HttpSession session, TeacherMainPaging param) {
 		
 		List <Class> list = teacherService.answerDrop(session, param);
 		
 		map.addAttribute("dropList", list);
 		
+		return null;
 	}
 	
 	@GetMapping("/apply")
@@ -170,7 +171,9 @@ public class TeacherController {
 	 }
 	 
 	 @GetMapping("/regist")
-	 public void regist() {}
+	 public void regist() {
+		 
+	 }
 	 
 	 @PostMapping("/regist")
 	 public String teacherClassRegistPost(	
@@ -203,28 +206,28 @@ public class TeacherController {
 		 return null;//"redirect:./detail?classNo=" + registLecture.getClassNo();
 	 }
 	 
-	 
-	 @RequestMapping("/answer")
-	 public void teacherQaListGet(QuestionAnswer qa, TeacherMainPaging param, Model model, HttpSession session) {
-		 
-		// int classNo = (int) session.getAttribute("classNo"); // 세션에 저장된 유저넘버
-			int userNo = 2; //유저번호가 2번이라는 가정 하에 진행
-		 
-		 TeacherMainPaging paging = teacherService.getAnswerPaging( param, userNo); 
-		 logger.info("{}",paging);
-		 
-		  //질문/답변 리스트 조회 
-			List<QuestionAnswer> list = teacherService.qaList( paging, userNo);
-		  
-			model.addAttribute("paging", paging); 
-			model.addAttribute("list", list);
-		 
+//	 
+//	 @RequestMapping("/answer")
+//	 public void teacherQaListGet(QuestionAnswer qa, TeacherMainPaging param, Model model, HttpSession session) {
+//		 
+//		// int classNo = (int) session.getAttribute("classNo"); // 세션에 저장된 유저넘버
+//			int userNo = 2; //유저번호가 2번이라는 가정 하에 진행
+//		 
+//		 TeacherMainPaging paging = teacherService.getAnswerPaging( param, userNo); 
+//		 logger.info("{}",paging);
+//		 
+//		  //질문/답변 리스트 조회 
+//			List<QuestionAnswer> list = teacherService.qaList( paging, userNo);
+//		  
+//			model.addAttribute("paging", paging); 
+//			model.addAttribute("list", list);
+//		 
 			
 			
 			// 웹에서 전달되는 클래스 번호 가져오기
 			// 클래스 번호와 동일한 리스트 출력하도록 바꾸기
 		 
-	 }
+//	 }
 	 
 
 	 

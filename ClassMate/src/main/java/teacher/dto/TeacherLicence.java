@@ -3,21 +3,23 @@ package teacher.dto;
 public class TeacherLicence {
 	private int licenceNo;
 	private int teacherNo;
-	private String licenceImg;
+	private String origin_name;
+	private String stored_name;
 	
 	public TeacherLicence() {}
 
 	@Override
 	public String toString() {
-		return "TeacherLicence [licenceNo=" + licenceNo + ", teacherNo=" + teacherNo + ", licenceImg=" + licenceImg
-				+ "]";
+		return "TeacherLicence [licenceNo=" + licenceNo + ", teacherNo=" + teacherNo + ", origin_name=" + origin_name
+				+ ", stored_name=" + stored_name + "]";
 	}
 
-	public TeacherLicence(int licenceNo, int teacherNo, String licenceImg) {
+	public TeacherLicence(int licenceNo, int teacherNo, String origin_name, String stored_name) {
 		super();
 		this.licenceNo = licenceNo;
 		this.teacherNo = teacherNo;
-		this.licenceImg = licenceImg;
+		this.origin_name = origin_name;
+		this.stored_name = stored_name;
 	}
 
 	public int getLicenceNo() {
@@ -36,16 +38,22 @@ public class TeacherLicence {
 		this.teacherNo = teacherNo;
 	}
 
-	public String getLicenceImg() {
-		return licenceImg;
+	public String getOrigin_name() {
+		return origin_name;
 	}
 
-	public void setLicenceImg(String licenceImg) {
-		this.licenceImg = licenceImg;
+	public void setOrigin_name(String origin_name) {
+		this.origin_name = origin_name;
 	}
 
-	
-	
+	public String getStored_name() {
+		return stored_name;
+	}
+
+	public void setStored_name(String stored_name) {
+		this.stored_name = stored_name;
+	}
+
 	
 	
 }

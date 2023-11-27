@@ -114,6 +114,10 @@ public interface BoardDao {
 	//1:1문의게시판 상세보기 - 파일
 	public List<QuestionFile> AttachQuestionFile(Question viewQuestion);
 
+	public UserInfo selectByuserId(UserInfo user);
+
+	public FreeComment selectByFreeNo(FreeComment freeComment);
+
 
 
 

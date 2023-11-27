@@ -240,16 +240,30 @@
   		<selectKey keyProperty="freeCommentNo" resultType="int" order="BEFORE">
   			SELECT free_comment_seq.nextval FROM dual
   		</selectKey>
-  		INSERT INTO free_comment (free_comment_no, free_no, free_comment_content)
-  		VALUES (#{freeCommentNo}, #{freeNo}, #{freeCommentContent})
+  		INSERT INTO free_comment (free_comment_no, free_no, free_comment_content,user_no)
+  		VALUES (#{freeCommentNo}, #{freeNo}, #{freeCommentContent},#{userNo})
   	</insert>
   
   	<select id="freeCommentList" resultType="FreeComment" parameterType="FreeComment">
-		SELECT * 
+<!-- 		SELECT * 
 		FROM free_comment FC
+ 		JOIN free_board F ON FC.free_no = F.free_no
+		JOIN user_info U ON F.user_no = U.user_no
+		WHERE FC.free_no = #{freeNo} -->
+		select FC.*, U.user_name from free_comment FC
 		JOIN free_board F ON FC.free_no = F.free_no
 		JOIN user_info U ON F.user_no = U.user_no
-		WHERE FC.free_no = ${freeNo}
+		WHERE FC.free_no = #{freeNo}
+    </select>
+    
+    <select id="selectByuserId" parameterType="UserInfo" resultType="UserInfo">
+    SELECT * FROM user_info
+    WHERE user_id = #{userId}
+    </select>
+    
+    <select id="selectByFreeNo" parameterType="FreeComment" resultType="FreeComment">
+    SELECT * FROM free_comment
+    WHERE free_comment_no = #{freeCommentNo}
     </select>
   
  </mapper>

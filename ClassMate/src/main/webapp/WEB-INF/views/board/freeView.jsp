@@ -73,8 +73,8 @@
 }
 
 #freeCommentBody {
-	padding: 15px;
-	height: 90px;
+	padding: 25px;
+	height: auto;
 	margin-left: 80px;
 }
 
@@ -90,6 +90,7 @@
 	height: 30px;
 	padding-left: 5px;
 	border-radius: 3px;
+	border: 1px solid;
 	font-size: 15px;
 }
 
@@ -173,30 +174,84 @@
    float: right;
 }
 
-</style>
+#commentFreeDiv {
+	height: 70px;
+}
 
+#freeCommentDate {
+	color: gray;
+}
+
+#freeCommentName {
+	vertical-align: top;
+}
+
+#freeCommentComment2 {
+	margin-left: -4px;
+}
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function () {
-    // ...
 
+    // 페이지 로드 시 댓글 목록 불러오기
+    loadCommentList();
+    
     // 댓글 입력
     $("#freeCommentButton").click(function () {
+    	console.log("버튼 클릭됨")
         var formData = {
             freeNo: ${viewFree.freeNo},
-            freeCommentContent: $("#freeCommentContent").val(),
+            freeCommentContent: $("#freeCommentContent").val()
         };
+    	console.log(formData)
 
+        // 랜덤 색상 생성 함수
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // 기존 사용자 아이디 색상 맵
+        var userColorMap = {};
+
+        // 랜덤 색상 생성 및 스타일 적용
+        if (!userColorMap[formData.userName]) {
+            userColorMap[formData.userName] = getRandomColor();
+        }
+        formData.userNameColor = userColorMap[formData.userName];
+
+        // AJAX 요청
         $.ajax({
             type: "POST",
             url: "/board/freeView",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             data: formData,
-            dataType: "json",
-            encode: true,
             success: function (comment) {
                 console.log("댓글 등록 성공", comment);
-                // 등록 후 댓글 목록을 다시 불러와서 갱신
-                renderCommentList(comment);
+            // 등록 후 댓글 목록을 다시 불러와서 갱신
+         	var commentListElement = $('#commentList');
+            var commentHtml = '<div id="commentFreeDiv" style="color:#ccc;">';
+            commentHtml += '<span> <img id="freefile" alt="freefile" src="/resources/img/usercomment.png" width="20" height="20"> </span>';
+            commentHtml += '<span id="freeCommentName">  ' + comment.userName + '</span>';
+
+            // "11월 23, 2023" 형식의 날짜를 "YYYY-MM-DD HH:mm" 형식으로 변환
+            var formattedDate = moment(comment.freeCommentDate, "MM월 DD, YYYY").format("YYYY-MM-DD HH:mm");
+
+            commentHtml += '<span id="freeCommentDate"><small> &nbsp &nbsp' + formattedDate + ' </small></span>';
+
+            commentHtml += '<p id="freeCommentComment2">&nbsp &nbsp &nbsp &nbsp' + comment.freeCommentContent + '</p>';
+            commentHtml += '</div>';
+            
+            // 댓글을 목록에 추가
+            commentListElement.append(commentHtml);
+                $("#freeCommentContent").val("");
             },
             error: function (error) {
                 console.error("댓글 등록 실패", error);
@@ -204,25 +259,53 @@ $(document).ready(function () {
         });
     });
 
+
     // 댓글 목록을 동적으로 생성하여 출력
     function renderCommentList(comments) {
         var commentListElement = $('#commentList');
         commentListElement.empty(); // 기존에 출력된 내용 초기화
 
         $.each(comments, function (index, comment) {
-            var commentHtml = '<div>';
-            commentHtml += '<p>댓글 번호: ' + comment.freeCommentNo + '</p>';
-            commentHtml += '<p>이름: ' + comment.userName + '</p>';
-            commentHtml += '<p>내용: ' + comment.freeCommentContent + '</p>';
-            commentHtml += '<p>작성일: ' + comment.freeCommentDate + '</p>';
-            commentHtml += '</div>';
+            var commentHtml = '<div id="commentFreeDiv" style="color:#ccc;">';
+            commentHtml += '<span> <img id="freefile" alt="freefile" src="/resources/img/usercomment.png" width="20" height="20"> </span>';
+            commentHtml += '<span id="freeCommentName">  ' + comment.userName + '</span>';
 
+            // "11월 23, 2023" 형식의 날짜를 "YYYY-MM-DD HH:mm" 형식으로 변환
+            var formattedDate = moment(comment.freeCommentDate, "MM월 DD, YYYY").format("YYYY-MM-DD HH:mm");
+
+            commentHtml += '<span id="freeCommentDate"><small> &nbsp &nbsp' + formattedDate + ' </small></span>';
+
+            commentHtml += '<p id="freeCommentComment2">&nbsp &nbsp &nbsp &nbsp' + comment.freeCommentContent + '</p>';
+            commentHtml += '</div>';
+            
             // 댓글을 목록에 추가
             commentListElement.append(commentHtml);
         });
     }
+    
+    // 댓글 목록 불러오기
+    function loadCommentList() {
+        // AJAX 요청
+        var commentData = {
+            freeNo: ${viewFree.freeNo},
+        };
+        $.ajax({
+            type: "GET", // GET 요청으로 변경
+            url: "/board/freeView/comments", // 실제 URL은 적절하게 변경해야 함
+            dataType: "json",
+            data: commentData,
+            encode: true,
+            success: function (comments) {
+                console.log("댓글 목록 불러오기 성공", comments);
+                // 댓글 목록을 출력하는 함수 호출
+                renderCommentList(comments);
+            },
+            error: function (error) {
+                console.error("댓글 목록 불러오기 실패", error);
+            }
+        });
+    }
 
-    // ...
 });
 </script>
 
@@ -278,15 +361,22 @@ $(document).ready(function () {
    <tr id="tdComment2"> 
    		<td>  	
       	<div id="freeCommentBody">
-      		<span style="display: inline-block; font-size: 16px;">이름 : </span>
+<%--       		<c:forEach var="freeCommentList" items="${freeCommentList }" >
+      		<span id="freeCommentName">${freeCommentList.userName }</span>
+      		<span id="freeCommentDate">${freeCommentList.freeCommentDate }</span><br>
+      		<p id="freeCommentComment2">${freeCommentList.freeCommentContent }</p>
+      		</c:forEach> --%>
+      		
+<!--       		<span style="display: inline-block; font-size: 16px;">이름 : </span>
       		<span style="display: inline-block; font-size: 16px;">내용 : </span>
-      		<span style="display: inline-block; font-size: 16px;">작성일 : </span>
-				<div id="commentList"></div> <!-- 댓글 목록을 출력할 영역 -->
+      		<span style="display: inline-block; font-size: 16px;">작성일 : </span> -->
+			 <div id="renderCommentList"></div>
+			 <div id="commentList"></div>
       	</div>
       	
 		<div id="freeCommentFoot">
 			<label for="freeComment">
-				<input type="text" id="freeCommentContent" name="freeCommentContent" placeholder="댓글을 입력하세요">
+				<input type="text" id="freeCommentContent" name="freeCommentContent" placeholder="댓글을 입력하세요" >
 				<!-- <input type="button" id="freeCommentButton" name="freeCommentButton" value="등록"> -->
 				<button id="freeCommentButton" name="freeCommentButton">등록</button>
 			</label>
@@ -294,7 +384,7 @@ $(document).ready(function () {
 		</td>
    </tr>
       
-   <tr>   
+   <tr>
      <td id="tdFoot">
      
      <c:if test="${not empty sessionScope.userId and sessionScope.userNo eq viewFree.userNo}">  

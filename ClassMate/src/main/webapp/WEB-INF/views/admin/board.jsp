@@ -80,13 +80,11 @@ text-align: center;
 }
 
 #boardNameInfo{
-display: inline-block;
 width: 484px;
 white-space: nowrap;
 overflow: hidden;
 text-overflow: ellipsis;
 height: 30px;
-
 }
 
 #insertBtn{

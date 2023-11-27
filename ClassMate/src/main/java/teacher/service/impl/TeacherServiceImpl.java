@@ -402,11 +402,11 @@ public class TeacherServiceImpl implements TeacherService {
 		
 		//저장될 파일 이름
 		String originName = file.getOriginalFilename();
-		String licenceImg = originName + UUID.randomUUID().toString().split("-")[4];
+		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
 		
 		
 		//저장할 파일 객체
-		File dest = new File(storedFolder, licenceImg);
+		File dest = new File(storedFolder, storedName);
 	
 		
 		try {
@@ -422,7 +422,7 @@ public class TeacherServiceImpl implements TeacherService {
 		TeacherLicence teacherLicence = new TeacherLicence();
 		
 		teacherLicence.setTeacherNo( teacherNo );
-		teacherLicence.setLicenceImg(licenceImg);
+		teacherLicence.setStored_name(storedName);
 		
 		logger.info("simpl {}", teacherLicence);
 		

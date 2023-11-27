@@ -68,15 +68,15 @@ $(document).ready(function() {
 
 function categoryUchange() {
 	
-	var cook = ["양식", "한식", "밀키트"];
-	var beauty = ["헤어", "메이크업", "왁싱"];
-	var sports = ["구기스포츠", "라켓스포츠", "수영"];
-	var selfDevelopement = ["실무", "제테크", "자격증"];
-	var design = ["패션", "악세사리", "가구"];
-	var communication = ["토론", "어학", "발표"];
-	var business = ["굿즈", "투잡", "제테크"];
-	var create = ["문학", "음악", "팬픽"];
-	var it = ["홈페이지", "어플리케이션", "프로그래밍 언어"];
+	var art = ["음악", "영화", "사진", "회화", "뮤지컬", "공예", "연기", "게임", "무용"];
+	var sports = ["헬스", "무술", "런닝", "수영", "사이클링", "레저", "체조", "요가", "크로스핏"];
+	var cook = ["중식", "양식", "한식", "채식", "디저트", "베이킹", "퓨전", "건강식", "간편식"];
+	var travel = ["백패킹", "휴양지", "도보", "음식", "문화", "도심", "로드 트립", "정글", "섬",];
+	var growth = ["직업", "창업", "금융", "건강", "자기개발", "기술", "비즈니스", "교육", "독서"];
+	var it = ["웹 개발", "앱 개발", "클라우드", "빅데이터", "프로그래밍 언어", "사이버 보안", "인공지능(AI)", "블록체인", "로봇 공학"];
+	var fashion = ["의류", "패션 디자인", "악세사리", "뷰티", "컬러 코디네이션", "코스튬", "컬처 패션", "리사이클 패션", "패션 브랜드"];
+	var create = ["영상 제작", "포토그래피", "디자인", "만화", "VR 및 AR", "음악 프로듀싱", "소셜 미디어", "캘리그라피", "키네틱 아트"];
+	var culture = ["축제", "종교", "문학", "미술", "문화유산", "언어", "여행", "음악", "건축"];
 	
 	var mainCategoryName = document.getElementById("mainCategoryName");
 	var subCategoryName = document.getElementById("subCategoryName");
@@ -87,32 +87,32 @@ function categoryUchange() {
 	
 	// 선택한 대분류에 따라 소분류 설정
     switch (selectedCategory) {
-    case "cook":
-        categoryDropdown(cook);
-        break;
-    case "beauty":
-    	categoryDropdown(beauty);
+    case "art":
+        categoryDropdown(art);
         break;
     case "sports":
     	categoryDropdown(sports);
         break;
-    case "selfDevelopement":
-    	categoryDropdown(selfDevelopement);
+    case "cook":
+    	categoryDropdown(cook);
         break;
-    case "design":
-    	categoryDropdown(design);
+    case "travel":
+    	categoryDropdown(travel);
         break;
-    case "communication":
-    	categoryDropdown(communication);
+    case "growth":
+    	categoryDropdown(growth);
         break;
-    case "business":
-    	categoryDropdown(business);
+    case "it":
+    	categoryDropdown(it);
+        break;
+    case "fashion":
+    	categoryDropdown(fashion);
         break;
     case "create":
     	categoryDropdown(create);
         break;
-    case "it":
-    	categoryDropdown(it);
+    case "culture":
+    	categoryDropdown(culture);
         break;
     // 다른 대분류에 대한 case 추가
 	}
@@ -192,15 +192,16 @@ function readURL(input) {
 	<td>
 	 <label for="mainCategoryName">대분류 : </label>
 	<select name="mainCategoryName" id="mainCategoryName" onchange="categoryUchange()">
-	<option value="cook">요리</option>
-	<option value="beauty">뷰티</option>
+	<option selected disabled>--대분류를 선택해주세요--</option>
+	<option value="art">예술</option>
 	<option value="sports">스포츠</option>
-	<option value="selfDevelopement">자기개발</option>
-	<option value="design">디자인</option>
-	<option value="communication">커뮤니케이션</option>
-	<option value="business">비즈니스</option>
-	<option value="create">창작</option>
+	<option value="cook">요리</option>
+	<option value="travel">여행</option>
+	<option value="growth">성장</option>
 	<option value="it">IT</option>
+	<option value="fashion">패션</option>
+	<option value="create">창작</option>
+	<option value="culture">IT</option>
 	</select>
 	>
 	<label for="subCategoryName">소분류 : </label>
