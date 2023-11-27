@@ -36,6 +36,9 @@ public class MainController {
 	public void main( Model model, Class cLass, EventBoard eventBoard, Map<String,Object> map) {
 		
 		mainService.MainPage(cLass,eventBoard,map);
+		
+//		logger.info("안에 뭐 있어? : {}",map.get("onClassOrderTopList"));
+		
 		model.addAttribute("selectByEventFileList",map.get("selectByEventFileList"));
 		model.addAttribute("onClassOrderTopList",map.get("onClassOrderTopList"));
 		model.addAttribute("onRecommended",map.get("onRecommended"));
@@ -64,6 +67,7 @@ public class MainController {
 //		System.out.println(subCategory);
 		
 		List<SubCategory> list = mainService.subCategoryList(subCategory);
+		logger.info("list안에 뭐있어? {}",list);
 		
 			
 		model.addAttribute("list", list);
@@ -78,46 +82,69 @@ public class MainController {
 		   Map<String, Object> map = new HashMap<>(); 
 		  
 	       map = mainService.onClassList(cLass, paging);
+
 	       model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
 	       model.addAttribute("onClassList", map.get("list"));
 	       model.addAttribute("paging",map.get("paging1"));
+	       
+	       System.out.println(map.get("list"));
+	       if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
+	    	    model.addAttribute("error", 1);
+	    	}
+	       
 	       if (sort != null) {
 			   if( sort.equals("expense") ) {
 					logger.info("sort {}", sort);
 				   map = mainService.onClassList(cLass, paging, sort);
+	
 				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
 				   model.addAttribute("onClassList", map.get("list"));
 				   model.addAttribute("paging",map.get("paging1"));
 				   model.addAttribute("sort",sort);
 				   model.addAttribute("expenseNo",1);
+				   if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
+					    model.addAttribute("error", 1);
+					}
 				   
 			   } else if( sort.equals("class_no desc") ) {
 					logger.info("sort {}", sort);
 				   map = mainService.onClassList(cLass, paging, sort);
+				   
 				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
 				   model.addAttribute("onClassList", map.get("list"));
 				   model.addAttribute("paging",map.get("paging1"));
 				   model.addAttribute("sort",sort);
 				   model.addAttribute("classDescNo",2);
+				   if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
+					    model.addAttribute("error", 1);
+					}
 				   
 				   
 			   } else if( sort.equals("expense desc") ) {
 				   logger.info("sort {}", sort);
 				   map = mainService.onClassList(cLass, paging, sort);
+				   
 				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
 				   model.addAttribute("onClassList", map.get("list"));
 				   model.addAttribute("paging",map.get("paging1"));
 				   model.addAttribute("sort",sort);
 				   model.addAttribute("expenseDescNo",3);
+				   if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
+					    model.addAttribute("error", 1);
+					}
 				   
 			   } else if(sort.equals("order_no desc") ) {
 				   logger.info("sort {}", sort);
 				   map = mainService.onClassList(cLass, paging, sort);
+				   
 				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
 				   model.addAttribute("onClassList", map.get("list"));
 				   model.addAttribute("paging",map.get("paging1"));
 				   model.addAttribute("sort",sort);
 				   model.addAttribute("orderNoDesc",4);
+				   if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
+					    model.addAttribute("error", 1);
+					}
 				   
 			   }
 		   }
@@ -130,47 +157,67 @@ public class MainController {
 	   	   
 	   	   Map<String, Object> map = new HashMap<>();
 	   	   map = mainService.offClassList(cLass, paging);
+	   	   
 	       model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
 	       model.addAttribute("offClassList", map.get("list"));
 	       model.addAttribute("paging",map.get("paging1"));
+	       if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
+	    	    model.addAttribute("error", 1);
+	    	}
 	       
 	       if (sort != null) {
 			   if( sort.equals("expense") ) {
 					logger.info("sort {}", sort);
 				   map = mainService.offClassList(cLass, paging, sort);
+				   
 				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
 				   model.addAttribute("offClassList", map.get("list"));
 				   model.addAttribute("paging",map.get("paging1"));
 				   model.addAttribute("sort",sort);
 				   model.addAttribute("expenseNo",1);
+				   if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
+					    model.addAttribute("error", 1);
+					}
 				   
 			   } else if( sort.equals("class_no desc") ) {
 					logger.info("sort {}", sort);
 				   map = mainService.offClassList(cLass, paging, sort);
+				   
 				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
 				   model.addAttribute("offClassList", map.get("list"));
 				   model.addAttribute("paging",map.get("paging1"));
 				   model.addAttribute("sort",sort);
 				   model.addAttribute("classDescNo",null);
+				   if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
+					    model.addAttribute("error", 1);
+					}
 				   
 				   
 			   } else if( sort.equals("expense desc") ) {
 				   logger.info("sort {}", sort);
 				   map = mainService.offClassList(cLass, paging, sort);
+				   
 				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
 				   model.addAttribute("offClassList", map.get("list"));
 				   model.addAttribute("paging",map.get("paging1"));
 				   model.addAttribute("sort",sort);
 				   model.addAttribute("expenseDescNo",3);
+				   if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
+					    model.addAttribute("error", 1);
+					}
 				   
 			   } else if(sort.equals("order_no desc") ) {
 				   logger.info("sort {}", sort);
 				   map = mainService.offClassList(cLass, paging, sort);
+				   
 				   model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
 				   model.addAttribute("offClassList", map.get("list"));
 				   model.addAttribute("paging",map.get("paging1"));
 				   model.addAttribute("sort",sort);
 				   model.addAttribute("orderNoDesc",4);
+				   if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
+					    model.addAttribute("error", 1);
+					}
 				   
 			   }
 		   }

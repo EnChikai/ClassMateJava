@@ -87,7 +87,7 @@
 	 	SELECT * FROM (
 	 		SELECT rownum runm, B.* FROM (
 	 			SELECT c.class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start, class_end, max_count, expense,
-					class_info, curriculum, on_off, head_img, content, delete_boolean, order_no, user_no, o.merchant_uid
+					class_info, curriculum, on_off, head_img, delete_boolean, order_no, user_no, o.merchant_uid
 				FROM class c
 				FULL OUTER JOIN order_tb o ON c.class_no = o.class_no
 	 				WHERE c.delete_boolean = 0
@@ -102,7 +102,7 @@
 	 	SELECT * FROM (
 	 		SELECT rownum runm, B.* FROM (
 	 			SELECT c.class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start, class_end, max_count, expense,
-					class_info, curriculum, on_off, head_img, content, delete_boolean, order_no, user_no, o.merchant_uid
+					class_info, curriculum, on_off, head_img, delete_boolean, order_no, user_no, o.merchant_uid
 				FROM class c
 				FULL OUTER JOIN order_tb o ON c.class_no = o.class_no
 	 				WHERE c.delete_boolean = 0

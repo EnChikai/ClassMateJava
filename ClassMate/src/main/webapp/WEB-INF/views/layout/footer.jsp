@@ -111,6 +111,114 @@
 
 	}); 
 });
+  
+$(document).ready(function () {
+	//사이트 소개
+	// 마우스를 올리면 글자색과 언더라인 변경
+	$("#terms1").mouseover(function () {
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "#F0C610");
+	        $(this).css("text-decoration", "underline");
+	    }
+	}).mouseout(function () {
+	    // 마우스를 떼면 초기 스타일로 변경
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "black");
+	        $(this).css("text-decoration", "none");
+	    }
+	});
+	
+	//이용약관
+	// 마우스를 올리면 글자색과 언더라인 변경
+	$("#terms2").mouseover(function () {
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "#F0C610");
+	        $(this).css("text-decoration", "underline");
+	    }
+	}).mouseout(function () {
+	    // 마우스를 떼면 초기 스타일로 변경
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "black");
+	        $(this).css("text-decoration", "none");
+	    }
+	});
+	
+	//이용약관 닫기
+	// 마우스를 올리면 글자색과 언더라인 변경
+	$("#closeModal").mouseover(function () {
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "#F0C610");
+	        $(this).css("text-decoration", "underline");
+	    }
+	}).mouseout(function () {
+	    // 마우스를 떼면 초기 스타일로 변경
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "black");
+	        $(this).css("text-decoration", "none");
+	    }
+	});
+	
+	//개인 정보 처리 방침
+	// 마우스를 올리면 글자색과 언더라인 변경
+	$("#terms3").mouseover(function () {
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "#F0C610");
+	        $(this).css("text-decoration", "underline");
+	    }
+	}).mouseout(function () {
+	    // 마우스를 떼면 초기 스타일로 변경
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "black");
+	        $(this).css("text-decoration", "none");
+	    }
+	});
+	
+	//개인 정보 처리 방침 닫기
+	// 마우스를 올리면 글자색과 언더라인 변경
+	$("#closeModal2").mouseover(function () {
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "#F0C610");
+	        $(this).css("text-decoration", "underline");
+	    }
+	}).mouseout(function () {
+	    // 마우스를 떼면 초기 스타일로 변경
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "black");
+	        $(this).css("text-decoration", "none");
+	    }
+	});
+	
+	//위치 기반 서비스 이용 약관
+	// 마우스를 올리면 글자색과 언더라인 변경
+	$("#terms4").mouseover(function () {
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "#F0C610");
+	        $(this).css("text-decoration", "underline");
+	    }
+	}).mouseout(function () {
+	    // 마우스를 떼면 초기 스타일로 변경
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "black");
+	        $(this).css("text-decoration", "none");
+	    }
+	});
+	
+	//위치 기반 서비스 이용 약관 닫기
+	// 마우스를 올리면 글자색과 언더라인 변경
+	$("#closeModal3").mouseover(function () {
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "#F0C610");
+	        $(this).css("text-decoration", "underline");
+	    }
+	}).mouseout(function () {
+	    // 마우스를 떼면 초기 스타일로 변경
+	    if (!$(this).hasClass("clicked")) {
+	        $(this).css("color", "black");
+	        $(this).css("text-decoration", "none");
+	    }
+	});
+});
+
 
 </script>
 
@@ -118,7 +226,7 @@
 
 #modal{
   display:none;
-  position:fixed;
+  position:fixed; z-index: 10;
   width:100%; height:100%;
   top:0; left:0;
   background:rgba(0,0,0,0.3);
@@ -127,7 +235,7 @@
 
 .modal-con{
   display:none;
-  position:fixed;
+  position:fixed; z-index: 10;
   top:50%; left:50%;
   transform: translate(-50%,-50%);
   max-width: 40%;
@@ -141,17 +249,19 @@
   color: #fff;
   text-align: center;
   margin-top: 30px;
+  position: relative; z-index: 10;
 }
 .modal-con .con{
   font-size:15px; line-height:1.3;
   padding: 30px;
   height: 50vh;
   overflow-y: auto; 
+  position: relative; z-index: 10;
 }
 
 #modal2{
   display:none;
-  position:fixed; 
+  position:fixed; z-index: 10; 
   width:100%; height:100%;
   top:0; left:0; 
   background:rgba(0,0,0,0.3);
@@ -160,7 +270,7 @@
 
 .modal-con2{
   display:none;
-  position:fixed;
+  position:fixed; z-index: 10;
   top:50%; left:50%;
   transform: translate(-50%,-50%);
   max-width: 40%;
@@ -174,18 +284,20 @@
   color: #fff;
   text-align: center;
   margin-top: 30px;
+  position:relative; z-index: 10;
 }
 .modal-con2 .con2{
   font-size:15px; line-height:1.3;
   padding: 30px;
   height: 50vh;
-  overflow-y: auto; 
+  overflow-y: auto;
+  position:relative; z-index: 10; 
 }
 
 
 #modal3{
   display:none;
-  position:fixed; 
+  position:fixed; z-index: 10;
   width:100%; height:100%;
   top:0; left:0; 
   background:rgba(0,0,0,0.3);
@@ -194,7 +306,7 @@
 
 .modal-con3{
   display:none;
-  position:fixed;
+  position:fixed; z-index: 10;
   top:50%; left:50%;
   transform: translate(-50%,-50%);
   max-width: 40%;
@@ -208,12 +320,14 @@
   color: #fff;
   text-align: center;
   margin-top: 30px;
+  position:relative; z-index: 10;
 }
 .modal-con3 .con3{
   font-size:15px; line-height:1.3;
   padding: 30px;
   height: 50vh;
   overflow-y: auto; 
+  position:relative; z-index: 10;
 }
 
 
@@ -222,9 +336,7 @@
     height: 15px;
 }
 
-td{
-	padding-right: 15px;
-}
+
 
 
 
@@ -243,11 +355,6 @@ td{
 .closeModal{
 	text-decoration: none;
 	color: black;
-}
-
-a:hover {
-  color : #F0C610;
-  text-decoration: underline;
 }
 
 
@@ -269,8 +376,8 @@ a:hover {
 	<c:import url="/WEB-INF/views/main/useTerms.jsp"></c:import>
 
     </div>
-    <div style="text-decoration: none; color: black; text-align: center;">
-    	<a href="javascript:return false;" class="closeModal" id="closeModal">닫기</a>
+    <div style="text-align: center;">
+    	<a href="javascript:return false;" class="closeModal" id="closeModal" style="text-decoration: none; color: black;">닫기</a>
     </div>
   </div>
 
@@ -285,8 +392,8 @@ a:hover {
 	<c:import url="/WEB-INF/views/main/privacyPolicy.jsp"></c:import>
 
     </div>
-        <div style="text-decoration: none; color: black; text-align: center;">
-    	<a href="javascript:return false;" class="closeModal" id="closeModal2">닫기</a>
+        <div style="text-align: center;">
+    	<a href="javascript:return false;" class="closeModal" id="closeModal2" style="text-decoration: none; color: black;">닫기</a>
     </div>
   </div>
 
@@ -301,8 +408,8 @@ a:hover {
 	<c:import url="/WEB-INF/views/main/locationBased.jsp"></c:import>
     
     </div>
-        <div style="text-decoration: none; color: black; text-align: center;">
-    	<a href="javascript:return false;" class="closeModal" id="closeModal3">닫기</a>
+        <div style="text-align: center;">
+    	<a href="javascript:return false;" class="closeModal" id="closeModal3" style="text-decoration: none; color: black;">닫기</a>
     </div>
   </div>
     
@@ -310,13 +417,13 @@ a:hover {
 
 <table>
 	<tr>
-		<td><a href="/main/site" class="terms" style="text-decoration: none; color: black;">사이트 소개</a></td>
-		<td><div class="vl"></div></td>
-		<td><a href="javascript:openModal('modal1');" class="terms" style="text-decoration: none; color: black;">이용약관</a></td>
-		<td><div class="vl"></div></td>
-		<td><a href="javascript:openModal2('modal2');" class="terms" style="text-decoration: none; color: black;">개인 정보 처리 방침</a></td>
-		<td><div class="vl"></div></td>
-		<td><a href="javascript:openModal3('modal3');" class="terms" style="text-decoration: none; color: black;">위치 기반 서비스 이용 약관</a></td>
+		<td style="padding-right: 15px;"><a href="/main/site" class="terms" style="text-decoration: none; color: black;" id="terms1">사이트 소개</a></td>
+		<td style="padding-right: 15px;"><div class="vl"></div></td>
+		<td style="padding-right: 15px;"><a href="javascript:openModal('modal1');" class="terms" style="text-decoration: none; color: black;" id="terms2">이용약관</a></td>
+		<td style="padding-right: 15px;"><div class="vl"></div></td>
+		<td style="padding-right: 15px;"><a href="javascript:openModal2('modal2');" class="terms" style="text-decoration: none; color: black;" id="terms3">개인 정보 처리 방침</a></td>
+		<td style="padding-right: 15px;"><div class="vl"></div></td>
+		<td style="padding-right: 15px;"><a href="javascript:openModal3('modal3');" class="terms" style="text-decoration: none; color: black;" id="terms4">위치 기반 서비스 이용 약관</a></td>
 	</tr>
 </table>
 <br><br>

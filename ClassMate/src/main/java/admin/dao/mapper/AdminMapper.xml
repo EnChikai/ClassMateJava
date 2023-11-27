@@ -147,6 +147,51 @@
 		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
   	</select>
   	
+  	<select id="selectTeacherInfo" resultType="Teacher" parameterType="TeacherApply">
+  		SELECT teacher_no, user_no, teacher_img, teacher_title, teacher_info, teacher_career
+  		FROM teacher
+  		WHERE teacher_no = ${teacherNo}
+  	</select>
+
+  	<select id="selectTeacherApply" resultType="TeacherApply" parameterType="TeacherApply">
+  		SELECT apply_no, teacher_no, apply_date, pass_or_not
+  		FROM Teacher_apply
+  		WHERE teacher_no = ${teacherNo}
+  	</select>
+  	
+  	<select id="selectUserName" resultType="UserInfo" parameterType="Teacher">
+  		SELECT user_name
+  		FROM user_info
+  		WHERE user_no = ${userNo}
+  	</select>
+  	
+  	<select id="selectTeacherLicence" resultType="String" parameterType="TeacherLicence">
+  		SELECT licence_no, teacher_no,  origin_name, stored_name
+  		FROM teacher_licence
+  		WHERE teacher_no = ${teacherNo}
+  	</select>
+  	
+  	<update id="updateTeacherApply" parameterType="TeacherApply">
+  		UPDATE teacher_apply
+  		SET pass_or_not = ${passOrNot} 
+  		WHERE teacher_no = ${teacherNo}
+  	</update>
+  	
+  	<delete id="deleteTeacherApply" parameterType="TeacherApply">
+  		DELETE teacher_apply
+			WHERE teacher_no = ${teacherNo}
+  	</delete>
+  	
+  	<delete id="deleteTeacherLicence" parameterType="TeacherApply">
+  		DELETE teacher_licence
+			WHERE teacher_no = ${teacherNo}
+  	</delete>
+  	
+  		<delete id="deleteTeacherInfo" parameterType="TeacherApply">
+  		DELETE teacher
+			WHERE teacher_no = ${teacherNo}
+  	</delete>
+  	
   	<!-- ================================================================================================================== -->
   	<!-- 게시판 관리 -->
   	
@@ -279,13 +324,6 @@
   		WHERE event_no = ${eventNo}
   	</select>
   	
-  	<select id="selectAnnoFileByFileNo" resultType="AnnounceBoardFile" parameterType="AnnounceBoardFile">
-  		SELECT
-			file_no, announce_no, origin_name, stored_name
-        FROM announce_board_file
-  		WHERE file_no = ${fileNo}
-  	</select>
-  	
   	<update id="updateEventInfo" parameterType="EventBoard">
   		UPDATE event_board
   		SET event_name = #{eventName} 
@@ -341,6 +379,20 @@
 		DELETE announce_board
 		WHERE announce_no = ${announceNo}
 	</delete>
+	
+  	<select id="selectAnnoFileByFileNo" resultType="AnnounceBoardFile" parameterType="AnnounceBoardFile">
+  		SELECT
+			file_no, announce_no, origin_name, stored_name
+        FROM announce_board_file
+  		WHERE file_no = ${fileNo}
+  	</select>
+  	
+  	<select id="selectEventFileByFileNo" resultType="EventBoardFile" parameterType="EventBoardFile">
+  		SELECT
+			file_no, event_no, origin_name, stored_name
+        FROM event_board_file
+  		WHERE file_no = ${fileNo}
+  	</select>
 	
 	<delete id="deleteEventFile" parameterType="EventBoard">
 		DELETE event_board_file

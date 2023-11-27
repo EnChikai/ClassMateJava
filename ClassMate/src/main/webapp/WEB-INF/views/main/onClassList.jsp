@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -13,33 +14,75 @@
 
 <style type="text/css">
     
-    .page-link.active{
+.page-link.active{
 
 	background: rgb(250,224,120);
 	border: 1px solid rgb(230,204,100);
 	
 }
+
 .defaultWidth{
 	margin-left: 400px;
 	margin-right: 400px;
-	margin-top: 35px;
+    margin-top: 60px;
+	margin-bottom: 60px;
 }
+
+a:hover{
+	color: #F0C610;
+}
+
+.classMenu{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#onClassPaging1 {
+	background-color: rgb(241, 196, 15);
+	border-color: rgb(241, 196, 15);
+	border-radius: 4px;
+	margin: 3.5px;
+	text-align: center;
+	color: white;
+}
+
+#onClassPaging2 {
+	border-radius: 4px;
+	color: black;
+	background-color: #f1f3f5;
+	border-color: #f1f3f5;
+	margin: 3.5px;
+	text-align: center;
+}
+
+#onClassPaging3,#onClassPaging4,#onClassPaging5,#onClassPaging6 {
+	border-radius: 4px;
+	color: black;
+	background-color: #f1f3f5;
+	border-color: #f1f3f5;
+	margin: 3.5px;
+	text-align: center;
+}
+
 </style>
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <div class="defaultWidth">
-    <!-- 토글 버튼 -->
+
+
+<div class="classMenu">
     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
     <input type="button" onclick="location.href='/main/onClassList?subCategoryNo=${subCategoryNo}'" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-    <label style="background-color: #F0C610; color: black;" class="btn btn-outline-warning" for="btnradio1" id="onClass">ON 전체보기</label>
+    <label style="font-size: 30px; background-color: #F0C610; color: black;" class="btn btn-outline-warning" for="btnradio1" id="onClass"><strong>ON</strong></label>
 
  	<input type="button" onclick="location.href='/main/offClassList?subCategoryNo=${subCategoryNo}'" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-    <label style="color: black; background-color: #00000059; border: none;" class="btn btn-secondary" for="btnradio2" id="offClass">OFF 전체보기</label>
+    <label style="font-size: 30px; color: black; background-color: #00000059; border: none;" class="btn btn-secondary" for="btnradio2" id="offClass"><strong>OFF</strong></label>
     </div>
         
 <form id="sortForm" action="/main/onClassList" method="get">
     <div class="dropdown" style="float: right;">
-        <select name="sort" id="sortOrderSelect" onchange="submitForm()">
+        <select name="sort" id="sortOrderSelect" onchange="submitForm()" style="padding: 7px; padding-right: 52px;">
             <option value="class_no desc" ${classDescNo eq 2 ? 'selected' : ''}>최신순</option>
             <option value="order_no desc" ${orderNoDesc eq 4 ? 'selected' : ''}>인기순</option>
             <option value="expense" ${expenseNo eq 1 ? 'selected' : ''}>낮은 금액</option>
@@ -48,124 +91,64 @@
         <input type="text" value="${subCategoryNo}" name="subCategoryNo" style="display: none;" readonly="readonly">
     </div>
 </form>
-<script>
-    function submitForm() {
-        document.getElementById('sortForm').submit();
-    }
-</script>
+</div>
+<hr style="margin-top: 0;">
 
-	
+<c:if test="${error eq 1 }">
+	<h1 style="text-align: center;">등록된 클래스가 없습니다.</h1>
+</c:if>
 	<div id="defaultOnClassList">
 		<c:forEach var="c" items="${onClassList}">
-	    	<c:if test="${c.deleteBoolean == 0}">
-	    		<a href="/main/onClassView?classNo=${c.classNo }">
-			        <h1>onClassList</h1><br>
-			        ${c.headImg }<br>
-			        <h3>${c.className }</h3><br>
-			        ${c.classInfo }<br>
-			        ${c.expense }<br>
-			        ${c.classStart }<br>
-			        ${c.classEnd }<br>
-			        ${c.maxCount }<br>
-		        </a>
-	    	</c:if>
+		    	<c:if test="${c.deleteBoolean == 0}">
+		    		<a href="/main/onClassView?classNo=${c.classNo }">
+		    			<div style="display: flex; margin-top: 35px;">
+		    				<div><img style="width: 250px;" src="/upload/${c.headImg }"></div>
+			    			<div style="margin-left: 15px;">
+						        <span style="font-size: 25px;"><strong>${c.className }</strong></span>
+						        <span style="margin-left: 350px; font-size: 25px; float: right;"><fmt:formatNumber value="${c.expense }" pattern="#,###" />원</strong></span>
+						        <div>${c.classInfo }</div><br>
+						        <div style="margin-top: margin-top: 33px;">
+							        <div style="float: right;">모집인원 : ${c.maxCount }명</div><br>
+							        <div style="float: right;">모집기간 : ${c.classStart }~${c.classEnd }</div>
+						        </div>
+					        </div>
+				        </div><br>
+			        </a><hr>
+		    	</c:if>
 		</c:forEach>
-    
- 	        <div>
-    	<ul class="pagination pagination-sm justify-content-center">
-			<%-- 첫 페이지로 이동 --%>
-			<c:if test="${paging.curPage ne 1 }">
-			<li class="page-item">
-				<a class="page-link" href="<%= request.getContextPath() %>?sort=${sort}&subCategoryNo=${subCategoryNo}">&larr; 처음</a>
-			</li>
-			</c:if>
-			
-			
-			
-			<%-- 이전 페이지 리스트로 이동 --%>
-			<c:choose>
-				<c:when test="${paging.startPage ne 1 }">
-				<li class="page-item">
-					<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.startPage - paging.pageCount }&sort=${sort}&subCategoryNo=${subCategoryNo}">&laquo;</a>
-				</li>
-				</c:when>
-				<c:when test="${paging.startPage eq 1 }">
-				<li class="page-item">
-					<a class="page-link disabled">&laquo;</a>
-				</li>
-				</c:when>
-			</c:choose>
-			
-			
-			
+ 		<div id="onClassPagination">
+    	<ul class="pagination pagination-sm justify-content-center" style="margin-top: 80px;">
 			
 			<%-- 이전 페이지로 이동 --%>
 			<c:if test="${paging.curPage > 1 }">
-				<li class="page-item">
-					<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage - 1 }&sort=${sort}&subCategoryNo=${subCategoryNo}">&lt;</a>
+				<li class="page-item" style="width: 45px;">
+					<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage - 1 }&sort=${sort}&subCategoryNo=${subCategoryNo}" id="onClassPaging6">&lt;</a>
 				</li>
-			</c:if>
-			
-			
-			
+			</c:if>			
 		
 			<%-- 페이징 번호 목록 --%>
 			<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
 				<c:if test="${paging.curPage eq i }">
-				<li class="page-item">
-					<a class="page-link active" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}&subCategoryNo=${subCategoryNo}">${i }</a>
+				<li class="page-item" style="width: 45px;">
+					<a class="page-link active" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}&subCategoryNo=${subCategoryNo}" id="onClassPaging1">${i }</a>
 				</li>
 				</c:if>
 				
 				<c:if test="${paging.curPage ne i }">
-				<li class="page-item">
-					<a class="page-link" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}&subCategoryNo=${subCategoryNo}">${i }</a>
+				<li class="page-item" style="width: 45px;">
+					<a class="page-link" href="<%= request.getContextPath() %>?curPage=${i }&sort=${sort}&subCategoryNo=${subCategoryNo}" id="onClassPaging2">${i }</a>
 				</li>
 				</c:if>
 			</c:forEach>
-			
-			
-			
-			
+					
 			<%-- 다음 페이지로 이동 --%>
 			<c:if test="${paging.curPage < paging.totalPage }">
-				<li class="page-item">
-					<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage + 1 }&sort=${sort}&subCategoryNo=${subCategoryNo}">&gt;</a>
+				<li class="page-item" style="width: 45px;">
+					<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage + 1 }&sort=${sort}&subCategoryNo=${subCategoryNo}" id="onClassPaging3">&gt;</a>
 				</li>
 			</c:if>
-			
-			
-			
-			
-			<%-- 다음 페이지 리스트로 이동 --%>
-			<c:choose>
-				<c:when test="${paging.endPage ne paging.totalPage }">
-				<li class="page-item">
-					<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.endPage + paging.pageCount }&sort=${sort}&subCategoryNo=${subCategoryNo}">&raquo;</a>
-				</li>
-				</c:when>
-				<c:when test="${paging.endPage eq paging.totalPage }">
-				<li class="page-item">
-					<a class="page-link disabled">&raquo;</a>
-				</li>
-				</c:when>
-			</c:choose>
-	
-			
-			
-			
-			<%-- 끝 페이지로 이동 --%>
-			<c:if test="${paging.curPage ne paging.totalPage }">
-			<li class="page-item">
-				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.totalPage }&sort=${sort}&subCategoryNo=${subCategoryNo}">끝 &rarr;</a>
-			</li>
-			</c:if>
-		
 		</ul>
-    </div>
-    
+   	</div>
    </div>
-   
-	
 </div>
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
