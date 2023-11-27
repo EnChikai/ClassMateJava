@@ -42,11 +42,16 @@
                 </span>
                 <h5 class="card-title">${questionAnswer.questionName }</h5>
                 <p class="card-text">${questionAnswer.questionContent }</p>
+                <c:if test="${questionAnswer.answer == 1}">
+                    <div class="card-text">
+                        <strong>답변: </strong>${questionAnswer.answerContent}
+                    </div>
+                </c:if>
             </div>
         </div>
     </c:forEach>
     <a href="/class/onClassQAWrite?classNo=${classNo}" class="btn btn-primary mt-3">질의 작성</a>
-    <a href="/class/onClass" class="btn btn-secondary mt-3">온클래스페이지</a>
+    <a href="/class/onClass?classNo=${classNo}" class="btn btn-secondary mt-3">온클래스페이지</a>
 </div>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

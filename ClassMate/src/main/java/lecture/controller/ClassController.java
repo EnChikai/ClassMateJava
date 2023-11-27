@@ -19,6 +19,7 @@ import lecture.service.face.ClassService;
 import oracle.net.aso.c;
 import user.dto.UserInfo;
 import lecture.dto.Class;
+import lecture.dto.ClassVideo;
 import lecture.dto.QuestionAnswer;
 
 @Controller
@@ -60,8 +61,16 @@ public class ClassController {
 	}
 	
 	@GetMapping("/onClassVideo")
-	public void onClassVideo(Model model) {
+	public void onClassVideo(ClassVideo classVideo, Model model, HttpSession session) {
+		logger.info("/onClassVideo");
 		
+		UserInfo userInfo = classService.userCk(session);
+		
+		classVideo = classService.video(classVideo);
+		
+		logger.info("classVideo : {}", classVideo);
+		
+		model.addAttribute("classVideo", classVideo);
 	}
 	
 	@GetMapping("/offClass")

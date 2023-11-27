@@ -22,7 +22,7 @@
                 </ul>
             </div>
             <div class="card mt-3">
-                <img src="${lecture.headImg}" class="card-img-top" alt="Class Image">
+                <img src="/upload/${lecture.headImg}" class="card-img-top" alt="Class Image">
             </div>
         </div>
         <div class="col-md-6">

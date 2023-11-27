@@ -68,5 +68,14 @@
 		VALUES (question_answer_seq.nextval, #{userNo}, #{classNo}, #{questionName}, #{questionContent}, 
 		(SELECT SYSDATE FROM dual), 0, null)
 	</insert>
+	
+	<select id="selectVideoByClassRound" parameterType="ClassVideo" resultType="ClassVideo">
+		SELECT
+			video_no, class_no, video_lesson, origin_name, stored_name
+			FROM class_video
+		<where>
+			AND video_no = #{videoNo}
+		</where>
+	</select>
 </mapper>
 

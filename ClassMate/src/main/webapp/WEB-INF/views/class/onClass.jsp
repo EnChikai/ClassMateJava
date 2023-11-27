@@ -21,7 +21,7 @@
 }
 
 #qaSection:hover {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .hero-text, .hero-title, .hero-subtitle {
@@ -83,17 +83,49 @@
 				<p class="hero-text">${lecture.teacher }</p>
 			</div>
 			<div class="col-md-6">
-				<img src="${lecture.headImg}" alt="Class Image"
+				<img src="/upload/${lecture.headImg}" alt="Class Image"
 					class="img-fluid rounded">
 			</div>
 		</div>
 
+		<!-- ClassVideo Section -->
+		<div class="video-section mb-4" id="videoSection">
+			<h2 class="text-center mb-4">ON클래스 동영상 리스트</h2>
+			<div class="row">
+				<c:forEach var="video" items="${classVideo}" varStatus="status">
+					<div class="col-md-4 mb-4">
+						<a href="/class/onClassVideo?videoNo=${video.videoNo}"
+							class="text-decoration-none">
+							<div class="card video-card">
+								<div class="card-body">
+									<h5 class="card-title video-title">레슨 ${video.videoLesson}</h5>
+									<!-- 동영상 썸네일 이미지 또는 대체 이미지 표시 -->
+									<img src="/upload/${video.storedName}"
+										alt="레슨 ${video.videoLesson} 이미지" class="img-fluid">
+									<p class="card-text video-text">${video.originName}</p>
+								</div>
+							</div>
+						</a>
+					</div>
+					<!-- 3개의 카드가 나열된 후, 다음 줄로 넘어가기 위한 조건 -->
+					<c:if test="${status.count % 3 == 0 && !status.last}">
+			</div>
+			<div class="row">
+				</c:if>
+				</c:forEach>
+			</div>
+		</div>
+
+
 
 		<!-- Q&A Section -->
 		<div class="qa-section" id="qaSection">
-			<h2 class="text-center mb-4"><a class="text-dark text-decoration-none">ON클래스 질문/답변</a></h2>
+			<h2 class="text-center mb-4">
+				<a class="text-dark text-decoration-none">ON클래스 질문/답변</a>
+			</h2>
 			<div class="row">
-				<c:forEach var="questionAnswer" items="${questionAnswer}" varStatus="status">
+				<c:forEach var="questionAnswer" items="${questionAnswer}"
+					varStatus="status">
 					<div class="col-md-3 mb-4">
 						<div class="card qa-card">
 							<div class="card-body">

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import user.dto.UserInfo;
 import lecture.dto.Class;
+import lecture.dto.ClassVideo;
 import lecture.dto.QuestionAnswer;
 
 public interface ClassService {
@@ -26,5 +27,7 @@ public interface ClassService {
 	public void insertQA(QuestionAnswer questionAnswer);
 
 	public UserInfo userCk(HttpSession session);
+
+	public ClassVideo video(ClassVideo classVideo);
 	
 }
