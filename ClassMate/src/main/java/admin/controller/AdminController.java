@@ -21,7 +21,9 @@ import admin.service.face.AdminService;
 import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
+import board.dto.EventBoardFile;
 import payment.dto.OrderTb;
+import teacher.dto.Teacher;
 import teacher.dto.TeacherApply;
 import user.dto.UserInfo;
 import web.util.Paging;
@@ -228,6 +230,44 @@ public class AdminController {
 		
 	}
 	
+	@GetMapping("/admin/teacherApplyView")
+	public void teacherApplyViewGet(
+			
+			TeacherApply teacherApply
+			, Model model
+			
+			){
+		logger.info("/admin/teacherApplyView [GET]");
+		logger.info("teacherApply : {}", teacherApply.getTeacherNo() );
+		
+		Map<String,Object> map = adminService.selectTeacherApply(teacherApply);
+		logger.info("map : {}", map );
+
+		model.addAttribute("teacher",map.get("teacher"));
+		model.addAttribute("teacherApply",map.get("teacherApply"));
+		model.addAttribute("userInfo",map.get("userInfo"));
+		model.addAttribute("teacherLicence",map.get("teacherLicence"));
+		
+	}
+	
+	@PostMapping("/admin/teacherApplyView")
+	public String teacherApplyViewPost(
+			
+			TeacherApply teacherApply
+			
+			){
+		logger.info("/admin/teacherApplyView [GET]");
+		logger.info("getTeacherNo : {}", teacherApply.getTeacherNo() );
+		logger.info("getPassOrNot : {}", teacherApply.getPassOrNot() );
+		
+		adminService.teacherPassOrFAil(teacherApply);
+		
+		return "redirect:/admin/teacherApply";
+		
+	}
+	
+	
+	
 	//==========================================================================================
 	//--- 게시판 관리 ---
 	
@@ -367,21 +407,6 @@ public class AdminController {
 		return "redirect:/admin/board";
 	}
 	
-	@RequestMapping("/admin/annoFileDownload")
-	public String announceFileDown(
-			
-			AnnounceBoardFile announceBoardFile
-			, Model model
-			
-			) {
-		
-		//첨부파일 정보 조회
-		announceBoardFile = adminService.getAnnounceFile( announceBoardFile );
-		model.addAttribute("announceBoardFile", announceBoardFile);
-		
-		return "down";
-	}
-	
 	@GetMapping("/admin/eventUpdate")
 	public void eventUpdateGet(
 			
@@ -449,6 +474,60 @@ public class AdminController {
 		adminService.announceUpdate(announceBoard, delFileno, announceFile);
 		
 		return "redirect:/admin/announceView?announceNo="+announceBoard.getAnnounceNo();
+	}
+	
+	@RequestMapping("/admin/annoFileDownload")
+	public String announceFileDown(
+			
+			AnnounceBoardFile announceBoardFile
+			, Model model
+			
+			) {
+		logger.info("/admin/announceFileDown [GET] {}",announceBoardFile);
+		
+		//첨부파일 정보 조회
+		announceBoardFile = adminService.getAnnounceFile( announceBoardFile );
+		logger.info("getAnnounceFile : {}",announceBoardFile);
+
+		model.addAttribute("announceBoardFile", announceBoardFile);
+		
+		return "adminDown";
+	}
+	
+	@RequestMapping("/admin/eventFileDownload")
+	public String eventFileDown(
+			
+			EventBoardFile eventBoardFile
+			, Model model
+			
+			) {
+		logger.info("/admin/eventFileDown [GET] {}",eventBoardFile);
+		
+		//첨부파일 정보 조회
+		eventBoardFile = adminService.getEventFile( eventBoardFile );
+		logger.info("getEventFile : {}",eventBoardFile);
+
+		model.addAttribute("eventBoardFile", eventBoardFile);
+		
+		return "adminDown";
+	}
+	
+	@RequestMapping("/admin/eventHeadImgDownload")
+	public String eventHeadImgDown(
+			
+			EventBoard eventBoard
+			, Model model
+			
+			) {
+		logger.info("/admin/eventHeadImgDown [GET] {}",eventBoard.getEventNo());
+		
+		//첨부파일 정보 조회
+		eventBoard = adminService.getEventHeadImg( eventBoard );
+		logger.info("getEventFile : {}",eventBoard);
+
+		model.addAttribute("eventBoard", eventBoard);
+		
+		return "adminDown";
 	}
 	
 	@PostMapping("/admin/announceDelete")

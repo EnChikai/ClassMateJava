@@ -12,6 +12,7 @@ import payment.dto.OrderTb;
 import payment.dto.Payment;
 import teacher.dto.Teacher;
 import teacher.dto.TeacherApply;
+import teacher.dto.TeacherLicence;
 import user.dto.UserInfo;
 import web.util.Paging;
 
@@ -67,6 +68,22 @@ public interface AdminDao {
 	
 	public List<Teacher> selectTeacherInfoAll(Map<String, Object> map);
 	
+	public Teacher selectTeacherInfo(TeacherApply teacherApply);
+
+	public TeacherApply selectTeacherApply(TeacherApply teacherApply);
+	
+	public UserInfo selectUserName(Teacher teacher);
+	
+	public String selectTeacherLicence(Teacher teacher);
+
+	public int updateTeacherApply(TeacherApply teacherApply);
+
+	public int deleteTeacherApply(TeacherApply teacherApply);
+
+	public int deleteTeacherLicence(TeacherApply teacherApply);
+
+	public int deleteTeacherInfo(TeacherApply teacherApply);
+	
 	//========================================================================================================
 	//--- 게시판 관리 ---
 	
@@ -99,9 +116,7 @@ public interface AdminDao {
 	public int insertEventFile(EventBoardFile eventBoardFile);
 
 	public List<EventBoardFile> selectEventFile(EventBoard eventBoard);
-
-	public AnnounceBoardFile selectAnnoFileByFileNo(AnnounceBoardFile announceBoardFile);
-
+	
 	public int updateEventInfo(EventBoard eventBoard);
 
 	public int deleteEventFiles(int[] delFileno);
@@ -118,6 +133,10 @@ public interface AdminDao {
 
 	public int deleteAnnoInfo(AnnounceBoard announceBoard);
 
+	public AnnounceBoardFile selectAnnoFileByFileNo(AnnounceBoardFile announceBoardFile);
+	
+	public EventBoardFile selectEventFileByFileNo(EventBoardFile eventBoardFile);
+	
 	public int deleteEventFile(EventBoard eventBoard);
 
 	public int deleteEventInfo(EventBoard eventBoard);
