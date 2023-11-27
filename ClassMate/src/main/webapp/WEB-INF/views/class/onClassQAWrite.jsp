@@ -84,7 +84,7 @@
 			</div>
 			<div class="form-group text-center">
 				<button type="submit" class="btn btn-custom">등록</button>
-				<a href="/class/onClassQABoardList" class="btn btn-cancel">취소</a>
+				<a href="/class/onClassQABoardList?classNo=${selectedClassNo}" class="btn btn-cancel">취소</a>
 			</div>
 		</form>
 	</div>

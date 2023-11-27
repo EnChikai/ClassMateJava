@@ -1,30 +1,71 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>${classVideo.videoLesson}차시 강의</title>
+    <style>
+        .video-container {
+            background-color: #f3f3f3; /* 배경색 설정 */
+            border-radius: 10px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
 
-<c:import url="/WEB-INF/views/layout/header.jsp" />
+        .video-title {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
 
-<div>
-	
-hi
+        .video-description {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
 
-<c:choose>
-    <c:when test="${not empty classVideo}">
-        <p>비디오 번호: ${classVideo.videoNo}</p>
-        <p>클래스 번호: ${classVideo.classNo}</p>
-        <p>비디오 강의: ${classVideo.videoLesson}</p>
-        <p>원본 파일명: ${classVideo.originName}</p>
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            font-size: 1.2em;
+            color: #007bff;
+        }
 
-        <%-- 동영상 파일 링크 또는 임베드 --%>
-        <p>동영상: <a href="path/to/video/${classVideo.storedName}">동영상 보기</a></p>
-        <%-- 여기서 'path/to/video/'는 실제 동영상 파일이 저장된 경로를 나타냅니다. --%>
-    </c:when>
-    <c:otherwise>
-        <p>동영상 정보를 찾을 수 없습니다.</p>
-    </c:otherwise>
-</c:choose>
+        .back-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <c:import url="/WEB-INF/views/layout/header.jsp" />
 
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="video-container">
+                    <h1 class="video-title">${classVideo.videoLesson}차시 강의</h1>
+                    <p class="video-description">${classVideo.originName}</p>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <video class="embed-responsive-item" controls>
+                            <source src="/upload/${classVideo.storedName}" type="video/mp4">
+                            죄송합니다, 브라우저가 비디오 태그를 지원하지 않습니다.
+                        </video>
+                    </div>
+                    <a href="/class/onClass?classNo=${classVideo.classNo}" class="btn btn-primary mt-4 back-link">온클래스로 돌아가기</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-</div>
-
-<c:import url="/WEB-INF/views/layout/footer.jsp" />
+    <c:import url="/WEB-INF/views/layout/footer.jsp" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

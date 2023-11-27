@@ -61,4 +61,6 @@ public interface ClassDao {
 
 	public void insertQA(QuestionAnswer questionAnswer);
 
+	public ClassVideo selectVideoByClassRound(ClassVideo classVideo);
+
 }

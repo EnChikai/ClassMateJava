@@ -100,4 +100,13 @@ public class ClassServiceImpl implements ClassService {
 		userInfo.setUserNo(userNo);
 		return userInfo;
 	}
+	
+	@Override
+	public ClassVideo video(ClassVideo classVideo) {
+		logger.info("video");
+		
+		classVideo = classDao.selectVideoByClassRound(classVideo);
+		
+		return classVideo;
+	}
 }

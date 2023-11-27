@@ -67,7 +67,7 @@
                             </h3>
                         </div>
                         <div class="card-body card-body-custom">
-                            <img src="${lecture.headImg}" alt="강의 이미지" class="img-thumbnail">
+                            <img src="/upload/${lecture.headImg}" alt="강의 이미지" class="img-thumbnail">
                             <p class="mt-2">${lecture.classInfo}</p>
                         </div>
                     </div>
