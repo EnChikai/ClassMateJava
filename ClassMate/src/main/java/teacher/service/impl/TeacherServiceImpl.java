@@ -293,17 +293,12 @@ public class TeacherServiceImpl implements TeacherService {
 		return null;
 	}
 
-	@Override
-	public List<QuestionAnswer> qaList(TeacherMainPaging paging, int userNo) {
-		
-		return null;
-	}
 
 	@Override
 	public List<Class> answerDrop(HttpSession session, TeacherMainPaging param) {
 		
 		//int teacherNo = (int) session.getAttribute("teacherNo"); 세션에 저장된 teacherNo를 가져온다
-		int teacherNo = 2;
+		int teacherNo = 3;
 		
 		List<Class> list = teacherDao.selectTeacherClass(teacherNo);
 		
@@ -422,11 +417,35 @@ public class TeacherServiceImpl implements TeacherService {
 		TeacherLicence teacherLicence = new TeacherLicence();
 		
 		teacherLicence.setTeacherNo( teacherNo );
-		teacherLicence.setStored_name(storedName);
+		teacherLicence.setStoredName(storedName);
+		teacherLicence.setOriginName(originName);
 		
 		logger.info("simpl {}", teacherLicence);
 		
 		teacherDao.applyInsertFile( teacherLicence );
+	}
+
+	@Override
+	public List<QuestionAnswer> qalistPost(HttpSession session, TeacherMainPaging param, String classNo) {
+		
+		int classNo2 = Integer.parseInt(classNo);
+		
+		List<QuestionAnswer> list = teacherDao.selectQaList(classNo2);
+		
+		return list;
+	}
+
+	@Override
+	public TeacherMainPaging getPaging(TeacherMainPaging param, String classNo) {
+		
+		int classNo2 = Integer.parseInt(classNo);
+		
+		int totalCount = teacherDao.selectCntAll2(classNo2);
+		
+		TeacherMainPaging paging = new TeacherMainPaging(totalCount, param.getCurPage());
+		
+		return paging;
+		
 	}
 
 				

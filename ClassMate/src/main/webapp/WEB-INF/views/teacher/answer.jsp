@@ -12,15 +12,29 @@
 
 <c:import url="/WEB-INF/views/layout/teacherSide.jsp" />
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+
+
 <script type="text/javascript">
+
+//페이지 로드 시 초기 상태 설정
+$(document).ready(function() {
+    // 페이지 로드 시 선택된 값이 없다면 div를 숨기게 처리
+    if (!$(".dropTag").val()) {
+        $("#result").hide();
+        $("#start").show();
+    }
+});
 
 $(function(){
 
 	   $(".dropTag").change(function(){
 	      
-	      $('#userListForm').submit();
+		   
+	      $('#dropSubmit').submit();
 	      
-	      location.href = "/teacher/regist";
+	       /* location.href = "/teacher/answer";  */
 	      
 	   })
 	   
@@ -39,24 +53,79 @@ function changeSelection(){
 
 
 </script>
-<div class="center-box">
-<div class="title">
-<h3 style="display: inline-block;">ONF클래스 질문/답변 조회</h3>
-<div id= "all">
-    <select class="dropTag" name="classNo" id="classNo" onchange="changeSelection()">
-    	<option selected disabled> --선택-- </option>
-       		<c:forEach var="dl" items = "${dropList }">
-       		<option value="${dl.classNo }">${dl.className }</option>
-      	 	</c:forEach>
-    </select>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".dropTag").change(function() {
+            var selectedClassNo = $(this).val();
+            console.log(selectedClassNo)
+            
+            if (selectedClassNo) {
+                // 선택된 값이 있으면 해당 div를 보이게 처리
+                $("#start").hide();
+            } else {
+                // 선택된 값이 없으면 해당 div를 숨기게 처리
+                $("#start").show();
+            }
+
+
+        });
+    });
+</script>
+
+       
+<div class="cd1">
+<div class="border" style="width: 700px;">       
+<div id="all"><h3 style="display: inline-block;">ONF클래스 질문/답변 조회</h3>
+<span style="margin-left: 30px;">
+    <div id="dropdownContainer">
+        <form action="/teacher/answer" method="post" id="dropSubmit" name="dropSubmit">
+            <select class="dropTag" name="classNo" id="classNo" onchange="changeSelection()" style="width: 100px;">
+                <option selected disabled> --선택-- </option>
+                <c:forEach var="dl" items="${dropList }">
+                    <option value="${dl.classNo }">${dl.className }</option>
+                </c:forEach>
+            </select>
+        </form>
+    </div>
+</span>
+    
+<hr>
 </div>
 
-<hr>
+
+    <c:forEach var="list" items="${list }" varStatus="loop">
+    	<form id="form${loop.index }">
+		<div>
+		${list.answer }
+		</div>
+		<div>
+		<div>
+		${list.questionName }
+		</div>
+		<div>
+		${list.questionContent }
+		</div>
+		</div>
+		<div>
+		<div>
+		<textarea placeholder="본문 내용을 입력해주세요">${list.answerContent }</textarea>
+		</div>
+		<button id="registerButton${loop.index}">등록</button>
+		</div>
+		</form>
+	</c:forEach>
+
+<div id="start" style="height: 300px;"></div>
+
+</div>  
+</div>	<!-- cd1 -->
 
 
-</div>	<!-- center box -->
 
-</div>	<!-- total box -->
+
+
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
+
 

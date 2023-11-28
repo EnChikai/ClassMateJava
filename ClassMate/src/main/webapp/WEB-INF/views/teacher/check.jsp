@@ -12,7 +12,7 @@
 
 <c:import url="/WEB-INF/views/layout/teacherSide.jsp" />
 
-
+<div class="cd1">
 <div class="center-box">
 <div>
 <h1>클래스 조회</h1>

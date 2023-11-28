@@ -26,7 +26,7 @@ function readURL(input) {
 }
 </script>
 
-
+<div class="cd1">
 <div class="center-box">
 <div><h3>강사 신청</h3></div>
 <form action="./apply" method="post" enctype="multipart/form-data">

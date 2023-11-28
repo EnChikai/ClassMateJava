@@ -160,6 +160,7 @@ function readURL(input) {
 
 </style>
 
+<div class="cd1">
 <div class="center-box">
 <div class="title">
 <h3 style="display: inline-block;">ON/OFF클래스 등록</h3>
