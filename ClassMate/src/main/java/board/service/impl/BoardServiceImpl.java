@@ -160,16 +160,14 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public FreeComment freeCommentInsert(FreeComment freeComment) {
 		boardDao.freeCommentInsert(freeComment);
-		System.out.println("프리코멘트넘버는");
-		System.out.println(freeComment.getFreeCommentNo());
 		freeComment = boardDao.selectByFreeNo(freeComment);
 		return freeComment;
 	}
 	
 	@Override
 	public List<FreeComment> freeCommentList(FreeComment freeComment) {
-		
 		List<FreeComment> list = boardDao.freeCommentList(freeComment);
+		logger.info("list {}",  list);
 		return list;
 	}
 	

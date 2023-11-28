@@ -245,14 +245,9 @@
   	</insert>
   
   	<select id="freeCommentList" resultType="FreeComment" parameterType="FreeComment">
-<!-- 		SELECT * 
-		FROM free_comment FC
- 		JOIN free_board F ON FC.free_no = F.free_no
-		JOIN user_info U ON F.user_no = U.user_no
-		WHERE FC.free_no = #{freeNo} -->
 		select FC.*, U.user_name from free_comment FC
 		JOIN free_board F ON FC.free_no = F.free_no
-		JOIN user_info U ON F.user_no = U.user_no
+		JOIN user_info U ON FC.user_no = U.user_no
 		WHERE FC.free_no = #{freeNo}
     </select>
     
