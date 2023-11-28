@@ -2,14 +2,31 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
+    
+    <c:forEach var="list" items="${list }" varStatus="loop">
+    	<form id="form${loop.index }">
+		<div>
+		${list.answer }
+		</div>
+		<div>
+		<div>
+		${list.questionName }
+		</div>
+		<div>
+		${list.questionContent }
+		</div>
+		</div>
+		<div>
+		<div>
+		<textarea placeholder="본문 내용을 입력해주세요">${list.answerContent }</textarea>
+		</div>
+		<button id="registerButton${loop.index}">등록</button>
+		</div>
+		</form>
+	</c:forEach>
+	<c:import url="/WEB-INF/views/layout/ajaxPagination.jsp" />
 
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-<c:import url="/WEB-INF/views/layout/header.jsp" />
 
-<c:import url="/WEB-INF/views/layout/teacherSide.jsp" />
-
-<c:import url="/WEB-INF/views/layout/footer.jsp" />

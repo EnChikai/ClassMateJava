@@ -118,4 +118,8 @@
     	AND user_name = #{userName}
     </select>   
     
+    <select id="getUserById" parameterType="user.dto.UserInfo" resultType="UserInfo">
+        SELECT * FROM user_info WHERE user_id = #{userId}
+    </select>
+    
  </mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 import lecture.dto.Address;
 import lecture.dto.Class;
 import lecture.dto.ClassVideo;
+import lecture.dto.QuestionAnswer;
 import main.dto.MainCategory;
 import main.dto.SubCategory;
 import teacher.dto.Teacher;
@@ -153,6 +154,24 @@ public interface TeacherDao {
 	 * @param classVideo 전달된 classVido 객체 정보
 	 */
 	public void onClassInsertFile(ClassVideo classVideoParam);
+
+	/**
+	 * classNo가 같은 질문답변 리스트를 가져온다
+	 * 
+	 * @param classNo2 전달된 classNo(int형)
+	 * @return
+	 */
+	public List<QuestionAnswer> selectQaList(int classNo2);
+
+	
+	/**
+	 * 
+	 * 클래스 번호와 동일한 질문답변의 수를 확인한다
+	 * 
+	 * @param classNo 전달된 클래스 번호
+	 * @return 동일한 클래스번호를 가진 모든 질문답변의 수
+	 */
+	public int selectCntAll2(int classNo2);
 
 
 	

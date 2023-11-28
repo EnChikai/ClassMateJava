@@ -299,8 +299,8 @@ background-color: #F0C610;
     align-items: center;
     justify-content: flex-end;
     border: 1px solid #ccc;
-    margin-right: 12px;
-    margin-left: 11px;
+    margin-right: 38px;
+    margin-left: 38px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -330,11 +330,11 @@ a:hover{
 	</div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <a href="/board/eventView?eventNo=${selectByEventFileList[0].eventNo }"><img data-bs-slide-to="0" style="width: 900px; height: 300px;" src="/upload/${selectByEventFileList[0].headImg }"></a>
+      <a href="/board/eventView?eventNo=${selectByEventFileList[0].eventNo }"><img data-bs-slide-to="0" style="width: 1079px; height: 300px;" src="/upload/${selectByEventFileList[0].headImg }"></a>
     </div>
     <c:forEach var="list"  items="${selectByEventFileList }" begin="1" varStatus="status">
     	<div class="carousel-item">
-			<a href="/board/eventView?eventNo=${list.eventNo }"><img data-bs-slide-to="${status.count }" style="width: 900px; height: 300px;" src="/upload/${list.headImg }"></a>
+			<a href="/board/eventView?eventNo=${list.eventNo }"><img data-bs-slide-to="${status.count }" style="width: 1079px; height: 300px;" src="/upload/${list.headImg }"></a>
     	</div>
 	</c:forEach>
 
@@ -354,7 +354,7 @@ a:hover{
 <br><br><br>
 
 <div class="container-on">
-<span class="TOP5"><strong>인기 ON TOP5</strong></span><span style="border: 1px solid #ccc; padding-left: 636px; margin-right: 30px;"></span>
+<span class="TOP5"><strong>인기 ON TOP5</strong></span><span style="border: 1px solid #ccc; padding-left: 775px; margin-right: 30px;"></span>
 <button id="prevBtn-on">&lt;</button>
 <button id="nextBtn-on">&gt;</button>
 </div>
@@ -377,7 +377,7 @@ a:hover{
 <br><br><br>
 
 <div class="container-off">
-<span class="TOP5"><strong>인기 OFF TOP5</strong></span><span style="border: 1px solid #ccc; padding-left: 636px; margin-right: 30px;"></span>
+<span class="TOP5"><strong>인기 OFF TOP5</strong></span><span style="border: 1px solid #ccc; padding-left: 775px; margin-right: 30px;"></span>
 <button id="prevBtn-off">&lt;</button>
 <button id="nextBtn-off">&gt;</button>
 </div>
@@ -399,7 +399,7 @@ a:hover{
 <br><br><br>
 
 <div class="container-onOff">
-<span><strong>추천 ON/OFF</strong></span><span style="padding-left: 310px; margin-right: 10px;"></span>
+<span><strong style="margin-right: 77px;">추천 ON/OFF</strong></span><span style="padding-left: 310px; margin-right: 10px;"></span>
 <button id="prevBtn-onOff">&lt;</button>
 <button style="margin-right: 10px;" id="nextBtn-onOff">&gt;</button>
 </div>

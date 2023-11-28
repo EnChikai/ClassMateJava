@@ -3,23 +3,23 @@ package teacher.dto;
 public class TeacherLicence {
 	private int licenceNo;
 	private int teacherNo;
-	private String origin_name;
-	private String stored_name;
+	private String originName;
+	private String storedName;
 	
 	public TeacherLicence() {}
 
 	@Override
 	public String toString() {
-		return "TeacherLicence [licenceNo=" + licenceNo + ", teacherNo=" + teacherNo + ", origin_name=" + origin_name
-				+ ", stored_name=" + stored_name + "]";
+		return "TeacherLicence [licenceNo=" + licenceNo + ", teacherNo=" + teacherNo + ", originName=" + originName
+				+ ", storedName=" + storedName + "]";
 	}
 
-	public TeacherLicence(int licenceNo, int teacherNo, String origin_name, String stored_name) {
+	public TeacherLicence(int licenceNo, int teacherNo, String originName, String storedName) {
 		super();
 		this.licenceNo = licenceNo;
 		this.teacherNo = teacherNo;
-		this.origin_name = origin_name;
-		this.stored_name = stored_name;
+		this.originName = originName;
+		this.storedName = storedName;
 	}
 
 	public int getLicenceNo() {
@@ -38,21 +38,23 @@ public class TeacherLicence {
 		this.teacherNo = teacherNo;
 	}
 
-	public String getOrigin_name() {
-		return origin_name;
+	public String getOriginName() {
+		return originName;
 	}
 
-	public void setOrigin_name(String origin_name) {
-		this.origin_name = origin_name;
+	public void setOriginName(String originName) {
+		this.originName = originName;
 	}
 
-	public String getStored_name() {
-		return stored_name;
+	public String getStoredName() {
+		return storedName;
 	}
 
-	public void setStored_name(String stored_name) {
-		this.stored_name = stored_name;
+	public void setStoredName(String storedName) {
+		this.storedName = storedName;
 	}
+
+
 
 	
 	

@@ -97,6 +97,25 @@ public class TeacherController {
 		return null;
 	}
 	
+
+	@PostMapping("/answer")
+	public String answer(Model model, HttpSession session, TeacherMainPaging param, @RequestParam("classNo") String classNo) {
+		
+		logger.info("클넘 {}", classNo);
+		
+		TeacherMainPaging paging = teacherService.getPaging( param, classNo );
+		logger.info("퐈징 {}",paging);
+		List <QuestionAnswer> list = teacherService.qalistPost(session, param, classNo);
+		
+		logger.info("list {}",list);
+		
+		model.addAttribute("paging", paging); 
+		model.addAttribute("list", list);
+		
+		
+		return null;
+	}
+	
 	@GetMapping("/apply")
 	public void apply() {}
 	
