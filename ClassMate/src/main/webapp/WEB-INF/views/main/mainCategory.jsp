@@ -67,8 +67,8 @@ p {
 	border: 1px solid #ccc;
 	margin-bottom: 20px;
     padding-right: 50px;
-    margin-right: 150px;
-    margin-left: 150px;
+    margin-right: 200px;
+    margin-left: 200px;
     display: flex;
     align-items: center;
 }
@@ -81,7 +81,7 @@ p {
 
     <div class="mainCateTitle">
     	<img style="float: left; margin-top: -1px; margin-left: -1px;" width="50px;" height="50px;" src="/resources/img/mainCategory.png">
-    	<strong style="font-size:22px; margin-left: 200px;">카테고리</strong>
+    	<strong style="font-size:22px; margin-left: 260px;">카테고리</strong>
     </div>
 
     <div class="mainCategoryContainer">
