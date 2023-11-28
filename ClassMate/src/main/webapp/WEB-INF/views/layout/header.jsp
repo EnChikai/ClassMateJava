@@ -190,9 +190,7 @@ $(document).ready(function () {
 
 *{
    margin: 0px;
-   padding: 0px;
-   max-width: 1920px;
-   
+   padding: 0px;   
 }
 
 a{
@@ -244,7 +242,7 @@ a{
    <c:if test="${isLogin!=null && teacherNo==null}">
    <div class="mainContainer" style="text-align: center; margin-left: 625px; margin-top: 25px; font-size: small; position:relative; z-index: 10;">
       <span class="mainCol"><strong><a href="/user/mypageMain" id="mainMenu6" style="color: black; text-decoration: none;">마이페이지</a></strong></span>
-      <span class="mainCol"><strong><a href="" id="mainMenu7" style="color: black; text-decoration: none;">강사신청</a></strong></span>
+      <span class="mainCol"><strong><a href="/teacher/apply" id="mainMenu7" style="color: black; text-decoration: none;">강사신청</a></strong></span>
       <span class="mainCol"><strong><a href="/board/question" id="mainMenu8" style="color: black; text-decoration: none;">1:1문의</a></strong></span>
       <span class="mainCol"><strong><a href="/user/logout" id="mainMenu9" style="color: black; text-decoration: none;">로그아웃</a></strong></span>
    </div>
