@@ -109,31 +109,26 @@ public class BoardController {
 		
 		//모델값 전달
 		model.addAttribute("viewFree", viewFree);
+		logger.info("범인 {}", viewFree);
 		
 		//첨부파일 정보 전달
 		List<FreeBoardFile> freeBoardFile = boardService.getAttachFreeFile( viewFree );
 		model.addAttribute("freeBoardFile", freeBoardFile);
 
 		//기존 댓글 불러오기
-		List<FreeComment> freeCommentList = boardService.freeCommentList(freeComment); 
-		model.addAttribute("freeCommentList", freeCommentList);
+//		List<FreeComment> freeCommentList = boardService.freeCommentList(freeComment); 
+//		model.addAttribute("freeCommentList", freeCommentList);
+//		logger.info("기존 댓글 {}", freeCommentList);
+		
 		
 		return "board/freeView";
 	}
-	//댓글 리스트 입력하기
-//	if( freeComment.getFreeCommentContent() != null ) {
-//		freeComment.setFreeNo((int)session.getAttribute("userNo"));
-//        boardService.freeCommentInsert(freeComment);
-//	}
-//	
-//	List<FreeComment> freeCommentList = boardService.freeCommentList(freeComment);
-//	logger.info("음 {}",freeCommentList);
-//FreeComment freeComment
+
 	@PostMapping("/freeView")
 	@ResponseBody 
 	public Map<String,Object> freeComment(HttpSession session, @RequestParam Map<String,Object> userInfo ) {
-		logger.info("유저인포");
-		logger.info(userInfo.toString());
+//		logger.info("유저인포");
+//		logger.info(userInfo.toString());
 		UserInfo user = new UserInfo();
 		user.setUserId((String)session.getAttribute("userId"));
 		logger.info(user.toString());
@@ -152,18 +147,19 @@ public class BoardController {
 		map.put("userName", freeComment.getUserName());
 		map.put("freeCommentDate",freeComment.getFreeCommentDate());
 		
+		
 		return map;
 		
 	}
 	
 	@GetMapping("/freeView/comments")
 	@ResponseBody
-	public List<FreeComment> freeViewCommentComments(FreeComment freeComment, HttpSession session) {
-		freeComment.setFreeNo((int)session.getAttribute("userNo"));
-		
-		
+	public List<FreeComment> freeViewCommentComments(FreeComment freeComment, HttpSession session, Model model) {
+		freeComment.setUserNo((int)session.getAttribute("userNo"));
+		logger.info("댓글 목록의 게시물 번호 {}",freeComment.getFreeNo());
 		List<FreeComment> freeCommentList = boardService.freeCommentList(freeComment);
-		logger.info("기쁨의 눈물 {}",freeCommentList);
+//		model.addAttribute("freeCommentList", freeCommentList);
+		logger.info("댓글 목록 {}",freeCommentList); 
 		
 		return freeCommentList;
 	}
@@ -297,7 +293,6 @@ public class BoardController {
 			
 			, Model model) {
 		
-		logger.info("userNo 안에 뭐가 있어? : {}",updateParam.getFreeNo());
 		updateParam.setUserNo((int) session.getAttribute("userNo"));
 		
 		boardService.update(updateParam, file, delFileno);
