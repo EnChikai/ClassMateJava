@@ -72,11 +72,19 @@ h3 {
 </style>
 
 <script type="text/javascript">
-    // JavaScript 코드를 이용하여 취소 버튼을 눌렀을 때 이전 페이지로 이동
-    function goBack() {
-        window.history.back();
-    }
+// JavaScript 코드를 이용하여 확인 버튼을 눌렀을 때 서버로 폼 데이터 전송
+function submitForm() {
+    document.getElementById("userPwChkForm").submit();
+}
+
+// JavaScript 코드를 이용하여 취소 버튼을 눌렀을 때 이전 페이지로 이동
+function goBack() {
+    window.history.back();
+}
 </script>
+
+<!-- 폼 태그에 onsubmit 속성 추가 -->
+<form id="userPwChkForm" action="/user/userPwChk" method="post" onsubmit="submitForm(); return false;">
 
 <div class="pwChk">
 
@@ -88,9 +96,11 @@ h3 {
    <div class="pwChk2">
       <label id="password" for="userPw">비밀번호</label>
       <input type="password" id="userPw" name="userPw"><br>
-
-      <button onclick="checkPassword()">확인</button>
-      <button onclick="goBack()" style="background-color: #9E9E9E;">취소</button>
+      
+      <!-- 확인 버튼의 type을 submit으로 변경 -->
+      <button type="submit">확인</button>
+      <button type="button" onclick="goBack()" style="background-color: #9E9E9E;">취소</button>
    </div><!-- .pwChk -->
 </div><!-- .pwChk2 -->
+</form>
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

@@ -140,9 +140,18 @@ public class UserController {
 	   return "user/userPwChk";
    }
    
+   // 비밀번호 확인 및 회원정보 수정 처리
    @PostMapping("/userPwChk")
-   public void userPwChkPost() {
-	   
+   public String userPwChkPost(Model model, String userId, String userPw, UserInfo userInfo) {
+       boolean isPasswordCorrect = userService.checkPassword(userId, userPw);
+
+       if (isPasswordCorrect) {
+           return "redirect:/user/updateUserData";  // 비밀번호가 맞으면 회원정보수정 페이지로 이동
+       } else {
+           // 비밀번호가 틀리면 실패 메시지를 모델에 추가하여 userPwChk 페이지로 다시 이동
+           model.addAttribute("passwordIncorrect", true);
+           return "user/userPwChk";
+       }
    }
 
    @GetMapping("/updatePw")

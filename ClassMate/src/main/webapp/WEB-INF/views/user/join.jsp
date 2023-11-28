@@ -82,6 +82,9 @@ function validateForm() {
     // 선택된 성별 항목의 개수를 가져옵니다
     var userGender = $("input[name='userGender']:checked").length;
     
+    // 아이디 중복 확인 여부를 가져옵니다.
+    var userIdChecked = $("#userId").data("checked");
+    
     // 약관 동의 여부를 가져옵니다.
     var agree = $("#cb3:checked").length;
     
@@ -103,9 +106,12 @@ function validateForm() {
         return false; // 폼 제출 방지
     }else{
         // 추가 유효성 검사
-		if (userPw !== userPwChk) {
-	        alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-	        return false; // 폼 제출 방지
+        if (!userIdChecked) {
+            alert("아이디 중복 확인을 해주세요.");
+            return false; // 폼 제출 방지
+        } else if (userPw !== userPwChk) {
+            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+            return false; // 폼 제출 방지
 	    }else {
             // 모든 검사가 통과되면 폼을 수동으로 제출
             document.getElementById("loginForm").submit();
@@ -115,13 +121,12 @@ function validateForm() {
 
 $(document).ready(function () {
     // Enter 키 감지
-    $(document).on('keypress', function (e) {
-        // Enter 키의 keyCode는 13
-        if (e.which === 13) {
-            // 폼 유효성 검사 함수 호출
-            validateForm();
-        }
-    });
+$(document).on('keydown', function (e) {
+    if (e.which === 13) {
+        e.preventDefault(); // 엔터 키의 기본 동작 방지
+        validateForm();
+    }
+});
 
     // 등록 버튼 클릭 시 폼 유효성 검사 후 리다이렉션
     $("#registerButton").click(function () {
