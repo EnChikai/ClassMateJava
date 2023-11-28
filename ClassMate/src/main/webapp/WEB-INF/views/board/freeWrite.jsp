@@ -119,9 +119,8 @@
 		      ['style', ['style']],
 		      ['font', ['bold', 'underline', 'clear']],
 		      ['color', ['color']],
-		      ['para', ['ul', 'ol', 'paragraph']],
+		      ['para', ['table', 'paragraph']],
 		      ['insert', ['link', 'picture']],
-		//       ['insert', ['picture']],
 		    ]
 		  });
 		</script>

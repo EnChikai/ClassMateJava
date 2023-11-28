@@ -90,15 +90,6 @@ public interface TeacherService {
 	 */
 	public TeacherMainPaging getAnswerPaging(TeacherMainPaging param, int userNo);
 
-	/**
-	 * qa 목록 조회
-	 * 
-	 * @param paging 페이징 정보 객체 
-	 * @param userNo qa 목록
-	 * @return
-	 */
-	public List<QuestionAnswer> qaList(TeacherMainPaging paging, int userNo);
-
 	
 	/**
 	 * 온클래스 강사의 강사명을 List로 가져온다 
@@ -117,6 +108,28 @@ public interface TeacherService {
 	 * @param file 첨부할 파일 리스트
 	 */
 	public void applyWrite(Teacher teacherParam, TeacherLicence teacherLicenceParam, TeacherApply teacherApply ,List<MultipartFile> file, List<MultipartFile> singleFile);
+
+	/**
+	 * qa 목록조회
+	 * 
+	 * @param session
+	 * @param param 전달된 paging 객체
+	 * @param classNo 전달된 QA param 객체
+	 * @return
+	 */
+	public List<QuestionAnswer> qalistPost(HttpSession session, TeacherMainPaging param, String classNo);
+
+	/**
+	 * 동일한 클래스 번호의 모든 질문 답변 리스트를 가져온다
+	 * 
+	 * 전달파라미터 객체의 curPage - 현재 페이지
+	 * DB에서 조회한 totalCount - 총 게시글 수
+	 * 
+	 * @param param curPage정보를 담고 있는 객체
+	 * @param classNo 페이징 계산이 완료된 객체
+	 * @return
+	 */
+	public TeacherMainPaging getPaging(TeacherMainPaging param, String classNo);
 
 	
 	

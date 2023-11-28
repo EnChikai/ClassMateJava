@@ -14,7 +14,7 @@ SELECT class_no, teacher_no, main_category_no, sub_category_no, teacher, class_n
 
 <sql id="questionAnswer">
 SELECT question_no, user_no, class_no, question_name, question_content, question_date, answer, answer_content 
-	FROM questionAnswer
+	FROM question_answer
 </sql>
 
 
@@ -57,7 +57,7 @@ SELECT teacher_no FROM teacher
 </select>
 
 <select id="selectTeacherClass"  resultType="Class" parameterType="int">
-	SELECT class_name FROM class
+	SELECT * FROM class
 		<where>
 			AND teacher_no = #{teacherNo}
 			AND on_off = 0
@@ -139,6 +139,22 @@ SELECT teacher_no FROM teacher
 	VALUES (#{videoNo}, #{classNo}, #{videoLesson}, #{originName}, #{storedName})
 
 </insert>
+
+<select id="selectCntAll2" resultType="int" parameterType="int">
+	SELECT count(*) FROM question_answer
+		<where>
+			AND class_no = #{classNo2}
+		</where>
+
+</select>
+
+<select id="selectQaList" resultType="QuestionAnswer" parameterType="int">
+	SELECT question_no, user_no, class_no, question_name, question_content, question_date, answer, answer_content 
+	FROM question_answer
+	<where>
+		AND class_no = #{classNo2}
+	</where>
+</select>
 
 
 

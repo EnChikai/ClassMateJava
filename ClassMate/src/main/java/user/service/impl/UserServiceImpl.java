@@ -118,4 +118,11 @@ public class UserServiceImpl implements UserService{
             return false;
         }
 	}
+
+	@Override
+	public boolean checkPassword(String userId, String userPw) {
+        // DAO를 통해 DB에서 해당 유저의 정보를 가져와 비밀번호 확인 로직을 수행
+        UserInfo userInfo = userDao.getUserById(userId);
+        return userInfo != null && userInfo.getUserPw().equals(userPw);
+	}
 }

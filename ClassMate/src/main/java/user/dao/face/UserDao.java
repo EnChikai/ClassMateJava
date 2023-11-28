@@ -38,5 +38,7 @@ public interface UserDao {
 
 	public String selectByUserId(UserInfo userInfo);
 
+	public UserInfo getUserById(String userId);
+
 
 }

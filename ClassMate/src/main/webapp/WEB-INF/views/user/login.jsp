@@ -29,7 +29,7 @@ $(function() {
 }
 
 .idpw{
-    margin: 0 auto 10px;
+    margin: 0 auto 50px;
 }
 
 .join {
@@ -48,7 +48,7 @@ $(function() {
 #loginDiv {
     border: 1px solid #ccc;
     width: 478px;
-    height: 337px;
+    height: 375px;
     margin: 0 auto;
     margin-top: 9px;
     background-color: #fff;
@@ -59,7 +59,7 @@ $(function() {
 #loginDiv1 {
    border: 1px solid #ccc;
    width: 500px;
-    height: 357px;
+    height: 395px;
     margin: 90px auto 10px auto;
 }
 
