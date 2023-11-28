@@ -17,7 +17,7 @@ padding-bottom: 8px;
 text-align: center; 
 margin-left: auto;
 margin-right: auto;
-margin-top: 40px;
+margin-top: 20px;
 margin-bottom: 17px; 
 font-size: 22px; 
 font-weight:bold;

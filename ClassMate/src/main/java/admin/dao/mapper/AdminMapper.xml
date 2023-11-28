@@ -193,6 +193,28 @@
   	</delete>
   	
   	<!-- ================================================================================================================== -->
+  	<!-- 클래스 관리 -->
+  	
+  	<select id="classInfoCntAll" resultType="int" parameterType="Map">
+  	SELECT count(*) FROM class
+  	WHERE on_off = ${sort}
+  		AND delete_boolean = ${delCheckbox}
+  	</select>
+  	
+  	<select id="selectClassListAll" resultType="Class" parameterType="Map">
+  		SELECT * FROM (
+    		SELECT rownum rnum, B.* FROM(
+      			SELECT
+					class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start
+					, class_end, max_count, expense, class_info, curriculum, on_off, head_img, delete_boolean
+		        FROM class
+ 				WHERE on_off = ${sort}
+  					AND delete_boolean = ${delCheckbox}
+   			)B
+		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+  	</select>
+  	
+  	<!-- ================================================================================================================== -->
   	<!-- 게시판 관리 -->
   	
   	<select id="announceBoardCntAll" resultType="int" parameterType="int">

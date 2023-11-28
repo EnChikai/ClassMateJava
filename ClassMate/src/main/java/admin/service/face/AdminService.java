@@ -9,6 +9,7 @@ import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
 import board.dto.EventBoardFile;
+import lecture.dto.Class;
 import payment.dto.OrderTb;
 import teacher.dto.TeacherApply;
 import user.dto.UserInfo;
@@ -57,6 +58,13 @@ public interface AdminService {
 	public Paging getApplyPaging(Paging paging, int passCheckbox);
 	
 	public Map<String, Object> selectTeacherApplyList(Paging paging, int passCheckbox);
+	
+	//========================================================================================================
+	//--- 클래스 관리 ---
+	
+	public Paging getClassPaging(Paging paging, int sort, int delCheckbox);
+	
+	public List<Class> getClassList(Paging paging, int sort, int delCheckbox);
 	
 	//========================================================================================================
 	//--- 게시판 관리 ---

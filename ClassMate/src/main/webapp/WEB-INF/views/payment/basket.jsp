@@ -568,21 +568,17 @@ $(function(){
 <div style="text-align: center; width: 1000px; margin-left:auto; margin-right:auto;">
 <table id="basketTableTitle">
 	<tr>
-		<th style="text-align: center;" width="10%" class="thFontInfo">
+		<th style="padding-left: 20px; padding-right: 90px;" class="thFontInfo">
 			선택
 		</th>
-		<th width="20%" class="thFontInfo">
-		</th>
-		<th width="30%" class="thFontInfo">
+		<th class="thFontInfo" style="padding-left: 200px; padding-right: 80px;">
 			상품 정보
 		</th>
-		<th width="25%" class="thFontInfo" style="padding-left: 60px;">
+		<th class="thFontInfo" style="padding-left: 100px; padding-right: 100px;">
 			클래스 기간
 		</th>
-		<th width="30%" class="thFontInfo">
+		<th class="thFontInfo" style="padding-left: 20px; padding-right: 130px;">
 			상품 금액
-		</th>
-		<th width="15%" style="padding-right: 43px; "class="thFontInfo">
 		</th>
 	</tr>
 </table>
@@ -591,17 +587,22 @@ $(function(){
 <c:forEach items="${classList }" var="classList">
 <table id="basketTableInfo">
 	<tr>
-		<td class="basketTableInfoTd" style="border-right: 2px solid #ccc; text-align: center; padding-left: 19px;" width="10%">
+		<td width="20px;" class="basketTableInfoTd" style="border-right: 2px solid #ccc; text-align: center; padding-left:15px; padding-right:25px;">
 			<input style="width: 20px; height: 20px;" id="checkbox${classList.classNo}" value="${classList.expense}" class="checkBoxes" name="checkbox" type="checkbox">
 		</td>
 		
+		<td width="200px;" class="basketTableInfoTd">
+		<c:if test="${not empty classList.headImg}">
+			<img alt="강의_이미지" src="/upload/${classList.headImg}" width="195px" height="130px">
+		</c:if>
 		
-		<td class="basketTableInfoTd" width="20%">
+		<c:if test="${empty classList.headImg}">
 			<img alt="강의_이미지" src="/resources/img/sample_img2.png" width="195px" height="130px">
+		</c:if>
 		</td>
 		
 		
-		<td class="basketTableInfoTd" width="30%" style="vertical-align: top; padding-top: 15px">
+		<td width="200px;" class="basketTableInfoTd" style="vertical-align: top; padding-top: 15px">
 			<c:if test="${classList.onOff eq 0}">
 				<p class="onOffClass pInfo" style="width: 90; float: left;" >오프클래스</p>
 				<p class="moveOffInfo${classList.classNo} moveInfo">상세보기</p>
@@ -620,19 +621,19 @@ $(function(){
 		</td>
 		
 		
-		<td class="basketTableInfoTd" style="text-align: left;" width="20%">
+		<td width="150px;" class="basketTableInfoTd" style="text-align: left;">
 			<p class="pInfo" style="width: 150px; padding-left: 20px;">${classList.classStart }~</p>
 			<p class="pInfo" style="width: 150px; padding-left: 20px;">${classList.classEnd }</p>
 		</td>
 		
 		
-		<td style="text-align: center;" class="basketTableInfoTd" width="30%">
+		<td width="200px;" style="text-align: center;" class="basketTableInfoTd" >
 			<p class="pInfo" ><fmt:formatNumber type="number" maxFractionDigits="3" value="${classList.expense }"/>원</p>
 			<input style="display: none;" id="number${classList.classNo}" readonly="readonly" type="text" value="<fmt:formatNumber type="number" maxFractionDigits="3" value="${classList.expense }"/>">
 		</td>
 		
 		
-		<td class="basketTableInfoTd" width="15%">
+		<td width="50px;" class="basketTableInfoTd">
 		
 			<c:if test="${classList.expense eq 0}">
 			<form action="../payment/basket" method="post">
@@ -659,19 +660,17 @@ $(function(){
 
 <table style="border-bottom: 2px solid #ccc;" id="basketTableInfo">
 	<tr>
-		<td style="text-align: center; padding-top: 10px; padding-bottom: 10px" width="10%">
+		<td width="70px;" style="text-align: center; padding-top: 10px; padding-bottom: 10px; padding-right: 20px;">
 			<input style="width: 20px; height: 20px;" id="checkboxAll" name="checkboxAll" type="checkbox">
 		</td>
-		<td width="20%">
+		
+		<td width="600px;">
 		</td>
-		<td width="30%">
-		</td>
-		<td width="20%">
-		</td>
-		<td width="30%">
+	
+		<td width="200px;" style="padding-left: 140px;">
 			<div id="sumDiv" style="font-weight:bold;">총 합계 금액 : 0</div>
 		</td>
-		<td width="15%">
+		<td width="30px;">
 		</td>
 	</tr>
 </table>

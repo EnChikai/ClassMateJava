@@ -85,6 +85,14 @@ public interface AdminDao {
 	public int deleteTeacherInfo(TeacherApply teacherApply);
 	
 	//========================================================================================================
+	//--- 클래스 관리 ---
+	
+	public int classInfoCntAll(Map<String, Object> map);
+	
+	public List<Class> selectClassListAll(Map<String, Object> map);
+
+	
+	//========================================================================================================
 	//--- 게시판 관리 ---
 	
 	public int announceBoardCntAll(int delCheckbox);

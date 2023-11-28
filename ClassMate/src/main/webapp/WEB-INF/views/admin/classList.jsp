@@ -7,12 +7,12 @@
 <%-- <% ============================================================================= %> --%>
 
 <style type="text/css">
-.boardManagement{
+.classManagement{
 background: rgb(241,196,15);
 
 }
 
-#boardInfo{
+#classInfo{
 padding-bottom: 8px; 
 text-align: center; 
 margin-left: auto;
@@ -51,7 +51,7 @@ padding-right: 20px;
 
 }
 
-#boardListTb{
+#classListTb{
 border-top: 2px solid #ccc; 
 border-bottom: 2px solid #ccc; 
 width: 690px; 
@@ -59,7 +59,7 @@ margin: auto;
 
 }
 
-.boardListTh{
+.classListTh{
 background: rgb(220,220,220);
 border-bottom: 2px solid #ccc;
 font-size: 15px;
@@ -69,7 +69,7 @@ text-align: center;
 
 }
 
-.boardListTd{
+.classListTd{
 border-bottom: 1px solid #ccc; 
 font-size: 15px;
 padding-top: 2px;
@@ -79,7 +79,7 @@ text-align: center;
 
 }
 
-#boardNameInfo{
+#classNameInfo{
 width: 484px;
 white-space: nowrap;
 overflow: hidden;
@@ -87,26 +87,7 @@ text-overflow: ellipsis;
 height: 30px;
 }
 
-#insertBtn{
-border-radius: 3px; 
-border-style: hidden;
-width: 44px; 
-height: 30px;
-color: white;
-font-size: 13px;
-font-weight:bold;
-background: black;
-box-shadow: 0 0 0 1px black
-
-}
-
-#insertBtn:hover:not(.active){
-box-shadow: 0 0 0 2px skyblue;
-background: rgb(50,50,50);
-	
-}
-
-.boardListTd:hover:not(.active){
+.classListTd:hover:not(.active){
 cursor:pointer;
 
 }
@@ -175,7 +156,7 @@ $(function(){
 
 	$(".dropTag").change(function(){
 		
-		$('#boardListForm').submit();
+		$('#classListForm').submit();
 		
 	})
 	
@@ -188,10 +169,10 @@ $(function(){
 	$("#delCheckbox").click(function(){
 		if($(this).is(":checked")){
 			delCheckbox.value = 1;
-			$('#boardListForm').submit();
+			$('#classListForm').submit();
 		} else {
 			delCheckbox.value = 0; 
-			$('#boardListForm').submit();
+			$('#classListForm').submit();
 		}
 	})
 	
@@ -199,11 +180,11 @@ $(function(){
 
 $(function(){
 	
-    $('.boardListTr').mouseover(function() {
+    $('.classListTr').mouseover(function() {
         $(this).children('td').css('background-color', '#e9e9e9'); 
     });
 
-    $('.boardListTr').mouseout(function() {
+    $('.classListTr').mouseout(function() {
         $(this).children('td').css('background-color', 'initial');
     });
 
@@ -211,14 +192,14 @@ $(function(){
 
 </script>
 
-<%-- 클릭시 공지 상세보기로 --%>
-<c:forEach items="${announceBoardList }" var="announceBoardList"> 
+<%-- 클릭시 클래스 상세보기로 --%>
+<c:forEach items="${classList }" var="classList"> 
 <script>
 $(function(){
 	
-	$(".announceInfo${announceBoardList.announceNo }").click(function(){
+	$(".classInfo${classList.classNo }").click(function(){
 		
-		location.href = '../admin/announceView?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&announceNo=${announceBoardList.announceNo }';
+		location.href = '../admin/classInfo?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&classNo=${classList.classNo }';
 		
 	})
 	
@@ -226,57 +207,36 @@ $(function(){
 </script>
 </c:forEach>
 
-<%-- 클릭시 이벤트 상세보기로 --%>
-<c:forEach items="${eventBoardList }" var="eventBoardList"> 
-<script>
-$(function(){
-	
-$(".eventInfo${eventBoardList.eventNo }").click(function(){
-		
-		location.href = '../admin/eventView?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&eventNo=${eventBoardList.eventNo }';
-		
-	})
-	
-});
-</script>
-</c:forEach>
-	
 <%-- <% ============================================================================= %> --%>	
 	
-<div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
-<button style="margin-left: 1px;" class="topMenuBtn checked">공지/이벤트</button>
-<button class="topMenuBtn">회원게시판</button>
-<button class="topMenuBtn">1:1문의</button>
-</div>
-
-<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px;">
-<p id="boardInfo">< 이벤트 및 공지사항 ></p>
+<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px;">
+<p id="classInfo">< On / Off 클래스 관리 ></p>
 
 <div style="text-align: left; margin-left: 62px; margin-bottom: 10px">
 
-<form id="boardListForm" action="../admin/board" method="get">
+<form id="classListForm" action="../admin/classList" method="get">
 
 <c:if test="${sort eq 0}">
 <select class="dropTag" name="sort" id="sort">
-	<option value="0">공지사항</option>
-	<option value="1">이벤트</option>
+	<option value="0">On클래스</option>
+	<option value="1">Off클래스</option>
 </select>
 </c:if>
 
 <c:if test="${sort eq 1}">
 <select class="dropTag" name="sort" id="sort">
-	<option value="1">이벤트</option>
-	<option value="0">공지사항</option>
+	<option value="1">Off클래스</option>
+	<option value="0">On클래스</option>
 </select>
 </c:if>
 
 <div style="position:relative; float: right; margin-right: 87px;" >
 		
 		<c:if test="${delCheckbox eq 0}">
-        	삭제 게시물 조회<input id="delCheckbox" type="checkbox" name="delCheckbox" value="0">
+        	종강 클래스 조회<input id="delCheckbox" type="checkbox" name="delCheckbox" value="0">
         </c:if>
         <c:if test="${delCheckbox eq 1}">
-        	삭제 게시물 조회<input id="delCheckbox" type="checkbox" name="delCheckbox" value="1" checked="checked">
+        	종강 클래스 조회<input id="delCheckbox" type="checkbox" name="delCheckbox" value="1" checked="checked">
 		</c:if>
 		
 </div>
@@ -286,41 +246,25 @@ $(".eventInfo${eventBoardList.eventNo }").click(function(){
 	
 	
 		
-<table id="boardListTb">	
+<table id="classListTb">	
 	
 <tr>
-	<th class="boardListTh" width="10%">번호</th>
-	<th class="boardListTh" width="70%">제목</th>
-	<th class="boardListTh" width="20%">등록일</th>
+	<th class="classListTh" width="15%">클래스 번호</th>
+	<th class="classListTh" width="60%">제목</th>
+	<th class="classListTh" width="25%">등록일</th>
 </tr>
 
-<c:if test="${sort eq 0}">
-<c:forEach items="${announceBoardList }" var="announceBoardList"> 
-	<tr class="boardListTr" >
-		<td class="boardListTd announceInfo${announceBoardList.announceNo }">${announceBoardList.announceNo }</td>
-		<td id="boardNameInfo" class="boardListTd announceInfo${announceBoardList.announceNo }">${announceBoardList.announceName }</td>
-		<td class="boardListTd announceInfo${announceBoardList.announceNo }">${announceBoardList.announceDate }</td>
+<c:forEach items="${classList }" var="classList"> 
+	<tr class="classListTr" >
+		<td class="classListTd classInfo${classList.classNo }">${classList.classNo }</td>
+		<td id="classNameInfo" class="classListTd classInfo${classList.classNo }">${classList.className }</td>
+		<td class="classListTd classInfo${classList.classNo }">${classList.classDate }</td>
 	<tr>
 </c:forEach>
-</c:if>
-
-<c:if test="${sort eq 1}">
-<c:forEach items="${eventBoardList }" var="eventBoardList"> 
-	<tr class="boardListTr" >
-		<td class="boardListTd eventInfo${eventBoardList.eventNo }">${eventBoardList.eventNo }</td>
-		<td id="boardNameInfo" class="boardListTd eventInfo${eventBoardList.eventNo }">${eventBoardList.eventName }</td>
-		<td class="boardListTd eventInfo${eventBoardList.eventNo }">${eventBoardList.eventDate }</td>
-	<tr>
-</c:forEach>
-</c:if>
 
 </table>
 
-<div style="text-align: right; padding-right: 70px; margin-top: 10px;">
-<a href="../admin/writeEventAnno"><button id="insertBtn">등록</button></a>
-</div>
-
-<div style="margin-top: 8px;">
+<div style="text-align: right; padding-right: 70px; margin-top: 18px;">
 
 <%-- <% ============================================================================= %> --%>
 

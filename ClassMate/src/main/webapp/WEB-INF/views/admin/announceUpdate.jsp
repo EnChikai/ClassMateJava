@@ -14,6 +14,10 @@ background: rgb(241,196,15);
 
 }
 
+.note-editor .dropdown-toggle::after { 
+   all: unset; 
+}
+
 #announceInfo{
 font-size: 35px; 
 font-weight: bold; 
