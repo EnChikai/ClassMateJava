@@ -23,10 +23,10 @@ import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
 import board.dto.EventBoardFile;
 import payment.dto.OrderTb;
-import teacher.dto.Teacher;
 import teacher.dto.TeacherApply;
 import user.dto.UserInfo;
 import web.util.Paging;
+import lecture.dto.Class;
 
 @Controller
 public class AdminController {
@@ -91,8 +91,8 @@ public class AdminController {
 			if(Integer.parseInt((request.getParameter("delCheckbox")))==1) {
 				delCheckbox = 1;
 			}
-			logger.info("delCheckbox확인 : {}", delCheckbox);
 		}
+		logger.info("delCheckbox확인 : {}", delCheckbox);
 		
 		// 페이징 계산
 		paging = adminService.getUserPaging(paging, delCheckbox);
@@ -209,13 +209,13 @@ public class AdminController {
 		logger.info("/admin/teacherApply [GET]");
 		
 		int passCheckbox = 0; 
-		logger.info("delCheckbox디폴트 : {}", passCheckbox);
+		logger.info("passCheckbox디폴트 : {}", passCheckbox);
 		if(request.getParameter("passCheckbox") != null) {
 			if(Integer.parseInt((request.getParameter("passCheckbox")))==1) {
 				passCheckbox = 1;
 			}
-			logger.info("delCheckbox확인 : {}", passCheckbox);
 		}
+		logger.info("delCheckbox확인 : {}", passCheckbox);
 		
 		paging = adminService.getApplyPaging(paging, passCheckbox);
 		logger.info("paging : {}", paging);
@@ -265,7 +265,59 @@ public class AdminController {
 		return "redirect:/admin/teacherApply";
 		
 	}
+	//==========================================================================================
+	//--- 클래스 관리 ---
 	
+	@GetMapping("/admin/classList")
+	public void classListGet(
+			
+			Paging paging
+			, Model model
+			, HttpServletRequest request
+			
+			){
+	logger.info("/admin/classListGet [GET]");
+	
+	int sort = 0; 
+	logger.info("sort디폴트 : {}", sort);
+
+	if(request.getParameter("sort") != null) {
+		for(int i=0; i<Integer.parseInt((request.getParameter("sort")))+1; i++) {
+			sort = i;
+		}
+	}
+	logger.info("sort확인 : {}", sort);
+	
+	int delCheckbox = 0; 
+	logger.info("delCheckbox디폴트 : {}", delCheckbox);
+	if(request.getParameter("delCheckbox") != null) {
+		if(Integer.parseInt((request.getParameter("delCheckbox")))==1) {
+			delCheckbox = 1;
+		}
+	}
+	logger.info("delCheckbox확인 : {}", delCheckbox);
+	
+	// 페이징 계산
+	paging = adminService.getClassPaging(paging, sort, delCheckbox);
+	logger.info("paging : {}", paging);
+	
+	List<Class> classList = adminService.getClassList(paging, sort, delCheckbox);
+	logger.info("getClassList : {}", classList);
+
+	
+	model.addAttribute("sort",sort);
+	model.addAttribute("delCheckbox",delCheckbox);
+	model.addAttribute("paging",paging);
+	model.addAttribute("classList",classList);
+	
+	}
+	
+	@GetMapping("/admin/classInfo")
+	public void classInfoGet() {
+		logger.info("/admin/classInfo [GET]");
+		
+		
+	}
 	
 	
 	//==========================================================================================

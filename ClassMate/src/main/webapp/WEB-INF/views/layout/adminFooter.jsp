@@ -23,8 +23,8 @@
 		</tr>
 		<tr>
 			<th class="adminPage underMenu">
-				<div class="menuFontPadding changeBack">
-				클래스 관리
+				<div class="menuFontPadding changeBack classManagement">
+				<a style="text-decoration: none; color: white;" href="./classList">클래스 관리</a>
 				</div>
 			</th>
 			<td>

@@ -291,7 +291,8 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Override
 	public void teacherPassOrFAil(TeacherApply teacherApply) {
-
+		logger.info("teacherPassOrFAil()");
+		
 		int result = adminDao.updateTeacherApply(teacherApply);
 		logger.info("result() : {}", result);
 		
@@ -306,6 +307,26 @@ public class AdminServiceImpl implements AdminService{
 			logger.info("deleteTeacherInfo() : {}", result);
 		}
 		
+	}
+	
+	@Override
+	public List<Class> getClassList(Paging paging, int sort, int delCheckbox) {
+		logger.info("getClassList()");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Class> classList = new ArrayList<Class>();
+		
+		map.put("paging", paging);
+		map.put("sort", sort);
+		map.put("delCheckbox", delCheckbox);
+		
+		classList = adminDao.selectClassListAll(map);
+		for(int i = 0; i<classList.size(); i++) {
+			logger.info("selectClassListAll() : {}", classList);
+			
+		}
+		
+		return classList;
 	}
 	
 	//================================================================================
@@ -782,6 +803,28 @@ public class AdminServiceImpl implements AdminService{
 		eventBoard = adminDao.selectEventNo(eventBoard);
 		
 		return eventBoard;
+	}
+
+	@Override
+	public Paging getClassPaging(Paging param, int sort, int delCheckbox) {
+		logger.info("getClassPaging()");
+		logger.info("sort() : {}", sort);
+		logger.info("delCheckbox() : {}", delCheckbox);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("sort", sort);
+		map.put("delCheckbox", delCheckbox);
+		
+		//총 게시글 수 조회
+		int totalCount = adminDao.classInfoCntAll(map);
+		logger.info("totalCount : {}",totalCount);
+				
+		//페이징 객체 생성(페이징 계산)
+		Paging paging = new Paging(totalCount, param.getCurPage());
+				
+		return paging;
+		
 	}
 
 }

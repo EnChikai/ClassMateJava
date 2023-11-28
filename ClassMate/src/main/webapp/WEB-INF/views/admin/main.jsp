@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <%-- <% ============================================================================= %> --%>
 
@@ -20,8 +21,8 @@ margin-top: 30px;
 }
 
 #userCount{
-width:300px;
-height: 200px;
+width:400px;
+height: 187px;
 float: left;
 border-collapse: collapse;
 border-radius: 3px;
@@ -71,13 +72,54 @@ $(function(){
 
 </script>
 
+<script>
+        // 그래프 데이터 정의
+        
+        let userCount = ${userCount };
+        let secessionUserCount = ${secessionUserCount };
+        let sum = 0;
+        sum += userCount;
+        sum += secessionUserCount;
+
+window.onload = function() {
+        var data = {
+            labels: ['유저수', '탈퇴수', '총인원'],
+            datasets: [{
+                label: '사용자 그래프',
+                data: [userCount, secessionUserCount, sum],
+                backgroundColor: ['rgba(251,206,25,1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+            }]
+        };
+
+        // 그래프 옵션 정의
+        var options = {
+        		indexAxis: 'y'
+            	,scales: {
+                	y: {
+                    	beginAtZero: true
+                    
+                	}
+            	}
+        };
+
+        // 캔버스에 그래프 그리기
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+};
+</script>
+
 <%-- <% ============================================================================= %> --%>
 <div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px; height: 500px;">
 
+<!-- 그래프를 그릴 캔버스 요소 추가 -->
+
+
 <div id="userCount">
-그래프로 만들기<br>
-유저수 : ${userCount }<br>
-탈퇴 유저수 : ${secessionUserCount }<br>
+<canvas id="myChart"></canvas>
 </div>
 
 <table id="profile" >
