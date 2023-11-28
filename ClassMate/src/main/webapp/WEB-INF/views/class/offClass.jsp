@@ -6,38 +6,41 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
 <div class="container mt-4">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h2>${lecture.className}</h2>
+    <!-- 정보와 이미지를 포함하는 하나의 카드 -->
+    <div class="card">
+        <div class="row g-0"> <!-- g-0은 카드 내부의 gutter(간격)를 제거합니다 -->
+            <div class="col-md-5">
+                <!-- 이미지 섹션 -->
+                <img src="/upload/${lecture.headImg}" class="img-fluid rounded-start" alt="Class Image">
+            </div>
+            <div class="col-md-7">
+                <!-- 정보 섹션 -->
+                <div class="card-body">
+                    <h2 class="card-title">${lecture.className}</h2>
+                    <p class="card-text">강사명: ${lecture.teacher}</p>
+                    <p class="card-text">시작 날짜: <fmt:formatDate value="${lecture.classStart}" pattern="yyyy-MM-dd"/></p>
+                    <p class="card-text">종료 날짜: <fmt:formatDate value="${lecture.classEnd}" pattern="yyyy-MM-dd"/></p>
+                    <p class="card-text">최대 인원: ${lecture.maxCount}</p>
+                    <p class="card-text">비용: ${lecture.expense}</p>
+                    <p class="card-text">클래스 정보: ${lecture.classInfo}</p>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">강사명: ${lecture.teacher}</li>
-                    <li class="list-group-item">시작 날짜: <fmt:formatDate value="${lecture.classStart}" pattern="yyyy-MM-dd"/></li>
-                    <li class="list-group-item">종료 날짜: <fmt:formatDate value="${lecture.classEnd}" pattern="yyyy-MM-dd"/></li>
-                    <li class="list-group-item">최대 인원: ${lecture.maxCount}</li>
-                    <li class="list-group-item">비용: ${lecture.expense}</li>
-                    <li class="list-group-item">클래스 정보: ${lecture.classInfo}</li>
-                </ul>
-            </div>
-            <div class="card mt-3">
-                <img src="/upload/${lecture.headImg}" class="card-img-top" alt="Class Image">
             </div>
         </div>
-        <div class="col-md-6">
-            <div id="map" style="width:100%;height:350px;"></div>
+    </div>
+    <!-- 지도 섹션 -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div id="map" class="w-100 border rounded" style="height:400px;"></div>
         </div>
     </div>
-</div>
-<div class="container">
-    <div id="address1" data-main-address="${address.mainAddress}" data-sub-address="${address.subAddress}">
-        ${address.mainAddress}<br>
-        ${address.subAddress}
-    </div>
-    <div id="map" style="width:90%;height:350px;margin-top:10px;"></div>
 </div>
 
+
+<div class="container mt-4">
+    <div id="address1" data-main-address="${address.mainAddress}" data-sub-address="${address.subAddress}">
+        <h5 class="text-muted">주소: ${address.mainAddress} ${address.subAddress}</h5>
+    </div>
+</div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7386d9c0dc5cbff30aa6aa3fde01768b&libraries=services"></script>
 <script>
@@ -79,12 +82,6 @@
     window.onload = execDaumPostcode;
 </script>
 
-
-<%--     </c:when> --%>
-<%--     <c:otherwise> --%>
-<!--         <p>클래스가 없습니다.</p> -->
-<%--     </c:otherwise> --%>
-<%-- </c:choose> --%>
 </div>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
