@@ -45,9 +45,9 @@
 <body>
     <c:import url="/WEB-INF/views/layout/header.jsp" />
 
-    <div class="container mt-5">
+   <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div class="col-lg-12"> <!-- 여기서 컬럼 크기를 조정 -->
                 <div class="video-container">
                     <h1 class="video-title">${classVideo.videoLesson}차시 강의</h1>
                     <p class="video-description">${classVideo.originName}</p>
