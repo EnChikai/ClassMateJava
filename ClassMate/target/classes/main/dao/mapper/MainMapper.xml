@@ -116,6 +116,7 @@
 	 <select id="onClassViewList" resultType="Class" parameterType="Class">
 	 	SELECT * FROM class
 	 	WHERE class_no = #{classNo}
+	 	AND delete_boolean = 0
 	 </select>
 	 
 	 <select id="duplicationPayment" resultType="Integer" parameterType="Map">
@@ -136,5 +137,17 @@
 	 	VALUES( basket_seq.nextval, #{userNo}, #{cLass.classNo} )
 	 </insert>
 	 
+	 <select id="getAddress" resultType="Address" parameterType="Class">
+		SELECT address_no, main_address, sub_address FROM address
+		<where>
+			AND class_no = #{classNo}
+		</where>
+	 </select>
+	 
+	 <update id="endClass">
+		 UPDATE class
+			 SET delete_boolean = 1
+			 WHERE class_end &lt; SYSTIMESTAMP
+	 </update>
 	 
  </mapper>
