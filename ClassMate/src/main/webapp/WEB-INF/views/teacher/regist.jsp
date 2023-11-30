@@ -14,16 +14,70 @@
 
 <script type="text/javascript">
 
-$(document).ready(function() {
-	
-$('#btnRegist').click(function () {
-	
-	if ($("#classCheck option:selected").val() == 2 || $("#classCheck option:selected").val() == null) {
-		event.preventDefault();
-		alert("클래스를 선택해주세요")
-		}
-	})
+$(document).ready(function () {
+    $('#btnRegist').click(function () {
+
+        if ($("#classCheck option:selected").val() == 2 || $("#classCheck option:selected").val() == null) {
+            event.preventDefault();
+            alert("클래스를 선택해주세요");
+            return; // 조건을 만족하면 여기서 함수 종료
+        }
+
+        var className = document.getElementById('className').value;
+        var classStart = document.getElementById('classStart').value;
+        var classEnd = document.getElementById('classEnd').value;
+        var maxCount = document.getElementById('maxCount').value;
+        var expense = document.getElementById('expense').value;
+        var classInfo = document.getElementById('classInfo').value;
+        var curriculum = document.getElementById('curriculum').value;
+        var fileCount = document.getElementById('fileCount').value;
+        var mainAddress = document.getElementById('mainAddress').value;
+        var subAddress = document.getElementById('mainAddress').value;
+
+        if ($("#classCheck option:selected").val() == 0 && mainAddress == "") {
+            event.preventDefault();
+            alert("주소를 검색해주세요");
+            return;
+        }
+        if ($("#classCheck option:selected").val() == 0 && subAddress == "") {
+            event.preventDefault();
+            alert("상세주소를 적어주세요");
+            return;
+        }
+        if (className == "") {
+            event.preventDefault();
+            alert("클래스 이름을 적어주세요");
+            return;
+        }
+        if (classStart == "" || classEnd == "") {
+            event.preventDefault();
+            alert("클래스 날짜를 선택해주세요");
+            return;
+        }
+        if (maxCount == "" || maxCount < 0) {
+            event.preventDefault();
+            alert("수강인원을 확인해주세요");
+            return;
+        }
+        if (expense == "") {
+            event.preventDefault();
+            alert("수강 비용을 확인해주세요");
+            return;
+        }
+        if (classInfo == "") {
+            event.preventDefault();
+            alert("클래스 정보를 적어주세요");
+            return;
+        }
+        if (curriculum == "") {
+            event.preventDefault();
+            alert("커리큘럼을 적어주세요");
+            return;
+        }
+    });
 });
+
+  
 </script>
 
 <script type="text/javascript">
@@ -68,15 +122,15 @@ $(document).ready(function() {
 
 function categoryUchange() {
 	
-	var art = ["음악", "영화", "사진", "회화", "뮤지컬", "공예", "연기", "게임", "무용"];
-	var sports = ["헬스", "무술", "런닝", "수영", "사이클링", "레저", "체조", "요가", "크로스핏"];
-	var cook = ["중식", "양식", "한식", "채식", "디저트", "베이킹", "퓨전", "건강식", "간편식"];
-	var travel = ["백패킹", "휴양지", "도보", "음식", "문화", "도심", "로드 트립", "정글", "섬",];
-	var growth = ["직업", "창업", "금융", "건강", "자기개발", "기술", "비즈니스", "교육", "독서"];
-	var it = ["웹 개발", "앱 개발", "클라우드", "빅데이터", "프로그래밍 언어", "사이버 보안", "인공지능(AI)", "블록체인", "로봇 공학"];
-	var fashion = ["의류", "패션 디자인", "악세사리", "뷰티", "컬러 코디네이션", "코스튬", "컬처 패션", "리사이클 패션", "패션 브랜드"];
-	var create = ["영상 제작", "포토그래피", "디자인", "만화", "VR 및 AR", "음악 프로듀싱", "소셜 미디어", "캘리그라피", "키네틱 아트"];
-	var culture = ["축제", "종교", "문학", "미술", "문화유산", "언어", "여행", "음악", "건축"];
+	var 예술 = ["음악", "영화", "사진", "회화", "뮤지컬", "공예", "연기", "게임", "무용"];
+	var 운동 = ["헬스", "무술", "런닝", "수영", "사이클링", "레저", "체조", "요가", "크로스핏"];
+	var 요리 = ["중식", "양식", "한식", "채식", "디저트", "베이킹", "퓨전", "건강식", "간편식"];
+	var 여행 = ["백패킹", "휴양지", "도보", "음식", "문화", "도심", "로드 트립", "정글", "섬",];
+	var 성장 = ["직업", "창업", "금융", "건강", "자기개발", "기술", "비즈니스", "교육", "독서"];
+	var IT = ["웹 개발", "앱 개발", "클라우드", "빅데이터", "프로그래밍 언어", "사이버 보안", "인공지능(AI)", "블록체인", "로봇 공학"];
+	var 패션 = ["의류", "패션 디자인", "악세사리", "뷰티", "컬러 코디네이션", "코스튬", "컬처 패션", "리사이클 패션", "패션 브랜드"];
+	var 창작 = ["영상 제작", "포토그래피", "디자인", "만화", "VR 및 AR", "음악 프로듀싱", "소셜 미디어", "캘리그라피", "키네틱 아트"];
+	var 문화 = ["축제", "종교", "문학", "미술", "문화유산", "언어", "여행", "음악", "건축"];
 	
 	var mainCategoryName = document.getElementById("mainCategoryName");
 	var subCategoryName = document.getElementById("subCategoryName");
@@ -87,32 +141,32 @@ function categoryUchange() {
 	
 	// 선택한 대분류에 따라 소분류 설정
     switch (selectedCategory) {
-    case "art":
-        categoryDropdown(art);
+    case "예술":
+        categoryDropdown(예술);
         break;
-    case "sports":
-    	categoryDropdown(sports);
+    case "운동":
+    	categoryDropdown(운동);
         break;
-    case "cook":
-    	categoryDropdown(cook);
+    case "요리":
+    	categoryDropdown(요리);
         break;
-    case "travel":
-    	categoryDropdown(travel);
+    case "여행":
+    	categoryDropdown(여행);
         break;
-    case "growth":
-    	categoryDropdown(growth);
+    case "성장":
+    	categoryDropdown(성장);
         break;
-    case "it":
-    	categoryDropdown(it);
+    case "IT":
+    	categoryDropdown(IT);
         break;
-    case "fashion":
-    	categoryDropdown(fashion);
+    case "패션":
+    	categoryDropdown(패션);
         break;
-    case "create":
-    	categoryDropdown(create);
+    case "창작":
+    	categoryDropdown(창작);
         break;
-    case "culture":
-    	categoryDropdown(culture);
+    case "문화":
+    	categoryDropdown(문화);
         break;
     // 다른 대분류에 대한 case 추가
 	}
@@ -161,7 +215,6 @@ function readURL(input) {
 </style>
 
 <div class="cd1">
-<div class="center-box">
 <div class="title">
 <h3 style="display: inline-block;">ON/OFF클래스 등록</h3>
 <div id= "all"><select name="classCheck" id="classCheck">
@@ -174,7 +227,7 @@ function readURL(input) {
 
 <form action="/teacher/regist" method="post" id="submit" name="submit" enctype="multipart/form-data">
 <table class="table table-bordered">
-	<img id="preview" />
+	<img id="preview" width="130" height="150"/>
 	<div class="fileBox">
 	<label for="singleFile" style="display: block;">썸네일 등록</label>
 	<input type="file"  name="singleFile" id="singleFile" onchange="readURL(this);"> 
@@ -186,7 +239,7 @@ function readURL(input) {
 	<col style="width: 80%;">
 </colgroup>
 <tr>
-	<td class="table-info">강사</td><td>${user.userName }</td>
+	<td class="table-info">강사</td><td>${userName}</td>
 </tr>
 <tr>
 	<td class="table-info">카테고리</td>
@@ -194,15 +247,15 @@ function readURL(input) {
 	 <label for="mainCategoryName">대분류 : </label>
 	<select name="mainCategoryName" id="mainCategoryName" onchange="categoryUchange()">
 	<option selected disabled>--대분류를 선택해주세요--</option>
-	<option value="art">예술</option>
-	<option value="sports">스포츠</option>
-	<option value="cook">요리</option>
-	<option value="travel">여행</option>
-	<option value="growth">성장</option>
-	<option value="it">IT</option>
-	<option value="fashion">패션</option>
-	<option value="create">창작</option>
-	<option value="culture">IT</option>
+	<option value="예술">예술</option>
+	<option value="운동">스포츠</option>
+	<option value="요리">요리</option>
+	<option value="여행">여행</option>
+	<option value="성장">성장</option>
+	<option value="IT">IT</option>
+	<option value="패션">패션</option>
+	<option value="창작">창작</option>
+	<option value="culture">문화</option>
 	</select>
 	>
 	<label for="subCategoryName">소분류 : </label>
@@ -240,20 +293,13 @@ function readURL(input) {
 
     #deleteTableButton {
         cursor: pointer;
-        color: red;
+        color: blue;
         font-weight: bold;
         margin-top: 10px;
         display: none;
     }
 </style>
 
-<tr>
-	<td><button id="deleteTableButton" onclick="deleteTable(event)">테이블 삭제</button></td>
-    <td><table id="dynamicTable"></table></td>
-
-    <!-- 추가: 파일 개수를 입력하는 input -->
-    <input type="number" id="fileCount" name="fileCount" value="1" readonly style="display:none">	
-</tr>
 <script>
     // 함수를 호출하여 테이블 생성
     createDynamicTable(4, 5);
@@ -361,7 +407,10 @@ function readURL(input) {
     	
     	// 테이블 엘리먼트 찾기
         var table = document.getElementById('dynamicTable');
-
+    	
+        var button = document.getElementById('deleteTableButton');
+        button.innerHTML = '테이블 삭제';
+        button.style.color = 'red';
         
         // 테이블 내의 모든 파일 값 초기화 및 셀 삭제
         for (var i = table.rows.length - 1; i >= 0; i--) {
@@ -420,8 +469,15 @@ function readURL(input) {
     
 </script>
 
-
 </table> 
+
+<div>
+	<div id="deleteTableButtonDiv"><button id="deleteTableButton" onclick="deleteTable(event)">테이블 생성</button></div>
+    <div id="dynamicTableDiv"><table id="dynamicTable"></table></div>
+
+    <!-- 추가: 파일 개수를 입력하는 input -->
+    <input type="number" id="fileCount" name="fileCount" value="1" readonly style="display:none">	
+</div>
 <div id="showMap" style="display: none">
 <input type="text" id="mainAddress" name="mainAddress" placeholder="주소" readonly>
 <input type="button" onclick="execDaumPostcode()" value="주소 검색"><br>
@@ -491,8 +547,6 @@ function readURL(input) {
 </div>
 </form>
 
-
-</div>	<!-- center box -->
 
 </div>	<!-- total box -->
 
