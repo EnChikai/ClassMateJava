@@ -29,14 +29,14 @@ $(function() {
 }
 
 .idpw{
-    margin: 0 auto 50px;
+    margin: 0 auto 15px;
 }
 
 .join {
    width: 40%;
    border: 1px solid rgba(0, 0, 0, .12);
     padding: 6px;
-   margin-top: 15px;
+   margin-top: 10px;
    font-size: 12px;
    font-weight: bold;
    box-sizing: border-box;
@@ -48,7 +48,7 @@ $(function() {
 #loginDiv {
     border: 1px solid #ccc;
     width: 478px;
-    height: 375px;
+    height: 370px;
     margin: 0 auto;
     margin-top: 9px;
     background-color: #fff;
@@ -59,7 +59,7 @@ $(function() {
 #loginDiv1 {
    border: 1px solid #ccc;
    width: 500px;
-    height: 395px;
+    height: 390px;
     margin: 90px auto 10px auto;
 }
 
@@ -181,7 +181,7 @@ $(function() {
             <label><img src="/resources/img/key_1.png">
             <input type="password" id="userPw" name="userPw" placeholder="비밀번호를 입력해주세요"></label><br>
             <div id="noInputPw"></div><br>
-         
+            ${errormsg} <!-- modal 에러메시지 -->
          </div>
       
          <div style="text-align: center;">

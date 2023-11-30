@@ -1,7 +1,11 @@
 package user.service.face;
 
+import java.util.Map;
+
+import payment.dto.OrderTb;
 import teacher.dto.Teacher;
 import user.dto.UserInfo;
+import web.util.Paging;
 
 public interface UserService {
 
@@ -46,5 +50,11 @@ public interface UserService {
 	public boolean findPassword(UserInfo userInfo);
 
 	public boolean checkPassword(String userId, String userPw);
+
+	public Paging getOrderPaging(Paging paging, OrderTb orderTb);
+
+	public Map<String, Object> getPaymentList(Paging paging, OrderTb orderTb);
+
+	public UserInfo whoAmI(UserInfo userInfo);
 
 }

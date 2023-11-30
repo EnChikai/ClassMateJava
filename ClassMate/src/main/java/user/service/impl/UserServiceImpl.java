@@ -1,14 +1,24 @@
 package user.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import payment.dto.OrderTb;
+import payment.dto.Payment;
 import teacher.dto.Teacher;
 import user.dao.face.UserDao;
 import user.dto.UserInfo;
 import user.service.face.UserService;
+import web.util.Paging;
+import lecture.dto.Class;
+
 @Service
 public class UserServiceImpl implements UserService{
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
@@ -125,4 +135,72 @@ public class UserServiceImpl implements UserService{
         UserInfo userInfo = userDao.getUserById(userId);
         return userInfo != null && userInfo.getUserPw().equals(userPw);
 	}
+	
+	//--------------------------------------------------------
+	//결제내역
+	@Override
+	public Paging getOrderPaging(Paging param, OrderTb orderTb) {
+		logger.info("getOrderPaging()");
+		
+		//총 주문 수 조회
+		int totalCount = userDao.selectOrderCnt(orderTb);
+		logger.info("totalCount : {}",totalCount);
+		
+		//페이징 객체 생성(페이징 계산)
+		Paging paging = new Paging(totalCount, param.getCurPage());
+		
+		return paging;
+	}
+
+	@Override
+	public Map<String, Object> getPaymentList(Paging paging, OrderTb orderTb) {
+		logger.info("getPaymentList()");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		map.put("paging", paging);
+		map.put("orderTb", orderTb);
+		
+		List<OrderTb> orderList = userDao.selectUserOrder(map);
+		
+		map.put("orderList", orderList);
+		
+		for(int i = 0; i<orderList.size(); i++) {
+			logger.info(i+". selectUserOrder() : {}", orderList );
+		}
+		
+		List<Payment> paymentList = new ArrayList<Payment>();
+		List<Class> classList = new ArrayList<Class>();
+		
+		
+		if(paging.getTotalCount() != 0) {
+		
+			paymentList = userDao.selectUserPayment(map);
+			
+			for(int i = 0; i<paymentList.size(); i++) {
+				logger.info(i+". selectUserPayment() : {}", paymentList );
+				
+				Class classInfo = userDao.selectClassNameByClassNo(orderList.get(i).getClassNo());
+				classList.add(classInfo);
+				
+				logger.info(i+". selectClassNameByClassNo() : {}", classList );
+				
+			}
+
+			resultMap.put("orderList", orderList);
+			resultMap.put("paymentList", paymentList);
+			resultMap.put("classList", classList);
+		}
+		
+		return resultMap;
+	}
+	
+	@Override
+	public UserInfo whoAmI(UserInfo userInfo) {
+		
+		return userDao.whoAmI(userInfo);
+		
+	}
+	
 }
