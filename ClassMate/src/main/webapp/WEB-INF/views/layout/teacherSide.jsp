@@ -46,12 +46,12 @@ li div:hover {
 
   <ul>
   <li class="border" style="margin-top: 100px;">
-  <div>gkgk</div>
-  <a>강사님</a></li>
-  <li><a href="#">클래스 관리</a></li>
-  <li><a href="#">클래스 등록</a></li>
-  <li><a href="#">클래스 조회</a></li>
-  <li><a href="#">질문답변 조회</a></li>
-  <li><a href="#">정산 내역</a></li>
+  <img alt="강사 이미지" src="/upload/${teacherImg}" width="130" height="150">
+  <a>${userName} 강사님</a></li>
+  <li>클래스 관리</a></li>
+  <li><a href="/teacher/regist">클래스 등록</a></li>
+  <li><a href="/teacher/check">클래스 조회</a></li>
+  <li><a href="/teacher/answer">질문답변 조회</a></li>
+  <li><a href="/teacher/payDetail">정산 내역</a></li>
 </ul>
 
