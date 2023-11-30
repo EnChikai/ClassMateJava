@@ -306,7 +306,7 @@ background-color: #F0C610;
 }
 
 a:hover{
-	color: #F0C610;
+	color: black;
 	text-decoration: underline;
 }
         
@@ -365,8 +365,8 @@ a:hover{
         <c:forEach var="list" items="${onClassOrderTopList}" varStatus="status">
             <div class="lecture-item-on">
                 <a href="/main/onClassView?classNo=${list.classNo}">
-                    <img style="width: 280px;" src="/upload/${list.headImg}">
-                    <p>${list.className}</p>
+                    <img style="width: 280px; height: 280px;" src="/upload/${list.headImg}">
+                    <p style="margin-right: 44px; margin-left: 44px; background-color: #F0C610;">${list.className}</p>
                 </a>
             </div>
         </c:forEach>
@@ -387,9 +387,9 @@ a:hover{
         <!-- 강의 목록은 서버에서 가져와 동적으로 생성되어야 합니다. 여기서는 간단히 하드코딩으로 생성합니다. -->
         <c:forEach var="list" items="${offClassOrderTopList}" varStatus="status">
             <div class="lecture-item-off">
-                <a href="/main/onClassView?classNo=${list.classNo}">
-                    <img style="width: 280px;" src="/upload/${list.headImg}">
-                    <p>${list.className}</p>
+                <a href="/main/offClassView?classNo=${list.classNo}">
+                    <img style="width: 280px; height: 280px;" src="/upload/${list.headImg}">
+                    <p style="margin-right: 44px; margin-left: 44px; background-color: #00fff096;">${list.className}</p>
                 </a>
             </div>
         </c:forEach>
@@ -412,15 +412,15 @@ a:hover{
         
             <div class="lecture-item-onOff">
                 <a href="/main/onClassView?classNo=${onRecommended[i].classNo }">
-                    <img style="width: 200px;" src="/upload/${onRecommended[i].headImg}">
-                    <p>${onRecommended[i].className}</p>
+                    <img style="width: 200px; height: 142px;" src="/upload/${onRecommended[i].headImg}">
+                    <p style="margin-right: 38px; margin-left: 38px; background-color: #F0C610;">${onRecommended[i].className}</p>
                 </a>
             </div>
             
             <div class="lecture-item-onOff">
                 <a href="/main/offClassView?classNo=${offRecommended[i].classNo }">
-                    <img style="width: 200px;" src="/upload/${offRecommended[i].headImg}">
-                    <p>${offRecommended[i].className}</p>
+                    <img style="width: 200px; height: 142px;" src="/upload/${offRecommended[i].headImg}">
+                    <p style="margin-right: 38px; margin-left: 38px; background-color: #00fff096;">${offRecommended[i].className}</p>
                 </a>
             </div>
             
