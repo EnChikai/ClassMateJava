@@ -200,7 +200,7 @@ $(() => {
 	
 	<c:if test="${not empty eventBoardFile }">
 	<tr>
-		<th>기존 첨부파일</th>
+		<th>기존 파일</th>
 			<td colspan="3">
 			<div id="originFile">
 			<c:forEach var="eventBoardFile" items="${eventBoardFile }">
@@ -217,7 +217,7 @@ $(() => {
 	</c:if>
 	
 	<tr>
-		<th>신규 첨부파일</th>
+		<th>신규 파일</th>
 			<td colspan="3">
 			<input style="height: auto;" type="file" name="eventFile" class="file" multiple="multiple"></td>
 	</tr>

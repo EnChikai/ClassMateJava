@@ -4,12 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import board.dto.EventBoard;
+import lecture.dto.Address;
 import lecture.dto.Class;
 import main.dto.MainCategory;
 import main.dto.SubCategory;
-import user.dto.UserInfo;
-import web.util.MainClassListPaging;
-import web.util.Paging;
 
 public interface MainDao {
 
@@ -42,6 +40,10 @@ public interface MainDao {
 	public Integer duplicationBasket(Map<String, Object> map);
 
 	public void insertBasket(Map<String, Object> map);
+
+	public Address getAddress(Class cLass);
+
+	public void endClass();
 
 
 

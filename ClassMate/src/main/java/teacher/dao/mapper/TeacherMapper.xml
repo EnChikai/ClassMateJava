@@ -17,6 +17,19 @@ SELECT question_no, user_no, class_no, question_name, question_content, question
 	FROM question_answer
 </sql>
 
+<select id="getUserNameByUserNo" resultType="String" parameterType="int">
+	SELECT user_name FROM user_info
+		<where>
+			AND user_no = #{userNo}
+		</where>
+</select>
+
+<select id="getTeacherInfoByUserNoYo" resultType="Teacher" parameterType="int">
+	SELECT teacher_no, teacher_img FROM teacher
+		<where>
+			AND user_no = #{userNo}
+		</where>
+</select>
 
 <select id="selectByUserNo" resultType="int" parameterType="int">
 SELECT teacher_no FROM teacher
@@ -25,21 +38,28 @@ SELECT teacher_no FROM teacher
 	</where>
 </select>
 
+<select id="selectByteacherNo" resultType="int" parameterType="int">
+SELECT class_no FROM class
+	<where>
+		AND teacher_no = #{teacherNo}
+	</where>
+</select>
+
 <select id="selectPageList" resultType="Class">
-	SELECT * FROM (
-		    SELECT rownum rnum, B.* FROM (
-				<include refid="selectClass" />
-				WHERE teacher_no = #{teacherNo}
-				ORDER BY board_no DESC
-		    ) B
-		) WHERE rnum BETWEEN #{startNo} AND #{endNo}	
+	SELECT * FROM class
+		<where>
+				AND teacher_no = #{teacherNo}
+		</where>
+				ORDER BY class_start DESC
+
+
 </select>
 
 <select id="selectCntAll" resultType="int" parameterType="int">
-	SELECT count(*) FROM ()
-	<include refid="selectClass" />
-	WHERE teacher_no = #{teacherNo}
+	SELECT count(*) FROM (
+	<include refid="selectClass" />	
 	)
+	WHERE teacher_no = #{teacherNo}
 </select>
 
 <select id="selectByClassNo" resultType="Class" parameterType="Class">
@@ -60,7 +80,7 @@ SELECT teacher_no FROM teacher
 	SELECT * FROM class
 		<where>
 			AND teacher_no = #{teacherNo}
-			AND on_off = 0
+			AND on_off = 1
 		</where>
 </select>
 
@@ -84,8 +104,8 @@ SELECT teacher_no FROM teacher
 	<selectKey order="BEFORE" resultType="int" keyProperty="applyNo">
 			SELECT teacher_apply_seq.nextval FROM dual
 	</selectKey>
-	INSERT INTO teacher_apply (apply_no, teacher_no, pass_or_not, apply_date)
-	VALUES (#{applyNo}, #{teacherNo}, #{passOrNot}, SYSTIMESTAMP)		
+	INSERT INTO teacher_apply (apply_no, teacher_no, apply_date)
+	VALUES (#{applyNo}, #{teacherNo}, SYSTIMESTAMP)		
 </insert>
 
 <select id="selectNameByUserNo" resultType="UserInfo" parameterType="int">
@@ -149,11 +169,114 @@ SELECT teacher_no FROM teacher
 </select>
 
 <select id="selectQaList" resultType="QuestionAnswer" parameterType="int">
-	SELECT question_no, user_no, class_no, question_name, question_content, question_date, answer, answer_content 
-	FROM question_answer
-	<where>
-		AND class_no = #{classNo2}
-	</where>
+
+	 			SELECT question_no, user_no, class_no, question_name, question_content, question_date, answer, answer_content 
+				FROM question_answer 
+				WHERE class_no = #{classNo}
+	 			ORDER BY question_date DESC
+
+	
+</select>
+
+<update id="qaUpdate" parameterType="QuestionAnswer">
+	UPDATE question_answer SET answer = 1 , answer_content = #{answerContent}
+		<where>
+			AND question_no = #{questionNo}
+		</where>
+</update>
+
+<select id="getClassList" resultType="Class" parameterType="HashMap">
+	SELECT * FROM (
+    SELECT rownum rnum, B.*
+    FROM(
+	SELECT COUNT(DISTINCT O.order_no) AS orderNo, C.class_name, C.class_no, C.class_start, C.class_end, C.max_count, C.on_off, C.expense
+	FROM class C
+		JOIN order_tb O ON C.class_no = O.class_no
+		JOIN payment P ON O.order_no = P.order_no
+		WHERE C.teacher_no = #{teacherNo}
+		GROUP BY C.class_name, C.class_no, C.class_start, C.class_end, C.max_count, C.on_off, C.expense
+		ORDER BY orderNo DESC
+		    ) B
+	) WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+</select>
+
+<select id="getPaymentList" resultType="Payment" parameterType="HashMap">
+	SELECT * FROM (
+    SELECT rownum rnum, B.*
+    FROM (
+        SELECT
+            COUNT(DISTINCT O.order_no) AS orderNo,
+            SUM(P.payment) AS payment
+        FROM class C
+        JOIN order_tb O ON C.class_no = O.class_no
+        JOIN payment P ON O.order_no = P.order_no
+        WHERE C.teacher_no = #{teacherNo}
+        GROUP BY C.class_name, C.class_no, C.class_start, C.class_end, C.max_count, C.on_off, C.expense
+        ORDER BY orderNo DESC
+    ) B
+	) WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+
+</select>
+
+<select id="getOnOffClassList" resultType="Class" parameterType="HashMap">
+	SELECT * FROM (
+    SELECT rownum rnum, B.*
+    FROM (
+	SELECT COUNT(DISTINCT O.order_no) AS orderNo, C.class_name, C.class_no, C.class_start, C.class_end, C.max_count, C.on_off, C.expense
+	FROM class C
+		JOIN order_tb O ON C.class_no = O.class_no
+		JOIN payment P ON O.order_no = P.order_no
+		WHERE C.teacher_no = #{teacherNo}
+		AND C.on_off = #{onOff}
+		GROUP BY C.class_name, C.class_no, C.class_start, C.class_end, C.max_count, C.on_off, C.expense
+		ORDER BY orderNo DESC
+	) B
+	) WHERE rnum BETWEEN #{onPaging.startNo} AND #{onPaging.endNo}
+</select>
+
+
+<select id="getOnOffPaymentList" resultType="Payment" parameterType="HashMap">
+	SELECT * FROM (
+    SELECT rownum rnum, B.*
+    FROM (
+        SELECT
+            COUNT(DISTINCT O.order_no) AS orderNo,
+            SUM(P.payment) AS payment
+        FROM class C
+        JOIN order_tb O ON C.class_no = O.class_no
+        JOIN payment P ON O.order_no = P.order_no
+        WHERE C.teacher_no = #{teacherNo}
+        AND on_off = #{onOff}
+        GROUP BY C.class_name, C.class_no, C.class_start, C.class_end, C.max_count, C.on_off, C.expense
+        ORDER BY orderNo DESC
+    ) B
+	) WHERE rnum BETWEEN #{onPaging.startNo} AND #{onPaging.endNo}
+
+</select>
+
+<select id="selectpayDetailCntAll" resultType="int" parameterType="HashMap">
+	SELECT count(*) FROM(
+		SELECT C.class_name, C.class_no, COUNT(DISTINCT O.order_no) AS orderNo, SUM(P.payment) AS total_payment, C.class_start, C.class_end, C.max_count, C.on_off, C.expense
+		FROM class C
+		JOIN order_tb O ON C.class_no = O.class_no
+		JOIN payment P ON O.order_no = P.order_no
+		WHERE C.teacher_no = #{teacherNo}
+		GROUP BY C.class_name, C.class_no, C.class_start, C.class_end, C.max_count, C.on_off, C.expense
+		ORDER BY orderNo DESC
+	)
+</select>
+
+<select id="selectClassPayDetailCntAll" resultType="int" parameterType="HashMap">
+	SELECT count(*) FROM(
+		SELECT C.class_name, C.class_no, COUNT(DISTINCT O.order_no) AS orderNo, SUM(P.payment) AS total_payment, C.class_start, C.class_end, C.max_count, C.on_off, C.expense
+		FROM class C
+		JOIN order_tb O ON C.class_no = O.class_no
+		JOIN payment P ON O.order_no = P.order_no
+		WHERE C.teacher_no = #{teacherNo}
+		AND C.on_off = #{onOff}
+		GROUP BY C.class_name, C.class_no, C.class_start, C.class_end, C.max_count, C.on_off, C.expense
+		ORDER BY orderNo DESC
+	)
 </select>
 
 

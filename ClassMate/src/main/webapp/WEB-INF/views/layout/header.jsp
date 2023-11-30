@@ -4,28 +4,14 @@
 <!DOCTYPE html>
 <html style="overflow: auto; height: 100%;">
 <head>
-<title>Insert title here</title>
+<title>ClassMate</title>
+<link rel="shortcut icon" href="<c:url value='/resources/img/favicon.ico'/>" type="image/x-icon"/>
+<link rel="icon" href="<c:url value='/resources/img/favicon.ico'/>" type="image/x-icon"/>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function () {
-    // ClassMateMenu 클릭 이벤트
-    $("#classMateMenu").click(function () {
-        // 토글 기능 추가
-        $("#yourToggleElementId").toggle();
-
-        // CSS 변경
-        if ($("#yourToggleElementId").is(":visible")) {
-            // 토글이 열린 경우
-            $("#classMateMenu").css("color", "white");
-            $("#classMateMenu").css("text-decoration", "underline");
-        } else {
-            // 토글이 닫힌 경우
-            $("#classMateMenu").css("color", "black");
-            $("#classMateMenu").css("text-decoration", "none");
-        }
-    });
 
     //ClassMate 메인메뉴
     // 마우스를 올리면 글자색과 언더라인 변경
@@ -181,6 +167,100 @@ $(document).ready(function () {
     $("#classMateMenu").click(function () {
         $(this).toggleClass("clicked");
     });
+    
+    // ClassMateMenu 클릭 이벤트
+    $("#classMateMenu").click(function () {
+        // ClassMateMenu 토글 기능 추가
+        $("#yourToggleElementId").toggle();
+
+        // CSS 변경
+        if ($("#yourToggleElementId").is(":visible")) {
+            // ClassMateMenu 토글이 열린 경우
+            $("#classMateMenu").css("color", "white");
+            $("#classMateMenu").css("text-decoration", "underline");
+
+            // 검색 메뉴 숨기기
+            $("#searchInput").hide();
+            $("#searchIcon").hide(); // 이미지도 함께 토글
+            // 검색 메뉴 스타일 초기화
+            $("#mainMenu3").css("color", "black");
+            $("#mainMenu3").css("text-decoration", "none");
+        } else {
+            // ClassMateMenu 토글이 닫힌 경우
+            $("#classMateMenu").css("color", "black");
+            $("#classMateMenu").css("text-decoration", "none");
+        }
+    });
+
+    // 검색 메뉴 클릭 시 토글
+    $("#mainMenu3").click(function () {
+        // 검색 메뉴 토글 기능 추가
+        $("#searchInput").toggle();
+        $("#searchIcon").toggle(); // 이미지도 함께 토글
+
+        // CSS 변경
+        if ($("#searchInput").is(":visible")) {
+            // 검색 메뉴가 열린 경우
+            $("#mainMenu3").css("color", "white");
+            $("#mainMenu3").css("text-decoration", "underline");
+
+            // ClassMateMenu 숨기기
+            $("#yourToggleElementId").hide();
+            // ClassMateMenu 스타일 초기화
+            $("#classMateMenu").css("color", "black");
+            $("#classMateMenu").css("text-decoration", "none");
+        } else {
+            // 검색 메뉴가 닫힌 경우
+            $("#mainMenu3").css("color", "black");
+            $("#mainMenu3").css("text-decoration", "none");
+        }
+    });
+
+    // 마이페이지 메뉴 클릭 시 토글
+    $("#mainMenu6").click(function () {
+        // 마이페이지 메뉴 토글 기능 추가
+        $("#yourToggleElementId").toggle();
+
+        // CSS 변경
+        if ($("#yourToggleElementId").is(":visible")) {
+            // 마이페이지 메뉴가 열린 경우
+            $("#mainMenu6").css("color", "#F0C610");
+            $("#mainMenu6").css("text-decoration", "underline");
+
+            // 검색 메뉴 숨기기
+            $("#searchInput").hide();
+            $("#searchIcon").hide(); // 이미지도 함께 토글
+            // 검색 메뉴 스타일 초기화
+            $("#mainMenu3").css("color", "black");
+            $("#mainMenu3").css("text-decoration", "none");
+        } else {
+            // 마이페이지 메뉴가 닫힌 경우
+            $("#mainMenu6").css("color", "black");
+            $("#mainMenu6").css("text-decoration", "none");
+        }
+    });
+    
+    // 이미지 클릭 시 이벤트
+    $("#searchIcon").click(function () {
+        sendSearchRequest();
+    });
+
+    // Enter 키 입력 시 이벤트
+    $("#searchInput").keypress(function (event) {
+        if (event.which == 13) { // Enter 키 입력
+            sendSearchRequest();
+        }
+    });
+
+    // 검색 요청 보내는 함수
+    function sendSearchRequest() {
+        var searchText = $("#searchInput").val();
+        if (searchText.trim() !== "") {
+            // 경로로 데이터 전송
+            window.location.href = "/search/all?search=" + encodeURIComponent(searchText);
+        }
+    }
+
 });
 </script>
 
@@ -203,6 +283,28 @@ a{
     margin-right: 16px;
 }
 
+.search {
+  position: relative;
+  width: 300px;
+  margin-top: 12px;
+}
+
+#searchInput {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+#searchIcon {
+  position : absolute;
+  width: 17px;
+  top: 10px;
+  right: 12px;
+  margin: 0;
+}
+
 
 
 </style>
@@ -218,7 +320,7 @@ a{
       <th class="headerTh" style="padding-top: 16px;padding-right: 17px;padding-left: 17px;padding-bottom: 16px;position:relative; z-index: 10;">
       	<a href="/board/board" id="mainMenu2" style="color: black; text-decoration: none;">게시판</a></th>
       <th class="headerTh" style="padding-top: 16px;padding-right: 17px;padding-left: 17px;padding-bottom: 16px;position:relative; z-index: 10;">
-      	<a href="" id="mainMenu3" style="color: black; text-decoration: none;">검색</a></th>
+      	<a id="mainMenu3" style="color: black; text-decoration: none; cursor: pointer;">검색</a></th>
 	      <c:if test="${isLogin!=null }">
 	      <th class="headerTh" style="padding-top: 16px;padding-right: 17px;padding-left: 17px;padding-bottom: 16px;position:relative; z-index: 10;">
 	      	<a href="/payment/basket" id="mainMenu4" style="color: black; text-decoration: none;">장바구니</a></th>
@@ -231,6 +333,12 @@ a{
       	<span style="cursor: pointer;" id="classMateMenu">ClassMate</span></th>
    </tr>
 </table>
+<div style="text-align: -webkit-center;">
+	<div class="search">
+	    	<input id="searchInput" name="search" type="text" style=" display: none;" placeholder="검색어 입력">
+	    	<img id="searchIcon" style="width: 25px; margin-bottom: 5px; display: none; cursor: pointer;" src="/resources/img/search1.png">
+	</div>
+</div>
 
 <div id="yourToggleElementId" class="yourToggleClass" style="display: none;">
    <c:if test="${isLogin==null}">
@@ -238,6 +346,7 @@ a{
       <span><strong><a href="/user/login" id="mainMenu5" style="color: black; text-decoration: none;">로그인</a></strong></span>
    </div>
    </c:if>
+   
    
    <c:if test="${isLogin!=null && teacherNo==null}">
    <div class="mainContainer" style="text-align: center; margin-left: 625px; margin-top: 25px; font-size: small; position:relative; z-index: 10;">

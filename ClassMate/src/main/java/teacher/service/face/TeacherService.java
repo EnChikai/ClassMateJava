@@ -1,5 +1,6 @@
 package teacher.service.face;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -15,16 +16,19 @@ import lecture.dto.ClassVideo;
 import lecture.dto.QuestionAnswer;
 import main.dto.MainCategory;
 import main.dto.SubCategory;
+import payment.dto.Payment;
 import teacher.dto.Teacher;
 import teacher.dto.TeacherApply;
 import teacher.dto.TeacherLicence;
 import user.dto.UserInfo;
+import web.util.Paging;
 import web.util.TeacherMainPaging;
 
 public interface TeacherService {
 
 	/**
 	 * 게시글 목록 조회
+	 * @param paging 
 	 * 
 	 * @param paging - 페이징 정보 객체 
 	 * @return 게시글 목록
@@ -113,11 +117,10 @@ public interface TeacherService {
 	 * qa 목록조회
 	 * 
 	 * @param session
-	 * @param param 전달된 paging 객체
 	 * @param classNo 전달된 QA param 객체
 	 * @return
 	 */
-	public List<QuestionAnswer> qalistPost(HttpSession session, TeacherMainPaging param, String classNo);
+	public List<QuestionAnswer> qalistPost( String classNo);
 
 	/**
 	 * 동일한 클래스 번호의 모든 질문 답변 리스트를 가져온다
@@ -130,6 +133,42 @@ public interface TeacherService {
 	 * @return
 	 */
 	public TeacherMainPaging getPaging(TeacherMainPaging param, String classNo);
+
+	/**
+	 * 전달된 질문답변번호, 답변 내용을 전달하여 업데이트해준다
+	 * 
+	 * @param qaParam 전달된 질문답변번호, 답변내용
+	 */
+	public void qaParamUpdate(QuestionAnswer qaParam);
+	
+	//강사 정산 내역
+
+	public HashMap<String, Object> getpayDetail(Class lecture, Payment payment, HashMap<String, Object> map, Paging paging, HttpSession session, String onOff);
+
+			//강사 페이징
+	public Paging getPaging(Paging param, HttpSession session, HashMap<String, Object> map, String onOff);
+
+	public HashMap<String, Object> getClassPayDetail(Class lecture, Payment payment, HashMap<String, Object> map, Paging onPaging, HttpSession session, String onOff);
+
+	/**
+	 * 유저 넘버로 이름 가져오기
+	 * 
+	 * @param userNo
+	 * @return
+	 */
+	public String getNameByUserNo(int userNo);
+
+	/**
+	 * 유저 넘버로 강사 정보 가져오기
+	 * 
+	 * @param userNo
+	 * @return
+	 */
+	public Teacher getTeacherInfoByUserNo(int userNo);
+
+	
+
+
 
 	
 	

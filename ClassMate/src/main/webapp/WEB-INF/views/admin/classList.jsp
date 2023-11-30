@@ -199,7 +199,7 @@ $(function(){
 	
 	$(".classInfo${classList.classNo }").click(function(){
 		
-		location.href = '../admin/classInfo?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&classNo=${classList.classNo }';
+		location.href = '../admin/classInfo?classNo=${classList.classNo }';
 		
 	})
 	
@@ -210,7 +210,7 @@ $(function(){
 <%-- <% ============================================================================= %> --%>	
 	
 <div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px;">
-<p id="classInfo">< On / Off 클래스 관리 ></p>
+<p id="classInfo">&#x003C; On / Off 클래스 관리 &#x003E;</p>
 
 <div style="text-align: left; margin-left: 62px; margin-bottom: 10px">
 

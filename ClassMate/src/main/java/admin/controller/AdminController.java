@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import admin.service.face.AdminService;
@@ -22,8 +23,12 @@ import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
 import board.dto.EventBoardFile;
+import board.dto.FreeBoard;
+import board.dto.Question;
+import board.dto.QuestionFile;
 import payment.dto.OrderTb;
 import teacher.dto.TeacherApply;
+import teacher.dto.TeacherLicence;
 import user.dto.UserInfo;
 import web.util.Paging;
 import lecture.dto.Class;
@@ -40,16 +45,21 @@ public class AdminController {
 	public void adminMainPageGet(
 			
 			Model model
-			
+			, Map<String, Object> dashBoardInfo
 			) {
 		logger.info("/admin/main [GET]");
 		
 		//데쉬보드 제작중
 		
-		Map<String, Object> dashBoardInfo = adminService.getDashBoardInfo();
+		dashBoardInfo = adminService.getDashBoardInfo();
 		
 		model.addAttribute("userCount",dashBoardInfo.get("userCount"));
 		model.addAttribute("secessionUserCount",dashBoardInfo.get("secessionUserCount"));
+		model.addAttribute("teacherUserCount",dashBoardInfo.get("teacherUserCount"));
+		model.addAttribute("onClassCount",dashBoardInfo.get("onClassCount"));
+		model.addAttribute("offClassCount",dashBoardInfo.get("offClassCount"));
+		model.addAttribute("payDateList",dashBoardInfo.get("payDateList"));
+		model.addAttribute("paymentList",dashBoardInfo.get("paymentList"));
 		
 	}
 	
@@ -176,22 +186,180 @@ public class AdminController {
 			
 			OrderTb orderTb
 			, Model model
+			, Map<String,Object> map
 			, Paging paging
 			
 			) {
-		logger.info("/admin/userpaymentList [GET] {}", orderTb.getUserNo());
+		logger.info("/admin/userPaymentList [GET] {}", orderTb.getUserNo());
 		
 		//페이징 계산
 		paging = adminService.getOrderPaging(paging, orderTb);
 		logger.info("paging : {}", paging);
 		
-		Map<String,Object> map = adminService.getPaymentList(paging, orderTb);
+		map = adminService.getPaymentList(paging, orderTb);
 		logger.info("getPaymentList() : {}", map);
 		
 		model.addAttribute("paging",paging);
 		model.addAttribute("orderTb",orderTb);
 		model.addAttribute("map",map);
 		
+	}
+	
+	@GetMapping("/admin/userPostList")
+	public void userPostListGet(
+			
+			UserInfo userInfo
+			, Map<String, Object> map
+			, Model model
+			, String questionCurPage
+			, String freeBoardCurPage
+			
+			) {
+		logger.info("/admin/userPostListGet [GET]");
+		logger.info("Question : {}", userInfo);
+		logger.info("questionCurPage : {}", questionCurPage);
+		
+		//페이징 계산
+		map = adminService.getUserBoardPaging(questionCurPage, freeBoardCurPage, userInfo);
+		logger.info("questionPaging : {}", map.get("questionPaging"));
+		
+		model.addAttribute("questionPaging",map.get("questionPaging"));
+		model.addAttribute("freeBoardPaging",map.get("freeBoardPaging"));
+		
+		map = adminService.selectUserPost(userInfo, (Paging) map.get("questionPaging"), (Paging) map.get("freeBoardPaging"));
+		
+		model.addAttribute("questionList",map.get("questionList"));
+		model.addAttribute("freeBoardList",map.get("freeBoardList"));
+		model.addAttribute("userInfo",userInfo);
+		
+	}
+	
+	@GetMapping("/admin/userQuestionView")
+	public void userQuestionViewGet(
+			
+			Question question
+			, Map<String,Object> map
+			, Model model
+			
+			) {
+		logger.info("/admin/userQuestionView [GET]");
+		logger.info("question : {}", question);
+		
+		map = adminService.selectQuestionInfo(question);
+		logger.info("selectQuestionInfo : {}", map);
+		
+		model.addAttribute("question",map.get("question"));
+		model.addAttribute("questionFile",map.get("questionFile"));
+		model.addAttribute("userInfo",map.get("userInfo"));
+		
+	}
+	
+	@RequestMapping("/admin/questionFileDownload")
+	public String questionFileDown(
+			
+			QuestionFile questionFile
+			, Model model
+			
+			) {
+		logger.info("/admin/questionFileDown [GET] {}",questionFile);
+		
+		//첨부파일 정보 조회
+		questionFile = adminService.getQuestionFile( questionFile );
+		logger.info("getEventFile : {}",questionFile);
+
+		model.addAttribute("questionFile", questionFile);
+		
+		return "adminDown";
+	}
+	
+	@PostMapping("/admin/userQuestionView")
+	public String userQuestionViewPost(
+			
+			Question question
+			
+			) {
+		logger.info("/admin/userQuestionView [POST]");
+		logger.info("question : {}", question);
+		
+		adminService.writeAnswer(question);
+		
+		return "redirect:/admin/userQuestionView?questionNo="+question.getQuestionNo();
+		
+	}
+	
+	@GetMapping("/admin/userFreePostView")
+	public void userFreePostViewGet(
+			
+			FreeBoard freeBoard
+			, Map<String,Object> map
+			, Model model
+			
+			) {
+		logger.info("/admin/userFreePostViewGet [GET]");
+		logger.info("FreeBoard : {}", freeBoard);
+		
+		map = adminService.viewFreePost(freeBoard);
+		logger.info("viewFreePost : {}", map);
+		
+		model.addAttribute("freeBoard",map.get("freeBoard"));
+		model.addAttribute("freeBoardFiles",map.get("freeBoardFiles"));
+		model.addAttribute("userInfo",map.get("userInfo"));
+		
+	}
+	
+	@GetMapping("/admin/userFreePostUpdate")
+	public void userFreePostUpdateGet(
+			
+			FreeBoard freeBoard
+			, Map<String,Object> map
+			, Model model
+			
+			) {
+		logger.info("/admin/userFreePostViewGet [GET]");
+		logger.info("FreeBoard : {}", freeBoard);
+		
+		map = adminService.viewFreePost(freeBoard);
+		logger.info("viewFreePost : {}", map);
+		
+		model.addAttribute("freeBoard",map.get("freeBoard"));
+		model.addAttribute("freeBoardFiles",map.get("freeBoardFiles"));
+		model.addAttribute("userInfo",map.get("userInfo"));
+		
+	}
+	
+	@PostMapping("/admin/userFreePostUpdate")
+	public String userFreePostUpdatePost(
+			
+			FreeBoard freeBoard
+			, MultipartFile file
+			, int[] delFileno
+			, List<MultipartFile> freeFile
+			
+			
+			) {
+		logger.info("/admin/userFreePostViewPOST [POST]");
+		logger.info("freeBoard : {}", freeBoard);
+		logger.info("getFreeContent() {}",freeBoard.getFreeContent());
+		logger.info("delFileno {}", Arrays.toString(delFileno));
+		
+		adminService.freePostUpdate(freeBoard, file, delFileno, freeFile);
+		
+		return "redirect:/admin/userFreePostView?freeNo="+freeBoard.getFreeNo();
+		
+	}
+	
+	@PostMapping("/admin/userFreePostDelete")
+	public String userFreePostDelPost(
+			
+			FreeBoard freeBoard
+			, Model model
+			
+			) {
+		logger.info("/admin/eventDelete [Post] {}", freeBoard.getFreeNo());
+		
+		adminService.freePostDel(freeBoard);
+		
+		return "redirect:/admin/userPostList?userNo="+freeBoard.getUserNo();
 	}
 	
 	//==========================================================================================
@@ -265,6 +433,26 @@ public class AdminController {
 		return "redirect:/admin/teacherApply";
 		
 	}
+	
+	@RequestMapping("/admin/licenceFileDownload")
+	public String licenceFileDown(
+			
+			TeacherLicence teacherLicence
+			, Model model
+			
+			) {
+		logger.info("/admin/questionFileDown [GET] {}",teacherLicence);
+		
+		//첨부파일 정보 조회
+		teacherLicence = adminService.getTeacherLicenceFile( teacherLicence );
+		logger.info("getTeacherLicenceFile : {}",teacherLicence);
+
+		model.addAttribute("teacherLicence", teacherLicence);
+		
+		return "adminDown";
+	}
+	
+	
 	//==========================================================================================
 	//--- 클래스 관리 ---
 	
@@ -610,4 +798,76 @@ public class AdminController {
 		return "redirect:/admin/board";
 	}
 	
+	//==========================================================================================
+	//--- 게시판 관리 > 자유게시판 ---
+	
+	@GetMapping("/admin/freeBoardList")
+	public void freeBoardListGet(
+			
+			Paging paging
+			, Map<String, Object> map
+			, Model model
+			, HttpServletRequest request
+			
+			) {
+		logger.info("/admin/freeBoardList [GET] {}");
+		
+		int sort = 0; 
+		logger.info("sort디폴트 : {}", sort);
+		
+		if(request.getParameter("sort") != null) {
+			for(int i=0; i<Integer.parseInt((request.getParameter("sort")))+1; i++) {
+				sort = i;
+			}
+		}
+		logger.info("sort확인 : {}", sort);
+		
+		// 페이징 계산
+		paging = adminService.getFreeBoardPaging(paging);
+		logger.info("paging : {}", paging);
+		
+		map = adminService.freeBoardList(paging, sort);
+		
+		model.addAttribute("sort",sort);
+		model.addAttribute("paging",paging);
+		model.addAttribute("freeBoardList",map.get("freeBoardList"));
+		
+	}
+	
+	@PostMapping("/admin/freeBoardList")
+	public String freeBoardListPost(
+			
+			@RequestParam("freePostNo") int[] freePostNo
+			
+			) {
+		logger.info("/admin/freeBoardList [POST] {}",freePostNo);
+		
+		adminService.deleteChecked(freePostNo);
+		
+		return "redirect:/admin/freeBoardList";
+	}
+	
+	@GetMapping("/admin/freeBoardView")
+	public void freeBoardViewGet(
+			
+			FreeBoard freeBoard
+			, Paging paging
+			, Map<String,Object> map
+			, Model model
+			
+			) {
+		logger.info("/admin/freeBoardView [GET]");
+		logger.info("FreeBoard : {}", freeBoard);
+		
+		map = adminService.freeBoardView(freeBoard, paging);
+		logger.info("viewFreePost : {}", map);
+		
+		model.addAttribute("freeBoard",map.get("freeBoard"));
+		model.addAttribute("freeBoardFiles",map.get("freeBoardFiles"));
+		model.addAttribute("userInfo",map.get("userInfo"));
+		model.addAttribute("paging",map.get("paging"));
+		model.addAttribute("freeComment",map.get("freeComment"));
+		model.addAttribute("userNameList",map.get("userNameList"));
+		
+	}
 }

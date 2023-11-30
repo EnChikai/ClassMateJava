@@ -1,5 +1,6 @@
 package teacher.dao.face;
 
+import java.util.HashMap;
 import java.util.List;
 
 import lecture.dto.Address;
@@ -8,6 +9,7 @@ import lecture.dto.ClassVideo;
 import lecture.dto.QuestionAnswer;
 import main.dto.MainCategory;
 import main.dto.SubCategory;
+import payment.dto.Payment;
 import teacher.dto.Teacher;
 import teacher.dto.TeacherApply;
 import teacher.dto.TeacherLicence;
@@ -172,7 +174,44 @@ public interface TeacherDao {
 	 * @return 동일한 클래스번호를 가진 모든 질문답변의 수
 	 */
 	public int selectCntAll2(int classNo2);
+	
+	/**
+	 * 전달된 qaParam을 이용하여 동일한 질문답변번호의 답변본문을 업데이트한다
+	 * 
+	 * @param qaParam
+	 */
+	public void qaUpdate(QuestionAnswer qaParam);
 
+
+
+	public List<Class> getClassList(HashMap<String, Object> map);
+
+	public List<Payment> getPaymentList(HashMap<String, Object> map);
+
+	public int selectpayDetailCntAll(HashMap<String, Object> map);
+
+	public int selectClassPayDetailCntAll(HashMap<String, Object> map);
+
+	public List<Class> getOnOffClassList(HashMap<String, Object> map);
+
+	public List<Payment> getOnOffPaymentList(HashMap<String, Object> map);
+
+	
+	/**
+	 * 유저 번호로 유저 이름을 가져온다
+	 * 
+	 * @param userNo
+	 * @return
+	 */
+	public String getUserNameByUserNo(int userNo);
+
+	/**
+	 * 유저 번호로 강사 정보를 가져온다
+	 * 
+	 * @param userNo
+	 * @return teacher 정보 객체
+	 */
+	public Teacher getTeacherInfoByUserNoYo(int userNo);
 
 	
 
