@@ -1,5 +1,6 @@
 package board.controller;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,60 +110,68 @@ public class BoardController {
 		
 		//모델값 전달
 		model.addAttribute("viewFree", viewFree);
-		logger.info("범인 {}", viewFree);
 		
 		//첨부파일 정보 전달
 		List<FreeBoardFile> freeBoardFile = boardService.getAttachFreeFile( viewFree );
 		model.addAttribute("freeBoardFile", freeBoardFile);
-
-		//기존 댓글 불러오기
-//		List<FreeComment> freeCommentList = boardService.freeCommentList(freeComment); 
-//		model.addAttribute("freeCommentList", freeCommentList);
-//		logger.info("기존 댓글 {}", freeCommentList);
-		
 		
 		return "board/freeView";
 	}
 
+	//자유게시판 상세보기 - 댓글 등록
 	@PostMapping("/freeView")
 	@ResponseBody 
 	public Map<String,Object> freeComment(HttpSession session, @RequestParam Map<String,Object> userInfo ) {
-//		logger.info("유저인포");
-//		logger.info(userInfo.toString());
 		UserInfo user = new UserInfo();
 		user.setUserId((String)session.getAttribute("userId"));
 		logger.info(user.toString());
 		user = boardService.getUserInfo(user);
-//		
+		
 		FreeComment freeComment = new FreeComment();
 		freeComment.setFreeNo(Integer.parseInt((String)userInfo.get("freeNo")));
 		freeComment.setUserNo(user.getUserNo());
 		freeComment.setFreeCommentContent((String) userInfo.get("freeCommentContent"));
-//		
+		
 		freeComment = boardService.freeCommentInsert(freeComment);
 		freeComment.setUserName(user.getUserName());
 		
+		
 		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("freeCommentNo",freeComment.getFreeCommentNo());
 		map.put("freeCommentContent",freeComment.getFreeCommentContent());
 		map.put("userName", freeComment.getUserName());
 		map.put("freeCommentDate",freeComment.getFreeCommentDate());
-		
+		map.put("userNo",freeComment.getUserNo());
+		map.put("freeCommentUserNo",user.getUserNo());
 		
 		return map;
-		
 	}
 	
+	//자유게시물 상세보기 - 댓글 목록
 	@GetMapping("/freeView/comments")
 	@ResponseBody
-	public List<FreeComment> freeViewCommentComments(FreeComment freeComment, HttpSession session, Model model) {
+	public List<FreeComment> freeViewCommentComments(FreeComment freeComment, HttpSession session) {
 		freeComment.setUserNo((int)session.getAttribute("userNo"));
 		logger.info("댓글 목록의 게시물 번호 {}",freeComment.getFreeNo());
 		List<FreeComment> freeCommentList = boardService.freeCommentList(freeComment);
-//		model.addAttribute("freeCommentList", freeCommentList);
 		logger.info("댓글 목록 {}",freeCommentList); 
 		
 		return freeCommentList;
 	}
+	
+	//자유게시물 상세보기 - 댓글 삭제
+	@PostMapping("/freeView/deleteComment")
+	@ResponseBody
+	public List<FreeComment> freeViewCommentDelete(FreeComment freeCommentDelete, HttpSession session) {
+		freeCommentDelete.setUserNo((int)session.getAttribute("userNo"));
+		boardService.freeViewCommentDelete(freeCommentDelete);
+		logger.info("삭제 할 게시물번호 {}",freeCommentDelete.getFreeNo());
+		List<FreeComment> freeCommentList = boardService.freeCommentList(freeCommentDelete);
+		logger.info("삭제 할 댓글번호 {}",freeCommentDelete.getFreeCommentNo());
+		logger.info("댓글 삭제 성공");
+		
+		return freeCommentList;
+   }
 	
 	//자유게시판 상세보기 - 첨부파일 다운로드
 	@RequestMapping("/download")
@@ -267,7 +276,6 @@ public class BoardController {
 //		paramFree.setFreeHit(-1);
 		
 		//자유게시판 번호로 자유게시글 조회
-		logger.info("아 왜 안되냐고freeUpadate{}",paramFree.getFreeNo());
 		paramFree = boardService.freeView(paramFree);
 		if( paramFree.getFreeHead().equals("자유")) {
 			model.addAttribute("freeHead",1);

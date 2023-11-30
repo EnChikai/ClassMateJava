@@ -55,12 +55,18 @@ public interface BoardDao {
 	//자유게시판 상세조회 - 첨부파일 다운로드
 	public FreeBoardFile downFreeFileNo(FreeBoardFile freeBoardFile);
 	
+	//자유게시판 상세보기 - 댓글 입력을 위한 유저정보
+	public UserInfo selectByuserId(UserInfo user);
+	
 	//자유게시판 상세조회 - 댓글 입력
 	public void freeCommentInsert(FreeComment freeComment);
 	
 	//자유게시판 상세조회 - 댓글 조회
 	public List<FreeComment> freeCommentList(FreeComment freeComment);
 
+	//자유게시판 상세보기 - 댓글 삭제
+	public void freeViewCommentDelete(FreeComment freeCommentDelete);
+	
 	//자유게시판 파일 삭제
 	public void deleteFreeFileBoardNo(FreeBoard deleteFree);
 
@@ -114,7 +120,6 @@ public interface BoardDao {
 	//1:1문의게시판 상세보기 - 파일
 	public List<QuestionFile> AttachQuestionFile(Question viewQuestion);
 
-	public UserInfo selectByuserId(UserInfo user);
 
 	public FreeComment selectByFreeNo(FreeComment freeComment);
 

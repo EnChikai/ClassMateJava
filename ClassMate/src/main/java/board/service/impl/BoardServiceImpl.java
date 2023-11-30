@@ -158,6 +158,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public UserInfo getUserInfo(UserInfo user) {
+		return boardDao.selectByuserId(user);
+	}
+	
+	@Override
 	public FreeComment freeCommentInsert(FreeComment freeComment) {
 		boardDao.freeCommentInsert(freeComment);
 		freeComment = boardDao.selectByFreeNo(freeComment);
@@ -170,6 +175,12 @@ public class BoardServiceImpl implements BoardService {
 		logger.info("list {}",  list);
 		return list;
 	}
+	
+	@Override
+	   public void freeViewCommentDelete(FreeComment freeCommentDelete) {
+	      boardDao.freeViewCommentDelete(freeCommentDelete);
+	      logger.info("impl에서 삭제넘어감");
+	   }
 	
 	@Override
 	public void deleteFreeBoard(FreeBoard deleteFree) {
@@ -325,12 +336,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<QuestionFile> getAttachQuestionFile(Question viewQuestion) {
 		return boardDao.AttachQuestionFile(viewQuestion);
-	}
-
-	@Override
-	public UserInfo getUserInfo(UserInfo user) {
-		
-		return boardDao.selectByuserId(user);
 	}
 
 
