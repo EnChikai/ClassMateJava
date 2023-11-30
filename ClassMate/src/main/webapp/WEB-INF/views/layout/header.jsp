@@ -4,7 +4,9 @@
 <!DOCTYPE html>
 <html style="overflow: auto; height: 100%;">
 <head>
-<title>Insert title here</title>
+<title>ClassMate</title>
+<link rel="shortcut icon" href="<c:url value='/resources/img/favicon.ico'/>" type="image/x-icon"/>
+<link rel="icon" href="<c:url value='/resources/img/favicon.ico'/>" type="image/x-icon"/>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -334,7 +336,7 @@ a{
 <div style="text-align: -webkit-center;">
 	<div class="search">
 	    	<input id="searchInput" name="search" type="text" style=" display: none;" placeholder="검색어 입력">
-	    	<img id="searchIcon" style="width: 25px; margin-bottom: 5px; display: none;" src="/resources/img/search1.png">
+	    	<img id="searchIcon" style="width: 25px; margin-bottom: 5px; display: none; cursor: pointer;" src="/resources/img/search1.png">
 	</div>
 </div>
 
