@@ -214,7 +214,7 @@ $(function(){
 <div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
 <button style="margin-left: 1px;" class="topMenuBtn checked">회원정보 관리</button>
 <a href="../admin/userPaymentList?userNo=${userdata.userNo}"><button class="topMenuBtn">결제/수강 내역</button></a>
-<button class="topMenuBtn">작성한 게시물</button>
+<a href="../admin/userPostList?userNo=${userdata.userNo}"><button class="topMenuBtn">작성한 게시물</button></a>
 </div>
 
 <div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px;">

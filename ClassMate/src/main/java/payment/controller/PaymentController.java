@@ -87,7 +87,7 @@ public class PaymentController {
 	
 	@PostMapping("/payment/insertInfo")
 	@ResponseBody
-	public void insertInfoPost(
+	public int insertInfoPost(
 			
 			String merchantUid
 			, String provider
@@ -108,6 +108,8 @@ public class PaymentController {
 		
 		int result = paymentService.insertOrderPayment(session.getAttribute("userNo"), merchantUid, payMethod, provider, cardName, classNo);
 		logger.info("result: {}",result);
+		
+		return result;
 		
 	}
 	

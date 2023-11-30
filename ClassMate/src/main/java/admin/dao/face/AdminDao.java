@@ -7,6 +7,11 @@ import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
 import board.dto.EventBoardFile;
+import board.dto.FreeBoard;
+import board.dto.FreeBoardFile;
+import board.dto.FreeComment;
+import board.dto.Question;
+import board.dto.QuestionFile;
 import lecture.dto.Class;
 import payment.dto.OrderTb;
 import payment.dto.Payment;
@@ -22,12 +27,17 @@ public interface AdminDao {
 	/**
 	 * 탈퇴저리되지 않은 유저의 정보를 리스트 형식으로 가져온다
 	 * 
-	 * @param secessionParam 탈퇴여부( 0:미탈퇴, 1:탈퇴)
+	 * @param param 탈퇴여부( 0:미탈퇴, 1:탈퇴)
 	 * 
 	 * @return 가져온 유저 정보 리스트
 	 */
-	public int getUserCountAll(int secessionParam);
+	public int getUserCountAll(int param);
 	
+	public int getTeacherUserCountAll(int param);
+	
+	public int getOnOffClassCountAll(int param);
+
+	public Payment getPaymentData(int monthCount);
 
 	//========================================================================================================
 	//--- 유저 관리 ---
@@ -59,6 +69,38 @@ public interface AdminDao {
 
 	public Class selectClassNameByClassNo(int i);
 	
+	public int userQuestionCntAll(UserInfo userInfo);
+	
+	public List<Question> userQuestionList(Map<String, Object> map);
+	
+	public int userFreeboardCntAll(UserInfo userInfo);
+
+	public List<FreeBoard> userFreeBoardList(Map<String, Object> map);
+	
+	public Question selectQuestionNo(Question question);
+	
+	public List<QuestionFile> selectQuestionFiles(Question question);
+	
+	public QuestionFile selectQuestionFile(QuestionFile questionFile);
+	
+	public QuestionFile selectQuestionFileByFileNo(QuestionFile questionFile);
+	
+	public int insertAnswer(Question question);
+
+	public List<FreeBoardFile> selectFreePostFile(FreeBoard freeBoard);
+
+	public int updateUserFreePost(FreeBoard freeBoard);
+	
+	public FreeBoard selectUserFreePost(FreeBoard freeBoard);
+	
+	public int insertFreeFile(FreeBoardFile freeBoardFile);
+	
+	public int deleteFreeFiles(int[] delFileno);
+	
+	public int deleteFreePostFile(FreeBoard freeBoard);
+
+	public int deleteUserFreePost(FreeBoard freeBoard);
+	
 	//========================================================================================================
 	//--- 강사 심사 관리 ---
 	
@@ -74,7 +116,7 @@ public interface AdminDao {
 	
 	public UserInfo selectUserName(Teacher teacher);
 	
-	public String selectTeacherLicence(Teacher teacher);
+	public List<TeacherLicence> selectTeacherLicence(Teacher teacher);
 
 	public int updateTeacherApply(TeacherApply teacherApply);
 
@@ -83,6 +125,8 @@ public interface AdminDao {
 	public int deleteTeacherLicence(TeacherApply teacherApply);
 
 	public int deleteTeacherInfo(TeacherApply teacherApply);
+	
+	public TeacherLicence selectTeacherLicenceByLicenceNo(TeacherLicence teacherLicence);
 	
 	//========================================================================================================
 	//--- 클래스 관리 ---
@@ -148,5 +192,24 @@ public interface AdminDao {
 	public int deleteEventFile(EventBoard eventBoard);
 
 	public int deleteEventInfo(EventBoard eventBoard);
+
+	//================================================================================
+	//--- 게시판 관리 > 자유게시판 ---
+	
+	public int freeBoardCntAll();
+
+	public List<FreeBoard> selectFreeBoardAll(Map<String, Object> map);
+
+	public int deleteFreeFilesByFreeNo(int[] freePostNo);
+
+	public int deletePostBoardNo(int[] freePostNo);
+
+	public int freeCommentCntAll(FreeBoard freeBoard);
+
+	public List<FreeComment> selectFreeCommentList(Paging paging, FreeBoard freeBoard);
+
+	public List<FreeComment> selectFreeCommentList(Map<String, Object> map);
+
+	public List<UserInfo> selectUserNameList(Map<String, Object> map);
 
 }

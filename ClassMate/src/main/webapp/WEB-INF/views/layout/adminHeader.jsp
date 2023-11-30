@@ -29,7 +29,8 @@ border-bottom: 1px solid gray;
 
 #flame{
 width:1200px;
-margin-left: 20%;
+margin-left: auto;
+margin-right: auto;
 }
 
 <%-- <% ============================================================================= %> --%>

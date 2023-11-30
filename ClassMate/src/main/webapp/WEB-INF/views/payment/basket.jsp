@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <% String order = Long.toString(new Date().getTime()); %>
 
-<%-- 개별 결제 0원일때 결제 없이 바로 수강신청되도록 해야함 --%>
+<%-- 체크박스 개별결제 오류남 --%>
 
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
@@ -287,7 +287,7 @@ IMP.init('imp04411553')
 		
 		if($("#checkboxAll").is(":checked") || $(".checkBoxes").is(":checked")){
 		
-		var classNoAll = new Array();
+		let classNoAll = new Array();
 		
 		$('.classNoInput').each(function (index, item) {
 			if($("#checkboxAll").prop("checked") == true && $("#checkbox"+item.value).prop("checked") == true){
@@ -295,95 +295,153 @@ IMP.init('imp04411553')
 			}
 			
 			if($("#checkbox"+item.value).prop("checked") == true && $("#checkboxAll").prop("checked") == false){
-				classNoAll[0] = item.value
+				classNoAll[index] = item.value
 			}
 			
 		});	
 		
-		<%-- console.log(classNoAll); --%>
+		classNoAll = classNoAll.filter(value => value !== "")
+		
+		console.log(classNoAll);
 		
 		var userAddr = "${userInfo.mainAddress} ${userInfo.subAddress}";
 		
-		IMP.request_pay({
-			
-			<%-- pg: "html5_inicis",	//결제 pg 선택 --%>
-		    pg: "kakaopay",	<%-- //결제 pg 선택 --%>
-			pay_method: "card",
-			
-		    merchant_uid: <%=order %>,   <%-- 고유 번호 --%>
-		     
-		    name: document.getElementById("classNameAll").value,	<%-- 주문 상품 이름 --%>
-		    amount: document.getElementById("paymentAll").value,	<%-- //금액,  숫자 타입 --%>
-		      
-		    <%-- 주문자 정보 --%>
-		    buyer_name: "${userInfo.userName}",
-		    buyer_email: "${userInfo.userEmail}",
-		    buyer_tel: "${userInfo.userPhone}",
-		    buyer_addr: userAddr,
-		    buyer_postcode: "${userInfo.userPost}"
-		   
-		}, function (data) {	<%-- callback --%>
-			<%-- data.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다. --%>
-		      
-		      <%-- console.log(data)--%>
-		      <%-- 결제 정보를 우리가 개발한 --%>
-		      <%-- 서버로 전송해주어야 한다 --%>
-		      <%-- 		-> 결제 후 처리 --%>
-		      
-		      if(data.success){ <%-- 결제 성공시 --%>
-		      <%-- alert('결제에 성공했습니다'); --%>
-			     
-		   	     $.ajax({
-		 	            type: "POST",
-		 	            url: '../payment/insertInfo',
-		 	      		dataType: 'json',
-		 	      		traditional: true,
-		 	            data : {"merchantUid": data.merchant_uid
-		 	            	, "provider": data.pg_provider
-		 	            	, "payMethod": data.pay_method
-		 	            	, "cardName": data.card_name
-		 	            	, "classNo" : classNoAll
-		 	            }
-		
-		 	    	 });
-		
-		   	  	$(function(){ 
-			    	 var overlay = $('<div id="overlay"></div>');
-		    	    	 overlay.css({
-			    	          'position': 'fixed',
-			    	          'top': 0,
-			    	          'left': 0,
-			    	          'width': '100%',
-			    	          'height': '100%',
-			    	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
-			    	          'z-index': 9998 // 다른 요소들 위에 나타나도록 설정
-			    	       });
-			    	 var loading = $('<img src="/resources/img/loading.webp" id="loading">');
-			    	 	 loading.css({
-			    	          'position': 'fixed',
-			    	          'top': '40%',
-			    	          'left': '44.5%',
-			    	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
-			    	       });
-			    	  $('body').append(overlay);
-			    	  $('body').append(loading);
-			    })
-		   	  	setTimeout(function() {
-		   			location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
-		   		}, 1500);
-			    	
-		    	 
-		    	  
-		      }else{	<%-- 결제 실패시 --%>
-		    	 <%-- alert('결제에 실패했습니다') --%>
-			    	 
-			    	 location.href = '../payment/fail';
-			    	 
-			      }
-			 })
-			 
+		if(classNoAll.length == 1 && document.getElementById("paymentAll").value == 0){
+			 $.ajax({
+		            type: "POST",
+		            url: '../payment/insertInfo',
+		      		dataType: 'json',
+		            data : {"merchantUid": <%=order %>
+		            	, "provider": "free"
+		            	, "payMethod": "free"
+		            	, "cardName": "none"
+		            	, "classNo" : classNoAll[0]
+		            },
+	    	     	success: function(data) {
+		    	          // 성공 시 처리
+		    	          if(data == 1){$(function(){ 
+							  	 var overlay = $('<div id="overlay"></div>');
+							   	 overlay.css({
+							 	          'position': 'fixed',
+							 	          'top': 0,
+							 	          'left': 0,
+							 	          'width': '100%',
+							 	          'height': '100%',
+							 	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
+							 	          'z-index': 9998 // 다른 요소들 위에 나타나도록 설정
+							 	       });
+							  	 var loading = $('<img src="/resources/img/loading.webp" id="loading">');
+							  	 	 loading.css({
+							 	          'position': 'fixed',
+							 	          'top': '50%',
+							 	          'left': '50%',
+							 	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
+							 	       });
+							  	  $('body').append(overlay);
+							  	  $('loading').append(overlay);
+							  })
+								setTimeout(function() {
+							location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
+							}, 1500);
+		    	          }else{
+		    	        	  location.href = '../payment/fail';
+		    	          }
+		    	        },
+		    	        error: function(err) {
+		    	          // 오류 시 처리
+		    	        	location.href = '../payment/fail';
+		    	        }
+
+		    	 });
+			 			 
 		}else{
-			alert('결제할 클래스를 선택하세요')
+			
+				IMP.request_pay({
+				
+				<%-- pg: "html5_inicis",	//결제 pg 선택 --%>
+			    pg: "kakaopay",	<%-- //결제 pg 선택 --%>
+				pay_method: "card",
+				
+			    merchant_uid: <%=order %>,   <%-- 고유 번호 --%>
+			     
+			    name: document.getElementById("classNameAll").value,	<%-- 주문 상품 이름 --%>
+			    amount: document.getElementById("paymentAll").value,	<%-- //금액,  숫자 타입 --%>
+			      
+			    <%-- 주문자 정보 --%>
+			    buyer_name: "${userInfo.userName}",
+			    buyer_email: "${userInfo.userEmail}",
+			    buyer_tel: "${userInfo.userPhone}",
+			    buyer_addr: userAddr,
+			    buyer_postcode: "${userInfo.userPost}"
+			   
+			}, function (data) {	<%-- callback --%>
+				<%-- data.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다. --%>
+			      
+			      <%-- console.log(data)--%>
+			      <%-- 결제 정보를 우리가 개발한 --%>
+			      <%-- 서버로 전송해주어야 한다 --%>
+			      <%-- 		-> 결제 후 처리 --%>
+			      
+			      if(data.success){ <%-- 결제 성공시 --%>
+			      <%-- alert('결제에 성공했습니다'); --%>
+				     
+			   	     $.ajax({
+			 	            type: "POST",
+			 	            url: '../payment/insertInfo',
+			 	      		dataType: 'json',
+			 	      		traditional: true,
+			 	            data : {"merchantUid": data.merchant_uid
+			 	            	, "provider": data.pg_provider
+			 	            	, "payMethod": data.pay_method
+			 	            	, "cardName": data.card_name
+			 	            	, "classNo" : classNoAll
+			 	            },
+			    	     	success: function(data) {
+				    	          // 성공 시 처리
+				    	          if(data == 1){$(function(){ 
+									  	 var overlay = $('<div id="overlay"></div>');
+									   	 overlay.css({
+									 	          'position': 'fixed',
+									 	          'top': 0,
+									 	          'left': 0,
+									 	          'width': '100%',
+									 	          'height': '100%',
+									 	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
+									 	          'z-index': 9998 // 다른 요소들 위에 나타나도록 설정
+									 	       });
+									  	 var loading = $('<img src="/resources/img/loading.webp" id="loading">');
+									  	 	 loading.css({
+									 	          'position': 'fixed',
+									 	          'top': '50%',
+									 	          'left': '50%',
+									 	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
+									 	       });
+									  	  $('body').append(overlay);
+									  	  $('loading').append(overlay);
+									  })
+										setTimeout(function() {
+									location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
+									}, 1500);
+				    	          }else{
+				    	        	  location.href = '../payment/fail';
+				    	          }
+				    	        },
+				    	        error: function(err) {
+				    	          // 오류 시 처리
+				    	        	location.href = '../payment/fail';
+				    	        }
+			 	    	 });
+			    	  
+			      }else{	<%-- 결제 실패시 --%>
+			    	 <%-- alert('결제에 실패했습니다') --%>
+				    	 
+				    	 location.href = '../payment/fail';
+				    	 
+				      }
+				 })
+			}
+		}else{
+				alert('결제할 클래스를 선택하세요')
 		}
 		
 	})
@@ -399,7 +457,7 @@ $(function(){
 
 	classNoAll[0] = ${classList.classNo}
 
-	console.log(classNoAll);
+	<%-- console.log(classNoAll); --%>
 	
 	$("#freeBtn${classList.classNo}").click(function(){
 		 $.ajax({
@@ -411,34 +469,43 @@ $(function(){
 	            	, "payMethod": "free"
 	            	, "cardName": "none"
 	            	, "classNo" : classNoAll[0]
-	            }
+	            },
+				success: function(data) {
+				          // 성공 시 처리
+				     if(data == 1){$(function(){ 
+				  	 var overlay = $('<div id="overlay"></div>');
+				   	 overlay.css({
+				 	          'position': 'fixed',
+				 	          'top': 0,
+				 	          'left': 0,
+				 	          'width': '100%',
+				 	          'height': '100%',
+				 	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
+				 	          'z-index': 9998 // 다른 요소들 위에 나타나도록 설정
+				 	 });
+				  	 var loading = $('<img src="/resources/img/loading.webp" id="loading">');
+				  	 	 loading.css({
+				 	          'position': 'fixed',
+				 	          'top': '50%',
+				 	          'left': '50%',
+				 	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
+				 	     });
+				  	  $('body').append(overlay);
+				  	  $('loading').append(overlay);
+				   })
+				setTimeout(function() {
+				location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
+				}, 1500);
+				    }else{
+				        	  location.href = '../payment/fail';
+				    }
+		      },
+		      error: function(err) {
+		        // 오류 시 처리
+		      	location.href = '../payment/fail';
+		    }
 
-	    	 });
-			
-		 $(function(){ 
-	    	 var overlay = $('<div id="overlay"></div>');
-    	    	 overlay.css({
-	    	          'position': 'fixed',
-	    	          'top': 0,
-	    	          'left': 0,
-	    	          'width': '100%',
-	    	          'height': '100%',
-	    	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
-	    	          'z-index': 9998 // 다른 요소들 위에 나타나도록 설정
-	    	       });
-	    	 var loading = $('<img src="/resources/img/loading.webp" id="loading">');
-	    	 	 loading.css({
-	    	          'position': 'fixed',
-	    	          'top': '40%',
-	    	          'left': '44.5%',
-	    	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
-	    	       });
-	    	  $('body').append(overlay);
-	    	  $('body').append(loading);
-	    })
-   	  	setTimeout(function() {
-   			location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
-   		}, 1500);
+	   });
 	})
 })
 </script>
@@ -501,35 +568,43 @@ $(function(){
 	  	            	, "payMethod": data.pay_method
 	  	            	, "cardName": data.card_name
 	  	            	, "classNo" : classNoAll[0]
-	  	            }
+	  	            },
+	    	     	success: function(data) {
+	    	          // 성공 시 처리
+	    	          if(data == 1){$(function(){ 
+						  	 var overlay = $('<div id="overlay"></div>');
+						   	 overlay.css({
+						 	          'position': 'fixed',
+						 	          'top': 0,
+						 	          'left': 0,
+						 	          'width': '100%',
+						 	          'height': '100%',
+						 	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
+						 	          'z-index': 9998 // 다른 요소들 위에 나타나도록 설정
+						 	       });
+						  	 var loading = $('<img src="/resources/img/loading.webp" id="loading">');
+						  	 	 loading.css({
+						 	          'position': 'fixed',
+						 	          'top': '50%',
+						 	          'left': '50%',
+						 	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
+						 	       });
+						  	  $('body').append(overlay);
+						  	  $('loading').append(overlay);
+						  })
+							setTimeout(function() {
+						location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
+						}, 1500);
+	    	          }else{
+	    	        	  location.href = '../payment/fail';
+	    	          }
+	    	        },
+	    	        error: function(err) {
+	    	          // 오류 시 처리
+	    	        	location.href = '../payment/fail';
+	    	        }
 	
 	  	    	 });
-				
-	    	 	$(function(){ 
-	    	    	 var overlay = $('<div id="overlay"></div>');
-		    	    	 overlay.css({
-	   	    	          'position': 'fixed',
-	   	    	          'top': 0,
-	   	    	          'left': 0,
-	   	    	          'width': '100%',
-	   	    	          'height': '100%',
-	   	    	          'background': 'rgba(0, 0, 0, 0.5)', // 반투명 회색 배경
-	   	    	          'z-index': 9998 // 다른 요소들 위에 나타나도록 설정
-	   	    	       });
-	    	    	 var loading = $('<img src="/resources/img/loading.webp" id="loading">');
-	    	    	 	 loading.css({
-	   	    	          'position': 'fixed',
-	   	    	          'top': '50%',
-	   	    	          'left': '50%',
-	   	    	          'z-index': 9999 // 다른 요소들 위에 나타나도록 설정
-	   	    	       });
-	    	    	  $('body').append(overlay);
-	    	    	  $('loading').append(overlay);
-	    	    })
-		   	  	setTimeout(function() {
-		   			location.href = '../payment/insertInfo?merchantUid='+<%=order %>;
-		   		}, 1500);
-		    	 
 		    	  
 		      }else{	<%-- 결제 실패시 --%>
 		     	 <%-- alert('결제에 실패했습니다') --%>

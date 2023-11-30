@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%int i = 1; %>
 
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
 
@@ -147,7 +146,7 @@ $(function(){
 <div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
 <a href="../admin/userDetailedInfo?userNo=${orderTb.userNo}"><button style="margin-left: 1px;" class="topMenuBtn">회원정보 관리</button></a>
 <button class="topMenuBtn checked">결제/수강 내역</button>
-<button class="topMenuBtn">작성한 게시물</button>
+<a href="../admin/userPostList?userNo=${orderTb.userNo}"><button class="topMenuBtn">작성한 게시물</button></a>
 </div>
 
 <%-- <% ============================================================================= %> --%>
@@ -176,10 +175,10 @@ $(function(){
 </c:if>
 
 <c:if test="${paging.totalCount > 0}">
-<c:forEach var="i" begin="0" end="${paging.totalCount-1}" >
+<c:forEach var="i" begin="${paging.startNO-1}" end="${paging.endNO-1}" >
 	<tr>
 		<td class="userListTd">
-			<%=i++ %>
+			${i+1 }
 		</td>
 		<td class="userListTd">
 			<c:set var="classList" value="${map.classList[i] }" />
