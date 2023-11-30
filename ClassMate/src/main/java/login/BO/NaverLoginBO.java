@@ -5,6 +5,10 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -16,17 +20,35 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 import login.Api.NaverLoginApi;
 
+@Component
+@PropertySource("file:C:/Users/BaeChangHo/git/ClassMateJava/ClassMate/src/main/webapp/config/config.properties")
 public class NaverLoginBO {
-
     /* 인증 요청문을 구성하는 파라미터 */
 	//client_id: 애플리케이션 등록 후 발급받은 클라이언트 아이디
 	//response_type: 인증 과정에 대한 구분값. code로 값이 고정돼 있습니다.
 	//redirect_uri: 네이버 로그인 인증의 결과를 전달받을 콜백 URL(URL 인코딩). 애플리케이션을 등록할 때 Callback URL에 설정한 정보입니다.
 	//state: 애플리케이션이 생성한 상태 토큰
-	private final static String CLIENT_ID = "${spring.datasource.ClientID}";
-    private final static String CLIENT_SECRET = "${spring.datasource.ClientSecret}";
-    private final static String REDIRECT_URI = "http://${spring.datasource.ip}/login_project/callback";
-    private final static String SESSION_STATE = "oauth_state";
+	private static String CLIENT_ID;
+    private static String CLIENT_SECRET;
+    private static String REDIRECT_URI;
+
+    @Autowired
+    public NaverLoginBO(@Value("${spring.datasource.ClientID}") String clientId,
+    	    @Value("${spring.datasource.ClientSecret}") String clientSecret,
+    	    @Value("${spring.datasource.ip}") String ip) {
+
+    	    NaverLoginBO.CLIENT_ID = clientId;
+    	    NaverLoginBO.CLIENT_SECRET = clientSecret;
+    	    NaverLoginBO.REDIRECT_URI = "http://" + ip + "/login/callback";
+//        NaverLoginBO.CLIENT_ID = "RVjnr8TXsrnV5Sty6_3W";
+//        NaverLoginBO.CLIENT_SECRET = "lnaeH0fBun";
+//        NaverLoginBO.REDIRECT_URI = "http://localhost:8088/login/callback";
+    	    System.out.println("ClientID: " + clientId);
+    	    System.out.println("ClientSecret: " + clientSecret);
+    	    System.out.println("Redirect URI: " + "http://" + ip + "/login/callback");
+
+    }
+    private static String SESSION_STATE = "oauth_state";
     /* 프로필 조회 API URL */
     private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";
     

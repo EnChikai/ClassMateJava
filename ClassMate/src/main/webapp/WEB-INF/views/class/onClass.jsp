@@ -100,6 +100,9 @@
 								<div class="card-body">
 									<h5 class="card-title video-title">레슨 ${video.videoLesson}</h5>
 									<!-- 동영상 썸네일 이미지 또는 대체 이미지 표시 -->
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-btn-fill" viewBox="0 0 16 16">
+  <path d="M0 12V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2m6.79-6.907A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
+</svg>
 									<img src="/upload/${video.storedName}"
 										alt="레슨 ${video.videoLesson} 이미지" class="img-fluid">
 									<p class="card-text video-text">${video.originName}</p>
@@ -124,8 +127,7 @@
 				<a class="text-dark text-decoration-none">ON클래스 질문/답변</a>
 			</h2>
 			<div class="row">
-				<c:forEach var="questionAnswer" items="${questionAnswer}"
-					varStatus="status">
+				<c:forEach var="questionAnswer" items="${questionAnswer}" varStatus="status">
 					<div class="col-md-3 mb-4">
 						<div class="card qa-card">
 							<div class="card-body">
