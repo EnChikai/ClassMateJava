@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%int i = 1; %>
 
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
 <%-- <% ============================================================================= %> --%>
@@ -204,14 +203,14 @@ $(function(){
 </c:if>
 
 <c:if test="${paging.totalCount > 0}">
-<c:forEach var="i" begin="0" end="${paging.totalCount-1}" >
+<c:forEach var="i" begin="${paging.startNO-1}" end="${paging.endNO-1}" >
 <c:set var="teacherList" value="${map.teacherList[i] }" />
 <c:set var="teacherApplyList" value="${map.teacherApplyList[i] }" />
 <c:set var="teacherApplyList" value="${map.teacherApplyList[i] }" />
 
 	<tr class="applyListTr">
-		<td class="applyListTd">
-			<%=i++ %>
+		<td class="applyListTd applyId${teacherList.teacherNo }">
+			${i+1 }
 		</td>
 		<td class="applyListTd applyId${teacherList.teacherNo }">
 			<c:out value="${teacherList.teacherTitle }" />

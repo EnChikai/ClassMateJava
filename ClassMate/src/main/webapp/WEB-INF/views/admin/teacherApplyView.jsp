@@ -250,7 +250,7 @@ $(function(){
 		사진
 	</th>
 	<td rowspan='3' style="text-align: center;">
-		<img title="미졌습니까? 휴먼?" alt="관리자 이미지" src="/resources/img/sample_img.png" width="130" height="150">
+		<img alt="강사 이미지" src="/upload/${teacher.teacherImg}" width="130" height="150">
 	</td>
 	
 	<th>
@@ -306,8 +306,7 @@ $(function(){
 <%-- 			파일 있을경우 --%>
 			<c:if test="${not empty teacherLicence }">
 			<c:forEach var="teacherLicence" items="${teacherLicence }">
-			<a href="./annoFileDownload?teacherNo=${teacherLicence.teacherNo }">${teacherLicence.origin_name }</a><br>			
-			<a>파일이름</a><br>			
+			<a href="./licenceFileDownload?licenceNo=${teacherLicence.licenceNo }">${teacherLicence.originName }</a><br>			
 			</c:forEach>
 			</c:if>
 

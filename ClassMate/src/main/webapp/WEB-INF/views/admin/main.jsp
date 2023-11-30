@@ -21,16 +21,50 @@ margin-top: 30px;
 }
 
 #userCount{
-width:400px;
-height: 187px;
+width:550px;
+height: 250px;
 float: left;
 border-collapse: collapse;
 border-radius: 3px;
 border-style: hidden;
 box-shadow: 0 0 0 1px #ccc;
 text-align: center;
+margin: 0;
 margin-left: 33px;
 margin-top: 30px;
+
+}
+
+#classCount{
+width:300px;
+height: 300px;
+float: left;
+border-collapse: collapse;
+border-radius: 3px;
+border-style: hidden;
+box-shadow: 0 0 0 1px #ccc;
+text-align: center;
+margin: 0;
+margin-top: 20px;
+float: left;
+
+}
+
+#paymentCount{
+border: 1px solid #ccc;
+width: 470px;
+height: 300px;
+float: left;
+border-collapse: collapse;
+border-radius: 3px;
+border-style: hidden;
+box-shadow: 0 0 0 1px #ccc;
+text-align: center;
+margin: 0;
+margin-left: 20px;
+margin-top: 20px;
+float: left;
+
 
 }
 
@@ -72,54 +106,135 @@ $(function(){
 
 </script>
 
-<script>
-        // 그래프 데이터 정의
-        
-        let userCount = ${userCount };
-        let secessionUserCount = ${secessionUserCount };
-        let sum = 0;
-        sum += userCount;
-        sum += secessionUserCount;
+<script type="text/javascript">
+    window.onload = function () {
+        // ==========유저 그래프 데이터 정의==========
+        let userCount = ${userCount};
+        let teacherCount = ${teacherUserCount};
+        	userCount = userCount - teacherCount;
+        let secessionUserCount = ${secessionUserCount};
+        let userSum = userCount + teacherCount + secessionUserCount;
 
-window.onload = function() {
-        var data = {
-            labels: ['유저수', '탈퇴수', '총인원'],
+        var userData = {
+            labels: ['일반유저', '강사유저', '탈퇴유저', '합계'],
             datasets: [{
                 label: '사용자 그래프',
-                data: [userCount, secessionUserCount, sum],
+                data: [userCount, teacherCount, secessionUserCount, userSum],
+                backgroundColor: ['rgba(251,206,25,1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
+            }]
+        };
+
+        // 그래프 옵션 정의
+        var userOptions = {
+       		maintainAspectRatio: false, // 종횡비 조절 비활성화
+            responsive: true, // 반응형 크기 조절 활성화
+            width: 500, // 그래프의 너비
+            height: 300, // 그래프의 높이
+            indexAxis: 'y',
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+
+        // 캔버스에 유저 그래프 그리기
+        var userCtx = document.getElementById('userChart').getContext('2d');
+     	// 캔버스 너비 조절
+        userCtx.canvas.width = 400; // 조절하고자 하는 너비 값
+        var userChart = new Chart(userCtx, {
+            type: 'bar',
+            data: userData,
+            options: userOptions
+        });
+
+        // ==========클래스 그래프 데이터 정의==========
+        let onClassCount = ${onClassCount};
+        let offClassCount = ${offClassCount};
+        let classSum = onClassCount + offClassCount;
+
+        var classData = {
+            labels: ['온클래스', '오프클래스', '합계'],
+            datasets: [{
+                label: '클래스 그래프',
+                data: [onClassCount, offClassCount, classSum],
                 backgroundColor: ['rgba(251,206,25,1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
             }]
         };
 
         // 그래프 옵션 정의
-        var options = {
-        		indexAxis: 'y'
-            	,scales: {
-                	y: {
-                    	beginAtZero: true
-                    
-                	}
-            	}
+        var classOptions = {
+            indexAxis: 'y',
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         };
 
-        // 캔버스에 그래프 그리기
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: options
+        // 캔버스에 클래스 그래프 그리기
+        var classCtx = document.getElementById('classChart').getContext('2d');
+        var classChart = new Chart(classCtx, {
+            type: 'doughnut',
+            data: classData,
+            options: classOptions
         });
-};
-</script>
+        
+     // ==========정산 그래프 데이터 정의==========
+        let payment1 = ${paymentList.get(0) != null ? paymentList.get(0) : 0};
+        let payment2 = ${paymentList.get(1) != null ? paymentList.get(1) : 0};
+        let payment3 = ${paymentList.get(2) != null ? paymentList.get(2) : 0};
+        let payment4 = ${paymentList.get(3) != null ? paymentList.get(3) : 0};
+        
+        let month1 = '${payDateList.get(0) != null ? payDateList.get(0) : 0}'
+        let month2 = '${payDateList.get(1) != null ? payDateList.get(1) : 0}'
+        let month3 = '${payDateList.get(2) != null ? payDateList.get(2) : 0}'
+        let month4 = '${payDateList.get(3) != null ? payDateList.get(3) : 0}'
+        
+        
 
+        var paymentData = {
+            labels: [month4, month3, month2, month1],
+            datasets: [{
+                label: '정산 그래프',
+                data: [payment4, payment3, payment2, payment1],
+                backgroundColor: ['rgba(251,206,25,1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
+            }]
+        };
+
+        // 그래프 옵션 정의
+        var paymentOptions = {
+            maintainAspectRatio: false, // 종횡비 조절 비활성화
+            responsive: true, // 반응형 크기 조절 활성화
+            width: 500, // 그래프의 너비
+            height: 300, // 그래프의 높이
+            indexAxis: 'x',
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
+            }
+        };
+
+        // 캔버스에 유저 그래프 그리기
+        var userCtx = document.getElementById('paymentChart').getContext('2d');
+        // 캔버스 너비 조절
+        userCtx.canvas.width = 400; // 조절하고자 하는 너비 값
+        var paymentChart = new Chart(userCtx, {
+            type: 'line',
+            data: paymentData,
+            options: paymentOptions
+        });
+    };
+</script>
 <%-- <% ============================================================================= %> --%>
-<div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px; height: 500px;">
+<div style="text-align: center; width: 820px; margin-left: 20px; margin-bottom: 20px; margin-top: 20px; height: 600px;">
 
 <!-- 그래프를 그릴 캔버스 요소 추가 -->
 
 
-<div id="userCount">
-<canvas id="myChart"></canvas>
+<div id="userCount" style="float: left; margin: 0;">
+<canvas id="userChart"></canvas>
 </div>
 
 <table id="profile" >
@@ -147,6 +262,14 @@ window.onload = function() {
 	</td>
 </tr>
 </table>
+
+<div id="classCount">
+<canvas id="classChart"></canvas>
+</div>
+
+<div id="paymentCount" style="float: left;">
+<canvas id="paymentChart"></canvas>
+</div>
 
 </div>			
 <%-- <% ============================================================================= %> --%>		

@@ -78,7 +78,7 @@ a:hover{
     <label style="font-size: 30px; background-color: #F0C610; color: black; border: none;" class="btn btn-outline-warning" for="btnradio2" id="offClass"><strong>OFF</strong></label>
     </div>
     
-<form id="sortForm" action="/main/onClassList" method="get">
+<form id="sortForm" action="/main/offClassList" method="get">
     <div class="dropdown" style="float: right;">
         <select name="sort" id="sortOrderSelect" onchange="submitForm()" style="padding: 7px; padding-right: 52px;">
             <option value="class_no desc" ${classDescNo eq 2 ? 'selected' : ''}>최신순</option>
@@ -101,8 +101,8 @@ a:hover{
 	    	<c:if test="${c.deleteBoolean == 0}">
 	    		<a href="/main/offClassView?classNo=${c.classNo }">
 			       <div style="display: flex; margin-top: 35px;">
-		    				<div><img style="width: 250px;" src="/upload/${c.headImg }"></div>
-			    			<div style="margin-left: 15px;">
+		    				<div><img style="width: 250px; height: 177px;" src="/upload/${c.headImg }"></div>
+			    			<div style="margin-left: 15px; width: 1103px;">
 						        <span style="font-size: 25px;"><strong>${c.className }</strong></span>
 						        <span style="margin-left: 350px; font-size: 25px; float: right;"><fmt:formatNumber value="${c.expense }" pattern="#,###" />원</strong></span>
 						        <div>${c.classInfo }</div><br>

@@ -1,5 +1,11 @@
 package user.dao.face;
 
+import java.util.List;
+import java.util.Map;
+
+import lecture.dto.Class;
+import payment.dto.OrderTb;
+import payment.dto.Payment;
 import teacher.dto.Teacher;
 import user.dto.UserInfo;
 
@@ -39,6 +45,16 @@ public interface UserDao {
 	public String selectByUserId(UserInfo userInfo);
 
 	public UserInfo getUserById(String userId);
+
+	public int selectOrderCnt(OrderTb orderTb);
+
+	public List<OrderTb> selectUserOrder(Map<String, Object> map);
+
+	public List<Payment> selectUserPayment(Map<String, Object> map);
+
+	public Class selectClassNameByClassNo(int classNo);
+
+	public UserInfo whoAmI(UserInfo userInfo);
 
 
 }

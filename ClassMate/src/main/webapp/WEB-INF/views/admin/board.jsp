@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
 
@@ -245,12 +246,12 @@ $(".eventInfo${eventBoardList.eventNo }").click(function(){
 	
 <div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
 <button style="margin-left: 1px;" class="topMenuBtn checked">공지/이벤트</button>
-<button class="topMenuBtn">회원게시판</button>
+<a href="../admin/freeBoardList"><button class="topMenuBtn">자유게시판</button></a>
 <button class="topMenuBtn">1:1문의</button>
 </div>
 
 <div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px;">
-<p id="boardInfo">< 이벤트 및 공지사항 ></p>
+<p id="boardInfo">&#x003C; 이벤트 및 공지사항 &#x003E;</p>
 
 <div style="text-align: left; margin-left: 62px; margin-bottom: 10px">
 
@@ -299,7 +300,7 @@ $(".eventInfo${eventBoardList.eventNo }").click(function(){
 	<tr class="boardListTr" >
 		<td class="boardListTd announceInfo${announceBoardList.announceNo }">${announceBoardList.announceNo }</td>
 		<td id="boardNameInfo" class="boardListTd announceInfo${announceBoardList.announceNo }">${announceBoardList.announceName }</td>
-		<td class="boardListTd announceInfo${announceBoardList.announceNo }">${announceBoardList.announceDate }</td>
+		<td class="boardListTd announceInfo${announceBoardList.announceNo }"><fmt:formatDate value="${announceBoardList.announceDate }" pattern="yyyy-MM-dd" /></td>
 	<tr>
 </c:forEach>
 </c:if>
@@ -309,7 +310,7 @@ $(".eventInfo${eventBoardList.eventNo }").click(function(){
 	<tr class="boardListTr" >
 		<td class="boardListTd eventInfo${eventBoardList.eventNo }">${eventBoardList.eventNo }</td>
 		<td id="boardNameInfo" class="boardListTd eventInfo${eventBoardList.eventNo }">${eventBoardList.eventName }</td>
-		<td class="boardListTd eventInfo${eventBoardList.eventNo }">${eventBoardList.eventDate }</td>
+		<td class="boardListTd eventInfo${eventBoardList.eventNo }"><fmt:formatDate value="${eventBoardList.eventDate }" pattern="yyyy-MM-dd" /></td>
 	<tr>
 </c:forEach>
 </c:if>
