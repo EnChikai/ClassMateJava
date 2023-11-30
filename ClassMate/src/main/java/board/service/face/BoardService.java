@@ -40,12 +40,18 @@ public interface BoardService {
 
 	//자유게시판 상세조회 - 첨부파일 다운로드
 	public FreeBoardFile getFreeFile(FreeBoardFile freeBoardFile);
+	
+	//자유게시판 상세보기 - 댓글 입력을 위한 유저 정보
+	public UserInfo getUserInfo(UserInfo user);
 
 	//자유게시판 상세보기 - 댓글 입력
 	public FreeComment freeCommentInsert(FreeComment freeComment);
 	
 	//자유게시판 상세보기 - 댓글 조회
 	public List<FreeComment> freeCommentList(FreeComment freeComment);
+	
+	//자유게시판 상세보기 - 댓글 삭제
+	public void freeViewCommentDelete(FreeComment freeCommentDelete);
 	
 	//자유게시판 삭제
 	public void deleteFreeBoard(FreeBoard deleteFree);
@@ -86,7 +92,6 @@ public interface BoardService {
 	//1:1문의게시판 조회하기 - 파일
 	public List<QuestionFile> getAttachQuestionFile(Question viewQuestion);
 
-	public UserInfo getUserInfo(UserInfo user);
 
 
 

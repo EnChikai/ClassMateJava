@@ -59,9 +59,22 @@
 	font-size: 14px;
 }
 
+#freeSearch {
+	margin-top: 15px;
+	margin-left: 15px;
+	font-size: 14px;
+	padding-left: 5px;
+}
+
+#freeSearchButton {
+	margin-top: 15px;
+	margin-left: 5px;
+	background: none;
+	border: none;
+}
 
 #boardWritebt {
-	margin-top: 15px;;
+	margin-top: 15px;
 	margin-right: 15px;
 	width: 70px;
 	height: 33px;
@@ -76,7 +89,7 @@
 	border-color: rgb(241, 196, 15); 
 	border-radius: 4px;
 	margin: 3.5px;
-	text-align: center;"
+	text-align: center;
 }
 
 #boardPaging2 {
@@ -205,9 +218,15 @@
 
 </table>
 
-<div id="wb" style="float:right;">
-<button id="boardWritebt" type="button" onclick="location.href='./freeWrite'">작성</button>
-</div>
+<form action="./board" method="post">
+	<div id="wb">
+		<input type="text" id="freeSearch" name="freeSearch">
+		<button type="button" id="freeSearchButton" name="freeSearchButton">
+			<img id="freeSearchImg" alt="freeSearchImg" src="/resources/img/freeSearch.png" width="25" height="25">
+		</button>
+		<button id="boardWritebt" type="button" onclick="location.href='./freeWrite'" style="float:right;">작성</button>
+	</div>
+</form>
 
 </div><!-- #defaultWidth -->
 
@@ -215,7 +234,7 @@
 
 
 <div id="boardPagination">
-   <ul class="pagination pagination-sm justify-content-center" style="margin-top: 80px;">
+   <ul class="pagination pagination-sm justify-content-center" style="margin-top: 70px;">
    
 		<!-- 맨 처음 페이지로 이동 -->
 <%-- 		<c:if test="${paging.curPage ne 1 }">

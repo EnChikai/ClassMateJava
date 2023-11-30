@@ -102,7 +102,7 @@
             <option selected disabled>말머리</option>
                <option value="자유">자유</option>
                 <option value="모임">모임</option>
-            </select>
+         </select>
 
          <!-- <label for="freeCw" style="word-spacing:32px; margin-left: 85px; ">내용 : <textarea rows="20" cols="60" id="freeCw" name="freeCw" placeholder="내용을 입력해주세요" style="padding: 10px; height: 200px;"></textarea></label><br> -->
 

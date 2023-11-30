@@ -1,21 +1,20 @@
 package board.dto;
 
-import java.sql.Date;
 
 public class FreeComment {
 
 	private int freeCommentNo;
 	private int freeNo;
 	private String freeCommentContent;
-	private Date freeCommentDate;
+	private String freeCommentDate;
 	
 	private String userName;
 	private int userNo;
 	
 	public FreeComment() {}
 
-	public FreeComment(int freeCommentNo, int freeNo, String freeCommentContent, Date freeCommentDate, String userName,
-			int userNo) {
+	public FreeComment(int freeCommentNo, int freeNo, String freeCommentContent, String freeCommentDate,
+			String userName, int userNo) {
 		super();
 		this.freeCommentNo = freeCommentNo;
 		this.freeNo = freeNo;
@@ -56,11 +55,11 @@ public class FreeComment {
 		this.freeCommentContent = freeCommentContent;
 	}
 
-	public Date getFreeCommentDate() {
+	public String getFreeCommentDate() {
 		return freeCommentDate;
 	}
 
-	public void setFreeCommentDate(Date freeCommentDate) {
+	public void setFreeCommentDate(String freeCommentDate) {
 		this.freeCommentDate = freeCommentDate;
 	}
 
@@ -80,6 +79,5 @@ public class FreeComment {
 		this.userNo = userNo;
 	}
 
-	
 	
 }
