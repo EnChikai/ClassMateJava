@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
+
 
 <%-- <% ============================================================================= %> --%>
 
@@ -308,7 +310,7 @@ $(function(){
 			<td>${eventBoard.userName}</td>
 		<th style="width: 124px;">등록일</th>
 			<td style="padding-bottom: 0px;">
-				${eventBoard.eventDate }
+				<fmt:formatDate value="${eventBoard.eventDate }" pattern="yyyy-MM-dd HH:mm:ss" />
 			</td>	
 	</tr>
 	

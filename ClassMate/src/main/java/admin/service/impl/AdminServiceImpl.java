@@ -2,7 +2,9 @@ package admin.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,11 @@ import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
 import board.dto.EventBoardFile;
+import board.dto.FreeBoard;
+import board.dto.FreeBoardFile;
+import board.dto.FreeComment;
+import board.dto.Question;
+import board.dto.QuestionFile;
 import payment.dto.OrderTb;
 import payment.dto.Payment;
 import teacher.dto.Teacher;
@@ -48,18 +55,78 @@ public class AdminServiceImpl implements AdminService{
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		//미탈퇴 인원
-		int secessionParam = 0;
-		int userCount = adminDao.getUserCountAll(secessionParam);
+		int Param = 0;
+		int userCount = adminDao.getUserCountAll(Param);
 		logger.info("userList : {}", userCount);
 		
 		
 		//탈퇴 인원
-		secessionParam = 1;
-		int secessionUserCount = adminDao.getUserCountAll(secessionParam);
+		Param = 1;
+		int secessionUserCount = adminDao.getUserCountAll(Param);
 		logger.info("secessionUserList : {}", secessionUserCount);
 
 		map.put("userCount", userCount);
 		map.put("secessionUserCount", secessionUserCount);
+		
+		//강사 유저 수
+		Param = 1;
+		int teacherUserCount = adminDao.getTeacherUserCountAll(Param);
+		logger.info("teacherUserCount : {}", teacherUserCount);
+
+		map.put("teacherUserCount", teacherUserCount);
+		
+		//on 클래스
+		Param = 0;
+		int onClassCount = adminDao.getOnOffClassCountAll(Param);
+		logger.info("onClassCount : {}", onClassCount);
+		
+		//off 클래스
+		Param = 1;
+		int offClassCount = adminDao.getOnOffClassCountAll(Param);
+		logger.info("offClass : {}", offClassCount);
+		
+		map.put("onClassCount", onClassCount);
+		map.put("offClassCount", offClassCount);
+		
+		//현재월-1,-2,-3의 총 결제액 가져오기
+		Payment paymentData = new Payment();
+		
+		// 새로운 리스트를 생성하여 payDate와 payment를 각각 저장할 예정입니다.
+		List<String> payDateList = new ArrayList<>();
+		List<Integer> paymentList = new ArrayList<>();
+
+		for (int monthCount = 0; monthCount < 4; monthCount++) {
+		    paymentData = adminDao.getPaymentData(monthCount);
+
+		    // paymentData가 null인 경우 sysdate의 "YY-MM"을 payDateList에 추가
+		    if (paymentData == null) {
+		        SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM");
+		        String sysdateFormatted = dateFormat.format(new Date());
+		        payDateList.add(sysdateFormatted);
+
+		        // null인 경우 0을 paymentList에 추가
+		        paymentList.add(0);
+		    } else {
+		        // paymentData가 null이 아닌 경우
+		        // payDate를 "YY-MM" 형식으로 변환하여 리스트에 추가
+		        SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM");
+		        String formattedDate = dateFormat.format(paymentData.getPayDate());
+		        payDateList.add(formattedDate);
+
+		        // payment를 리스트에 추가
+		        paymentList.add(paymentData.getPayment());
+
+		        logger.info("payDateList : {}", payDateList);
+		        logger.info("paymentList : {}", paymentList);
+		    }
+		}
+
+		map.put("payDateList", payDateList);
+		map.put("paymentList", paymentList);
+		
+		
+		map.put("payDateList", payDateList);
+		map.put("paymentList", paymentList);
 		
 		return map;
 	}
@@ -87,21 +154,8 @@ public class AdminServiceImpl implements AdminService{
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		String orderBy = "user_no"; 
-		
-		switch (sort) {
-			case 1:  orderBy = "user_no DESC";
-				break;
-			case 2:  orderBy = "user_name";
-				break;
-			case 3:  orderBy = "user_name DESC";
-				break;
-        
-		}
-		logger.info("orderBy");
-		
 		map.put("paging", paging);
-		map.put("orderBy", orderBy);
+		map.put("sort", sort);
 		
 		List<UserInfo> list = new ArrayList<UserInfo>();
 		
@@ -211,6 +265,214 @@ public class AdminServiceImpl implements AdminService{
 		
 		return resultMap;
 	}
+	
+	@Override
+	public Map<String, Object> getUserBoardPaging(String questionCurPage, String freeBoardCurPage, UserInfo userInfo) {
+		logger.info("getUserBoardPaging()");
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int curPage = 0;
+		if(questionCurPage !=null) {
+			curPage = Integer.parseInt(questionCurPage);
+		}
+		
+		//1:1문의 게시글 수 조회
+		int questionCount = adminDao.userQuestionCntAll(userInfo);
+		logger.info("questionCount : {}",questionCount);
+		
+		//페이징 객체 생성(페이징 계산)
+		Paging questionPaging = new Paging(questionCount, curPage);
+		
+		map.put("questionPaging", questionPaging);
+
+		
+		if(freeBoardCurPage !=null) {
+			curPage = Integer.parseInt(freeBoardCurPage);
+		}
+		
+		int freeBoardCount = adminDao.userFreeboardCntAll(userInfo);
+		logger.info("questionCount : {}",freeBoardCount);
+		
+		//페이징 객체 생성(페이징 계산)
+		Paging freeBoardPaging = new Paging(freeBoardCount, curPage);
+		
+		map.put("freeBoardPaging", freeBoardPaging);
+		
+		return map;
+	}
+	
+
+	@Override
+	public Map<String, Object> selectUserPost(UserInfo userInfo, Paging questionPaging, Paging freeBoardPaging) {
+		logger.info("selectUserPost()");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("userInfo", userInfo);
+		map.put("questionPaging", questionPaging);
+		map.put("freeBoardPaging", freeBoardPaging);
+		
+		List<Question> questionList = adminDao.userQuestionList(map);
+		for(int i = 0; i<questionList.size(); i++) {
+			logger.info("questionList : {}", questionList.get(i));
+		}
+		
+		List<FreeBoard> freeBoardList = adminDao.userFreeBoardList(map);
+		for(int i = 0; i<freeBoardList.size(); i++) {
+			logger.info("freeBoardList : {}", freeBoardList.get(i));
+		}
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("questionList", questionList);
+		result.put("freeBoardList", freeBoardList);
+		
+		return result;
+	}
+	
+	@Override
+	public Map<String, Object> selectQuestionInfo(Question question) {
+		logger.info("selectQuestionInfo()");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<QuestionFile> questionFile = new ArrayList<QuestionFile>();
+		
+		question = adminDao.selectQuestionNo(question);
+		logger.info("selectQuestionNo() : {}", question);
+
+		map.put("question", question);
+		
+		questionFile = adminDao.selectQuestionFiles(question);
+		for(int i = 0; i<questionFile.size();i++) {
+			logger.info("selectQuestionFiles() : {}", questionFile);
+		}
+		map.put("questionFile", questionFile);
+		
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserNo(question.getUserNo());
+		userInfo = adminDao.selectUser(userInfo);
+		logger.info("selectUser() : {}", userInfo);
+		
+		map.put("userInfo", userInfo);
+		
+		return map;
+	}
+	
+	@Override
+	public QuestionFile getQuestionFile(QuestionFile questionFile) {
+		logger.info("getQuestionFile()");
+		
+		questionFile = adminDao.selectQuestionFileByFileNo(questionFile);
+		
+		return questionFile;
+	}
+	
+	@Override
+	public void writeAnswer(Question question) {
+		logger.info("writeAnswer()");
+		
+		int result = 0;
+		if(question.getAnswerContent() != null) {
+			
+			question.setAnswer("완료");
+			result = adminDao.insertAnswer(question);
+			logger.info("insertAnswer() {}", question);
+			
+		}
+		logger.info("result : {}", result);
+		
+	}
+	
+	@Override
+	public Map<String, Object> viewFreePost(FreeBoard freeBoard) {
+		logger.info("selectQuestionInfo()");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<FreeBoardFile> freeBoardFiles = new ArrayList<FreeBoardFile>();
+		
+		freeBoard = adminDao.selectUserFreePost(freeBoard);
+		logger.info("selectUserFreePost() : {}", freeBoard);
+
+		map.put("freeBoard", freeBoard);
+		
+		freeBoardFiles = adminDao.selectFreePostFile(freeBoard);
+		for(int i = 0; i<freeBoardFiles.size();i++) {
+			logger.info("selectFreePostFile() : {}", freeBoardFiles);
+		}
+		map.put("freeBoardFiles", freeBoardFiles);
+		
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserNo(freeBoard.getUserNo());
+		userInfo = adminDao.selectUser(userInfo);
+		logger.info("selectUser() : {}", userInfo);
+		
+		map.put("userInfo", userInfo);
+		
+		return map;
+	}
+	
+	@Override
+	public void freePostUpdate(FreeBoard freeBoard, MultipartFile file, int[] delFileno, List<MultipartFile> freeFile) {
+		logger.info("freePostUpdate()");
+
+		int result = 0; 
+		
+		if( freeBoard.getFreeName() == null || freeBoard.getFreeName().equals("") ) {
+			freeBoard.setUserName(null);
+		}
+		logger.info("freeBoard.getFreeName() : {}", freeBoard.getFreeName());
+
+		if( freeBoard.getFreeContent() == null || freeBoard.getFreeContent().equals("") ) {
+			freeBoard.setFreeContent("(본문 없음)");
+		}
+		logger.info("freeBoard.getFreeContent() : {}", freeBoard.getFreeContent());
+		
+		
+		result = adminDao.updateUserFreePost(freeBoard);
+		logger.info("freeBoard : {}", freeBoard);
+		logger.info("게시판 정보 result : {}", result);
+		
+		//첨부파일이 없을 경우 처리
+		if( freeFile.size() == 0) {
+			return;
+		}
+		
+		int selectNo = 2; 
+		for(MultipartFile f : freeFile) {
+			result = this.insertFile( f, freeBoard.getFreeNo(), selectNo);
+			logger.info("게시판 파일 result : {}", result);
+		}
+
+		//삭제할 첨부 파일 처리
+		if( delFileno != null ) {
+			result = adminDao.deleteFreeFiles( delFileno );
+		}
+				
+		return;
+		
+	}
+	
+	@Override
+	public void freePostDel(FreeBoard freeBoard) {
+		logger.info("freeBoard() : {}", freeBoard);
+
+		int result = 0;
+		result = adminDao.deleteFreePostFile(freeBoard);
+		
+		if(result != 0) {
+			logger.info("파일 있음 삭제 완료 : {}", result);
+			
+		}else {
+			logger.info("파일 없음 삭제 실패 : {}", result);
+			
+		}
+		
+		result = adminDao.deleteUserFreePost(freeBoard);
+		logger.info("이벤트 삭제 결과 : {}", result);		
+		
+	}
+	
 	//================================================================================
 	//--- 강사 신청 관리 ---
 	
@@ -270,16 +532,16 @@ public class AdminServiceImpl implements AdminService{
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		Teacher teacher = adminDao.selectTeacherInfo(teacherApply);
-		logger.info("selectTeacherApply() : {}", teacher);
+		logger.info("selectTeacherInfo() : {}", teacher);
 
 		teacherApply = adminDao.selectTeacherApply(teacherApply);		
 		logger.info("selectTeacherApply() : {}", teacherApply);
 		
 		UserInfo userInfo = adminDao.selectUserName(teacher);
-		logger.info("selectUserTeacherNo() : {}", userInfo);
+		logger.info("selectUserName() : {}", userInfo);
 		
-		String teacherLicence = adminDao.selectTeacherLicence(teacher);
-		logger.info("selectUserTeacherNo() : {}", userInfo);
+		List<TeacherLicence> teacherLicence = adminDao.selectTeacherLicence(teacher);
+		logger.info("selectTeacherLicence() : {}", teacherLicence);
 		
 		map.put("teacher", teacher);
 		map.put("teacherApply", teacherApply);
@@ -310,6 +572,18 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
+	public TeacherLicence getTeacherLicenceFile(TeacherLicence teacherLicence) {
+		logger.info("getTeacherLicenceFile()");
+		
+		teacherLicence = adminDao.selectTeacherLicenceByLicenceNo(teacherLicence);
+		
+		return teacherLicence;
+	}
+	
+	//================================================================================
+	//--- 클래스 관리 ---
+	
+	@Override
 	public List<Class> getClassList(Paging paging, int sort, int delCheckbox) {
 		logger.info("getClassList()");
 		
@@ -322,11 +596,33 @@ public class AdminServiceImpl implements AdminService{
 		
 		classList = adminDao.selectClassListAll(map);
 		for(int i = 0; i<classList.size(); i++) {
-			logger.info("selectClassListAll() : {}", classList);
+			logger.info("selectClassListAll() : {}", classList.get(i));
 			
 		}
 		
 		return classList;
+	}
+	
+	@Override
+	public Paging getClassPaging(Paging param, int sort, int delCheckbox) {
+		logger.info("getClassPaging()");
+		logger.info("sort() : {}", sort);
+		logger.info("delCheckbox() : {}", delCheckbox);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("sort", sort);
+		map.put("delCheckbox", delCheckbox);
+		
+		//총 게시글 수 조회
+		int totalCount = adminDao.classInfoCntAll(map);
+		logger.info("totalCount : {}",totalCount);
+				
+		//페이징 객체 생성(페이징 계산)
+		Paging paging = new Paging(totalCount, param.getCurPage());
+				
+		return paging;
+		
 	}
 	
 	//================================================================================
@@ -526,7 +822,8 @@ public class AdminServiceImpl implements AdminService{
 		
 		//---------------------------------------------------------------------------
 		
-		if(selectNo != 1) {
+		if(selectNo == 0) {
+			
 			AnnounceBoardFile announceBoardFile = new AnnounceBoardFile();
 			announceBoardFile.setAnnounceNo( boardNo );
 			announceBoardFile.setOriginName( originName );
@@ -534,13 +831,25 @@ public class AdminServiceImpl implements AdminService{
 			
 			result = adminDao.insertAnnoFile(announceBoardFile);
 			logger.info("insertAnnoFile : {}", result);
-		}else {
+			
+		}else if((selectNo == 1)) {
+			
 			EventBoardFile eventBoardFile = new EventBoardFile();
 			eventBoardFile.setEventNo(boardNo);
 			eventBoardFile.setOriginName( originName );
 			eventBoardFile.setStoredName( storedName );
 			
 			result = adminDao.insertEventFile(eventBoardFile);
+			logger.info("insertEventFile : {}", result);
+			
+		}else if((selectNo == 2)){
+			
+			FreeBoardFile freeBoardFile = new FreeBoardFile();
+			freeBoardFile.setFreeNo(boardNo);
+			freeBoardFile.setOriginName( originName );
+			freeBoardFile.setStoredName( storedName );
+			
+			result = adminDao.insertFreeFile(freeBoardFile);
 			logger.info("insertEventFile : {}", result);
 		}
 		
@@ -691,9 +1000,9 @@ public class AdminServiceImpl implements AdminService{
 		if( announceBoard.getAnnounceName() == null || announceBoard.getAnnounceName().equals("") ) {
 			announceBoard.setAnnounceName("(제목없음)");
 		}
-		logger.info("announceBoard.getEventName() : {}", announceBoard.getAnnounceName());
+		logger.info("announceBoard.getAnnounceName() : {}", announceBoard.getAnnounceName());
 
-		if( announceBoard.getAnnounceContent() == null || announceBoard.getAnnounceName().equals("") ) {
+		if( announceBoard.getAnnounceContent() == null || announceBoard.getAnnounceContent().equals("") ) {
 			announceBoard.setAnnounceContent("(본문 없음)");
 		}
 		logger.info("announceBoard.getAnnounceContent() : {}", announceBoard.getAnnounceContent());
@@ -805,26 +1114,132 @@ public class AdminServiceImpl implements AdminService{
 		return eventBoard;
 	}
 
+	//================================================================================
+	//--- 게시판 관리 > 자유게시판 ---
+	
 	@Override
-	public Paging getClassPaging(Paging param, int sort, int delCheckbox) {
+	public Paging getFreeBoardPaging(Paging param) {
 		logger.info("getClassPaging()");
-		logger.info("sort() : {}", sort);
-		logger.info("delCheckbox() : {}", delCheckbox);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("sort", sort);
-		map.put("delCheckbox", delCheckbox);
 		
 		//총 게시글 수 조회
-		int totalCount = adminDao.classInfoCntAll(map);
+		int totalCount = adminDao.freeBoardCntAll();
 		logger.info("totalCount : {}",totalCount);
-				
+		
 		//페이징 객체 생성(페이징 계산)
 		Paging paging = new Paging(totalCount, param.getCurPage());
-				
-		return paging;
 		
+		return paging;
+	}
+
+	@Override
+	public Map<String, Object> freeBoardList(Paging paging, int sort) {
+		logger.info("freeBoardList()");
+		
+		List<FreeBoard> freeBoardList = new ArrayList<FreeBoard>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String orderBy = null;
+		
+		map.put("paging", paging);
+		map.put("sort", sort);
+		
+		freeBoardList = adminDao.selectFreeBoardAll(map);
+		for(int i = 0; i< freeBoardList.size(); i++) {
+			logger.info("freeBoardList() : {}", freeBoardList.get(i));
+			
+		}
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("freeBoardList", freeBoardList);
+		
+		return result;
+	}
+
+	@Override
+	public void deleteChecked(int[] freePostNo) {
+		logger.info("deleteChecked()");
+		
+		int result = 0;
+		//삭제할 첨부 파일 처리
+		if( freePostNo != null ) {
+			result = adminDao.deleteFreeFilesByFreeNo( freePostNo );
+		}
+		logger.info("deleteFreeFilesByFreeNo() : {}", result);
+
+		if( freePostNo != null ) {
+			result = adminDao.deletePostBoardNo(freePostNo);
+		}
+		logger.info("deleteFreeFilesByFreeNo() : {}", result);
+		
+	}
+
+	@Override
+	public Map<String, Object> freeBoardView(FreeBoard freeBoard, Paging param) {
+		logger.info("freeBoardView()");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		List<FreeBoardFile> freeBoardFiles = new ArrayList<FreeBoardFile>();
+		
+		freeBoard = adminDao.selectUserFreePost(freeBoard);
+		logger.info("selectUserFreePost() : {}", freeBoard);
+
+		map.put("freeBoard", freeBoard);
+		
+		freeBoardFiles = adminDao.selectFreePostFile(freeBoard);
+		for(int i = 0; i<freeBoardFiles.size();i++) {
+			logger.info("selectFreePostFile() : {}", freeBoardFiles);
+		}
+		map.put("freeBoardFiles", freeBoardFiles);
+		
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserNo(freeBoard.getUserNo());
+		userInfo = adminDao.selectUser(userInfo);
+		logger.info("selectUser() : {}", userInfo);
+		
+		map.put("userInfo", userInfo);
+		
+		List<FreeComment> freeComment = new ArrayList<FreeComment>();
+		List<UserInfo> userNameList = new ArrayList<UserInfo>();
+		
+		Paging paging = getFreeCommentPaging(param, freeBoard);
+		logger.info("freeCommPaging() : {}", paging);
+		
+		map.put("paging", paging);
+
+		if(paging.getTotalCount() != 0) {
+			freeComment = adminDao.selectFreeCommentList(map);
+			logger.info("selectFreeCommentList() : {}", freeComment);
+			map.put("freeComment", freeComment);
+
+			userNameList = adminDao.selectUserNameList(map);
+			logger.info("selectUserNameList() : {}", userNameList);
+			
+		}
+		
+		result.put("freeBoard", freeBoard);
+		result.put("freeBoardFiles", freeBoardFiles);
+		result.put("paging", paging);
+		result.put("freeComment", freeComment);
+		result.put("userNameList", userNameList);
+	
+		
+		return result;
+	}
+	
+	public Paging getFreeCommentPaging(Paging param, FreeBoard freeBoard) {
+		logger.info("getPaging()");
+		
+		//총 게시글 수 조회
+		int totalCount = adminDao.freeCommentCntAll(freeBoard);
+		logger.info("totalCount : {}",totalCount);
+		
+		//페이징 객체 생성(페이징 계산)
+		Paging paging = new Paging(totalCount, param.getCurPage());
+		
+		return paging;
 	}
 
 }

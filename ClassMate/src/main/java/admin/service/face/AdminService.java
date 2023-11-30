@@ -9,9 +9,13 @@ import board.dto.AnnounceBoard;
 import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
 import board.dto.EventBoardFile;
+import board.dto.FreeBoard;
+import board.dto.Question;
+import board.dto.QuestionFile;
 import lecture.dto.Class;
 import payment.dto.OrderTb;
 import teacher.dto.TeacherApply;
+import teacher.dto.TeacherLicence;
 import user.dto.UserInfo;
 import web.util.Paging;
 
@@ -52,12 +56,28 @@ public interface AdminService {
 
 	public Paging getOrderPaging(Paging paging, OrderTb orderTb);
 	
+	public Map<String, Object> getUserBoardPaging(String questionCurPage, String freeBoardCurPage, UserInfo userInfo);
+	
+	public Map<String, Object> selectUserPost(UserInfo userInfo, Paging questionPaging, Paging freeBoardPaging);
+	
+	public QuestionFile getQuestionFile(QuestionFile questionFile);
+	
+	public void writeAnswer(Question question);
+	
+	public Map<String, Object> viewFreePost(FreeBoard freeBoard);
+
+	public void freePostUpdate(FreeBoard freeBoard, MultipartFile file, int[] delFileno, List<MultipartFile> freeFile);
+	
+	public void freePostDel(FreeBoard freeBoard);
+	
 	//========================================================================================================
 	//--- 강사 심사 관리 ---
 	
 	public Paging getApplyPaging(Paging paging, int passCheckbox);
 	
 	public Map<String, Object> selectTeacherApplyList(Paging paging, int passCheckbox);
+	
+	public TeacherLicence getTeacherLicenceFile(TeacherLicence teacherLicence);
 	
 	//========================================================================================================
 	//--- 클래스 관리 ---
@@ -102,5 +122,18 @@ public interface AdminService {
 	public EventBoardFile getEventFile(EventBoardFile eventBoardFile);
 
 	public EventBoard getEventHeadImg(EventBoard eventBoard);
+
+	public Map<String, Object> selectQuestionInfo(Question question);
+
+	//========================================================================================================
+	//--- 게시판 관리 > 자유게시판 ---
+	
+	public Paging getFreeBoardPaging(Paging paging);
+
+	public Map<String, Object> freeBoardList(Paging paging, int sort);
+
+	public void deleteChecked(int[] freePostNo);
+
+	public Map<String, Object> freeBoardView(FreeBoard freeBoard, Paging paging);
 
 }

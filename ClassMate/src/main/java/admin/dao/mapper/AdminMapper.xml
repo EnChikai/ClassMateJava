@@ -8,18 +8,37 @@
   
  	 <!-- 메인 -->
   	<select id="getUserCountAll" resultType="int" parameterType="int">
-  	SELECT count(*)	FROM user_info	
-  	WHERE user_no > 0
-		AND user_secession = ${secessionParam}
-	ORDER BY user_no
+	  	SELECT count(*)	FROM user_info	
+	  	WHERE user_no > 0
+			AND user_secession = #{param}
+		ORDER BY user_no
   	</select>
   
+   	<select id="getTeacherUserCountAll" resultType="int" parameterType="int">
+	  	SELECT count(*)	FROM teacher_apply	
+	  	WHERE pass_or_not = #{param}
+  	</select>
+  	
+    <select id="getOnOffClassCountAll" resultType="int" parameterType="int">
+	  	SELECT count(*)	FROM class	
+	  	WHERE delete_boolean = 0
+			AND on_off = #{param}
+  	</select>
+
+	<select id="getPaymentData" resultType="Payment" parameterType="int">
+	    SELECT TRUNC(pay_date, 'MONTH') AS payDate,
+	        SUM(payment) AS payment
+	    FROM payment
+	    WHERE TRUNC(pay_date, 'MONTH') = TRUNC(ADD_MONTHS(SYSDATE, -#{monthCount}), 'MONTH')
+	    GROUP BY TRUNC(pay_date, 'MONTH')
+	</select>
+
     <!-- ================================================================================================================== -->
   	<!-- 유저 관리 -->
   	
     <select id="userInfoCntAll" resultType="int" parameterType="int">
-  	SELECT count(*) FROM user_info
-  	WHERE user_secession = ${delCheckbox}
+	  	SELECT count(*) FROM user_info
+	  	WHERE user_secession = #{delCheckbox}
   	</select>
   	
   	<select id="selectUserAll" resultType="UserInfo" parameterType="Map">
@@ -31,7 +50,17 @@
 		        FROM user_info
 		        WHERE user_no > 0
 		        	AND user_secession = 0
-		        ORDER BY ${orderBy}
+		        <choose>
+			      <when test="sort == 1">
+			        ORDER BY user_no DESC
+			      </when>
+			      <when test="sort == 2">
+			        ORDER BY user_name
+			      </when>
+			      <when test="sort == 3">
+			        ORDER BY user_name DESC
+			      </when>
+			    </choose>
    			)B
 		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
   	</select>
@@ -45,7 +74,17 @@
 		        FROM user_info
 		        WHERE user_no > 0
 		        	AND user_secession = 1
-		        ORDER BY ${orderBy}
+		        <choose>
+			      <when test="sort == 1">
+			        ORDER BY user_no DESC
+			      </when>
+			      <when test="sort == 2">
+			        ORDER BY user_name
+			      </when>
+			      <when test="sort == 3">
+			        ORDER BY user_name DESC
+			      </when>
+			    </choose>
    			)B
 		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
   	</select>
@@ -55,7 +94,7 @@
 			user_no, user_id, user_pw, user_gender, user_birthday, user_phone
 			, user_name, user_email, main_address, sub_address, user_post, user_secession, user_date_created
         FROM user_info
-  		WHERE user_no = ${userNo} 
+  		WHERE user_no = #{userNo} 
   	</select>
   	
   	<update id="updateUser" parameterType="UserInfo">
@@ -67,57 +106,159 @@
   			, user_post = #{userPost}
   			, main_address = #{mainAddress}
   			, sub_address = #{subAddress}
-  		WHERE user_no = ${userNo}
+  		WHERE user_no = #{userNo}
   	</update>
   	
   	<update id="setSecessionUser" parameterType="int">
   		UPDATE user_info
   		set user_secession = 1
-  		WHERE user_no = ${userNo}
+  		WHERE user_no = #{userNo}
   	</update>
   	
   	<select id="selectOrderCnt" resultType="int" parameterType="OrderTb">
-  	SELECT count(*) FROM order_tb
-  	WHERE user_no = ${userNo}
+	  	SELECT count(*) FROM order_tb
+	  	WHERE user_no = #{userNo}
   	</select>
   	
   	<select id="selectUserOrder" resultType="OrderTb" parameterType="Map">
-  		SELECT * FROM (
-    		SELECT rownum rnum, B.* FROM(
-      			SELECT
-					order_no, user_no, class_no, merchant_uid
-		        FROM order_tb
-		        WHERE user_no = ${orderTb.userNo}
-   			)B
-		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+    	SELECT
+			order_no, user_no, class_no, merchant_uid
+        FROM order_tb
+        WHERE user_no = #{orderTb.userNo}
   	</select>
   	
-  <select id="selectUserPayment" resultType="Payment" parameterType="Map">
-    SELECT * FROM (
-        SELECT rownum rnum, B.* FROM(
-        
-            <foreach collection="orderList" item="orderTb" separator="UNION ALL">
-                SELECT
-                pay_no, order_no, pay_date, payment, pay_method, provider, card_name
-                FROM payment
-                WHERE order_no = #{orderTb.orderNo}
-            </foreach>
-            
-        ) B
-    ) WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+  	<select id="selectUserPayment" resultType="Payment" parameterType="Map">
+	    <foreach collection="orderList" item="orderTb" separator="UNION ALL">
+	        SELECT
+	        pay_no, order_no, pay_date, payment, pay_method, provider, card_name
+	        FROM payment
+	        WHERE order_no = #{orderTb.orderNo}
+	    </foreach>
 	</select>
 
 	<select id="selectClassNameByClassNo" resultType="Class" parameterType="int">
-  	SELECT class_name FROM class
-  	WHERE class_no = ${classNo}
+	  	SELECT class_name FROM class
+	  	WHERE class_no = #{classNo}
   	</select>
   	
+  	<select id="userQuestionCntAll" resultType="int" parameterType="UserInfo">
+	  	SELECT count(*) FROM question
+	  	WHERE user_no = #{userNo}
+  	</select>
+  	
+  	<select id="userQuestionList" resultType="Question" parameterType="Map">
+	    SELECT * FROM (
+	        SELECT rownum rnum, B.* FROM(
+	                SELECT
+	                question_no, user_no, question_category, question_name, question_content, question_date, question_hit
+						, question_exist, answer, answer_content
+					FROM question
+	                WHERE user_no = #{userInfo.userNo}
+	                ORDER BY question_no DESC
+	        ) B
+	    ) WHERE rnum BETWEEN #{questionPaging.startNo} AND #{questionPaging.endNo}
+	</select>
+	
+	<select id="userFreeboardCntAll" resultType="int" parameterType="UserInfo">
+	  	SELECT count(*) FROM free_board
+	  	WHERE user_no = #{userNo}
+  	</select>
+  	
+  	<select id="userFreeBoardList" resultType="FreeBoard" parameterType="Map">
+	    SELECT * FROM (
+	        SELECT rownum rnum, B.* FROM(
+	                SELECT free_no, user_no, free_head, free_date, free_hit, free_name, free_content
+					FROM free_board
+	                WHERE user_no = #{userInfo.userNo}
+	                ORDER BY free_no DESC
+	        ) B
+	    ) WHERE rnum BETWEEN #{freeBoardPaging.startNo} AND #{freeBoardPaging.endNo}
+	</select>
+	
+	<select id="selectQuestionNo" resultType="Question" parameterType="Question">
+	  	SELECT question_no, user_no, question_category, question_name, question_content, question_date
+			, question_hit, question_exist, answer, answer_content
+		FROM question
+	  	WHERE question_no = #{questionNo}
+  	</select>
+	
+	<select id="selectQuestionFiles" resultType="QuestionFile" parameterType="Question">
+  		SELECT
+			file_no, question_no, origin_name, stored_name
+        FROM question_file
+  		WHERE question_no = #{questionNo}
+  	</select>
+  	
+  	<select id="selectQuestionFileByFileNo" resultType="QuestionFile" parameterType="QuestionFile">
+  		SELECT
+			file_no, question_no, origin_name, stored_name
+        FROM question_file
+  		WHERE file_no = #{fileNo}
+  	</select>
+  	
+  	<update id="insertAnswer" parameterType="Question">
+  		UPDATE question
+  		SET answer = #{answer} 
+  			, answer_content = #{answerContent}
+  		WHERE question_no = #{questionNo}
+  	</update>
+  	
+  	<select id="selectUserFreePost" resultType="FreeBoard" parameterType="FreeBoard">
+	  	SELECT free_no, user_no, free_head, free_date, free_hit, free_name, free_content
+		FROM free_board
+	  	WHERE free_no = #{freeNo}
+  	</select>
+  	
+  	<select id="selectFreePostFile" resultType="FreeBoardFile" parameterType="FreeBoard">
+  		SELECT
+			file_no, free_no, origin_name, stored_name
+        FROM free_board_file
+  		WHERE free_no = #{freeNo}
+  	</select>
+  	
+  	<update id="updateUserFreePost" parameterType="FreeBoard">
+  		UPDATE free_board
+  		SET free_head = #{freeHead} 
+  			,free_name = #{freeName} 
+  			, free_content = #{freeContent}
+  		WHERE free_no = #{freeNo}
+  	</update>
+  	
+  	<insert id="insertFreeFile" parameterType="FreeBoardFile">
+		<selectKey order="BEFORE" resultType="int" keyProperty="fileNo">
+			SELECT freeboard_file_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO free_board_file ( file_no, free_no, origin_name, stored_name )
+		VALUES ( #{fileNo}, #{freeNo}, #{originName}, #{storedName} )
+	</insert>
+	
+	<delete id="deleteFreeFiles" parameterType="int[]">
+		DELETE free_board_file
+		<where>
+			file_no IN
+			<foreach collection="array" item="no" open="(" close=")" separator=",">
+				#{no }
+			</foreach>
+		</where>
+	</delete>
+	
+	<delete id="deleteFreePostFile" parameterType="FreeBoard">
+		DELETE free_board_file
+		WHERE free_no = #{freeNo}
+	</delete>
+	
+	<delete id="deleteUserFreePost" parameterType="FreeBoard">
+		DELETE free_board
+		WHERE free_no = #{freeNo}
+	</delete>
+	
   	<!-- ================================================================================================================== -->
   	<!-- 강사 신청 관리 -->
   	
   	<select id="selectApplyCntAll" resultType="int" parameterType="int">
-  	SELECT count(*)	FROM teacher_apply	
-  	WHERE pass_or_not = ${passCheckbox}
+	  	SELECT count(*)	FROM teacher_apply	
+	  	WHERE pass_or_not = #{passCheckbox}
   	</select>
   	
   	<select id="selectTeacherApplyAll" resultType="TeacherApply" parameterType="map">
@@ -126,7 +267,7 @@
       			SELECT
 					apply_no, teacher_no, apply_date, pass_or_not
 		        FROM teacher_apply
-		        WHERE pass_or_not = ${passCheckbox}
+		        WHERE pass_or_not = #{passCheckbox}
 		        ORDER BY teacher_no
    			)B
 		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
@@ -140,7 +281,7 @@
       			SELECT
 					teacher_no, user_no, teacher_img, teacher_title, teacher_info, teacher_career
 		        FROM teacher
-		        WHERE teacher_no = ${teacherApplyList.teacherNo}
+		        WHERE teacher_no = #{teacherApplyList.teacherNo}
 		      </foreach>
 		      
    			)B
@@ -150,55 +291,62 @@
   	<select id="selectTeacherInfo" resultType="Teacher" parameterType="TeacherApply">
   		SELECT teacher_no, user_no, teacher_img, teacher_title, teacher_info, teacher_career
   		FROM teacher
-  		WHERE teacher_no = ${teacherNo}
+  		WHERE teacher_no = #{teacherNo}
   	</select>
 
   	<select id="selectTeacherApply" resultType="TeacherApply" parameterType="TeacherApply">
   		SELECT apply_no, teacher_no, apply_date, pass_or_not
   		FROM Teacher_apply
-  		WHERE teacher_no = ${teacherNo}
+  		WHERE teacher_no = #{teacherNo}
   	</select>
   	
   	<select id="selectUserName" resultType="UserInfo" parameterType="Teacher">
   		SELECT user_name
   		FROM user_info
-  		WHERE user_no = ${userNo}
+  		WHERE user_no = #{userNo}
   	</select>
   	
-  	<select id="selectTeacherLicence" resultType="String" parameterType="TeacherLicence">
+  	<select id="selectTeacherLicence" resultType="TeacherLicence" parameterType="teacher">
   		SELECT licence_no, teacher_no,  origin_name, stored_name
   		FROM teacher_licence
-  		WHERE teacher_no = ${teacherNo}
+  		WHERE teacher_no = #{teacherNo}
   	</select>
   	
   	<update id="updateTeacherApply" parameterType="TeacherApply">
   		UPDATE teacher_apply
-  		SET pass_or_not = ${passOrNot} 
-  		WHERE teacher_no = ${teacherNo}
+  		SET pass_or_not = #{passOrNot} 
+  		WHERE teacher_no = #{teacherNo}
   	</update>
   	
   	<delete id="deleteTeacherApply" parameterType="TeacherApply">
   		DELETE teacher_apply
-			WHERE teacher_no = ${teacherNo}
+			WHERE teacher_no = #{teacherNo}
   	</delete>
   	
   	<delete id="deleteTeacherLicence" parameterType="TeacherApply">
   		DELETE teacher_licence
-			WHERE teacher_no = ${teacherNo}
+			WHERE teacher_no = #{teacherNo}
   	</delete>
   	
-  		<delete id="deleteTeacherInfo" parameterType="TeacherApply">
+  	<delete id="deleteTeacherInfo" parameterType="TeacherApply">
   		DELETE teacher
-			WHERE teacher_no = ${teacherNo}
+			WHERE teacher_no = #{teacherNo}
   	</delete>
+  	
+  	<select id="selectTeacherLicenceByLicenceNo" resultType="TeacherLicence" parameterType="TeacherLicence">
+  		SELECT
+			licence_no, teacher_no, origin_name, stored_name
+        FROM teacher_licence
+  		WHERE licence_no = #{licenceNo}
+  	</select>
   	
   	<!-- ================================================================================================================== -->
   	<!-- 클래스 관리 -->
   	
   	<select id="classInfoCntAll" resultType="int" parameterType="Map">
   	SELECT count(*) FROM class
-  	WHERE on_off = ${sort}
-  		AND delete_boolean = ${delCheckbox}
+  	WHERE on_off = #{sort}
+  		AND delete_boolean = #{delCheckbox}
   	</select>
   	
   	<select id="selectClassListAll" resultType="Class" parameterType="Map">
@@ -208,8 +356,8 @@
 					class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start
 					, class_end, max_count, expense, class_info, curriculum, on_off, head_img, delete_boolean
 		        FROM class
- 				WHERE on_off = ${sort}
-  					AND delete_boolean = ${delCheckbox}
+ 				WHERE on_off = #{sort}
+  					AND delete_boolean = #{delCheckbox}
    			)B
 		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
   	</select>
@@ -219,12 +367,12 @@
   	
   	<select id="announceBoardCntAll" resultType="int" parameterType="int">
   	SELECT count(*) FROM announce_board 
-  	WHERE announce_exist = ${announceExist}
+  	WHERE announce_exist = #{announceExist}
   	</select>
   	
   	<select id="eventBoardCntAll" resultType="int" parameterType="int">
   	SELECT count(*) FROM event_board 
-  	WHERE event_exist = ${eventExist}
+  	WHERE event_exist = #{eventExist}
   	</select>
   	
   	<select id="selectEventBoardAll" resultType="EventBoard" parameterType="Map">
@@ -280,7 +428,7 @@
 			announce_no, user_no, announce_head, announce_date, announce_hit, announce_name, announce_content, announce_exist
 			, (select user_name FROM user_info WHERE user_no = 0) user_name
         FROM Announce_board
-  		WHERE announce_no = ${announceNo}
+  		WHERE announce_no = #{announceNo}
   	</select>
   	
   	<insert id="insertAnnounceInfo" parameterType="AnnounceBoard">
@@ -302,7 +450,7 @@
   	<update id="headImg" parameterType="EventBoard">
   		UPDATE event_board
   		SET head_img = #{headImg} 
-  		WHERE event_no = ${eventNo}
+  		WHERE event_no = #{eventNo}
   	</update>
   	
   	 <select id="selectEventNo" resultType="EventBoard" parameterType="EventBoard">
@@ -310,7 +458,7 @@
 			event_no, user_no, event_head, event_date, event_hit, event_name, event_content, event_exist, head_img
 			, (select user_name FROM user_info WHERE user_no = 0) user_name
         FROM event_board
-  		WHERE event_no = ${eventNo}
+  		WHERE event_no = #{eventNo}
   	</select>
   	
   	<insert id="insertAnnoFile" parameterType="AnnounceBoardFile">
@@ -327,7 +475,7 @@
   		SELECT
 			file_no, announce_no, origin_name, stored_name
         FROM announce_board_file
-  		WHERE announce_no = ${announceNo}
+  		WHERE announce_no = #{announceNo}
   	</select>
   	
   	<insert id="insertEventFile" parameterType="EventBoardFile">
@@ -343,14 +491,14 @@
   		SELECT
 			file_no, event_no, origin_name, stored_name
         FROM event_board_file
-  		WHERE event_no = ${eventNo}
+  		WHERE event_no = #{eventNo}
   	</select>
   	
   	<update id="updateEventInfo" parameterType="EventBoard">
   		UPDATE event_board
   		SET event_name = #{eventName} 
   			, event_content = #{eventContent}
-  		WHERE event_no = ${eventNo}
+  		WHERE event_no = #{eventNo}
   	</update>
   	
   	<delete id="deleteEventFiles" parameterType="int[]">
@@ -367,7 +515,7 @@
   		UPDATE announce_board
   		SET announce_name = #{announceName} 
   			, announce_content = #{announceContent}
-  		WHERE announce_no = ${announceNo}
+  		WHERE announce_no = #{announceNo}
   	</update>
   	
   	<delete id="deleteAnnoFiles" parameterType="int[]">
@@ -383,47 +531,117 @@
   	<update id="updateAnnoExist" parameterType="AnnounceBoard">
   		UPDATE announce_board
   		SET announce_exist = 1 
-  		WHERE announce_no = ${announceNo}
+  		WHERE announce_no = #{announceNo}
   	</update>
   	
   	<update id="updateEventExist" parameterType="EventBoard">
   		UPDATE event_board
   		SET event_exist = 1 
-  		WHERE event_no = ${eventNo}
+  		WHERE event_no = #{eventNo}
   	</update>
   	
   	<delete id="deleteAnnoFile" parameterType="AnnounceBoard">
 		DELETE announce_board_file
-		WHERE announce_no = ${announceNo}
+		WHERE announce_no = #{announceNo}
 	</delete>
 	
 	<delete id="deleteAnnoInfo" parameterType="AnnounceBoard">
 		DELETE announce_board
-		WHERE announce_no = ${announceNo}
+		WHERE announce_no = #{announceNo}
 	</delete>
 	
   	<select id="selectAnnoFileByFileNo" resultType="AnnounceBoardFile" parameterType="AnnounceBoardFile">
   		SELECT
 			file_no, announce_no, origin_name, stored_name
         FROM announce_board_file
-  		WHERE file_no = ${fileNo}
+  		WHERE file_no = #{fileNo}
   	</select>
   	
   	<select id="selectEventFileByFileNo" resultType="EventBoardFile" parameterType="EventBoardFile">
   		SELECT
 			file_no, event_no, origin_name, stored_name
         FROM event_board_file
-  		WHERE file_no = ${fileNo}
+  		WHERE file_no = #{fileNo}
   	</select>
 	
 	<delete id="deleteEventFile" parameterType="EventBoard">
 		DELETE event_board_file
-		WHERE event_no = ${eventNo}
+		WHERE event_no = #{eventNo}
 	</delete>
 	
 	<delete id="deleteEventInfo" parameterType="EventBoard">
 		DELETE event_board
-		WHERE event_no = ${eventNo}
+		WHERE event_no = #{eventNo}
 	</delete>
   	  	  	
+  	<!-- ================================================================================================================== -->
+  	<!-- 강사 신청 관리 -->
+  	
+  	<select id="freeBoardCntAll" resultType="int">
+	  	SELECT count(*) FROM free_board
+  	</select>
+  	
+  	<select id="selectFreeBoardAll" resultType="FreeBoard" parameterType="Map">
+  		SELECT * FROM (
+  			SELECT rownum rnum, B.* FROM(
+	    		SELECT	FB.free_no, UI.user_no, FB.free_head, FB.free_date, FB.free_hit, FB.free_name, FB.free_content, UI.user_name
+				FROM free_board FB
+				JOIN user_info UI ON FB.user_no = UI.user_no
+				<choose>
+			      <when test="sort == 0">
+			        ORDER BY FB.free_date DESC
+			      </when>
+			      <when test="sort == 1">
+			        ORDER BY FB.free_date
+			      </when>
+			      <when test="sort == 2">
+			        ORDER BY UI.user_name
+			      </when>
+			      <when test="sort == 3">
+			        ORDER BY FB.free_name
+			      </when>
+			    </choose>
+   			)B
+		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+	</select>
+  	
+  	<delete id="deleteFreeFilesByFreeNo" parameterType="int[]">
+		DELETE free_board_file
+		<where>
+			free_no IN
+			<foreach collection="array" item="no" open="(" close=")" separator=",">
+				#{no }
+			</foreach>
+		</where>
+	</delete>
+  	
+  	<delete id="deletePostBoardNo" parameterType="int[]">
+		DELETE free_board
+		<where>
+			free_no IN
+			<foreach collection="array" item="no" open="(" close=")" separator=",">
+				#{no }
+			</foreach>
+		</where>
+	</delete>
+	
+  	<select id="freeCommentCntAll" resultType="int" parameterType="FreeBoard">
+	  	SELECT count(*)	FROM free_comment	
+	  	WHERE free_no = #{freeNo}
+  	</select>
+  	
+  	<select id="selectFreeCommentList" resultType="FreeComment" parameterType="Map">
+   		SELECT	free_comment_no, free_no, free_comment_content, free_comment_date, user_no
+		FROM free_comment
+		WHERE free_no = #{freeBoard.freeNo}
+		ORDER BY free_comment_no DESC
+	</select>
+	
+	<select id="selectUserNameList" resultType="UserInfo" parameterType="Map">
+		<foreach collection="freeComment" item="freeComment" separator="UNION ALL">
+		SELECT user_name FROM user_info
+		WHERE user_no = #{freeComment.userNo}
+		</foreach>
+	</select>
+	
   </mapper>
