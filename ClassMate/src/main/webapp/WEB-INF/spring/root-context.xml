@@ -8,6 +8,9 @@
     <!-- config파일 자동 로드 location="classpath:database.properties"  /!-->
     <context:property-placeholder location="/config/*.properties" />
     
+<!--     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"> -->
+<!--     	<property name="location" value="file:C:/Users/BaeChangHo/git/ClassMateJava/ClassMate/src/main/webapp/config/config.properties" /> -->
+<!-- 	</bean> -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     	<property name="driverClassName" value="${spring.datasource.driverClassName}" />
     	<property name="url" value="${spring.datasource.url}" />
@@ -40,13 +43,6 @@
          </array>
       </property>
       
-<!--       <property name="typeAliases"> -->
-<!--          <array> -->
-<!--             <value>*.dto.Dept</value> -->
-<!--             <value>login.dto.Login</value> -->
-<!--             <value>interceptor.dto.User</value> -->
-<!--          </array> -->
-<!--       </property> -->
    
       <property name="typeAliasesPackage">
          <value>*.dto</value>
