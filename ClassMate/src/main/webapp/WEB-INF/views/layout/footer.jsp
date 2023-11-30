@@ -117,13 +117,11 @@ $(document).ready(function () {
 	// 마우스를 올리면 글자색과 언더라인 변경
 	$("#terms1").mouseover(function () {
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "#F0C610");
 	        $(this).css("text-decoration", "underline");
 	    }
 	}).mouseout(function () {
 	    // 마우스를 떼면 초기 스타일로 변경
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "black");
 	        $(this).css("text-decoration", "none");
 	    }
 	});
@@ -132,13 +130,11 @@ $(document).ready(function () {
 	// 마우스를 올리면 글자색과 언더라인 변경
 	$("#terms2").mouseover(function () {
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "#F0C610");
 	        $(this).css("text-decoration", "underline");
 	    }
 	}).mouseout(function () {
 	    // 마우스를 떼면 초기 스타일로 변경
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "black");
 	        $(this).css("text-decoration", "none");
 	    }
 	});
@@ -147,13 +143,11 @@ $(document).ready(function () {
 	// 마우스를 올리면 글자색과 언더라인 변경
 	$("#closeModal").mouseover(function () {
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "#F0C610");
 	        $(this).css("text-decoration", "underline");
 	    }
 	}).mouseout(function () {
 	    // 마우스를 떼면 초기 스타일로 변경
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "black");
 	        $(this).css("text-decoration", "none");
 	    }
 	});
@@ -162,13 +156,11 @@ $(document).ready(function () {
 	// 마우스를 올리면 글자색과 언더라인 변경
 	$("#terms3").mouseover(function () {
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "#F0C610");
 	        $(this).css("text-decoration", "underline");
 	    }
 	}).mouseout(function () {
 	    // 마우스를 떼면 초기 스타일로 변경
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "black");
 	        $(this).css("text-decoration", "none");
 	    }
 	});
@@ -177,13 +169,11 @@ $(document).ready(function () {
 	// 마우스를 올리면 글자색과 언더라인 변경
 	$("#closeModal2").mouseover(function () {
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "#F0C610");
 	        $(this).css("text-decoration", "underline");
 	    }
 	}).mouseout(function () {
 	    // 마우스를 떼면 초기 스타일로 변경
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "black");
 	        $(this).css("text-decoration", "none");
 	    }
 	});
@@ -192,13 +182,11 @@ $(document).ready(function () {
 	// 마우스를 올리면 글자색과 언더라인 변경
 	$("#terms4").mouseover(function () {
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "#F0C610");
 	        $(this).css("text-decoration", "underline");
 	    }
 	}).mouseout(function () {
 	    // 마우스를 떼면 초기 스타일로 변경
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "black");
 	        $(this).css("text-decoration", "none");
 	    }
 	});
@@ -207,13 +195,11 @@ $(document).ready(function () {
 	// 마우스를 올리면 글자색과 언더라인 변경
 	$("#closeModal3").mouseover(function () {
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "#F0C610");
 	        $(this).css("text-decoration", "underline");
 	    }
 	}).mouseout(function () {
 	    // 마우스를 떼면 초기 스타일로 변경
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("color", "black");
 	        $(this).css("text-decoration", "none");
 	    }
 	});

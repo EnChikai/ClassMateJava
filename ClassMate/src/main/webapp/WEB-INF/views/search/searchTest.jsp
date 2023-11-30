@@ -10,7 +10,7 @@
     <h1>검색 폼</h1>
     <form method="post" action="/search/main">
         <label for="keyword">메인 검색어:</label>
-        <input type="text" id="keyword" name="keyword" required>
+        <input type="text" id="search" name="search" required>
         <br>
         <input type="submit" value="검색">
     </form>

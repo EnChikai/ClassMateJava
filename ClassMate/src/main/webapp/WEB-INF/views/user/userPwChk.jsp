@@ -36,6 +36,7 @@ button {
     border: none;
     border-radius: 4px;
     width: 100px;
+    cursor: pointer;
 }
 
 input {
@@ -77,9 +78,9 @@ function submitForm() {
     document.getElementById("userPwChkForm").submit();
 }
 
-// JavaScript 코드를 이용하여 취소 버튼을 눌렀을 때 이전 페이지로 이동
+//취소 버튼을 눌렀을 때 "/user/mypageMain" 페이지로 이동
 function goBack() {
-    window.history.back();
+    window.location.href = "/user/mypageMain";
 }
 </script>
 
@@ -97,7 +98,6 @@ function goBack() {
       <label id="password" for="userPw">비밀번호</label>
       <input type="password" id="userPw" name="userPw"><br>
       
-      <!-- 확인 버튼의 type을 submit으로 변경 -->
       <button type="submit">확인</button>
       <button type="button" onclick="goBack()" style="background-color: #9E9E9E;">취소</button>
    </div><!-- .pwChk -->
