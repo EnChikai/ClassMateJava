@@ -102,8 +102,8 @@ a:hover{
 		    	<c:if test="${c.deleteBoolean == 0}">
 		    		<a href="/main/onClassView?classNo=${c.classNo }">
 		    			<div style="display: flex; margin-top: 35px;">
-		    				<div><img style="width: 250px;" src="/upload/${c.headImg }"></div>
-			    			<div style="margin-left: 15px;">
+		    				<div><img style="width: 250px; height: 177px;" src="/upload/${c.headImg }"></div>
+			    			<div style="margin-left: 15px; width: 1103px;">
 						        <span style="font-size: 25px;"><strong>${c.className }</strong></span>
 						        <span style="margin-left: 350px; font-size: 25px; float: right;"><fmt:formatNumber value="${c.expense }" pattern="#,###" />원</strong></span>
 						        <div>${c.classInfo }</div><br>

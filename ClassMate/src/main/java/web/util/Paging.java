@@ -8,17 +8,20 @@ public class Paging {
 	private int totalPage;	//총 페이지 수
 	private int pageCount;	//한 화면에 출력될 페이지네이션 개수
 	private int startPage;	//화면에 보이는 시작 페이지네이션의 번호
-	private int endPage;	//화면에 보니는 끝 페이지 네이션의 번호
+	private int endPage;	//화면에 보이는 끝 페이지 네이션의 번호
 	private int startNo;	//화면에 보이는 게시글의 시작 번호(rownum)
 	private int endNo;		//화면에 보이는 게시글의 끝 번호(rownum)
 	
+	private String search;	//검색어
+	
 	public Paging() {}
 	
+
 	@Override
 	public String toString() {
 		return "Paging [curPage=" + curPage + ", totalCount=" + totalCount + ", listCount=" + listCount + ", totalPage="
 				+ totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage=" + endPage
-				+ ", startNO=" + startNo + ", endNO=" + endNo + "]";
+				+ ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + "]";
 	}
 
 	//총 게시글 수, 현재 페이지 번호를 입력하는 생성자
@@ -66,76 +69,126 @@ public class Paging {
 		endNo = curPage * listCount;
 		
 	}
-	
+
+
+
 	public int getCurPage() {
 		return curPage;
 	}
+
+
 
 	public void setCurPage(int curPage) {
 		this.curPage = curPage;
 	}
 
+
+
 	public int getTotalCount() {
 		return totalCount;
 	}
+
+
 
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
 	}
 
+
+
 	public int getListCount() {
 		return listCount;
 	}
+
+
 
 	public void setListCount(int listCount) {
 		this.listCount = listCount;
 	}
 
+
+
 	public int getTotalPage() {
 		return totalPage;
 	}
+
+
 
 	public void setTotalPage(int totalPage) {
 		this.totalPage = totalPage;
 	}
 
+
+
 	public int getPageCount() {
 		return pageCount;
 	}
+
+
 
 	public void setPageCount(int pageCount) {
 		this.pageCount = pageCount;
 	}
 
+
+
 	public int getStartPage() {
 		return startPage;
 	}
+
+
 
 	public void setStartPage(int startPage) {
 		this.startPage = startPage;
 	}
 
+
+
 	public int getEndPage() {
 		return endPage;
 	}
+
+
 
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
 
-	public int getStartNO() {
+
+
+	public int getStartNo() {
 		return startNo;
 	}
 
-	public void setStartNO(int startNO) {
-		this.startNo = startNO;
+
+
+	public void setStartNo(int startNo) {
+		this.startNo = startNo;
 	}
 
-	public int getEndNO() {
+
+
+	public int getEndNo() {
 		return endNo;
 	}
 
-	public void setEndNO(int endNO) {
-		this.endNo = endNO;
+
+
+	public void setEndNo(int endNo) {
+		this.endNo = endNo;
 	}
+
+
+
+	public String getSearch() {
+		return search;
+	}
+
+
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+	
+	
 }
