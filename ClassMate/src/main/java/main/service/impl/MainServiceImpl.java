@@ -10,16 +10,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import board.dto.EventBoard;
+import lecture.dto.Address;
 import lecture.dto.Class;
 import main.dao.face.MainDao;
 import main.dto.MainCategory;
 import main.dto.SubCategory;
 import main.service.face.MainService;
-import user.dto.UserInfo;
-import web.util.MainClassListPaging;
+import web.util.Paging;
 
 @Service
 public class MainServiceImpl implements MainService{
@@ -60,17 +59,17 @@ public class MainServiceImpl implements MainService{
 
 	
 	@Override
-	public Map<String, Object> onClassList(Class cLass, MainClassListPaging paging) {
+	public Map<String, Object> onClassList(Class cLass, Paging paging) {
 		System.out.println(cLass.getSubCategoryNo());
 		
 	    //총 게시글 수 조회
 	    int totalCount = mainDao.mainOnClassCntAll(cLass);
 	    
 //	    logger.info("totalCount {}", totalCount);
-	      
+	    
 	    //페이징 객체 생성(페이징 계산)
-	    MainClassListPaging paging1 = new MainClassListPaging(totalCount, paging.getCurPage());
-		
+	    Paging paging1 = new Paging(totalCount, paging.getCurPage(), 5, 5);
+	    
 		Map<String, Object> map = new HashMap<>();
 		map.put("cLass", cLass);
 		map.put("paging1", paging1);
@@ -87,7 +86,7 @@ public class MainServiceImpl implements MainService{
 	}
 
 	@Override
-	public Map<String, Object> offClassList(Class cLass, MainClassListPaging paging) {
+	public Map<String, Object> offClassList(Class cLass, Paging paging) {
 		System.out.println(cLass.getSubCategoryNo());
 		
 	    //총 게시글 수 조회
@@ -96,7 +95,7 @@ public class MainServiceImpl implements MainService{
 //	    logger.info("totalCount {}", totalCount);
 	      
 	    //페이징 객체 생성(페이징 계산)
-	    MainClassListPaging paging1 = new MainClassListPaging(totalCount, paging.getCurPage());
+	    Paging paging1 = new Paging(totalCount, paging.getCurPage(), 5, 5);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("cLass", cLass);
@@ -114,7 +113,7 @@ public class MainServiceImpl implements MainService{
 	}
 
 	@Override
-	public Map<String, Object> onClassList(Class cLass, MainClassListPaging paging, String sort) {
+	public Map<String, Object> onClassList(Class cLass, Paging paging, String sort) {
 		System.out.println(cLass.getSubCategoryNo());
 		
 	    //총 게시글 수 조회
@@ -123,7 +122,7 @@ public class MainServiceImpl implements MainService{
 //	    logger.info("totalCount {}", totalCount);
 	      
 	    //페이징 객체 생성(페이징 계산)
-	    MainClassListPaging paging1 = new MainClassListPaging(totalCount, paging.getCurPage());
+	    Paging paging1 = new Paging(totalCount, paging.getCurPage(), 5, 5);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("cLass", cLass);
@@ -142,7 +141,7 @@ public class MainServiceImpl implements MainService{
 	}
 
 	@Override
-	public Map<String, Object> offClassList(Class cLass, MainClassListPaging paging, String sort) {
+	public Map<String, Object> offClassList(Class cLass, Paging paging, String sort) {
 		System.out.println(cLass.getSubCategoryNo());
 		
 	    //총 게시글 수 조회
@@ -151,7 +150,7 @@ public class MainServiceImpl implements MainService{
 //	    logger.info("totalCount {}", totalCount);
 	      
 	    //페이징 객체 생성(페이징 계산)
-	    MainClassListPaging paging1 = new MainClassListPaging(totalCount, paging.getCurPage());
+	    Paging paging1 = new Paging(totalCount, paging.getCurPage(), 5, 5);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("cLass", cLass);
@@ -212,6 +211,19 @@ public class MainServiceImpl implements MainService{
 		}
 		
 		return 1;
+	}
+
+
+	@Override
+	public Address getAddress(Class cLass) {
+		return mainDao.getAddress(cLass);
+	}
+
+
+	@Override
+	public void endClass() {
+		mainDao.endClass();
+		
 	}
 
 

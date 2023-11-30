@@ -12,7 +12,7 @@ import lecture.dto.Class;
 import main.dto.SubCategory;
 import search.dao.face.SearchDao;
 import search.service.face.SearchService;
-import web.util.SearchPaging;
+import web.util.Paging;
 
 @Service
 public class SearchServiceImpl implements SearchService{
@@ -20,65 +20,65 @@ public class SearchServiceImpl implements SearchService{
 	@Autowired private SearchDao searchDao;
 	
 	@Override
-	public List<SubCategory> mainList(String keyword) {
-		return searchDao.selectSubListByMain(keyword);
+	public List<SubCategory> mainList(Paging mainList) {
+		return searchDao.selectSubListByMain(mainList);
 	}
 
 //-----------------------------------------------------------------------------
 
 	@Override
-	public SearchPaging getSubPaging(SearchPaging param) {
+	public Paging getSubPaging(Paging param) {
 		//총 게시글 수 조회
 		int totalCount = searchDao.selectSubCntAll(param);
 		
 		//페이징 객체 생성(페이징 계산)
-		SearchPaging paging = new SearchPaging( totalCount, param.getCurPage() );
+		Paging paging = new Paging( totalCount, param.getCurPage() );
 		paging.setSearch( param.getSearch() );
 		
 		return paging;
 	}
 	
 	@Override
-	public List<Class> subList(SearchPaging paging) {
+	public List<Class> subList(Paging paging) {
 		return searchDao.selectSubAll(paging);
 	}
 
 //-----------------------------------------------------------------------------
 
 	@Override
-	public SearchPaging getClassTitlePaging(SearchPaging param) {
+	public Paging getClassTitlePaging(Paging param) {
 		//총 게시글 수 조회
 		int totalCount = searchDao.selectClassTitleCntAll(param);
 		
 		//페이징 객체 생성(페이징 계산)
-		SearchPaging paging = new SearchPaging( totalCount, param.getCurPage() );
+		Paging paging = new Paging( totalCount, param.getCurPage() );
 		paging.setSearch( param.getSearch() );
 		
 		return paging;
 	}
 	
 	@Override
-	public List<Class> classTitleList(SearchPaging paging) {
+	public List<Class> classTitleList(Paging paging) {
 		return searchDao.selectClassTitleAll(paging);
 	}
 	
 //-----------------------------------------------------------------------------
 
 	@Override
-	public SearchPaging getNickPaging(SearchPaging param) {
+	public Paging getNickPaging(Paging param) {
 		logger.info("getNickPaging()");
 		//총 게시글 수 조회
 		int totalCount = searchDao.selectNickCntAll(param);
 		
 		//페이징 객체 생성(페이징 계산)
-		SearchPaging paging = new SearchPaging( totalCount, param.getCurPage() );
+		Paging paging = new Paging( totalCount, param.getCurPage() );
 		paging.setSearch( param.getSearch() );
 		
 		return paging;
 	}
 
 	@Override
-	public List<FreeBoard> nickList(SearchPaging paging) {
+	public List<FreeBoard> nickList(Paging paging) {
 		logger.info("nickList()");
 		return searchDao.selectNickAll(paging);
 	}
@@ -86,20 +86,20 @@ public class SearchServiceImpl implements SearchService{
 //-----------------------------------------------------------------------------
 	
 	@Override
-	public SearchPaging getTitlePaging(SearchPaging param) {
+	public Paging getTitlePaging(Paging param) {
 		logger.info("getTitlePaging()");
 		//총 게시글 수 조회
 		int totalCount = searchDao.selectTitleCntAll(param);
 		
 		//페이징 객체 생성(페이징 계산)
-		SearchPaging paging = new SearchPaging( totalCount, param.getCurPage() );
+		Paging paging = new Paging( totalCount, param.getCurPage() );
 		paging.setSearch( param.getSearch() );
 		
 		return paging;
 	}
 	
 	@Override
-	public List<FreeBoard> titleList(SearchPaging paging) {
+	public List<FreeBoard> titleList(Paging paging) {
 		logger.info("titleList()");
 		return searchDao.selectTitleAll(paging);
 	}

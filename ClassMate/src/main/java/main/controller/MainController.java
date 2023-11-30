@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import board.dto.EventBoard;
+import lecture.dto.Address;
 import lecture.dto.Class;
 import main.dto.MainCategory;
 import main.dto.SubCategory;
 import main.service.face.MainService;
-import web.util.MainClassListPaging;
+import web.util.Paging;
 
 @Controller
 @RequestMapping("/main")
@@ -76,16 +76,19 @@ public class MainController {
 	}
 	
 	   @GetMapping("/onClassList")
-	   public void onClassList(Class cLass, Model model, MainClassListPaging paging, String sort) {
+	   public void onClassList(Class cLass, Model model, Paging paging, String sort) {
 //		   logger.info("ONCLASS {}", cLass);
 		   
-		   Map<String, Object> map = new HashMap<>(); 
-		  
+		   Map<String, Object> map = new HashMap<>();
+		   mainService.endClass();
+		   
 	       map = mainService.onClassList(cLass, paging);
 
 	       model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
 	       model.addAttribute("onClassList", map.get("list"));
 	       model.addAttribute("paging",map.get("paging1"));
+	       logger.info("페이징 {}",paging);
+	       logger.info("페이징 {}",map.get("paging1"));
 	       
 	       System.out.println(map.get("list"));
 	       if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
@@ -152,10 +155,11 @@ public class MainController {
 	   
 
 	   @GetMapping("/offClassList")
-	   public void offClassList(Class cLass, Model model, MainClassListPaging paging, String sort) {
-//	   	   logger.info("offCLASS {}", cLass);
-	   	   
+	   public void offClassList(Class cLass, Model model, Paging paging, String sort) {
+
 	   	   Map<String, Object> map = new HashMap<>();
+	   	   mainService.endClass();
+	   	   
 	   	   map = mainService.offClassList(cLass, paging);
 	   	   
 	       model.addAttribute("subCategoryNo", cLass.getSubCategoryNo());
@@ -228,7 +232,7 @@ public class MainController {
 	   public void onClassView( Class cLass, Model model, HttpSession session) {
 		   List<Class> list = mainService.ClassViewList(cLass);
 //		   logger.info("list : {}", list);
-	       logger.info("로그인안에 뭐가 있어? : {}", session.getAttribute("isLogin"));
+//	       logger.info("로그인안에 뭐가 있어? : {}", session.getAttribute("isLogin"));
 
 		   model.addAttribute("list",list);
 		   model.addAttribute("isLogin", session.getAttribute("isLogin"));
@@ -238,7 +242,9 @@ public class MainController {
 	   @GetMapping("/offClassView")
 	   public void offClassView( Class cLass, Model model, HttpSession session) {
 		   List<Class> list = mainService.ClassViewList(cLass);
-//		   logger.info("list : {}", list);
+		   Address address = mainService.getAddress(cLass);
+//		   logger.info("address : {}", address);
+		   model.addAttribute("address",address);
 		   model.addAttribute("list",list);
 		   model.addAttribute("isLogin", session.getAttribute("isLogin"));
 		   
@@ -306,6 +312,18 @@ public class MainController {
 	       }
 	    	   
 	       return response;
+	   }
+	   
+	   @GetMapping("/classInfo")
+	   @ResponseBody
+	   public List<Class> classInfo(Class cLass) {
+		   
+//		   logger.info("cLass안에 뭐 있어? {}",cLass);
+		   
+		   List<Class> list = mainService.ClassViewList(cLass);
+		   logger.info("list안에 뭐 있어? {}",list);
+		   return list;
+		   
 	   }
 
 }

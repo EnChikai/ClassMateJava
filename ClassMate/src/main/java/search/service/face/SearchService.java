@@ -5,7 +5,7 @@ import java.util.List;
 import board.dto.FreeBoard;
 import lecture.dto.Class;
 import main.dto.SubCategory;
-import web.util.SearchPaging;
+import web.util.Paging;
 
 public interface SearchService {
 	
@@ -25,10 +25,10 @@ public interface SearchService {
 	/**
 	 * 메인카테고리를 입력했을때 나오는 서브카테고리 검색결과
 	 * 
-	 * @param keyword
+	 * @param param
 	 * @return 
 	 */
-	public List<SubCategory> mainList(String keyword);
+	public List<SubCategory> mainList(Paging param);
 
 	/**
 	 * 서브카테고리를 입력했을때 나오는 클래스 검색결과
@@ -36,8 +36,8 @@ public interface SearchService {
 	 * @param paging
 	 * @return
 	 */
-	public List<Class> subList(SearchPaging paging);
-	public SearchPaging getSubPaging(SearchPaging param);
+	public List<Class> subList(Paging paging);
+	public Paging getSubPaging(Paging param);
 	
 	
 	/**
@@ -46,8 +46,8 @@ public interface SearchService {
 	 * @param paging
 	 * @return
 	 */
-	public List<Class> classTitleList(SearchPaging paging);
-	public SearchPaging getClassTitlePaging(SearchPaging param);
+	public List<Class> classTitleList(Paging paging);
+	public Paging getClassTitlePaging(Paging param);
 	
 
 	/**
@@ -56,8 +56,8 @@ public interface SearchService {
 	 * @param paging
 	 * @return
 	 */
-	public List<FreeBoard> nickList(SearchPaging paging);
-	public SearchPaging getNickPaging(SearchPaging param);
+	public List<FreeBoard> nickList(Paging paging);
+	public Paging getNickPaging(Paging param);
 
 	
 	/**
@@ -66,8 +66,8 @@ public interface SearchService {
 	 * @param paging
 	 * @return
 	 */
-	public List<FreeBoard> titleList(SearchPaging paging);
-	public SearchPaging getTitlePaging(SearchPaging param);
+	public List<FreeBoard> titleList(Paging paging);
+	public Paging getTitlePaging(Paging param);
 
 
 
