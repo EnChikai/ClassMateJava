@@ -7,41 +7,47 @@
 <script type="text/javascript">
 
 $(function(){
-	$(document).on('click', "input[type='checkbox']", function(){
-	    if(this.checked) {
-	        const checkboxes = $("input[name='userGender']");
-	        for(let ind = 0; ind < checkboxes.length; ind++){
-	            checkboxes[ind].checked = false;
-	        }
-	        this.checked = true;
-	    } else {
-	        this.checked = false;
-	    }
-	});
+   $(document).on('click', "input[type='checkbox']", function(){
+       if(this.checked) {
+           const checkboxes = $("input[name='userGender']");
+           for(let ind = 0; ind < checkboxes.length; ind++){
+               checkboxes[ind].checked = false;
+           }
+           this.checked = true;
+       } else {
+           this.checked = false;
+       }
+   });
 
-	$("#outUser").on('click', function(){
-		console.log('클릭됨')
-		
-		withdrawUser();
-	})
-	
-	
+   $("#outUser").on('click', function(){
+      console.log('클릭됨')
+      
+      withdrawUser();
+   })
+   
+   
 }); // 제이쿼리 펑션 끝
 
 
 function togglePasswordVisibility( idByInput , idByIcon) {
- 	var pwInput = document.getElementById(idByInput);
+    var pwInput = document.getElementById(idByInput);
     var eyeIcon = document.getElementById(idByIcon);
     
     if (pwInput.type === 'password') {
-    	pwInput.type = 'text';
-    	eyeIcon.src = '/resources/img/open_eye.png'; // 열린 눈 모양 이미지의 경로로 대체하세요
+       pwInput.type = 'text';
+       eyeIcon.src = '/resources/img/open_eye.png'; // 열린 눈 모양 이미지의 경로로 대체하세요
     } else {
-    	pwInput.type = 'password';
+       pwInput.type = 'password';
         eyeIcon.src = '/resources/img/close_eye.png'; // 닫힌 눈 모양 이미지의 경로로 대체하세요
     }
     
 }
+
+$(document).ready(function() {
+    $('#btnCancle').click(function() {
+        window.location.href = '/user/mypageMain'; // 이동할 페이지 경로
+    });
+});
 
 //"탈퇴하시겠습니까?" 클릭 시 팝업창 표시
 function showWithdrawalPopup() {
@@ -61,9 +67,10 @@ function withdrawUser() {
          "userNo" : ${userInfo.userNo}// 여기에 회원 정보나 탈퇴에 필요한 파라미터를 전달
      },
      success: function (res) {
-    	 console.log( res )
-         if (res === "success") {
+        console.log( res.successYn );
+         if (res.successYn == "Y") {
              alert("탈퇴되었습니다.");
+             window.location.href = "/user/login";
              // 탈퇴가 성공했을 때의 처리 (예: 로그아웃 등)
          } else {
              alert("탈퇴에 실패했습니다.");
@@ -126,23 +133,23 @@ function updateUserInfo() {
 <style type="text/css">
 
 .joinDiv {
-	border: 1px solid #ccc;
-	width: 900px;
-	height: 1040px;
-	margin: 120px auto;
-	margin-bottom: 160px;
+   border: 1px solid #ccc;
+   width: 900px;
+   height: 1040px;
+   margin: 120px auto;
+   margin-bottom: 160px;
 }
 
 .decobox {
-	width: 100%;
-	height: 10px;
-	background-color: rgb(255, 240, 177);
-	margin-bottom: 45px;
+   width: 100%;
+   height: 10px;
+   background-color: rgb(255, 240, 177);
+   margin-bottom: 45px;
 }
 
 .arrayDiv {
-	margin: 0 auto;
-	width: 600px;
+   margin: 0 auto;
+   width: 600px;
     line-height: 3.7;
 }
 
@@ -156,21 +163,21 @@ input {
 }
 
 label {
-	display:inline-block;
-	text-align:right;
-	width:120px;
-	font-weight:bold;
+   display:inline-block;
+   text-align:right;
+   width:120px;
+   font-weight:bold;
 }
 
 button {
-	height: 35px;
+   height: 35px;
 }
 
 #title {
-	font-size: 40px;
-	font-weight: bold;
+   font-size: 40px;
+   font-weight: bold;
     margin: 50px;
-    line-height: 2.5;
+    line-height: 3;
 }
 
 .popup {
@@ -190,7 +197,7 @@ button {
 }
 
 #titleInfo {
-	font-size: 22px;
+   font-size: 22px;
     color: rgb(255, 255, 255);
     text-align: center;
     line-height: 2.9em;
@@ -228,35 +235,37 @@ button {
 }
 
 #chkCert {
-	background-color: rgb(158, 158, 158);
-	color: rgb(255, 255, 255);
-	border-radius: 4px; 
-	width: 73px; 
-	font-size: 16px; 
-	border: 1px solid #ccc; 
-	margin-top: 6px; height: 30px; cursor: pointer;" 
+   background-color: rgb(158, 158, 158);
+   color: rgb(255, 255, 255);
+   border-radius: 4px; 
+   width: 73px; 
+   font-size: 16px; 
+   border: 1px solid #ccc; 
+   height: 30px; 
+   cursor: pointer;
+   vertical-align: middle; 
 }
 
 #btnPost {
-	  background-color: rgb(158, 158, 158); 
-	  color: rgb(255, 255, 255);
-	  border-radius: 4px; 
-	  width: 73px; 
-	  font-size: 16px; 
-	  margin-top: 6px; 
-	  height: 30px; 
-	  cursor: pointer; 
-	  text-align: center;"
+     background-color: rgb(158, 158, 158); 
+     color: rgb(255, 255, 255);
+     border-radius: 4px; 
+     width: 73px; 
+     font-size: 16px; 
+     height: 30px; 
+     cursor: pointer; 
+     text-align: center;
+     vertical-align: middle;
 }
 
 .Btn button {
-	border: none; 
-	font-size: 22px; 
-	border-radius: 4px;
-	width: 95px; 
-	color: rgb(255, 255, 255);
-	height: 40px;
-	cursor: pointer;"
+   border: none; 
+   font-size: 22px; 
+   border-radius: 4px;
+   width: 95px; 
+   color: rgb(255, 255, 255);
+   height: 40px;
+   cursor: pointer;"
 }
 
 input[type="checkbox"] {
@@ -269,75 +278,75 @@ input[type="checkbox"] {
 
 
 
-	<div class="joinDiv">
-		<div class="title">
-		<span id="title">회원정보수정</span>
-		<div class="decobox"></div>
-		</div>
-	
-		<div class="arrayDiv">
-		
-			<label for="userId">아이디</label>
-			<input type="text" id="userId" name="userId" style="width: 470px;" value="${userInfo.userId }">	
-			
-			<label for="userPw">비밀번호</label>
-			
-			<div style="position: relative; display: inline-block;">
-			    <input type="password" id="userPw" name="userPw" value="${userInfo.userPw }">
-			    <img src="/resources/img/close_eye.png" id="togglePw" class="togglePw" onclick="togglePasswordVisibility('userPw', 'togglePw')">
-			</div><br>
-			
-			<label for="userPwChk">비밀번호 확인</label>
-			<div style="position: relative; display: inline-block;">
-			    <input type="password" id="userPwChk" name="userPwChk" value="${userInfo.userPw }">
-			    <img src="/resources/img/close_eye.png" id="togglePwChk" class="togglePw" onclick="togglePasswordVisibility('userPwChk', 'togglePwChk')">
-			</div><br>
-			
-			<label>성별</label>
-			<input type="checkbox" id="cb1" value="0" name="userGender" ${userInfo.userGender eq '0' ? 'checked' : ''}>
-			<label for="cb1" style="text-align: left; width: 40px" >남성</label>
-			<input type="checkbox" id="cb2" value="1" name="userGender" ${userInfo.userGender eq '1' ? 'checked' : ''}>
-			<label for="cb2" style="text-align: left; width: 40px" >여성</label><br>
-				
-			<label for="userBirthday">생년월일</label>
-			<input type="date" id="userBirthday" name="userBirthday" placeholder="${userInfo.userBirthday }"><br>
-			
-			<label for="userPhone">전화번호</label>
-			<input type="text" id="userPhone" name="userPhone" value="${userInfo.userPhone }"><br>
-			
-			<label for="userName">이름</label>
-			<input type="text" id="userName" name="userName" value="${userInfo.userName }"><br>
-			
-			<label for="userEmail">이메일</label>
-			<input type="email" id="userEmail" name="userEmail" placeholder="${userInfo.userEmail }" style="width: 200px">
-			<button id="chkCert">인증확인</button><br>
-			
-			<label for="postcode">주소</label>
-			<input type="text" id="postcode" name="userPost" placeholder="${userInfo.userPost }" style="width: 200px; text-align: left;">
-			<input type="button" id="btnPost" onclick="execDaumPostcode()" value="우편번호"><br>
-			<label></label>
-			<input type="text" id="address" name="mainAddress" placeholder=${userInfo.mainAddress } style="text-align: left;"><br>
-			<label></label>
-			<input type="text" id="detailAddress" name="subAddress" placeholder="${userInfo.subAddress }" style="text-align: left;"><br>
-			
-			
-			<!-- 팝업을 나타내는 div 요소 -->
-			<div class="popup" id="withdrawalPopup">
-				<div id="titleInfo"><span>ClassMate</span></div>
-			    <h2>회원 탈퇴를 진행하시겠습니까?</h2>
-			    <h4 style="color: #BEBEBE;">탈퇴 시 ClassMate의 모든 서비스를 이용할 수 없게됩니다</h4>
-			    <button id="outUser">확인</button>
-			    <button class="cancel"  onclick="closeWithdrawalPopup()">취소</button>
-			</div>
-			<span style="color: red; text-decoration: underline; float: right; cursor: pointer;" onclick="showWithdrawalPopup();">탈퇴하시겠습니까?</span>
-		
-		<div class="Btn" style="text-align:center; margin-top: 80px;">
-			<button  id="btnCancle" style="background-color: #929292;">취소</button>
-			<button id="btnUpdate" style="background-color: #F1C40F;" onclick="updateUserInfo()">수정</button>
-		</div>
-		
-		</div><!-- .arrayDiv -->
-	</div><!-- .joinDiv -->
+   <div class="joinDiv">
+      <div class="title">
+      <span id="title">회원정보수정</span>
+      <div class="decobox"></div>
+      </div>
+   
+      <div class="arrayDiv">
+      
+         <label for="userId">아이디</label>
+         <input type="text" id="userId" name="userId" style="width: 470px;" value="${userInfo.userId }">   
+         
+         <label for="userPw">비밀번호</label>
+         
+         <div style="position: relative; display: inline-block;">
+             <input type="password" id="userPw" name="userPw" value="${userInfo.userPw }">
+             <img src="/resources/img/close_eye.png" id="togglePw" class="togglePw" onclick="togglePasswordVisibility('userPw', 'togglePw')">
+         </div><br>
+         
+         <label for="userPwChk">비밀번호 확인</label>
+         <div style="position: relative; display: inline-block;">
+             <input type="password" id="userPwChk" name="userPwChk" value="${userInfo.userPw }">
+             <img src="/resources/img/close_eye.png" id="togglePwChk" class="togglePw" onclick="togglePasswordVisibility('userPwChk', 'togglePwChk')">
+         </div><br>
+         
+         <label>성별</label>
+         <input type="checkbox" id="cb1" value="0" name="userGender" ${userInfo.userGender eq '0' ? 'checked' : ''}>
+         <label for="cb1" style="text-align: left; width: 40px" >남성</label>
+         <input type="checkbox" id="cb2" value="1" name="userGender" ${userInfo.userGender eq '1' ? 'checked' : ''}>
+         <label for="cb2" style="text-align: left; width: 40px" >여성</label><br>
+            
+         <label for="userBirthday">생년월일</label>
+         <input type="date" id="userBirthday" name="userBirthday" placeholder="${userInfo.userBirthday }"><br>
+         
+         <label for="userName">이름</label>
+         <input type="text" id="userName" name="userName" value="${userInfo.userName }"><br>
+         
+         <label for="userPhone">전화번호</label>
+         <input type="text" id="userPhone" name="userPhone" value="${userInfo.userPhone }"><br>
+         
+         <label for="userEmail">이메일</label>
+         <input type="email" id="userEmail" name="userEmail" placeholder="${userInfo.userEmail }" style="width: 200px">
+         <button id="chkCert">인증확인</button><br>
+         
+         <label for="postcode">주소</label>
+         <input type="text" id="postcode" name="userPost" placeholder="${userInfo.userPost }" style="width: 200px; text-align: left;">
+         <input type="button" id="btnPost" onclick="execDaumPostcode()" value="우편번호"><br>
+         <label></label>
+         <input type="text" id="address" name="mainAddress" placeholder=${userInfo.mainAddress } style="text-align: left;"><br>
+         <label></label>
+         <input type="text" id="detailAddress" name="subAddress" placeholder="${userInfo.subAddress }" style="text-align: left;"><br>
+         
+         
+         <!-- 팝업을 나타내는 div 요소 -->
+         <div class="popup" id="withdrawalPopup">
+            <div id="titleInfo"><span>ClassMate</span></div>
+             <h2>회원 탈퇴를 진행하시겠습니까?</h2>
+             <h4 style="color: #BEBEBE;">탈퇴 시 ClassMate의 모든 서비스를 이용할 수 없게됩니다</h4>
+             <button id="outUser">확인</button>
+             <button class="cancel"  onclick="closeWithdrawalPopup()">취소</button>
+         </div>
+         <span style="color: red; text-decoration: underline; float: right; cursor: pointer;" onclick="showWithdrawalPopup();">탈퇴하시겠습니까?</span>
+      
+      <div class="Btn" style="text-align:center; margin-top: 80px;">
+         <button  id="btnCancle" style="background-color: #929292;">취소</button>
+         <button id="btnUpdate" style="background-color: #F1C40F;" onclick="updateUserInfo()">수정</button>
+      </div>
+      
+      </div><!-- .arrayDiv -->
+   </div><!-- .joinDiv -->
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -368,4 +377,4 @@ input[type="checkbox"] {
 </script>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
-
+	

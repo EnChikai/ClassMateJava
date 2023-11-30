@@ -109,16 +109,21 @@ button {
 </style>
 
 <script type="text/javascript">
-	var isPassworCoincide = ${isPassworCoincide}
-	console.log(isPassworCoincide)
-	if(isPassworCoincide == false) {
-		alert('회원 정보가 일치하지않습니다')
-	} 
-	var isIdCoincide = ${isIdCoincide}
-	console.log(isIdCoincide)
-	if(isIdCoincide == false) {
-		alert('회원 정보가 일치하지않습니다')
-	} 
+   var isPassworCoincide = ${isPassworCoincide}
+   console.log(isPassworCoincide)
+   if(isPassworCoincide == false) {
+      alert('회원 정보가 일치하지않습니다')
+   } 
+   var isIdCoincide = ${isIdCoincide}
+   console.log(isIdCoincide)
+   if(isIdCoincide == false) {
+      alert('회원 정보가 일치하지않습니다')
+   } 
+   var isOutUser = ${isOutUser}
+   console.log(isOutUser)
+   if(isOutUser == false) {
+      alert('탈퇴한 회원입니다.')
+   } 
 
 
 </script>

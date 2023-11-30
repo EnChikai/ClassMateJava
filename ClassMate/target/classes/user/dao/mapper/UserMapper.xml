@@ -122,4 +122,38 @@
         SELECT * FROM user_info WHERE user_id = #{userId}
     </select>
     
+    <select id="selectOrderCnt" resultType="int" parameterType="OrderTb">
+	  	SELECT count(*) FROM order_tb
+	  	WHERE user_no = ${userNo}
+  	</select>
+  	
+    <select id="selectUserOrder" resultType="OrderTb" parameterType="Map">
+       SELECT
+         order_no, user_no, class_no, merchant_uid
+        FROM order_tb
+        WHERE user_no = ${orderTb.userNo}
+     </select>
+     
+     <select id="selectUserPayment" resultType="Payment" parameterType="Map">
+       <foreach collection="orderList" item="orderTb" separator="UNION ALL">
+           SELECT
+           pay_no, order_no, pay_date, payment, pay_method, provider, card_name
+           FROM payment
+           WHERE order_no = #{orderTb.orderNo}
+       </foreach>
+   </select>
+	
+	<select id="selectClassNameByClassNo" resultType="Class" parameterType="int">
+	  	SELECT class_name FROM class
+	  	WHERE class_no = ${classNo}
+  	</select>
+  	
+  	<select id="whoAmI" resultType="user.dto.UserInfo" parameterType="user.dto.UserInfo">
+  		SELECT user_name
+  		FROM user_info
+  		<where>
+  			user_no = #{userNo}
+  		</where>
+  	</select>
+  	
  </mapper>
