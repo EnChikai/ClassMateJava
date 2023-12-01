@@ -8,9 +8,11 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-<c:import url="/WEB-INF/views/layout/header.jsp" />
-<c:import url="/WEB-INF/views/layout/teacherSide.jsp" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+<c:import url="/WEB-INF/views/layout/header.jsp" />
+
+<c:import url="/WEB-INF/views/layout/teacherSide.jsp" />
+
 <script type="text/javascript">
 
 function submitForm() {
@@ -20,7 +22,15 @@ function submitForm() {
 </script>
 <style type="text/css">
 
-table, th, td{
+.payTable {
+	border: 1px solid black;
+	text-align: center;	
+}
+.payTable th {
+	border: 1px solid black;
+	text-align: center;	
+}
+.payTable td {
 	border: 1px solid black;
 	text-align: center;	
 }
@@ -28,10 +38,11 @@ table, th, td{
 </style>
 
 
-<div class="center-box">
-<h1>강사 정산 내역</h1><br><br><br>
+<div class="cd1">
+<div style="width: 700px; min-height: 800px;">
+<h1>강사 정산 내역</h1><br>
 <form id="onOffForm" action="/teacher/payDetail" method=post>
-    <div class="dropdown" style="float: right;">
+    <div class="dropdown" style="margin-left: 550px;">
         <select name="onOff" id="onOff" onchange="submitForm()">
             <option value="99" ${allPayDetail eq 1 ? 'selected' : ''}>전체보기</option>
             <option value="1" ${onPayDetail eq 2 ? 'selected' : ''}>ON클래스</option>
@@ -41,7 +52,7 @@ table, th, td{
 </form>
 
 
-	<table>
+	<table class="payTable">
    		<tr>
    			<th>번호</th>
    			<th>강좌명</th>
@@ -176,4 +187,6 @@ table, th, td{
 </div>
 
 </div>
+
+</div>	<!-- cd1 -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

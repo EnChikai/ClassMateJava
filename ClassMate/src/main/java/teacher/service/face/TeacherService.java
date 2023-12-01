@@ -26,14 +26,6 @@ import web.util.TeacherMainPaging;
 
 public interface TeacherService {
 
-	/**
-	 * 게시글 목록 조회
-	 * @param paging 
-	 * 
-	 * @param paging - 페이징 정보 객체 
-	 * @return 게시글 목록
-	 */
-	public List<Class> pageList(TeacherMainPaging paging, int userNo);
 
 	/**
 	 * 강사의 모든 강의 리스트를 불러온다
@@ -148,6 +140,10 @@ public interface TeacherService {
 			//강사 페이징
 	public Paging getPaging(Paging param, HttpSession session, HashMap<String, Object> map, String onOff);
 
+	public Paging getPaging2(Paging param, HttpSession session, HashMap<String, Object> map, String onOff);
+
+	public Paging getPaging3(TeacherMainPaging param, HttpSession session, HashMap<String, Object> map);
+
 	public HashMap<String, Object> getClassPayDetail(Class lecture, Payment payment, HashMap<String, Object> map, Paging onPaging, HttpSession session, String onOff);
 
 	/**
@@ -165,6 +161,67 @@ public interface TeacherService {
 	 * @return
 	 */
 	public Teacher getTeacherInfoByUserNo(int userNo);
+
+	/**
+	 *조회 
+	 * 
+	 * @param lecture
+	 * @param map
+	 * @param paging
+	 * @param session
+	 * @param onOff
+	 * @return
+	 */
+	public HashMap<String, Object> getCheckDetail(Class lecture, HashMap<String, Object> map, Paging paging,
+			HttpSession session, String onOff);
+
+	public HashMap<String, Object> getCheckMain(Class lecture, HashMap<String, Object> map, Paging paging,
+			HttpSession session);
+
+	
+	public HashMap<String, Object> getClassCheckDetail(Class lecture, HashMap<String, Object> map, Paging onPaging,
+			HttpSession session, String onOff);
+
+	/**
+	 * 전달된 classNo로 classNo 상세 정보를 가져온다
+	 * 
+	 * @param lecture 조회된 상세정보
+	 * @return
+	 */
+	public Class detailView(Class lecture);
+
+	/**
+	 * 전달된 강의 번호로 주소값을 가져온다
+	 * @param addressParam
+	 * @return
+	 */
+	
+	public Address detailAddressView(Address addressParam);
+
+	
+	/**
+	 * 
+	 * 전달된 강의 번호로 비디오 값을 가져온다
+	 * @param videoParam 전달된 비디오 정보
+	 * @return
+	 */
+	public List<ClassVideo> detailVideoView(ClassVideo videoParam);
+
+	/**
+	 * 유저 번호로 강사 이름을 가져온다
+	 * 
+	 * @param userNo
+	 * @return
+	 */
+	public String getTeacherName(int userNo);
+
+	/**
+	 * 
+	 * 유저 번호로 강사 이미지를 가져온다
+	 * @param userNo
+	 * @return
+	 */
+	public String getTeacherImg(int userNo);
 
 	
 
