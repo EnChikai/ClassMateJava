@@ -1,7 +1,12 @@
 package admin.service.impl;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
@@ -17,6 +23,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import admin.dao.face.AdminDao;
 import admin.service.face.AdminService;
@@ -37,6 +46,7 @@ import teacher.dto.TeacherLicence;
 import user.dto.UserInfo;
 import web.util.Paging;
 import lecture.dto.Class;
+import lecture.dto.ClassVideo;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -95,25 +105,27 @@ public class AdminServiceImpl implements AdminService{
 		List<String> payDateList = new ArrayList<>();
 		List<Integer> paymentList = new ArrayList<>();
 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM");
+		
 		for (int monthCount = 0; monthCount < 4; monthCount++) {
 		    paymentData = adminDao.getPaymentData(monthCount);
 
-		    // paymentData가 null인 경우 sysdate의 "YY-MM"을 payDateList에 추가
+		    // paymentData가 null인 경우
 		    if (paymentData == null) {
-		        SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM");
-		        String sysdateFormatted = dateFormat.format(new Date());
-		        payDateList.add(sysdateFormatted);
-
-		        // null인 경우 0을 paymentList에 추가
-		        paymentList.add(0);
+		        if (monthCount == 0) {
+		            // 첫 번째 월인 경우 sysdate를 "YY/MM" 형식으로 추가
+		            String formattedDate = dateFormat.format(new Date());
+		            payDateList.add(formattedDate);
+		            paymentList.add(0);  // 이 값은 필요에 따라 조절
+		        } else {
+		            // 나머지 경우 "없음"을 추가하고 0을 paymentList에 추가
+		            payDateList.add("없음");
+		            paymentList.add(0);
+		        }
 		    } else {
 		        // paymentData가 null이 아닌 경우
-		        // payDate를 "YY-MM" 형식으로 변환하여 리스트에 추가
-		        SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM");
 		        String formattedDate = dateFormat.format(paymentData.getPayDate());
 		        payDateList.add(formattedDate);
-
-		        // payment를 리스트에 추가
 		        paymentList.add(paymentData.getPayment());
 
 		        logger.info("payDateList : {}", payDateList);
@@ -121,10 +133,6 @@ public class AdminServiceImpl implements AdminService{
 		    }
 		}
 
-		map.put("payDateList", payDateList);
-		map.put("paymentList", paymentList);
-		
-		
 		map.put("payDateList", payDateList);
 		map.put("paymentList", paymentList);
 		
@@ -149,7 +157,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public List<UserInfo> userInfoList(Paging paging, int sort, int delCheckbox) {
+	public Map<String, Object> userInfoList(Paging paging, int sort, int delCheckbox) {
 		logger.info("userInfoList()");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -158,6 +166,7 @@ public class AdminServiceImpl implements AdminService{
 		map.put("sort", sort);
 		
 		List<UserInfo> list = new ArrayList<UserInfo>();
+		List<TeacherApply> teacherApplylist = new ArrayList<TeacherApply>();
 		
 		if(delCheckbox != 0) {
 			list = adminDao.selectDelUserAll(map);
@@ -173,7 +182,13 @@ public class AdminServiceImpl implements AdminService{
 			logger.info("조회실패");
 		}
 		
-		return list;
+		teacherApplylist = adminDao.selectTeacherApplyByUserNo(list);
+		logger.info("teacherTeacherApplylist : {}",teacherApplylist);
+
+		map.put("teacherApplylist", teacherApplylist);
+		map.put("list", list);
+		
+		return map;
 	}
 
 	@Override
@@ -241,7 +256,7 @@ public class AdminServiceImpl implements AdminService{
 		List<Class> classList = new ArrayList<Class>();
 		
 		for(int i = 0; i<orderList.size(); i++) {
-			logger.info(i+". selectUserOrder() : {}", orderList );
+			logger.info(i+". selectUserOrder() : {}", orderList.get(i) );
 		}
 		
 		if(paging.getTotalCount() != 0) {
@@ -473,6 +488,118 @@ public class AdminServiceImpl implements AdminService{
 		
 	}
 	
+	@Override
+	public void deleteUserInfo(UserInfo userInfo) {
+		logger.info("deleteUserInfo() : {}", userInfo);
+		
+		int result = 0;
+		List<TeacherApply> teacherApplylist = new ArrayList<TeacherApply>();
+		List<UserInfo> list = new ArrayList<UserInfo>();
+		
+		list.add(userInfo);
+		
+		teacherApplylist = adminDao.selectTeacherApplyByUserNo(list);
+		logger.info("teacherTeacherApplylist : {}",teacherApplylist);
+		
+		if(teacherApplylist.size() != 0 ) {
+			result = adminDao.deleteTeacherApply(teacherApplylist.get(0));
+			logger.info("강사신청 삭제 결과 : {}", result);	
+		}
+		
+		result = adminDao.deleteTeacherInfoByUserNo(userInfo);
+		logger.info("강사신청 삭제 결과 : {}", result);	
+		
+		result = adminDao.deleteUserInfo(userInfo);
+		logger.info("유저 삭제 결과 : {}", result);	
+		
+	}
+	
+	//================================================================================
+	//--- 유저 관리 > 환불 처리 ---
+	
+	public String getToken(String apiKey, String secretKey) throws IOException {
+        URL url = new URL("https://api.iamport.kr/users/getToken");
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+ 
+        // 요청 방식을 POST로 설정
+        conn.setRequestMethod("POST");
+ 
+        // 요청의 Content-Type과 Accept 헤더 설정
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("Accept", "application/json");
+ 
+        // 해당 연결을 출력 스트림(요청)으로 사용
+        conn.setDoOutput(true);
+ 
+        // JSON 객체에 해당 API가 필요로하는 데이터 추가.
+        JsonObject json = new JsonObject();
+        json.addProperty("imp_key", apiKey);
+        json.addProperty("imp_secret", secretKey);
+ 
+        // 출력 스트림으로 해당 conn에 요청
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+        bw.write(json.toString()); // json 객체를 문자열 형태로 HTTP 요청 본문에 추가
+        bw.flush(); // BufferedWriter 비우기
+        bw.close(); // BufferedWriter 종료
+ 
+        // 입력 스트림으로 conn 요청에 대한 응답 반환
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        Gson gson = new Gson(); // 응답 데이터를 자바 객체로 변환
+        String response = gson.fromJson(br.readLine(), Map.class).get("response").toString();
+        String accessToken = gson.fromJson(response, Map.class).get("access_token").toString();
+        br.close(); // BufferedReader 종료
+ 
+        conn.disconnect(); // 연결 종료
+ 
+        logger.info("Iamport 엑세스 토큰 발급 성공 : {}", accessToken);
+        return accessToken;
+    }
+    
+    public void cancel(String token, String merchantUid) throws IOException {
+        URL url = new URL("https://api.iamport.kr/payments/cancel");
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+ 
+        // 요청 방식을 POST로 설정
+        conn.setRequestMethod("POST");
+ 
+        // 요청의 Content-Type, Accept, Authorization 헤더 설정
+        conn.setRequestProperty("Content-type", "application/json");
+        conn.setRequestProperty("Accept", "application/json");
+        conn.setRequestProperty("Authorization", token);
+ 
+        // 해당 연결을 출력 스트림(요청)으로 사용
+        conn.setDoOutput(true);
+ 
+        // JSON 객체에 해당 API가 필요로하는 데이터 추가.
+        JsonObject json = new JsonObject();
+        json.addProperty("merchant_uid", merchantUid);
+         
+        // 출력 스트림으로 해당 conn에 요청
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+        bw.write(json.toString());
+        bw.flush();
+        bw.close();
+ 
+        // 입력 스트림으로 conn 요청에 대한 응답 반환
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        br.close();
+        conn.disconnect();
+         
+        logger.info("결제 취소 완료 : 주문 번호 {}", merchantUid);
+    }
+
+
+	@Override
+	public void updateRefund(int userNo, String merchantUid) {
+
+		int result = adminDao.updateRefund(merchantUid);
+		logger.info("결제 취소 업데이트 완료 : {}", result);
+		
+		result = adminDao.deleteClassList(userNo);
+		logger.info("수강 삭제 완료 : {}", result);
+		
+	}
+	
 	//================================================================================
 	//--- 강사 신청 관리 ---
 	
@@ -506,7 +633,7 @@ public class AdminServiceImpl implements AdminService{
 				
 			teacherApplyList = adminDao.selectTeacherApplyAll(map);
 			for(int i=0; i<teacherApplyList.size(); i++) {
-				logger.info("selectTeacherApplyAll : {}",teacherApplyList);
+				logger.info("selectTeacherApplyAll : {}",teacherApplyList.get(i));
 				
 			}
 			
@@ -514,7 +641,7 @@ public class AdminServiceImpl implements AdminService{
 	
 			teacherList = adminDao.selectTeacherInfoAll(map);
 			for(int i=0; i<teacherList.size(); i++) {
-				logger.info("selectTeacherInfoAll : {}",teacherList);
+				logger.info("selectTeacherInfoAll : {}",teacherList.get(i));
 				
 			}
 		
@@ -622,6 +749,53 @@ public class AdminServiceImpl implements AdminService{
 		Paging paging = new Paging(totalCount, param.getCurPage());
 				
 		return paging;
+		
+	}
+	
+	@Override
+	public Map<String, Object> classInfo(Class classInfo) {
+		logger.info("getClassPaging()");
+
+		classInfo = adminDao.selectClassInfo(classInfo);
+		logger.info("selectClassInfo() : {}", classInfo);
+		
+		TeacherApply teacherApply = new TeacherApply();
+		teacherApply.setTeacherNo(classInfo.getTeacherNo());
+		
+		Teacher teacher = adminDao.selectTeacherInfo(teacherApply);
+		logger.info("selectTeacherInfo() : {}", teacher);
+
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserNo(teacher.getUserNo());
+		
+		userInfo = adminDao.selectUser(userInfo);
+		logger.info("selectUser() : {}", userInfo);
+		
+		int classListCount = adminDao.selectTakeClassListCount(classInfo);
+		logger.info("selectTakeClassList() : {}", classListCount);
+
+		List<ClassVideo> classVideo = new ArrayList<ClassVideo>();
+		
+		classVideo = adminDao.selectClassVideoList(classInfo);
+		logger.info("selectClassVideoList() : {}", classVideo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("classInfo", classInfo);
+		map.put("teacher", teacher);
+		map.put("userInfo", userInfo);
+		map.put("classListCount", classListCount);
+		map.put("classVideo", classVideo);
+		
+		return map;
+	}
+	
+	@Override
+	public void updateClassExist(Class calssInfo) {
+		logger.info("updateClassExist()");
+		
+		int result = adminDao.updateClassDeleteBoolean(calssInfo); 
+		logger.info("updateClassDeleteBoolean() : {}", result);
 		
 	}
 	
@@ -1240,6 +1414,16 @@ public class AdminServiceImpl implements AdminService{
 		Paging paging = new Paging(totalCount, param.getCurPage());
 		
 		return paging;
+	}
+
+	@Override
+	public void deleteFreeComment(FreeComment freeComment) {
+		logger.info("getPaging()");
+		
+		int result = adminDao.deleteCommentComentNo(freeComment);
+		logger.info("deleteCommentComentNo : {}",result);
+		
+		
 	}
 
 }

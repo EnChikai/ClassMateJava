@@ -124,8 +124,130 @@ padding-right: 20px;
    margin: 3.5px; 
    text-align: center;
 }
+.page-link {
+position:static;
+}
 
 </style>
+
+<c:if test="${paging.totalCount > 0}">
+<c:forEach var="i" begin="${paging.startNo-1}" end="${paging.endNo-1}" >
+<c:if test="${i < paging.totalCount}">
+
+<c:set var="orderList" value="${map.orderList[i] }" />
+
+<!-- 환불 모달 -->
+<style type="text/css">
+#refundBtn{
+border-radius: 3px; 
+border-style: hidden;
+width: 65px; 
+height: 33px;
+color: white;
+font-weight:bold;
+background: rgb(158,158,158); 
+box-shadow: 0 0 0 1px #ccc; 
+
+}
+
+#refundBtn:hover:not(.active){
+box-shadow: 0 0 0 2px skyblue;
+background: rgb(170,170,170);
+	
+}
+
+#refund{
+border-radius: 3px; 
+border-style: hidden;
+width: 63px; 
+height: 33px;
+color: white;
+font-weight:bold;
+background: black;
+box-shadow: 0 0 0 1px black
+
+}
+
+#refund:hover:not(.active){
+box-shadow: 0 0 0 2px skyblue;
+background: rgb(50,50,50);
+	
+}
+
+#refundModal${orderList.orderNo }{
+  display:none;
+  position:fixed;
+  width:100%; height:100%;
+  top:0; left:0;
+  background:rgba(0,0,0,0.3);
+}
+
+.refundModal-con{
+  display:none;
+  position:fixed;
+  top:50%; left:50%;
+  transform: translate(-50%,-50%);
+  max-width: 650px;;
+  min-height: 470px;
+  background:#fff;
+}
+.refundModal-con .con{
+  font-size:26px; 
+  line-height:1.3;
+  padding-top: 50px;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-bottom: 50px;
+  height: 400px;
+  overflow-y: auto;
+  text-align: center; 
+}
+
+.closeModalBtn{
+border-radius: 3px; 
+border-style: hidden;
+width: 63px; 
+height: 33px;
+color: white;
+font-weight:bold;
+background: black;
+box-shadow: 0 0 0 1px black;
+font-size: 14px;
+
+}
+
+.closeModalBtn:hover:not(.active){
+box-shadow: 0 0 0 2px skyblue;
+background: rgb(50,50,50);
+cursor:pointer
+	
+}
+
+.refundOkBtn{
+border-radius: 3px; 
+border-style: hidden;
+width: 63px; 
+height: 33px;
+color: white;
+font-weight:bold;
+background: rgb(241,196,15); 
+box-shadow: 0 0 0 1px rgb(230,204,100); 
+margin-right: 19px;
+font-size: 14px;
+
+}
+
+.refundOkBtn:hover:not(.active){
+box-shadow: 0 0 0 2px skyblue;
+background: rgb(230,204,100);
+cursor:pointer
+	
+}
+</style>
+
+</c:if>
+</c:forEach>
+</c:if>
 
 <%-- <% ============================================================================= %> --%>
 <script type="text/javascript">
@@ -141,6 +263,86 @@ $(function(){
 
 })
 </script>
+<%-- <% ============================================================================= %> --%>
+<c:if test="${paging.totalCount > 0}">
+<c:forEach var="i" begin="${paging.startNo-1}" end="${paging.endNo-1}" >
+<c:if test="${i < paging.totalCount}">
+
+<c:set var="orderList" value="${map.orderList[i] }" />
+<c:set var="classList" value="${map.classList[i] }" />
+<script type="text/javascript">
+$(function(){
+	$("#btnCancel${orderList.orderNo }").click(function() {
+	    
+	    $.ajax({
+	       type: "post"
+	       , url: "../admin/cancel"
+	       , data: {
+	          merchantUid: $(this).attr("data-uid"),
+	          userNo: $(this).attr("data-no")
+	       }
+	       , dataType: "json"
+	       , success: function( data ) {
+	          console.log("AJAX 성공")
+	          
+	          alert("취소가 완료되었습니다");
+	          location.href = '../admin/userPaymentList?userNo=${orderTb.userNo}';
+	          
+	       }
+	       , error: function(xhr, status, error) {
+	          console.log("AJAX 실패", status, error);
+	       }
+	    })
+	    
+	})
+})
+</script>
+</c:if>
+</c:forEach>
+</c:if>
+<%-- <% ============================================================================= %> --%>
+<c:if test="${paging.totalCount > 0}">
+<c:forEach var="i" begin="${paging.startNo-1}" end="${paging.endNo-1}" >
+<c:if test="${i < paging.totalCount}">
+
+<c:set var="orderList" value="${map.orderList[i] }" />
+
+<script type="text/javascript">
+
+//삭제 모달 열기
+function openRefundModal${orderList.orderNo }(modalname) {
+  $("#refundModal${orderList.orderNo }").fadeIn(300);
+  $("." + modalname).fadeIn(300);
+
+};
+
+// 외부 영역 클릭시 팝업 닫기
+$(document).mouseup(function (e) {
+  var modal = $(".refundModal-con");
+  if (!modal.is(e.target) && modal.has(e.target).length === 0) {
+    $("#refundModal${orderList.orderNo }").fadeOut(300);
+    modal.fadeOut(300);
+
+   	$('html, body').css({ 'overflow': 'auto', 'height': '100%' });
+
+  }
+});
+
+//닫기 버튼 클릭시 팝업 닫기
+$(function(){
+	  $("#closeRefundModal").click(function (e) {
+		    var modal = $(".refundModal-con");
+		      $("#refundModal${orderList.orderNo }").fadeOut(300);
+		      modal.fadeOut(300);
+		      
+		      $('html, body').css({ 'overflow': 'auto', 'height': '100%' });
+		    
+	});
+});
+</script>
+</c:if>
+</c:forEach>
+</c:if>
 <%-- <% ============================================================================= %> --%>
 
 <div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
@@ -163,6 +365,7 @@ $(function(){
 	<th class="userListTh" width="10%">금액</th>
 	<th class="userListTh" width="10%">결제카드</th>
 	<th class="userListTh" width="10%">UID</th>
+	<th class="userListTh" width="10%">환불</th>
 </tr>
 
 <c:if test="${paging.totalCount <= 0}">
@@ -175,13 +378,16 @@ $(function(){
 </c:if>
 
 <c:if test="${paging.totalCount > 0}">
-<c:forEach var="i" begin="${paging.startNO-1}" end="${paging.endNO-1}" >
+<c:forEach var="i" begin="${paging.startNo-1}" end="${paging.endNo-1}" >
+<c:set var="paymentList" value="${map.paymentList[i] }" />
+<c:set var="orderList" value="${map.orderList[i] }" />
+<c:set var="classList" value="${map.classList[i] }" />
+<c:if test="${i < paging.totalCount}">
 	<tr>
 		<td class="userListTd">
 			${i+1 }
 		</td>
 		<td class="userListTd">
-			<c:set var="classList" value="${map.classList[i] }" />
 			<c:out value="${classList.className }" />
 		</td>
 		<td class="userListTd">
@@ -189,15 +395,24 @@ $(function(){
 			<fmt:formatNumber type="number" maxFractionDigits="3"><c:out value="${paymentList.payment }" /></fmt:formatNumber>원
 		</td>
 		<td class="userListTd">
-			<c:set var="paymentList" value="${map.paymentList[i] }" />
 			<c:out value="${paymentList.cardName }" />
 			
 		</td>
 		<td class="userListTd">
-			<c:set var="orderList" value="${map.orderList[i] }" />
 			<c:out value="${orderList.merchantUid }" />
 		</td>
+		<td class="userListTd">
+			<c:if test="${orderList.refund != 0}">
+				환불 완료
+			</c:if>
+		
+			<c:if test="${orderList.refund == 0}">
+				<a href="javascript:openRefundModal${orderList.orderNo }('refundModal${orderList.orderNo }');" class="terms" style="text-decoration: none; color: black;"><button id="refundBtn">환불</button></a>
+			</c:if>
+			
+		</td>
 	</tr>
+</c:if>
 </c:forEach>
 </c:if>
 
@@ -244,7 +459,34 @@ $(function(){
 
 </div>
 
+<%-- <% ============================================================================= %> --%>	
+<%-- 환불 --%>
+<c:if test="${paging.totalCount > 0}">
+<c:forEach var="i" begin="${paging.startNo-1}" end="${paging.endNo-1}" >
+<c:if test="${i < paging.totalCount}">
+<c:set var="orderList" value="${map.orderList[i] }" />
+
+<div id="refundModal${orderList.orderNo }" class="close"></div>
+  <div class="refundModal-con refundModal${orderList.orderNo }" style="border-radius: 8px;">
+    <div class="con" style="border: 0.5px solid #80808080; margin: 43px; margin-top: 25px;">
+    <p style="margin-top: 30px;">해당 결제를</p>
+    <p>환불 하시겠습니까?</p>
+    
+    <p style="color: #999; font-size: 16px; padding-top: 27px;">다시 한번 확인 후 진행해주세요</p>
+    
+    <button class="refundOkBtn" id="btnCancel${orderList.orderNo }" data-uid="${orderList.merchantUid }" data-no="${orderList.userNo }">환불</button>
+    <a href="javascript:return false;" class="closeRefundModal" id="closeRefundModal"><button class="closeModalBtn" style="margin-top: 70px" type="button">아니오</button></a>
+    
+    </div>
+  </div>
+</c:if>
+</c:forEach>
+</c:if>  
+<%-- <% ============================================================================= %> --%>	
+
 </div>			
 <%-- <% ============================================================================= %> --%>	
+
+
 		
 <c:import url="/WEB-INF/views/layout/adminFooter.jsp" />

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<html>
+<html style="overflow: auto; height: 100%;">
 <head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
@@ -74,11 +74,11 @@ background: rgb(241,196,15)
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body style="margin: 0;">
+<body style="margin: 0; overflow: auto; height: 100%;">
 
 <div id="flame">
 <div id="underLineBlack"></div>
-<div id="logo"><img title="로고" alt="로고" src="/resources/img/4.jpg" width="150px;" height="80px;"></div>
+<div id="logo"><a href="../admin/main"><img title="로고" alt="로고" src="/resources/img/4.jpg" width="150px;" height="80px;"></div></a>
 
 <div id="underLineGray"></div>
 

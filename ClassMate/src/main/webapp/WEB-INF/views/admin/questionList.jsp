@@ -245,31 +245,18 @@ $(".eventInfo${eventBoardList.eventNo }").click(function(){
 <%-- <% ============================================================================= %> --%>	
 	
 <div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
-<button style="margin-left: 1px;" class="topMenuBtn checked">공지/이벤트</button>
+<a href="../admin/board"><button style="margin-left: 1px;" class="topMenuBtn">공지/이벤트</button></a>
 <a href="../admin/freeBoardList"><button class="topMenuBtn">자유게시판</button></a>
-<a href="../admin/questionList"><button class="topMenuBtn">1:1문의</button></a>
+<button class="topMenuBtn checked">1:1문의</button>
 </div>
 
 <div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px;">
-<p id="boardInfo">&#x003C; 이벤트 및 공지사항 &#x003E;</p>
+<p id="boardInfo">&#x003C; 1:1 문의(Q&A) &#x003E;</p>
 
 <div style="text-align: left; margin-left: 62px; margin-bottom: 10px">
 
 <form id="boardListForm" action="../admin/board" method="get">
 
-<c:if test="${sort eq 0}">
-<select class="dropTag" name="sort" id="sort">
-	<option value="0">공지사항</option>
-	<option value="1">이벤트</option>
-</select>
-</c:if>
-
-<c:if test="${sort eq 1}">
-<select class="dropTag" name="sort" id="sort">
-	<option value="1">이벤트</option>
-	<option value="0">공지사항</option>
-</select>
-</c:if>
 
 <div style="position:relative; float: right; margin-right: 87px;" >
 		
@@ -284,36 +271,24 @@ $(".eventInfo${eventBoardList.eventNo }").click(function(){
 
 </form>
 </div>
-	
-	
 		
 <table id="boardListTb">	
 	
 <tr>
 	<th class="boardListTh" width="10%">번호</th>
-	<th class="boardListTh" width="70%">제목</th>
-	<th class="boardListTh" width="20%">등록일</th>
+	<th class="boardListTh" width="60%">제목</th>
+	<th class="boardListTh" width="10%">등록일</th>
+	<th class="boardListTh" width="10%">작성자</th>
+	<th class="boardListTh" width="10%">답변</th>
 </tr>
 
-<c:if test="${sort eq 0}">
-<c:forEach items="${announceBoardList }" var="announceBoardList"> 
-	<tr class="boardListTr" >
-		<td class="boardListTd announceInfo${announceBoardList.announceNo }">${announceBoardList.announceNo }</td>
-		<td id="boardNameInfo" class="boardListTd announceInfo${announceBoardList.announceNo }">${announceBoardList.announceName }</td>
-		<td class="boardListTd announceInfo${announceBoardList.announceNo }"><fmt:formatDate value="${announceBoardList.announceDate }" pattern="yyyy-MM-dd" /></td>
-	<tr>
-</c:forEach>
-</c:if>
-
-<c:if test="${sort eq 1}">
-<c:forEach items="${eventBoardList }" var="eventBoardList"> 
-	<tr class="boardListTr" >
-		<td class="boardListTd eventInfo${eventBoardList.eventNo }">${eventBoardList.eventNo }</td>
-		<td id="boardNameInfo" class="boardListTd eventInfo${eventBoardList.eventNo }">${eventBoardList.eventName }</td>
-		<td class="boardListTd eventInfo${eventBoardList.eventNo }"><fmt:formatDate value="${eventBoardList.eventDate }" pattern="yyyy-MM-dd" /></td>
-	<tr>
-</c:forEach>
-</c:if>
+<tr class="boardListTr" >
+	<td class="boardListTd ">번호</td>
+	<td class="boardListTd ">제목</td>
+	<td class="boardListTd ">등록일</td>
+	<td class="boardListTd ">작성자</td>
+	<td class="boardListTd ">답변</td>
+<tr>
 
 </table>
 
