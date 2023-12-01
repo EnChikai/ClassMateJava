@@ -49,6 +49,7 @@
 		WHERE delete_boolean = 0
 		   	  AND on_off = 1
 		   	  AND sub_category_no = ${subCategoryNo}
+		   	  AND max_count &gt; ${maxCount}
 	 </select>
 	 
 	 <select id="onClassList" resultType="Class" parameterType="Map">
