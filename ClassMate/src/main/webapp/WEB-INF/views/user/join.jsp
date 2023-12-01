@@ -5,7 +5,44 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
-
+//이메일 인증
+$(document).ready(function () {
+		$('#mail-Check-Btn').click(function() {
+			const eamil = $('#userEmail').val(); // 이메일 주소값 얻어오기!
+			console.log('완성된 이메일 : ' + eamil); // 이메일 오는지 확인
+			const checkInput = $('.mail-check-input') // 인증번호 입력하는곳 
+			
+			$.ajax({
+				type : 'get',
+				url : '<c:url value ="/user/mailCheck?email="/>'+eamil, // GET방식이라 Url 뒤에 email을 뭍힐수있다.
+				success : function (data) {
+					console.log("data : " +  data);
+					checkInput.attr('disabled',false);
+					code =data;
+					alert('인증번호가 전송되었습니다.')
+				}			
+			}); // end ajax
+		}); // end send eamil
+		// 인증번호 비교 
+		// blur -> focus가 벗어나는 경우 발생
+	$('.mail-check-input').blur(function () {
+		const inputCode = $(this).val();
+		const $resultMsg = $('#mail-check-warn');
+		
+		if(inputCode === code){
+			$resultMsg.html('인증번호가 일치합니다.');
+			$resultMsg.css('color','green');
+			$('#mail-Check-Btn').attr('disabled',true);
+			$('#userEamil1').attr('readonly',true);
+			$('#userEamil2').attr('readonly',true);
+			$('#userEmail2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
+	         $('#userEmail2').attr('onChange', 'this.selectedIndex = this.initialSelect');
+		}else{
+			$resultMsg.html('인증번호가 일치하지않습니다. 다시 확인해주세요!');
+			$resultMsg.css('color','red');
+		}
+	});
+});
 $(function(){
     $(document).on('click', "input[type='checkbox']", function(){
         // 성별 체크박스인 경우에만 로직 수행
@@ -81,6 +118,8 @@ function validateForm() {
     var postcode = $("#postcode").val();
     var address = $("#address").val();
     var detailAddress = $("#detailAddress").val();
+    var emailCheckResult = $("#mail-check-warn").text();
+
 
     // 선택된 성별 항목의 개수를 가져옵니다
     var userGender = $("input[name='userGender']:checked").length;
@@ -276,8 +315,10 @@ button {
             border-radius: 4px;
             width: 73px; font-size: 16px;
             border: 1px solid #ccc; 
-            margin-top: 6px; height: 30px; cursor: pointer;" >인증확인</button><br>
-      
+            margin-top: 6px; height: 30px; cursor: pointer;"  id="mail-Check-Btn">인증확인</button><br>
+      <label>인증번호</label>
+      <input class="form-control mail-check-input" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
+      <span id="mail-check-warn"></span>
       <label for="postcode">주소</label>
       <input type="text" id="postcode" name="userPost" placeholder="우편번호"
             style="width: 200px; text-align: left;">
