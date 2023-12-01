@@ -1,6 +1,5 @@
 package board.controller;
 
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -379,5 +377,45 @@ public class BoardController {
 
 		return "board/questionView";
 	}
+	
+	//통합게시판 검색 - 작성자 : 검색어 입력시 포함된 작성자의 리스트 조회
+	@PostMapping("/board/boardNameSearch")
+	@ResponseBody
+	public Map<String,Object> boardNameSearch(Paging boardParam, Model model, String searchHead) {
+		
+		logger.info("나와 {}", boardParam.getSearch());
+		
+		Paging boardNamePaging = boardService.boardNamePaging(boardParam);
+		List<FreeBoard> boardNameList = boardService.boardNameList(boardNamePaging);
+		
+		
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("paging", boardNamePaging);
+		map.put("boardNameList", boardNameList);
+		
+		return map;
+	}
+	//통합게시판 검색 - 제목 : 검색어 입력시 포함된 제목의 리스트 조회
+	@PostMapping("/board/boardTitleSearch")
+	@ResponseBody
+	public Map<String,Object> boardTitleSearch(Paging boardTitleParam, Model model) {
+		
+		Paging boardTitlePaging = boardService.boardTitlePaging(boardTitleParam);
+		logger.info("{}", boardTitlePaging);
+	
+		List<FreeBoard> boardTitleList = boardService.boardTitleList(boardTitlePaging);
+		logger.info("FreeBoardList : {}", boardTitleList);
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("paging", boardTitlePaging);
+		map.put("boardNameList", boardTitleList);
+		
+		
+		
+		return map;
+	}
+	
+	
 	
 }
