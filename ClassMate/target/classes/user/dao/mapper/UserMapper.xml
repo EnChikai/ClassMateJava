@@ -132,6 +132,7 @@
          order_no, user_no, class_no, merchant_uid
         FROM order_tb
         WHERE user_no = ${orderTb.userNo}
+        ORDER BY order_no DESC
      </select>
      
      <select id="selectUserPayment" resultType="Payment" parameterType="Map">

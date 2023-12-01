@@ -29,11 +29,11 @@ $(function() {
 }
 
 .idpw{
-    margin: 0 auto 15px;
+    margin: 0 auto 8px;
 }
 
 .join {
-   width: 40%;
+   width: 41%;
    border: 1px solid rgba(0, 0, 0, .12);
     padding: 6px;
    margin-top: 10px;
@@ -64,7 +64,7 @@ $(function() {
 }
 
 #loginh1 {
-   margin-top: 50px;
+   margin-top: 40px;
    margin-bottom: 20px;
 }
 
@@ -73,7 +73,7 @@ h1 {
    font-style: normal; 
    font-weight: normal;
    color: #F0C610; 
-   font-size: 30px;"
+   font-size: 45px;
 }
 
 
@@ -102,22 +102,42 @@ h1 {
    width: 50%;
 }
 
-button {
-   background-color: #F0C610; 
-   border-radius: 4px; 
-   color: white; 
-   font-size: 16px; 
-   text-align: center; 
-   cursor:pointer; 
-   display: inline-block; 
-   border: none; 
-   width: 20%; 
-   height: 32px;"
+#btnLogin {
+    background-color: #F0C610; 
+    border-radius: 4px; 
+    color: white; 
+    font-size: 16px; 
+    text-align: center; 
+    cursor:pointer; 
+    display: inline-block; 
+    border: none; 
+    width: 20%; 
+    height: 32px;
+}
+
+button#btnLogin:hover {
+    background-color: #D4A905;
 }
 
 #noInputId, #noInputPw {
    font-size: 12px;
    color: red;
+}
+#btnNaver {
+    background-color: white; 
+    border-radius: 4px; 
+    color: #6E6E6E; 
+    font-size: 16px; 
+    text-align: center; 
+    cursor:pointer; 
+    display: inline-block; 
+    border: 1px solid #ccc; 
+    width: 20%; 
+    height: 32px;
+}
+
+button#btnNaver:hover {
+    border-color: #2DB400;
 }
 
 </style>
@@ -186,7 +206,12 @@ $(function() {
       
          <div style="text-align: center;">
             <button id="btnLogin" type="button">로그인</button>
-               
+		         <a href="${url}">
+		         	<button id="btnNaver">
+		         		<span style="color: #2DB400; font-weight: 900;">N</span>
+		         		<span>로그인</span>
+		         	</button>
+		         </a>
          </div><!-- .idpw -->
       
          <div>

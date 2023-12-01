@@ -25,6 +25,7 @@ import lecture.service.face.ClassService;
 import payment.dto.OrderTb;
 import teacher.dto.Teacher;
 import user.dto.UserInfo;
+import user.service.face.MailSendService;
 import user.service.face.UserService;
 import web.util.Paging;
 @Controller
@@ -34,6 +35,16 @@ public class UserController {
 
    @Autowired UserService userService;
    @Autowired ClassService classService;
+   @Autowired MailSendService mailService;
+   
+ //이메일 인증
+ 	@GetMapping("/mailCheck")
+ 	@ResponseBody
+ 	public String mailCheck(String email) {
+ 		System.out.println("이메일 인증 요청이 들어옴!");
+ 		System.out.println("이메일 인증 이메일 : " + email);
+ 		return mailService.joinEmail(email);
+ 	}
    
 	@GetMapping("/mypageMain")
 	public void myOnClassList(Model model, HttpSession session, Paging paging, HttpServletRequest request) {
@@ -363,18 +374,19 @@ public class UserController {
           }else {
              //탈퇴자들 처리
              session.invalidate();
-             mav.addObject("errormsg", "<span style='color: red;'>탈퇴한 회원입니다.</span>");
-             mav.setViewName("user/login");
+             mav.addObject("errormsg", "<span style='color: red; font-size: 15px;'>탈퇴한 회원입니다</span>");
+             mav.setViewName("/user/login");
             return mav;
                //return "redirect:/user/login";
           }
        } else { // 로그인 실패
            session.invalidate();
-           mav.setViewName("user/login");
+           model.addAttribute("errormsg", "<span style='color: red; font-size: 15px;'>아이디 또는 비밀번호가 올바르지 않습니다</span>");
+           mav.setViewName("/user/login");
          return mav;
            //return "redirect:/user/login";
        }
-       mav.setViewName("main/main");
+       mav.setViewName("redirect:/main/main");
       return mav;
       //return "redirect:/main/main";
    }
