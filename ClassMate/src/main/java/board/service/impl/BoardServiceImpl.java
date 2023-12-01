@@ -338,7 +338,43 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.AttachQuestionFile(viewQuestion);
 	}
 
+	//-------------------------------------------------------------------------------
+	
+	@Override
+	public Paging boardNamePaging(Paging boardParam) {
+		
+		//총 게시글 수 조회
+		int totalCount = boardDao.selectBoardNameCntAll(boardParam);
+		
+		//페이징 객체 생성(페이징 계산)
+		Paging boardNamePaging = new Paging( totalCount, boardParam.getCurPage() );
+		boardNamePaging.setSearch( boardParam.getSearch() );
+		
+		return boardNamePaging;
+	}
 
+	@Override
+	public List<FreeBoard> boardNameList(Paging boardNameList) {
+		return boardDao.selectBoardNameAll(boardNameList);
+	}
 
+	@Override
+	public Paging boardTitlePaging(Paging boardParam) {
+		//총 게시글 수 조회
+		int totalCount = boardDao.selectBoardTitleCntAll(boardParam);
+		
+		//페이징 객체 생성(페이징 계산)
+		Paging boardTitlePaging = new Paging( totalCount, boardParam.getCurPage() );
+		boardTitlePaging.setSearch( boardParam.getSearch() );
+		
+		return boardTitlePaging;
+	}
+
+	@Override
+	public List<FreeBoard> boardTitleList(Paging boardTitleList) {
+		logger.info("boardTitleList()");
+		return boardDao.selectBoardTitleAll(boardTitleList);
+	}
+	
 }
 
