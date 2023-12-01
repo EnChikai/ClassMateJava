@@ -226,16 +226,6 @@
             });
         }
 
-        // 댓글 목록을 동적으로 생성하여 출력
-        function renderCommentList1(comments) {
-            var commentListElement = $('#commentList1');
-
-            $.each(comments, function (index, comment) {
-                var commentHtml = createCommentHtml(comment);
-                commentListElement.append(commentHtml);
-            });
-        }
-        
         // 댓글 HTML 생성
         function createCommentHtml(comment) {
             var formattedDate = moment(comment.freeCommentDate, "YYYY-MM-DD HH:mm:ss.SSSSSS").format("YYYY-MM-DD HH:mm:ss");
@@ -324,7 +314,9 @@
                     // 삭제가 성공하면 해당 댓글을 화면에서 제거합니다.
                     $('#commentFreeDiv' + freeCommentNo).remove();
                     console.log('너만 오면 돼', freeCommentNo);
-                    renderCommentList1(comments);
+                    $('#commentList').empty();
+                    $('#renderCommentList').empty();
+                    renderCommentList(comments);
                 },
                 error: function (error) {
                     console.error('댓글 삭제 실패', error);
@@ -388,7 +380,6 @@
          <td>     
          <div id="freeCommentBody">
           <div id="renderCommentList"></div>
-          <div id="renderCommentList1"></div>
           <div id="commentList"></div>
          </div>
          
