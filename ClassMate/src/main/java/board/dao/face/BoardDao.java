@@ -123,6 +123,20 @@ public interface BoardDao {
 
 	public FreeComment selectByFreeNo(FreeComment freeComment);
 
+	//----------------------------------------------------------------
+	
+	//통합게시판 검색 - 작성자(페이징)
+	public int selectBoardNameCntAll(Paging boardNameParam);
+
+	//통합게시판 검색 - 작성자 : 검색어 입력시 포함된 작성자의 리스트 조회
+	public List<FreeBoard> selectBoardNameAll(Paging boardNameList);
+
+	//통합게시판 검색 - 제목(페이징)
+	public int selectBoardTitleCntAll(Paging boardTitleParam);
+
+	//통합게시판 검색 - 제목 : 검색어 입력시 포함된 제목의 리스트 조회
+	public List<FreeBoard> selectBoardTitleAll(Paging boardTitleList);
+
 
 
 

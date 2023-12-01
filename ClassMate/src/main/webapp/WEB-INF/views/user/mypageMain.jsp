@@ -247,9 +247,9 @@ $(function(){
             <c:set var="currentPage" value="${param.page eq null ? 1 : param.page}" />
             <c:set var="start" value="${(currentPage - 1) * itemsPerPage}" />
             <c:set var="end" value="${start + itemsPerPage}" />
+            <c:set var="actualEnd" value="${end > totalItems ? totalItems : end}" />
 
-            <c:forEach var="index" begin="${start}" end="${end - 1}" varStatus="loop">
-                
+            <c:forEach var="index" begin="${start}" end="${actualEnd - 1}" varStatus="loop">
                 <div class="classItem ${lecture[index].onOff eq '1' ? 'onClass' : 'offClass'}">
                     <div class="classIcon">
                         <i class="fas ${lecture[index].onOff eq '1' ? 'fa-check-circle' : 'fa-times-circle'}"></i>
@@ -259,14 +259,18 @@ $(function(){
                             class="stretched-link" style="color: inherit; text-decoration: none;">
                             ${lecture[index].className}
                         </a>
+                        <!-- 이미지가 보여질 부분 -->
                         <img class="fixed-size-image" src="/upload/${lecture[index].headImg}" alt="Class Image">
-<%--                         ${lecture[index].headImg }, --%>
-<%--                         ${lecture[index].onOff } --%>
                     </div><!-- .classDetails -->
                 </div><!-- .classItem -->
-                
             </c:forEach>
         </c:when>
+        <c:otherwise>
+            <div style="text-align: center; padding: 20px; margin-top: 115px;">
+                <p style="font-size: 32px; font-weight: bold;">등록된 클래스가 없습니다</p>
+                <p style="font-size: 20px;">새로운 클래스를 찾아보세요!</p>
+            </div>
+        </c:otherwise>
     </c:choose>
     <div class="paginationUp">
         <c:forEach begin="1" end="${totalPages}" var="page">
@@ -299,8 +303,9 @@ $(function(){
 			</tr>
 			</c:if>
 				<c:if test="${paging.totalCount > 0}">
-					<c:forEach var="i" begin="${paging.startNO-1}"
-						end="${paging.endNO-1}">
+					<c:forEach var="i" begin="${paging.startNo-1}"
+						end="${paging.endNo-1}">
+						<c:if test="${i < paging.totalCount}">
 						<tr>
 							<td class="userListTd">${i+1 }</td>
 							<td class="userListTd"><c:set var="classList"
@@ -318,6 +323,7 @@ $(function(){
 									value="${map.orderList[i] }" /> <c:out
 									value="${orderList.merchantUid }" /></td>
 						</tr>
+						</c:if>
 					</c:forEach>
 				</c:if>
 

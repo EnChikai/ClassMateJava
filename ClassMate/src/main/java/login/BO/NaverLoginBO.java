@@ -21,7 +21,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import login.Api.NaverLoginApi;
 
 @Component
-@PropertySource("file:C:/Users/BaeChangHo/git/ClassMateJava/ClassMate/src/main/webapp/config/config.properties")
+//@PropertySource("file:C:/Users/BaeChangHo/git/ClassMateJava/ClassMate/src/main/webapp/config/config.properties")
 public class NaverLoginBO {
     /* 인증 요청문을 구성하는 파라미터 */
 	//client_id: 애플리케이션 등록 후 발급받은 클라이언트 아이디

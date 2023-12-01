@@ -13,8 +13,7 @@
 	        FROM (
 	            SELECT *
 	            FROM free_board
-	            ORDER BY free_no ASC
-	            <!-- ORDER BY free_no DESC -->
+	            ORDER BY free_no DESC
 	        ) F
 	    ) B
 	    JOIN user_info U ON B.user_no = U.user_no
@@ -269,4 +268,75 @@
         AND USER_NO = #{userNo}
     </delete>
   
+  	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  
+  	<sql id="selectBoardName">
+		SELECT
+			free_no, user_no, free_head, free_date, free_hit, free_name, free_content,
+			(SELECT user_name FROM user_info WHERE user_info.user_no = free_board.user_no) AS user_name
+		FROM free_board
+	</sql>
+  
+  	<sql id="selectBoardUserName">
+		<if test="search != null and !''.equals(search)">
+		<where>
+			AND user_no IN (
+				SELECT user_no
+				FROM user_info
+				WHERE user_name LIKE '%' || #{search} || '%'	
+			)
+		</where>
+		</if>
+	</sql>
+  
+  	<select id="selectBoardNameCntAll" resultType="int" parameterType="web.util.Paging">
+		SELECT count(*) FROM (
+    		<include refid="selectBoardName"/>
+    		<include refid="selectBoardUserName"/>
+    	)
+	</select>
+  
+  	<select id="selectBoardNameAll" resultType="FreeBoard" parameterType="web.util.Paging">
+    	SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				<include refid="selectBoardName" />
+				<include refid="selectBoardUserName" />
+				ORDER BY free_no DESC
+		    ) B
+		) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+    </select>
+  
+  
+	<sql id="selectBoardTitle">
+		SELECT
+			free_no, user_no, free_head, free_date, free_hit, free_name, free_content,
+		(SELECT user_name FROM user_info WHERE user_info.user_no = free_board.user_no) AS user_name
+		FROM free_board
+	</sql>
+
+	<sql id="selectBoardTitleName">
+		<if test="search != null and !''.equals(search)">
+		<where>
+			AND free_name LIKE '%' || #{search} || '%'	
+		</where>
+		</if>
+	</sql>
+
+	<select id="selectBoardTitleCntAll" resultType="int" parameterType="web.util.Paging">
+		SELECT count(*) FROM (
+    		<include refid="selectBoardTitle"/>
+    		<include refid="selectBoardTitleName"/>
+    	)
+	</select>  
+	
+    <select id="selectBoardTitleAll" resultType="FreeBoard" parameterType="web.util.Paging">
+    	SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				<include refid="selectBoardTitle" />
+				<include refid="selectBoardTitleName" />
+				ORDER BY free_no DESC
+		    ) B
+		) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+    </select>
+	
  </mapper>
