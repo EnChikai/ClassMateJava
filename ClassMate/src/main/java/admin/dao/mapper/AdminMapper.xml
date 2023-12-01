@@ -42,52 +42,52 @@
   	</select>
   	
   	<select id="selectUserAll" resultType="UserInfo" parameterType="Map">
-  		SELECT * FROM (
-    		SELECT rownum rnum, B.* FROM(
-      			SELECT
-				user_no, user_id, user_pw, user_gender, user_birthday, user_phone
-				, user_name, user_email, main_address, sub_address, user_post, user_secession, user_date_created
-		        FROM user_info
-		        WHERE user_no > 0
-		        	AND user_secession = 0
-		        <choose>
-			      <when test="sort == 1">
-			        ORDER BY user_no DESC
-			      </when>
-			      <when test="sort == 2">
-			        ORDER BY user_name
-			      </when>
-			      <when test="sort == 3">
-			        ORDER BY user_name DESC
-			      </when>
-			    </choose>
-   			)B
-		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+     		SELECT
+			user_no, user_id, user_pw, user_gender, user_birthday, user_phone
+			, user_name, user_email, main_address, sub_address, user_post, user_secession, user_date_created
+	        FROM user_info
+	        WHERE user_no > 0
+	        	AND user_secession = 0
+	        <choose>
+		      <when test="sort == 1">
+		        ORDER BY user_no DESC
+		      </when>
+		      <when test="sort == 2">
+		        ORDER BY user_name
+		      </when>
+		      <when test="sort == 3">
+		        ORDER BY user_name DESC
+		      </when>
+		    </choose>
   	</select>
   	
   	<select id="selectDelUserAll" resultType="UserInfo" parameterType="Map">
-  		SELECT * FROM (
-    		SELECT rownum rnum, B.* FROM(
-      			SELECT
-				user_no, user_id, user_pw, user_gender, user_birthday, user_phone
-				, user_name, user_email, main_address, sub_address, user_post, user_secession, user_date_created
-		        FROM user_info
-		        WHERE user_no > 0
-		        	AND user_secession = 1
-		        <choose>
-			      <when test="sort == 1">
-			        ORDER BY user_no DESC
-			      </when>
-			      <when test="sort == 2">
-			        ORDER BY user_name
-			      </when>
-			      <when test="sort == 3">
-			        ORDER BY user_name DESC
-			      </when>
-			    </choose>
-   			)B
-		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+     		SELECT
+			user_no, user_id, user_pw, user_gender, user_birthday, user_phone
+			, user_name, user_email, main_address, sub_address, user_post, user_secession, user_date_created
+	        FROM user_info
+	        WHERE user_no > 0
+	        	AND user_secession = 1
+	        <choose>
+		      <when test="sort == 1">
+		        ORDER BY user_no DESC
+		      </when>
+		      <when test="sort == 2">
+		        ORDER BY user_name
+		      </when>
+		      <when test="sort == 3">
+		        ORDER BY user_name DESC
+		      </when>
+		    </choose>
   	</select>
+  	
+	<select id="selectTeacherApplyByUserNo" resultType="TeacherApply" parameterType="java.util.List">
+	    <foreach collection="list" item="user" separator="UNION ALL">
+	        SELECT apply_no, teacher_no, apply_date, pass_or_not
+	        FROM teacher_apply
+	        WHERE teacher_no IN (SELECT teacher_no FROM teacher WHERE user_no = #{user.userNo})
+	    </foreach>
+	</select>
   	
   	<select id="selectUser" resultType="UserInfo" parameterType="UserInfo">
   		SELECT
@@ -122,9 +122,10 @@
   	
   	<select id="selectUserOrder" resultType="OrderTb" parameterType="Map">
     	SELECT
-			order_no, user_no, class_no, merchant_uid
+			order_no, user_no, class_no, merchant_uid, refund
         FROM order_tb
         WHERE user_no = #{orderTb.userNo}
+        ORDER BY order_no DESC
   	</select>
   	
   	<select id="selectUserPayment" resultType="Payment" parameterType="Map">
@@ -253,6 +254,30 @@
 		WHERE free_no = #{freeNo}
 	</delete>
 	
+	<delete id="deleteTeacherInfoByUserNo" parameterType="UserInfo">
+		DELETE teacher
+		WHERE user_no = #{userNo}
+	</delete>
+	
+	<delete id="deleteUserInfo" parameterType="UserInfo">
+		DELETE user_info
+		WHERE user_no = #{userNo}
+	</delete>
+	
+	<!-- ================================================================================================================== -->
+  	<!-- 유저 관리 > 환불처리 -->
+  	
+  	<update id="updateRefund" parameterType="String">
+  		UPDATE order_tb
+  		SET refund = 1 
+  		WHERE merchant_uid = #{merchantUid}
+  	</update>
+  	
+  	<delete id="deleteClassList" parameterType="int">
+  		DELETE class_list
+			WHERE user_no = #{userNo}
+  	</delete>
+  	
   	<!-- ================================================================================================================== -->
   	<!-- 강사 신청 관리 -->
   	
@@ -262,30 +287,20 @@
   	</select>
   	
   	<select id="selectTeacherApplyAll" resultType="TeacherApply" parameterType="map">
-  		SELECT * FROM (
-    		SELECT rownum rnum, B.* FROM(
-      			SELECT
-					apply_no, teacher_no, apply_date, pass_or_not
-		        FROM teacher_apply
-		        WHERE pass_or_not = #{passCheckbox}
-		        ORDER BY teacher_no
-   			)B
-		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+    	SELECT
+			apply_no, teacher_no, apply_date, pass_or_not
+        FROM teacher_apply
+        WHERE pass_or_not = #{passCheckbox}
+        ORDER BY teacher_no
   	</select>
   	
   	<select id="selectTeacherInfoAll" resultType="Teacher" parameterType="map">
-  		SELECT * FROM (
-    		SELECT rownum rnum, B.* FROM(
-    		
-    		  <foreach collection="teacherApplyList" item="teacherApplyList" separator="UNION ALL">
-      			SELECT
-					teacher_no, user_no, teacher_img, teacher_title, teacher_info, teacher_career
-		        FROM teacher
-		        WHERE teacher_no = #{teacherApplyList.teacherNo}
-		      </foreach>
-		      
-   			)B
-		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+	  	<foreach collection="teacherApplyList" item="teacherApplyList" separator="UNION ALL">
+	    	SELECT
+				teacher_no, user_no, teacher_img, teacher_title, teacher_info, teacher_career
+	        FROM teacher
+	        WHERE teacher_no = #{teacherApplyList.teacherNo}
+	    </foreach>
   	</select>
   	
   	<select id="selectTeacherInfo" resultType="Teacher" parameterType="TeacherApply">
@@ -360,6 +375,31 @@
   					AND delete_boolean = #{delCheckbox}
    			)B
 		)WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+  	</select>
+  	
+  	<select id="selectClassInfo" resultType="Class" parameterType="Class">
+  		SELECT class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start
+			, class_end, max_count, expense, class_info, curriculum, on_off, head_img, delete_boolean
+		FROM class
+		WHERE class_no = #{classNo}
+  	</select>
+  	
+  	<select id="selectTakeClassListCount" resultType="int" parameterType="Class">
+  		SELECT count(*)
+  		FROM class_list
+  		WHERE class_no = ${classNo}
+  	</select>
+  	
+  	<update id="updateClassDeleteBoolean" parameterType="Class">
+  		UPDATE class
+  		SET delete_boolean = 1 
+  		WHERE class_no = #{classNo}
+  	</update>
+  	
+  	<select id="selectClassVideoList" resultType="ClassVideo" parameterType="Class">
+	  	SELECT video_no, class_no, video_lesson, origin_name, stored_name
+	  	FROM class_video
+	  	WHERE class_no = #{classNo}
   	</select>
   	
   	<!-- ================================================================================================================== -->
@@ -643,5 +683,10 @@
 		WHERE user_no = #{freeComment.userNo}
 		</foreach>
 	</select>
+	
+	<delete id="deleteCommentComentNo" parameterType="FreeComment">
+		DELETE free_comment
+		WHERE free_comment_no = #{freeCommentNo}
+	</delete>
 	
   </mapper>

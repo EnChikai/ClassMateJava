@@ -5,21 +5,23 @@ public class OrderTb {
 	private int userNo;
 	private int classNo;
 	private String merchantUid;
+	private int refund;
 	
 	public OrderTb() {}
 
-	public OrderTb(int orderNo, int userNo, int classNo, String merchantUid) {
+	@Override
+	public String toString() {
+		return "OrderTb [orderNo=" + orderNo + ", userNo=" + userNo + ", classNo=" + classNo + ", merchantUid="
+				+ merchantUid + ", refund=" + refund + "]";
+	}
+
+	public OrderTb(int orderNo, int userNo, int classNo, String merchantUid, int refund) {
 		super();
 		this.orderNo = orderNo;
 		this.userNo = userNo;
 		this.classNo = classNo;
 		this.merchantUid = merchantUid;
-	}
-
-	@Override
-	public String toString() {
-		return "OrderTb [orderNo=" + orderNo + ", userNo=" + userNo + ", classNo=" + classNo + ", merchantUid="
-				+ merchantUid + "]";
+		this.refund = refund;
 	}
 
 	public int getOrderNo() {
@@ -54,4 +56,12 @@ public class OrderTb {
 		this.merchantUid = merchantUid;
 	}
 
+	public int getRefund() {
+		return refund;
+	}
+
+	public void setRefund(int refund) {
+		this.refund = refund;
+	}
+	
 }

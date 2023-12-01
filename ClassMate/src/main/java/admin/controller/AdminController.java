@@ -1,7 +1,9 @@
 package admin.controller;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,13 +12,22 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 
 import admin.service.face.AdminService;
 import board.dto.AnnounceBoard;
@@ -24,6 +35,7 @@ import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
 import board.dto.EventBoardFile;
 import board.dto.FreeBoard;
+import board.dto.FreeComment;
 import board.dto.Question;
 import board.dto.QuestionFile;
 import payment.dto.OrderTb;
@@ -39,6 +51,16 @@ public class AdminController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired private AdminService adminService;
+	
+	private IamportClient iamportClient;
+	
+	private String apiKey = "0252767752853851";
+	private String secretKey = "6o97Uw7G4fpsSIMI7CVX54BbeTDFQhoP7Az1YoroixBmK7jGK4WhS9ZYINddI6h5xbnMRoyn5RsESgK7";
+	   
+	public AdminController() {
+	      this.iamportClient = new IamportClient(apiKey, secretKey);
+	}
+
 	
 	//--- 메인 ---
 	@GetMapping("/admin/main")
@@ -108,11 +130,11 @@ public class AdminController {
 		paging = adminService.getUserPaging(paging, delCheckbox);
 		logger.info("paging : {}", paging);
 				
-		List<UserInfo> list = adminService.userInfoList(paging, sort, delCheckbox);
-		logger.info("list : {}", list);
+		Map<String, Object> map = adminService.userInfoList(paging, sort, delCheckbox);
+		logger.info("list : {}", map);
 		
 		model.addAttribute("paging", paging);
-		model.addAttribute("list", list);
+		model.addAttribute("map", map);
 		model.addAttribute("sort", sort);
 		model.addAttribute("delCheckbox", delCheckbox);
 		
@@ -362,6 +384,49 @@ public class AdminController {
 		return "redirect:/admin/userPostList?userNo="+freeBoard.getUserNo();
 	}
 	
+	@PostMapping("/admin/userDelete")
+	public String userDelete(
+			
+			UserInfo userInfo
+			
+			) {
+		logger.info("/admin/userDelete [Post] {}", userInfo.getUserNo());
+		
+		adminService.deleteUserInfo(userInfo);
+		
+		return"redirect:/admin/userList";
+	}
+	
+	//==========================================================================================
+	//--- 유저 관리 > 환불 ---
+	
+	@ResponseBody
+    @RequestMapping(value="/verify/{imp_uid}", method=RequestMethod.POST)
+    public IamportResponse<Payment> paymentByImpUid(Model model, Locale locale, HttpSession session
+         , @PathVariable(value= "imp_uid") String imp_uid) throws IamportResponseException, IOException {   
+      
+         return iamportClient.paymentByImpUid(imp_uid);
+    }
+
+	
+	@PostMapping("/admin/cancel")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> cancel(OrderTb orderTb, String merchantUid) throws IOException {
+		logger.info("merchantUid : {} ", merchantUid);
+		logger.info("orderTb : {} ", orderTb.getUserNo());
+
+		String token = adminService.getToken(apiKey, secretKey);
+		logger.info("token : {} ", token);
+		adminService.cancel(token, merchantUid);
+
+		adminService.updateRefund(orderTb.getUserNo(),merchantUid);
+
+//	      return ResponseEntity.ok().build();
+		return ResponseEntity.ok(Map.of("status", "success"));
+//	      return "redirect:/booking/main";
+
+	}
+
 	//==========================================================================================
 	//--- 강사 심사 관리 ---
 	
@@ -500,13 +565,40 @@ public class AdminController {
 	
 	}
 	
-	@GetMapping("/admin/classInfo")
-	public void classInfoGet() {
-		logger.info("/admin/classInfo [GET]");
+	@GetMapping("/admin/classView")
+	public void classViewGet(
+			
+			Class classInfo
+			, Map<String, Object> map
+			, Model model
+			
+			) {
+		logger.info("/admin/classView [GET]");
 		
+		map = adminService.classInfo(classInfo);
+		logger.info("classInfo : {}", map);
+
+		model.addAttribute("classInfo",map.get("classInfo"));
+		model.addAttribute("teacher",map.get("teacher"));
+		model.addAttribute("userInfo",map.get("userInfo"));
+		model.addAttribute("classListCount",map.get("classListCount"));
+		model.addAttribute("classVideo",map.get("classVideo"));
 		
 	}
 	
+	@GetMapping("/admin/classExist")
+	public String classExistGet(
+			
+			Class calssInfo
+			
+			) {
+		logger.info("/admin/classExistPost [GET] : {}",calssInfo.getClassNo());
+		
+		adminService.updateClassExist(calssInfo);
+		
+		return "redirect:/admin/classList";
+		
+	}
 	
 	//==========================================================================================
 	//--- 게시판 관리 ---
@@ -868,6 +960,69 @@ public class AdminController {
 		model.addAttribute("paging",map.get("paging"));
 		model.addAttribute("freeComment",map.get("freeComment"));
 		model.addAttribute("userNameList",map.get("userNameList"));
+		
+	}
+	
+	@PostMapping("/admin/freeBoardView")
+	public String freeBoardViewPost(
+			
+			FreeComment freeComment
+			
+			) {
+		logger.info("/admin/freeBoardView [Post] : {}",freeComment.getFreeCommentNo());
+		
+		adminService.deleteFreeComment(freeComment);
+			
+		return "redirect:/admin/freeBoardView?freeNo="+freeComment.getFreeNo();
+	}
+	
+	@GetMapping("/admin/updateFreeBoard")
+	public void updateFreeBoardGet(
+			
+			FreeBoard freeBoard
+			, Map<String,Object> map
+			, Model model
+			
+			) {
+		logger.info("/admin/updateFreeBoard [GET]");
+		logger.info("FreeBoard : {}", freeBoard);
+		
+		map = adminService.viewFreePost(freeBoard);
+		logger.info("viewFreePost : {}", map);
+		
+		model.addAttribute("freeBoard",map.get("freeBoard"));
+		model.addAttribute("freeBoardFiles",map.get("freeBoardFiles"));
+		model.addAttribute("userInfo",map.get("userInfo"));
+		
+	}
+	
+	@PostMapping("/admin/updateFreeBoard")
+	public String updateFreeBoardPost(
+			
+			FreeBoard freeBoard
+			, MultipartFile file
+			, int[] delFileno
+			, List<MultipartFile> freeFile
+			
+			
+			) {
+		logger.info("/admin/userFreePostViewPOST [POST]");
+		logger.info("freeBoard : {}", freeBoard);
+		logger.info("getFreeContent() {}",freeBoard.getFreeContent());
+		logger.info("delFileno {}", Arrays.toString(delFileno));
+		
+		adminService.freePostUpdate(freeBoard, file, delFileno, freeFile);
+		
+		return "redirect:/admin/freeBoardView?freeNo="+freeBoard.getFreeNo();
+		
+	}
+	
+	@GetMapping("/admin/questionList")
+	public void questionListGet() {
+		logger.info("/admin/userFreePostViewPOST [POST]");
+		
+		
+		
 		
 	}
 }

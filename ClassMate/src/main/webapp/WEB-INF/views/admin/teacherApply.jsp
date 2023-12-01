@@ -203,7 +203,8 @@ $(function(){
 </c:if>
 
 <c:if test="${paging.totalCount > 0}">
-<c:forEach var="i" begin="${paging.startNO-1}" end="${paging.endNO-1}" >
+<c:forEach var="i" begin="${paging.startNo-1}" end="${paging.endNo-1}" >
+<c:if test="${i < paging.totalCount}">
 <c:set var="teacherList" value="${map.teacherList[i] }" />
 <c:set var="teacherApplyList" value="${map.teacherApplyList[i] }" />
 <c:set var="teacherApplyList" value="${map.teacherApplyList[i] }" />
@@ -228,6 +229,7 @@ $(function(){
 			</c:if>
 		</td>
 	</tr>
+</c:if>
 </c:forEach>
 </c:if>
 

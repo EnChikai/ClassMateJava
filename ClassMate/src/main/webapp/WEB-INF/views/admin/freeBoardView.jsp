@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
@@ -95,7 +95,7 @@ margin-bottom: 0;
 
 #commentTb{
 border-bottom: 2px solid #ccc; 
-width: 695px; 
+width: 680px; 
 margin: auto;
 
 }
@@ -103,6 +103,7 @@ margin: auto;
 .commentTh{
 font-size: 15px;
 text-align: center;
+width: 20%;
 
 }
 
@@ -111,6 +112,24 @@ font-size: 15px;
 padding-right: 0;
 text-align: center;
 
+}
+
+.commentDelBtn{
+border-radius: 3px; 
+border-style: hidden;
+width: 63px; 
+height: 33px;
+color: white;
+font-weight:bold;
+background: rgb(158,158,158);
+box-shadow: 0 0 0 1px #ccc;
+
+}
+
+.commentDelBtn:hover:not(.active){
+box-shadow: 0 0 0 2px skyblue;
+background: rgb(170,170,170);
+	
 }
 </style>
 
@@ -326,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <div style="text-align: right; margin-right: 62px; padding-bottom: 10px;">
 	<button id="backBtn" type="button">목록</button>
-	<a href="../admin/userFreePostUpdate?freeNo=${freeBoard.freeNo }"><button id="updateBtn" type="button">수정</button></a>
+	<a href="../admin/updateFreeBoard?freeNo=${freeBoard.freeNo }"><button id="updateBtn" type="button">수정</button></a>
 	<a href="javascript:openDelModal('delModal');" class="terms" style="text-decoration: none; color: black;"><button id="delBtn">삭제</button></a>
 </div>
 
@@ -375,34 +394,45 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <%-- <% ============================================================================= %> --%>	
 
+<div style="border: 1px solid #ccc; width: 695px; margin: auto;">
 <c:if test="${paging.totalCount > 0}">
-<c:forEach var="i" begin="${paging.startNO-1}" end="${paging.endNO-1}" >
+<form action="/admin/freeBoardView" method="post">
+<c:forEach var="i" begin="${paging.startNo-1}" end="${paging.endNo-1}" >
+<c:if test="${i < paging.totalCount}">
 
 <table id="commentTb">
 
 <tr>
-	<th class="commentTh">
+	<th class="commentTh" style="background: #eee">
 		${userNameList[i].userName }
 	</th>
-	<td class="commentTd">
-		<fmt:formatDate value="${freeComment[i].freeCommentDate }" pattern="yyyy-MM-dd HH:mm:ss" />
+	<td class="commentTd" style="text-align: right;">
+		${freeComment[i].freeCommentDate }
 	</td>
 </tr>
 
 <tr>
-	<td class="commentTd">
+	<th class="commentTd">
 		${freeComment[i].freeCommentContent }
+	</th>
+	<td>
+	<div style="text-align: right;">
+	<button class="commentDelBtn">삭제</button>
+	<input style="display: none;" type="text" readonly="readonly" name="freeCommentNo" value="${freeComment[i].freeCommentNo }">
+	<input style="display: none;" type="text" readonly="readonly" name="freeNo" value="${freeComment[i].freeNo }">
+	</div>
 	</td>
 </tr>
 
 </table>
+</c:if>
 </c:forEach>
-
+</form>
 <%-- <% ============================================================================= %> --%>	
 <%-- 페이징 --%>	
 
 <c:if test="${paging.totalCount > 0}">
-<div id="pagination">
+<div id="pagination" style="margine-top:50px;">
 	<ul class="pagination pagination-sm justify-content-center">
 	
 	<!-- 이전 페이지로 이동 -->
@@ -438,6 +468,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </c:if>
 
 </c:if>
+</div>
 </div>
 <%-- <% ============================================================================= %> --%>	
 <%-- 삭제 --%>	

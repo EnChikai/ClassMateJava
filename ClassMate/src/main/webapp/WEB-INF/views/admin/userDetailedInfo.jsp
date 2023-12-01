@@ -83,15 +83,15 @@ font-weight:bold;
 }
 
 #updateBtn{
-background: rgb(158,158,158); 
-box-shadow: 0 0 0 1px #ccc; 
+background: rgb(251,206,25); 
+box-shadow: 0 0 0 1px rgb(241,196,15); 
 margin-right: 19px;
 
 }
 
 #updateBtn:hover:not(.active){
 box-shadow: 0 0 0 2px skyblue;
-background: rgb(170,170,170);
+background: 1px rgb(241,196,15);
 	
 }
 
