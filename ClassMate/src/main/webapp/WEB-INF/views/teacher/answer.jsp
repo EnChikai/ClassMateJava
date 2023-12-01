@@ -30,6 +30,7 @@ $(document).ready(function() {
 	        var textareaId = "textarea" + index;
 	        var registerButtonId = "registerButton" + index;
 	        var registerInput = "registerInput" + index;
+	        var uncorrectId = "uncorrect" + index;
 	        
 	        if (answer === "1") {
 	            $("#" + buttonId).text("답변수정");
@@ -61,10 +62,15 @@ $(document).ready(function() {
 	                type: "POST",
 	                url: "/teacher/answer_ok", // 실제 서블릿의 URL로 변경
 	                data: formData,
+
 	                success: function(res) {
 	                    // 서버에서의 처리가 성공하면 이 부분에 원하는 화면 업데이트 로직 추가
 	                    console.log("Success:", res);
 	                    $("#" + textareaId).val(res); // 예를 들어, 서버에서의 응답을 해당 div에 넣어주는 등의 작업
+	                    $("#" + buttonId).text("답변수정");
+	    	            $("#" + registerButtonId).text("수정");
+	    	            $("#" + uncorrectId).text("답변완료");
+	                    
 	                },
 	                error: function(error) {
 	                    console.error("Error:", error);
@@ -95,22 +101,20 @@ $(document).ready(function() {
 
 
 <div class="cd1">
-    <div class="border" style="width: 700px; min-height: 800px;">
-        <div id="all">
-            <h3 style="display: inline-block;">ONF클래스 질문/답변 조회</h3>
-            <span style="margin-left: 30px;">
-                <div id="dropdownContainer">
+    <div style="width: 700px; min-height: 750px; border: 1px #d2d2d2 solid; border-radius: 5px;">
+        <div >
+            <div style="font-weight: 700; font-size: xx-large; text-align: center; margin-bottom: 20px; margin-top: 25px;">ON클래스 질문/답변 조회</div>
+                <div id="dropdownContainer" style="margin-left: 490px;">
                     <form action="/teacher/answer" method="post" id="dropSubmit" name="dropSubmit">
-                        <select class="dropTag" name="classNo" id="classNo" onchange="changeSelection()" style="width: 100px;">
-                            <option selected disabled> --선택-- </option>
+                        <select class="dropTag" name="classNo" id="classNo" onchange="changeSelection()" style="width: 180px;">
+                            <option selected disabled style="text-align: center;"> ----선택---- </option>
                             <c:forEach var="dl" items="${dropList }">
                                 <option value="${dl.classNo }">${dl.className }</option>
                             </c:forEach>
                         </select>
                     </form>
-                </div>
-            </span>
-            <hr>
+                </div>   
+        	<div style="height: 10px; background-color: #FDE1B4; margin-top: 10px;"></div>
         </div>
                
 
@@ -128,10 +132,10 @@ $(document).ready(function() {
                             <div>
                                 <c:choose>
                                     <c:when test="${list.answer == '1'}">
-                                        <span>답변완료</span>
+                                        <span id="correct${loop.index}">답변완료</span>
                                     </c:when>
                                     <c:otherwise>
-                                        <span>미답변</span>
+                                        <span id="uncorrect${loop.index}">미답변</span>
                                     </c:otherwise>
                                 </c:choose>
                             </div>

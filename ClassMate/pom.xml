@@ -22,6 +22,33 @@
 	</repositories>
 	
 	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${org.springframework-version}</version> 
+		</dependency>
+
+	<dependency>
+		<groupId>com.sun.activation</groupId>
+		<artifactId>javax.activation</artifactId>
+		<version>1.2.0</version>
+	</dependency>
+		
+		<dependency>
+    <groupId>com.sun.mail</groupId>
+    <artifactId>javax.mail</artifactId>
+    <version>1.6.2</version>
+</dependency>
+		
 		
 		<!-- 포트원 토큰값 가져오는 라이브러리 -->
 		<dependency>
