@@ -45,16 +45,6 @@ public class TeacherServiceImpl implements TeacherService {
 	
 	@Autowired ServletContext context;
 
-	@Override
-	public List<Class> pageList(TeacherMainPaging paging, int userNo) {
-		
-		int teacherNo = teacherDao.selectByUserNo(userNo);
-		
-		
-		List<Class> list = teacherDao.selectPageList(teacherNo);
-					logger.info("서비스리스트{} : ", list);
-		return list;
-	}
 
 	@Override
 	public TeacherMainPaging getPaging(TeacherMainPaging param, int userNo) {
@@ -506,6 +496,50 @@ public class TeacherServiceImpl implements TeacherService {
 //				
 				return paging;
 			}
+
+			@Override
+			public Paging getPaging2(Paging param, HttpSession session, HashMap<String, Object> map, String onOff) {
+				// 총 게시글 수 조회
+				
+				
+				map.put("teacherNo", session.getAttribute("teacherNo"));
+//				logger.info("teacherNo안에 뭐가 있니? : {}",map.get("teacherNo"));
+				int totalCount = teacherDao.selectpayDetailCntAll2(map);
+				logger.info("totalCount 안에 뭐가 있어? : {}",totalCount);
+				//페이징 객체 생성(페이징 계산)
+				Paging paging = new Paging( totalCount, param.getCurPage() );
+				
+				if( onOff != null ) {
+					
+					
+					if( onOff.equals("1") ) { //onOff의 값이 1일때(ON클래스만 리스트)
+						map.put("teacherNo", session.getAttribute("teacherNo"));
+						map.put("onOff", onOff);
+//					logger.info("teacherNo안에 뭐가 있니? : {}",map.get("teacherNo"));
+						int onTotalCount = teacherDao.selectClassPayDetailCntAll2(map);
+						
+						//페이징 객체 생성(페이징 계산)
+						Paging onPaging = new Paging( onTotalCount, param.getCurPage() );
+						
+						return onPaging;
+					}
+					
+					if( onOff.equals("0") ) { //onOff의 값이 0일때(OFF클래스만 리스트)
+						map.put("teacherNo", session.getAttribute("teacherNo"));
+						map.put("onOff", onOff);
+//					logger.info("teacherNo안에 뭐가 있니? : {}",map.get("teacherNo"));
+						int offTotalCount = teacherDao.selectClassPayDetailCntAll2(map);
+						
+						//페이징 객체 생성(페이징 계산)
+						Paging offPaging = new Paging( offTotalCount, param.getCurPage() );
+						
+						return offPaging;
+					}
+					
+				}
+//				
+				return paging;
+			}
 			
 			@Override
 			public HashMap<String, Object> getpayDetail( Class lecture, Payment payment, HashMap<String, Object> map, Paging paging, HttpSession session, String onOff) {
@@ -560,6 +594,118 @@ public class TeacherServiceImpl implements TeacherService {
 				teacherParam = teacherDao.getTeacherInfoByUserNoYo(userNo);
 				
 				return teacherParam;
+			}
+
+			@Override
+			public HashMap<String, Object> getCheckDetail(Class lecture, HashMap<String, Object> map, Paging paging,
+					HttpSession session, String onOff) {
+				
+				map.put("teacherNo", session.getAttribute("teacherNo"));
+				map.put("paging", paging);
+				logger.info("teacherNo 안에 뭐가있어? : {}",map.get("teacherNo"));
+				logger.info("paging 안에 뭐가있어? : {}",map.get("paging"));
+				System.err.println(map.get("teacherNo"));
+				List<Class> C = teacherDao.getClassList2(map);
+				map.put("Class", C);
+				logger.info("클래스 안에 뭐가있어? : {}",map.get("Class"));
+
+				
+				return map;
+			}
+
+			@Override
+			public HashMap<String, Object> getClassCheckDetail(Class lecture, HashMap<String, Object> map,
+					Paging onPaging, HttpSession session, String onOff) {
+
+				map.put("teacherNo", session.getAttribute("teacherNo"));
+				map.put("onOff", onOff);
+				map.put("onPaging", onPaging);
+//				logger.info("teacherNo 안에 뭐가있어? : {}",map.get("teacherNo"));
+//				logger.info("onPaging 안에 뭐가있어? : {}",map.get("onPaging"));
+//				logger.info("onOff 안에 뭐가있어? : {}",map.get("onOff"));
+				List<Class> C = teacherDao.getOnOffClassList2(map);
+				map.put("Class", C);
+//				logger.info("클래스 안에 뭐가있어? : {}",map.get("Class"));
+
+				
+				return map;
+			}
+
+			@Override
+			public Class detailView(Class lecture) {
+				
+				int classNo = lecture.getClassNo();
+				
+				Class lectureDetail = teacherDao.selectpayLectureDetail(classNo);
+				
+				return lectureDetail;
+			}
+
+			@Override
+			public Address detailAddressView(Address addressParam) {
+				
+				Address addressDetail = teacherDao.selectAddressDetail(addressParam);
+				
+				return addressDetail;
+			}
+
+			@Override
+			public List <ClassVideo> detailVideoView(ClassVideo videoParam) {
+				
+				logger.info("서비스 왔어? {}", videoParam);
+				List <ClassVideo> videoDetail = teacherDao.selectVideoDetail(videoParam);
+				logger.info("매퍼에서 왔어? {}", videoDetail);
+				
+				return videoDetail;
+			}
+
+			@Override
+			public Paging getPaging3(TeacherMainPaging param, HttpSession session, HashMap<String, Object> map) {
+				
+				map.put("teacherNo", session.getAttribute("teacherNo"));
+//				logger.info("teacherNo안에 뭐가 있니? : {}",map.get("teacherNo"));
+				int totalCount = teacherDao.selectMainCntAll(map);
+				logger.info("totalCount 안에 뭐가 있어? : {}",totalCount);
+				//페이징 객체 생성(페이징 계산)
+				Paging paging = new Paging( totalCount, param.getCurPage(), 4, 5 );
+						
+				return paging;
+				
+			}
+
+			@Override
+			public HashMap<String, Object> getCheckMain(Class lecture, HashMap<String, Object> map, Paging paging,
+					HttpSession session) {
+				
+				map.put("teacherNo", session.getAttribute("teacherNo"));
+				map.put("paging", paging);
+				logger.info("teacherNo 안에 뭐가있어? : {}",map.get("teacherNo"));
+				logger.info("paging 안에 뭐가있어? : {}",map.get("paging"));
+				System.err.println(map.get("teacherNo"));
+				List<Class> C = teacherDao.getMainList(map);
+				map.put("Class", C);
+				logger.info("클래스 안에 뭐가있어? : {}",map.get("Class"));
+
+				
+				return map;
+			}
+
+			@Override
+			public String getTeacherName(int userNo) {
+				
+				UserInfo userInfo = teacherDao.selectNameByUserNo(userNo);
+				
+				String userName = userInfo.getUserName();
+				
+				return userName;
+			}
+
+			@Override
+			public String getTeacherImg(int userNo) {
+				
+				String teacherImg = teacherDao.selectByTeacherImg(userNo);
+				
+				return null;
 			}
 
 
