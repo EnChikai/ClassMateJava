@@ -19,50 +19,21 @@ function togglePasswordVisibility(inputId, iconId) {
     }
 }
 
-// //함수 호출을 폼 제출 이벤트에 바인딩
-// $(document).ready(function () {
-//     $('#resetPwForm').submit(function (event) {
-//         event.preventDefault(); // 기본 제출 동작 방지
-//         checkPasswordMatch();
-//     });
-// });
+$(document).ready(function () {
+    $('#resetPwForm').submit(function (event) {
+        var password = $("#userPw").val();
+        var confirmPassword = $("#userPwChk").val();
 
-// function checkPasswordMatch() {
-//     var password = document.getElementById('userPw').value;
-//     var confirmPassword = document.getElementById('userPwChk').value;
+        if(password === "" || confirmPassword === "") {
+            alert('비밀번호를 모두 입력해주세요.');
+            event.preventDefault(); // 빈칸이 있을 때 폼 제출을 방지
+        } else if(password !== confirmPassword) {
+            alert('비밀번호가 일치하지 않습니다.');
+            event.preventDefault(); // 비밀번호가 일치하지 않을 때 폼 제출을 방지
+        }
+    });
+});
 
-//     if (password !== confirmPassword) {
-//         alert('비밀번호가 일치하지 않습니다.');
-//         return false;
-//     }
-
-//     // 서버로 비밀번호 확인 요청
-//    $.ajax({
-//         type: 'POST',
-//         url: '/user/resetPw',
-//         contentType: 'application/json',  // 데이터 전송 형식 설정
-//         dataType: 'json',  // 데이터 수신 형식 설정
-//         data: JSON.stringify({
-//             userPw: password
-//         }),
-//         success: function (data) {
-//             if (data.success) {
-//                 // 서버에서 비밀번호 확인 성공 시 처리
-//                 alert('비밀번호 재설정이 완료되었습니다.');
-//                 window.location.href = '/user/updatePw';
-//             } else {
-//                 // 서버에서 비밀번호 확인 실패 시 처리
-//                 alert('비밀번호 확인에 실패했습니다.');
-//             }
-//         },
-//         error: function () {
-//             // 통신 오류 시 처리
-//             alert('서버와의 통신 중 오류가 발생했습니다.');
-//         }
-//     });
-
-//     return false; // 기존의 동작 방지
-// }
 </script>
 
 <style>
@@ -70,9 +41,10 @@ function togglePasswordVisibility(inputId, iconId) {
 .resetPw {
     text-align: center;
     border: 1px solid #ccc;
-    width: 600px;
-    height: 400px;
+    width: 500px;
+    height: 365px;
     margin: 145px auto 145px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .resetPw2 {
@@ -110,6 +82,10 @@ input {
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
+}
+
+button {
+	cursor: pointer;
 }
 </style>
 
