@@ -63,7 +63,13 @@ public class MainServiceImpl implements MainService{
 		System.out.println(cLass.getSubCategoryNo());
 		
 	    //총 게시글 수 조회
-	    int totalCount = mainDao.mainOnClassCntAll(cLass);
+		Integer totalCount = mainDao.mainOnClassCntAll(cLass);
+		
+	    // totalCount가 null인 경우 0으로 초기화
+	    if (totalCount == null) {
+	        totalCount = 0;
+	    }
+		
 	    
 //	    logger.info("totalCount {}", totalCount);
 	    
@@ -90,7 +96,12 @@ public class MainServiceImpl implements MainService{
 		System.out.println(cLass.getSubCategoryNo());
 		
 	    //총 게시글 수 조회
-	    int totalCount = mainDao.mainOffClassCntAll(cLass);
+		Integer totalCount = mainDao.mainOffClassCntAll(cLass);
+		
+	    // totalCount가 null인 경우 0으로 초기화
+	    if (totalCount == null) {
+	        totalCount = 0;
+	    }
 	    
 //	    logger.info("totalCount {}", totalCount);
 	      
