@@ -14,7 +14,7 @@
 
 <div class="cd1">
 <h1>강사페이지</h1>
-<div id= "all"><a href="/teacher/check"><img src="/resources/img/all.png" id="allImg" alt="더하기" width="30" height="30" style="margin-bottom: 5px;"></a>
+<div id= "all"><a href="/teacher/check"><img src="/resources/img/listIcon.png" id="allImg" alt="더하기" width="30" height="30" style="margin-bottom: 5px;"></a>
 <a href="/teacher/check" style="background-color: FFF0F0">전체보기</a></div>
   
     <div style="width: 700px; min-height: 800px;">

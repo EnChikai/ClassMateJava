@@ -267,6 +267,10 @@ public interface TeacherDao {
 	 */
 	public String selectByTeacherImg(int userNo);
 
+	public String selectByMainCategoryNo(int mainCategoryNo);
+
+	public String selectBySubCategoryNo(int subCategoryNo);
+
 	
 
 	

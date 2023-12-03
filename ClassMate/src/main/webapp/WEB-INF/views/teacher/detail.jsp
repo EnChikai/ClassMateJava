@@ -12,20 +12,50 @@
 
 <c:import url="/WEB-INF/views/layout/teacherSide.jsp" />
 
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        // 페이지 로드 시 초기 설정
+        handleOnOffValue('${detailList.onOff}');
+    });
 
-<div class="cd1" style="width: 700px; min-height: 800px; margin-left: 700px;">
-<div id="all">
-<h3 style="display: inline-block;">ON/OFF클래스 상세 조회</h3>
-<div id= "all"><select name="claaCheck" id="classCHeck">
-  <option>on클래스</option>
-  <option>off클래스</option>
-</select></div>
-</div>
+    // detailList.onOff 값에 따라 처리하는 함수
+    function handleOnOffValue(onOffValue) {
+        var onClassVideoDiv = document.getElementById('onClassVIdeo');
+        var addressMap1Div = document.getElementById('addressMap1');
+        var addressMap2Div = document.getElementById('addressMap2');
+
+        // 초기 설정
+        onClassVideoDiv.style.display = 'none';
+        addressMap1Div.style.display = 'none';
+        addressMap2Div.style.display = 'none';
+
+        // onClassVideo가 나타날 때의 처리
+        if (onOffValue === '1') {
+            onClassVideoDiv.style.display = 'block';
+        } else {
+            // onClassVideo가 나타나지 않을 때의 처리
+            addressMap1Div.style.display = 'block';
+            addressMap2Div.style.display = 'block';
+        }
+    }
+</script>
+
+<div class="cd1" style= margin-left: 700px;">
+<div style="width: 700px;"><h3 style="text-align: center;">ON/OFF클래스 상세 조회</h3></div>
+<div><c:choose>
+    <c:when test="${detailList.onOff eq 1}">
+        <p style="text-align: right; font-weight: bold; color:orange;">온라인</p>
+    </c:when>
+    <c:otherwise>
+        <p style="text-align: right; font-weight: bold; color: teal;">오프라인</p>
+    </c:otherwise>
+</c:choose></div>
 <hr>
 
-<img alt="강의 썸네일" src="/upload/${deailList.teacherImg}" width="130" height="150">
 
-<table class="table table-bordered">
+<img alt="강의 썸네일" src="/upload/${detailList.headImg}" width="130" height="150" style="margin-bottom: 10px; margin-left: 10px;">
+
+<table class="table table-bordered" style="width: 700px; text-align: center;">
 
 <colgroup>
 	<col style="width: 20%;">
@@ -37,6 +67,11 @@
 </tr>
 <tr>
 	<td class="table-info">클래스명</td><td>${detailList.className }</td>
+</tr>
+<tr>
+	<td class="table-info">카테고리</td><td>${mainCategoryName }
+	<img src="/resources/img/gonext.png" id="rightImg" alt="더하기" width="20" height="20" style="margin-left: 5px; margin-right: 5px;">
+	 ${subCategoryName }</td>
 </tr>
 <tr>
 	<td class="table-info">클래스 기간</td><td><fmt:formatDate value="${detailList.classStart }" pattern="yyyy - MM - dd"/> ~
@@ -54,45 +89,39 @@
 <tr>
 	<td class="table-info">커리큘럼</td><td>${detailList.curriculum }</td>
 </tr>
-<tr>
-	<td class="table-info">영상 업로드</td><td>${detailList.curriculum }</td>
-	<td>
-	<c:set var="i" value="0" />
-	<c:set var="j" value="4" />
-	<table>
-	  <c:forEach items="${video }" var="video">
-	    <c:if test="${i%j == 0 }">
-	    <tr>
-	    </c:if>
-	       <td>${video.videoLesson } 회차</td>
-	    <c:if test="${i%j == j-1 }">
-	    </tr>
-	    </c:if>
-	    <c:set var="i" value="${i+1 }" />
-	  </c:forEach>
-	</table>
-	</td>
-</tr>
-
-<tr>
-	<td>영상테스트</td>
-	<td><c:forEach items="${videoList }" var="videoList">
-	<td>"${videoList }"</td>
-	
-	</c:forEach></td>
-</tr>
 
 </table> 
 
+<div id="onClassVIdeo">
+<table style="text-align: center;">
+    <c:forEach begin="0" end="4" varStatus="outerLoop">
+        <tr>
+            <c:forEach begin="0" end="3" varStatus="innerLoop">
+                <td>
+                <c:if test="${not empty videoList[outerLoop.index * 4 + innerLoop.index].videoLesson}">
+                <div style="margin-top: 20px; font-size: large;">   
+                            ${videoList[outerLoop.index * 4 + innerLoop.index].videoLesson}<span>강</span>
+                </div>
+                <div><img src="/resources/img/videoImg2.png" id="videoImg" alt="영상" width="175" height="140"></div>
+                        </c:if>
+                <div>${videoList[outerLoop.index * 4 + innerLoop.index].originName}</div>
+                </td>
+            </c:forEach>
+        </tr>
+    </c:forEach>
+</table>
+
+</div>
+
     <!-- 지도 섹션 -->
-    <div class="row mt-4">
+    <div class="row mt-4" id="addressMap1">
         <div class="col-12">
             <div id="map" class="w-100 border rounded" style="height:400px; width: 400px;" ></div>
         </div>
     </div>
 
 
-<div class="container mt-4">
+<div class="container mt-4" id="addressMap2">
     <div id="address1" data-main-address="${addressList.mainAddress}" data-sub-address="${addressList.subAddress}">
         <h5 class="text-muted">주소: ${addressList.mainAddress} ${addressList.subAddress}</h5>
     </div>
@@ -138,11 +167,12 @@
     window.onload = execDaumPostcode;
 </script>
 
-<a href="/teacher/check"><button>목록</button></a>
+<div style="text-align: center; margin-top: 20px;"><a href="/teacher/check"><button class="btn btn-secondary">목록</button></a></div>
 
 
 
 </div> <!-- cd1 -->
+
 
 
 
