@@ -1,6 +1,7 @@
 package admin.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -43,6 +44,7 @@ import teacher.dto.TeacherApply;
 import teacher.dto.TeacherLicence;
 import user.dto.UserInfo;
 import web.util.Paging;
+import lecture.dto.Address;
 import lecture.dto.Class;
 
 @Controller
@@ -583,6 +585,7 @@ public class AdminController {
 		model.addAttribute("userInfo",map.get("userInfo"));
 		model.addAttribute("classListCount",map.get("classListCount"));
 		model.addAttribute("classVideo",map.get("classVideo"));
+		model.addAttribute("classAddress",map.get("address"));
 		
 	}
 	
@@ -598,6 +601,47 @@ public class AdminController {
 		
 		return "redirect:/admin/classList";
 		
+	}
+	
+	@GetMapping("/admin/classUpdate")
+	public void classUpdateGet(
+			
+			Class classInfo
+			, Map<String, Object> map
+			, Model model
+			
+			) {
+		logger.info("/admin/classUpdate [GET]");
+		
+		map = adminService.classInfo(classInfo);
+		logger.info("classInfo : {}", map);
+
+		model.addAttribute("classInfo",map.get("classInfo"));
+		model.addAttribute("teacher",map.get("teacher"));
+		model.addAttribute("userInfo",map.get("userInfo"));
+		model.addAttribute("classListCount",map.get("classListCount"));
+		model.addAttribute("classVideo",map.get("classVideo"));
+		model.addAttribute("classAddress",map.get("address"));
+		
+	}
+	
+	@PostMapping("/admin/classUpdate")
+	public String classUpdatePost(
+			
+			Class classInfo
+			, MultipartFile file
+			, Address address
+			) {
+		logger.info("/admin/classUpdate [POST]");
+		logger.info("classInfo : {}", classInfo);
+		logger.info("file : {}", file);
+		
+		adminService.classUpdate(classInfo, file, address);
+		
+		
+		
+		
+		return "redirect:/admin/classView?classNo="+classInfo.getClassNo();
 	}
 	
 	//==========================================================================================
@@ -1017,12 +1061,66 @@ public class AdminController {
 		
 	}
 	
+	//========================================================================================================
+	//--- 게시판 관리 > 1:1문의 ---
+	
 	@GetMapping("/admin/questionList")
-	public void questionListGet() {
+	public void questionListGet(
+			
+			Paging paging
+			, Model model
+			
+			
+			) {
 		logger.info("/admin/userFreePostViewPOST [POST]");
 		
+		// 페이징 계산
+		paging = adminService.getQuestionListPaging(paging);
+		logger.info("getQuestionListPaging : {}", paging);
+
+		List<Question> questionList = new ArrayList<Question>();
 		
+		questionList = adminService.selectQuestionList(paging);
+		logger.info("selectQuestionList : {}", questionList);
+
 		
+		model.addAttribute("paging",paging);
+		model.addAttribute("questionList",questionList);
+		
+	}
+	
+	@GetMapping("/admin/questionView")
+	public void questionViewGet(
+			
+			Question question
+			, Map<String,Object> map
+			, Model model
+			
+			) {
+		logger.info("/admin/userQuestionView [GET]");
+		logger.info("question : {}", question);
+		
+		map = adminService.selectQuestionInfo(question);
+		logger.info("selectQuestionInfo : {}", map);
+		
+		model.addAttribute("question",map.get("question"));
+		model.addAttribute("questionFile",map.get("questionFile"));
+		model.addAttribute("userInfo",map.get("userInfo"));
+		
+	}
+	
+	@PostMapping("/admin/questionView")
+	public String questionViewPost(
+			
+			Question question
+			
+			) {
+		logger.info("/admin/userQuestionView [POST]");
+		logger.info("question : {}", question);
+		
+		adminService.writeAnswer(question);
+		
+		return "redirect:/admin/questionView?questionNo="+question.getQuestionNo();
 		
 	}
 }

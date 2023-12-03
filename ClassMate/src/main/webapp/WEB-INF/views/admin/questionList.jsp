@@ -173,32 +173,6 @@ margin-left: 5px;
 <%-- <% ============================================================================= %> --%>
 <script type="text/javascript">
 $(function(){
-
-	$(".dropTag").change(function(){
-		
-		$('#boardListForm').submit();
-		
-	})
-	
-});
-
-$(function(){
-	
-	var delCheckbox = document.getElementById("delCheckbox");
-	
-	$("#delCheckbox").click(function(){
-		if($(this).is(":checked")){
-			delCheckbox.value = 1;
-			$('#boardListForm').submit();
-		} else {
-			delCheckbox.value = 0; 
-			$('#boardListForm').submit();
-		}
-	})
-	
-});
-
-$(function(){
 	
     $('.boardListTr').mouseover(function() {
         $(this).children('td').css('background-color', '#e9e9e9'); 
@@ -213,13 +187,13 @@ $(function(){
 </script>
 
 <%-- 클릭시 공지 상세보기로 --%>
-<c:forEach items="${announceBoardList }" var="announceBoardList"> 
+<c:forEach var="questionList" items="${questionList }" > 
 <script>
 $(function(){
 	
-	$(".announceInfo${announceBoardList.announceNo }").click(function(){
+	$(".questionInfo${questionList.questionNo}").click(function(){
 		
-		location.href = '../admin/announceView?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&announceNo=${announceBoardList.announceNo }';
+		location.href = '../admin/questionView?questionNo=${questionList.questionNo}';
 		
 	})
 	
@@ -227,21 +201,6 @@ $(function(){
 </script>
 </c:forEach>
 
-<%-- 클릭시 이벤트 상세보기로 --%>
-<c:forEach items="${eventBoardList }" var="eventBoardList"> 
-<script>
-$(function(){
-	
-$(".eventInfo${eventBoardList.eventNo }").click(function(){
-		
-		location.href = '../admin/eventView?curPage=${paging.curPage}&sort=${sort}&delCheckbox=${delCheckbox}&eventNo=${eventBoardList.eventNo }';
-		
-	})
-	
-});
-</script>
-</c:forEach>
-	
 <%-- <% ============================================================================= %> --%>	
 	
 <div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
@@ -260,13 +219,6 @@ $(".eventInfo${eventBoardList.eventNo }").click(function(){
 
 <div style="position:relative; float: right; margin-right: 87px;" >
 		
-		<c:if test="${delCheckbox eq 0}">
-        	삭제 게시물 조회<input id="delCheckbox" type="checkbox" name="delCheckbox" value="0">
-        </c:if>
-        <c:if test="${delCheckbox eq 1}">
-        	삭제 게시물 조회<input id="delCheckbox" type="checkbox" name="delCheckbox" value="1" checked="checked">
-		</c:if>
-		
 </div>
 
 </form>
@@ -275,26 +227,24 @@ $(".eventInfo${eventBoardList.eventNo }").click(function(){
 <table id="boardListTb">	
 	
 <tr>
-	<th class="boardListTh" width="10%">번호</th>
-	<th class="boardListTh" width="60%">제목</th>
-	<th class="boardListTh" width="10%">등록일</th>
-	<th class="boardListTh" width="10%">작성자</th>
-	<th class="boardListTh" width="10%">답변</th>
+	<th class="boardListTh" style="width: 50px;">번호</th>
+	<th class="boardListTh" style="width: 400px;">제목</th>
+	<th class="boardListTh" style="width: 100px;">등록일</th>
+	<th class="boardListTh" style="width: 100px;">작성자</th>
+	<th class="boardListTh" style="width: 70px;">답변</th>
 </tr>
 
+<c:forEach var="questionList" items="${questionList}">
 <tr class="boardListTr" >
-	<td class="boardListTd ">번호</td>
-	<td class="boardListTd ">제목</td>
-	<td class="boardListTd ">등록일</td>
-	<td class="boardListTd ">작성자</td>
-	<td class="boardListTd ">답변</td>
+	<td class="boardListTd questionInfo${questionList.questionNo}">${questionList.questionNo }</td>
+	<td class="boardListTd questionInfo${questionList.questionNo}">[${questionList.questionCategory }] ${questionList.questionName }</td>
+	<td class="boardListTd questionInfo${questionList.questionNo}">${questionList.questionDate }</td>
+	<td class="boardListTd questionInfo${questionList.questionNo}">${questionList.userName }</td>
+	<td class="boardListTd questionInfo${questionList.questionNo}">${questionList.answer }</td>
 <tr>
+</c:forEach>
 
 </table>
-
-<div style="text-align: right; padding-right: 70px; margin-top: 10px;">
-<a href="../admin/writeEventAnno"><button id="insertBtn">등록</button></a>
-</div>
 
 <div style="margin-top: 8px;">
 

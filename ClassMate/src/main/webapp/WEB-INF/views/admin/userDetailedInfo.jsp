@@ -355,7 +355,7 @@ $(function(){
   <div class="secessionModal-con secessionModal" style="border-radius: 8px;">
     <div class="con" style="border: 0.5px solid #80808080; margin: 43px; margin-top: 25px;">
     <p>입력된 회원정보를</p>
-    <p>수정/탈퇴 처리 하시겠습니까?</p>
+    <p>탈퇴 처리 하시겠습니까?</p>
     
     <p style="color: #999; font-size: 16px; padding-top: 33px;">다시 한번 확인 후 진행해주세요</p>
     

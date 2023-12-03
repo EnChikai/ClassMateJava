@@ -14,6 +14,7 @@ import board.dto.FreeBoard;
 import board.dto.FreeComment;
 import board.dto.Question;
 import board.dto.QuestionFile;
+import lecture.dto.Address;
 import lecture.dto.Class;
 import payment.dto.OrderTb;
 import teacher.dto.TeacherApply;
@@ -102,6 +103,8 @@ public interface AdminService {
 	
 	public void updateClassExist(Class calssInfo);
 	
+	public void classUpdate(Class classInfo, MultipartFile file, Address address);
+
 	//========================================================================================================
 	//--- 게시판 관리 ---
 	
@@ -155,6 +158,13 @@ public interface AdminService {
 	public void deleteFreeComment(FreeComment freeComment);
 
 	public Map<String, Object> classInfo(Class classInfo);
+
+	//========================================================================================================
+	//--- 게시판 관리 > 1:1문의 ---
+	
+	public Paging getQuestionListPaging(Paging paging);
+
+	public List<Question> selectQuestionList(Paging paging);
 
 
 }

@@ -192,17 +192,25 @@ $(function(){
                     if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
                         extraAddr += data.bname;
                     }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
                     if(data.buildingName !== '' && data.apartment === 'Y'){
                         extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                     }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
                     if(extraAddr !== ''){
                         extraAddr = ' (' + extraAddr + ')';
                     }
-                } 
-                document.getElementById('postcode').value = data.zonecode;
-                document.getElementById("mainAddress").value = addr;
-                document.getElementById("subAddress").focus();
-                document.getElementById("subAddress").value = "";
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                    document.getElementById("sample6_extraAddress").value = extraAddr;
+                
+                } else {
+                    document.getElementById("sample6_extraAddress").value = '';
+                }
+
+                document.getElementById('sample6_postcode').value = data.zonecode;
+                document.getElementById("sample6_address").value = addr;
+
+                document.getElementById("sample6_detailAddress").focus();
             }
         }).open();
     }
@@ -261,19 +269,21 @@ $(function(){
 	<tr>
 		<th>주소</th>
 			<td>
-				<input type="text" name="userPost" id="postcode" style="width: 75px; mar" value="${userdata.userPost}">
+				<input type="text" name="userPost" id="sample6_postcode" style="width: 75px; mar" value="${userdata.userPost}">
 				<input type="button" id="postBtn" onclick="postcode()" style="color: white; padding-left: 5px; padding-right: 5px;" value="우편번호">
 			</td>
 	</tr>
 	
 	<tr>
 		<th></th>
-			<td><input type="text" name="mainAddress" id="mainAddress" style="width: 410px;" value="${userdata.mainAddress}"></td>
+			<td><input type="text" name="mainAddress" id="sample6_address" style="width: 410px;" value="${userdata.mainAddress}"></td>
 	</tr>
 	
 	<tr>		
 		<th></th>
-			<td><input type="text" name="subAddress" id="subAddress" style="width: 410px;" value="${userdata.subAddress}"></td>
+			<td><input type="text" name="subAddress" id="sample6_detailAddress" style="width: 410px;" value="${userdata.subAddress}">
+			<input style="display: none;" type="text" id="sample6_extraAddress" placeholder="참고항목">
+			</td>
 	</tr>
 </table>
 
