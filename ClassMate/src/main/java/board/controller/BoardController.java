@@ -383,16 +383,20 @@ public class BoardController {
 	@ResponseBody
 	public Map<String,Object> boardNameSearch(Paging boardParam, Model model, String searchHead) {
 		
-		logger.info("나와 {}", boardParam.getSearch());
+//		logger.info("나와 {}", boardParam.getSearch());
 		
 		Paging boardNamePaging = boardService.boardNamePaging(boardParam);
 		List<FreeBoard> boardNameList = boardService.boardNameList(boardNamePaging);
+		
+		logger.info("boardNameList {}", boardNameList);
+		logger.info("boardNamePaging {}", boardNamePaging);
 		
 		
 		
 		Map<String,Object> map = new HashMap<>();
 		map.put("paging", boardNamePaging);
 		map.put("boardNameList", boardNameList);
+		map.put("searchHead", "작성자");
 		
 		return map;
 	}
@@ -402,14 +406,16 @@ public class BoardController {
 	public Map<String,Object> boardTitleSearch(Paging boardTitleParam, Model model) {
 		
 		Paging boardTitlePaging = boardService.boardTitlePaging(boardTitleParam);
-		logger.info("{}", boardTitlePaging);
+		logger.info("boardTitleParam 이거 맞아?{}", boardTitleParam);
 	
 		List<FreeBoard> boardTitleList = boardService.boardTitleList(boardTitlePaging);
 		logger.info("FreeBoardList : {}", boardTitleList);
+		logger.info("boardTitlePaging : {}", boardTitlePaging);
 		
 		Map<String,Object> map = new HashMap<>();
 		map.put("paging", boardTitlePaging);
 		map.put("boardNameList", boardTitleList);
+		map.put("searchHead", "제목");
 		
 		
 		
