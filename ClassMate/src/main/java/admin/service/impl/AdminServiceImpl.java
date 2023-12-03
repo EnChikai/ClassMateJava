@@ -45,6 +45,7 @@ import teacher.dto.TeacherApply;
 import teacher.dto.TeacherLicence;
 import user.dto.UserInfo;
 import web.util.Paging;
+import lecture.dto.Address;
 import lecture.dto.Class;
 import lecture.dto.ClassVideo;
 
@@ -779,6 +780,12 @@ public class AdminServiceImpl implements AdminService{
 		classVideo = adminDao.selectClassVideoList(classInfo);
 		logger.info("selectClassVideoList() : {}", classVideo);
 		
+		Address address = new Address();
+		
+		address = adminDao.selectClassAdress(classInfo);
+		logger.info("selectClassAdress() : {}", address);
+
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		map.put("classInfo", classInfo);
@@ -786,6 +793,7 @@ public class AdminServiceImpl implements AdminService{
 		map.put("userInfo", userInfo);
 		map.put("classListCount", classListCount);
 		map.put("classVideo", classVideo);
+		map.put("address", address);
 		
 		return map;
 	}
@@ -797,6 +805,41 @@ public class AdminServiceImpl implements AdminService{
 		int result = adminDao.updateClassDeleteBoolean(calssInfo); 
 		logger.info("updateClassDeleteBoolean() : {}", result);
 		
+	}
+	
+	@Override
+	public void classUpdate(Class classInfo, MultipartFile file, Address address) {
+		logger.info("classUpdate()");
+
+		if( classInfo.getClassName() == null || classInfo.getClassName().equals("") ) {
+			classInfo.setClassName("(제목없음)");
+		}
+		logger.info("getClassName : {}", classInfo.getClassName());
+		
+		if( classInfo.getClassInfo() == null || classInfo.getClassInfo().equals("") ) {
+			classInfo.setClassInfo("(본문없음)");
+		}
+		logger.info("getClassInfo : {}", classInfo.getClassInfo());
+		
+		if( classInfo.getCurriculum() == null || classInfo.getCurriculum().equals("") ) {
+			classInfo.setCurriculum("(커리큘럼 없음)");
+		}
+		logger.info("getCurriculum : {}", classInfo.getCurriculum());
+		
+		int result = 0;
+		result = adminDao.updateClassInfo(classInfo);
+		logger.info("updateClassInfo():{}",result);
+
+		if(address != null) {
+			result = adminDao.updateClassAddress(address);
+			logger.info("updateClassAddress():{}",result);
+		}
+		EventBoard eventBoard = new EventBoard();//파라메터 처리용
+		result = headImgSave(file, eventBoard, classInfo);
+			logger.info("클래스 해드 result : {}", result);
+		
+		
+	
 	}
 	
 	//================================================================================
@@ -941,7 +984,8 @@ public class AdminServiceImpl implements AdminService{
 			logger.info("eventBoard : {}", eventBoard);
 			logger.info("이벤트 정보 result : {}", result);
 			
-			result = headImgSave(file, eventBoard);
+			Class classInfo = new Class();//파라메터 처리용
+			result = headImgSave(file, eventBoard, classInfo);
 			logger.info("이벤트 해드 result : {}", result);
 			
 			//첨부파일이 없을 경우 처리
@@ -1030,7 +1074,7 @@ public class AdminServiceImpl implements AdminService{
 		return result;
 	}
 
-	public int headImgSave(MultipartFile file, EventBoard eventBoard) {
+	public int headImgSave(MultipartFile file, EventBoard eventBoard, Class classInfo) {
 		logger.info("filesave()");
 		
 		int result = 0;
@@ -1075,17 +1119,33 @@ public class AdminServiceImpl implements AdminService{
 			e.printStackTrace();
 		}
 
-		//DB에 기록하기
-		eventBoard.setHeadImg(uploadFileName);
 		
-		result = adminDao.headImg(eventBoard);
-		
-		if(result!=0) {
-			logger.info("파일 업로드 성공 : {}", result);
+		if(eventBoard != null) {
+			//DB에 기록하기
+			eventBoard.setHeadImg(uploadFileName);
 			
-		}else {
-			logger.info("파일 업로드 실패 : {}", result);
-
+			result = adminDao.headImg(eventBoard);
+			
+			if(result!=0) {
+				logger.info("파일 업로드 성공 : {}", result);
+				
+			}else {
+				logger.info("파일 업로드 실패 : {}", result);
+	
+			}
+		}else if(classInfo != null) {
+			//DB에 기록하기
+			classInfo.setHeadImg(uploadFileName);
+			
+			result = adminDao.classHeadImg(classInfo);
+			
+			if(result!=0) {
+				logger.info("파일 업로드 성공 : {}", result);
+				
+			}else {
+				logger.info("파일 업로드 실패 : {}", result);
+	
+			}
 		}
 		
 		return result;
@@ -1143,7 +1203,8 @@ public class AdminServiceImpl implements AdminService{
 		logger.info("이벤트 정보 result : {}", result);
 		
 		if(file.getSize() != 0) {
-			result = headImgSave(file, eventBoard);
+			Class classInfo = new Class();//파라메터 처리용
+			result = headImgSave(file, eventBoard, classInfo);
 			logger.info("이벤트 해드 result : {}", result);
 		}
 		
@@ -1424,6 +1485,40 @@ public class AdminServiceImpl implements AdminService{
 		logger.info("deleteCommentComentNo : {}",result);
 		
 		
+	}
+
+	//========================================================================================================
+	//--- 게시판 관리 > 1:1문의 ---
+	
+	@Override
+	public Paging getQuestionListPaging(Paging param) {
+		logger.info("getPaging()");
+		
+		//총 게시글 수 조회
+		int totalCount = adminDao.qestionListCntAll();
+		logger.info("totalCount : {}",totalCount);
+		
+		//페이징 객체 생성(페이징 계산)
+		Paging paging = new Paging(totalCount, param.getCurPage());
+		
+		return paging;
+		
+	}
+
+	@Override
+	public List<Question> selectQuestionList(Paging paging) {
+		logger.info("selectQuestionList()");
+
+		List<Question> questionsList = new ArrayList<Question>();
+		
+		questionsList = adminDao.selectQuestionAll(paging);
+		for(int i=0; i<questionsList.size();i++) {
+			logger.info(i+". selectQuestionList() : {}", questionsList.get(i));
+			
+		}
+
+		
+		return questionsList;
 	}
 
 }

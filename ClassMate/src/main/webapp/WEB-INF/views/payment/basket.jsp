@@ -358,8 +358,8 @@ IMP.init('imp04411553')
 			
 				IMP.request_pay({
 				
-				<%-- pg: "html5_inicis",	//결제 pg 선택 --%>
-			    pg: "kakaopay",	<%-- //결제 pg 선택 --%>
+				pg: "html5_inicis",	//결제 pg 선택
+<%--		    pg: "kakaopay",	//결제 pg 선택 --%>
 				pay_method: "card",
 				
 			    merchant_uid: <%=order %>,   <%-- 고유 번호 --%>
@@ -531,8 +531,8 @@ $(function(){
 		
 		<%--console.log(sum)--%>
 		IMP.request_pay({
-	   <%-- pg: "html5_inicis",	//결제 pg 선택 --%>
-		    pg: "kakaopay",	<%-- //결제 pg 선택 --%>
+	   pg: "html5_inicis",	//결제 pg 선택
+<%-- 		    pg: "kakaopay",	//결제 pg 선택 --%>
 			pay_method: "card", <%-- 결제 방식 --%>
 		    merchant_uid: <%=order%>,   <%-- 고유 번호 --%>
 

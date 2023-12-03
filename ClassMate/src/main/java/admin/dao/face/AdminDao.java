@@ -12,6 +12,7 @@ import board.dto.FreeBoardFile;
 import board.dto.FreeComment;
 import board.dto.Question;
 import board.dto.QuestionFile;
+import lecture.dto.Address;
 import lecture.dto.Class;
 import lecture.dto.ClassVideo;
 import payment.dto.OrderTb;
@@ -157,6 +158,14 @@ public interface AdminDao {
 
 	public List<ClassVideo> selectClassVideoList(Class classInfo);
 	
+	public Address selectClassAdress(Class classInfo);
+	
+	public int updateClassInfo(Class classInfo);
+	
+	public int classHeadImg(Class classInfo);
+	
+	public int updateClassAddress(Address address);
+	
 	//========================================================================================================
 	//--- 게시판 관리 ---
 	
@@ -234,5 +243,10 @@ public interface AdminDao {
 	public List<UserInfo> selectUserNameList(Map<String, Object> map);
 
 	public int deleteCommentComentNo(FreeComment freeComment);
+
+	public int qestionListCntAll();
+
+	public List<Question> selectQuestionAll(Paging paging);
+
 
 }

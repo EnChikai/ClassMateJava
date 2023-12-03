@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:import url="/WEB-INF/views/layout/adminHeader.jsp" />
 			
@@ -43,7 +44,7 @@ vertical-align: middle;
 #classViewInfoTb th{
 border: 3px solid white;
 
-width: 100px;
+width: 120px;
 background: #eee;
 }
 
@@ -54,7 +55,7 @@ border-bottom : 1px solid #ccc;
 
 #classInfo{
 border: 1px solid #ccc;
-border-radius: 5px;
+border-radius: 10px;
 padding: 10px;
 margin: 5px;
 margin-bottom: 10px;
@@ -66,15 +67,54 @@ margin-top: 10px;
 
 .videoInfo{
 display:inline-block;
-border: 1px solid #ccc;
+border-left: 2px solid rgb(255,250,220);
+border-top: 2px solid rgb(255,250,220);
+border-right: 2px solid rgb(255,225,120);
+border-bottom: 2px solid rgb(255,225,120);;
 border-radius: 5px;
-padding: 10px;
-width: 142px;
+padding: 5px;
 margin-top:5px; 
 margin-bottom:5px; 
-
+background: rgb(255,240,177);
+width: 100px;
 
 }
+
+.emptyVideoInfo{
+display:inline-block;
+border-left: 2px solid #eee;
+border-top: 2px solid #eee;
+border-right: 2px solid #aaa;
+border-bottom: 2px solid #aaa;
+border-radius: 5px;
+padding: 5px;
+margin-top:5px; 
+margin-bottom:5px; 
+background: #ccc;
+width: 100px;
+
+}
+
+
+#updateBtn{
+border-radius: 3px; 
+border-style: hidden;
+width: 63px; 
+height: 33px;
+color: white;
+font-weight:bold;
+background: rgb(251,206,25); 
+box-shadow: 0 0 0 1px rgb(241,196,15); 
+margin-right: 5px;
+
+}
+
+#updateBtn:hover:not(.active){
+box-shadow: 0 0 0 2px skyblue;
+background: 1px rgb(241,196,15);
+	
+}
+
 </style>
 
 
@@ -260,19 +300,14 @@ $(function(){
 <div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px;">
 <p id="classViewInfo" style="margin-bottom: 1rem">클래스 조회</p>
 
-<c:if test="${not empty teacher.teacherImg }">
-<img class="teacherImg" alt="강사 이미지" src="/upload/${teacher.teacherImg }" width="130" height="150">
-</c:if>
-
-<%-- <c:if test="${empty teacher.teacherImg }"> --%>
-
-<%-- </c:if> --%>
-
-<div style="margin-top: 10px; margin-bottom: 15px; text-align: right;">
+<div style="margin-top: 5px; margin-bottom: 10px; text-align: right;">
+<c:if test="${classInfo.deleteBoolean eq 0 }">
+<a href="../admin/classUpdate?classNo=${classInfo.classNo }" ><button id="updateBtn" type="button">수정</button></a>
 <a href="javascript:openExistModal('existModal');" class="terms" style="text-decoration: none; color: black;"><button id="existBtn">종강</button></a>
+</c:if>
 </div>
 
-<div style="border: 1px solid #ccc; padding: 10px; width: 750px; margin: auto; margin-bottom: 30px;">
+<div style="border: 1px solid #ccc; padding: 10px; width: 750px; margin: auto; margin-bottom: 30px; border-radius: 10px;">
 <table id="classViewInfoTb" >
 	<tr>
 		<th rowspan='5' style="padding-top: 20px;">
@@ -280,7 +315,15 @@ $(function(){
 			사진
 		</th>
 		<td rowspan='5' style="padding-top: 20px; padding-bottom: 20px; width: 200px; border-top: 1px solid #ccc;">
+			
+			<c:if test="${not empty teacher.teacherImg }">
+			<img class="teacherImg" alt="강사 이미지" src="/upload/${teacher.teacherImg }" width="130" height="150">
+			</c:if>
+			
+			<c:if test="${empty teacher.teacherImg }">
 			<img class="teacherImg" title="미졌습니까? 휴먼?" alt="디폴트 이미지" src="/resources/img/sample_img.png" width="130" height="150">
+			</c:if>
+			
 		</td>
 		<th>
 		강사
@@ -301,10 +344,10 @@ $(function(){
 	
 	<tr>
 		<th>
-		클래스 기간
+		강의 금액
 		</th>
 		<td>
-		${classInfo.classStart } ~ ${classInfo.classEnd }
+			<fmt:formatNumber type="number" maxFractionDigits="3">${classInfo.expense }</fmt:formatNumber> 원
 		</td>
 	</tr>
 	
@@ -328,7 +371,35 @@ $(function(){
 	
 	<tr>
 		<th>
-		클래스 소개
+		클래스<br>
+		기간
+		</th>
+		<td colspan="3">
+		${classInfo.classStart } ~ ${classInfo.classEnd }
+		</td>
+	</tr>
+	
+	<tr>
+		<th>
+		클래스<br>
+		썸네일
+		</th>
+		<td colspan="3">
+		<div id="classInfo">
+		<c:if test="${not empty classInfo.headImg }">
+			<img class="teacherImg" alt="클래스 이미지" src="/upload/${classInfo.headImg }" width="auto" height="250">
+		</c:if>
+		<c:if test="${empty classInfo.headImg }">
+			<img class="teacherImg" title="미졌습니까? 휴먼?" alt="디폴트 이미지" src="/resources/img/sample_img2.png" width="auto" height="250">
+		</c:if>
+		</div>
+		</td>
+	</tr>
+	
+	<tr>
+		<th>
+		클래스<br>
+		소개
 		</th>
 		<td colspan="3">
 		<div id="classInfo">
@@ -351,19 +422,29 @@ $(function(){
 	<c:if test="${classInfo.onOff eq 1}">
 	<tr>
 		<th>
-		영상 업로드
+		영상<br>
+		업로드
 		</th>
 		<td colspan="3">
 			<c:if test="${not empty classVideo}">
-				<c:forEach var="i" begin="0" end="${classVideo.videoLesson }">
-			<span class="videoInfo">
-					${i } 회차
-			</span>
+				<c:forEach var="i" begin="0" end="${classVideo.size() }">
+<%-- 				<c:forEach var="i" begin="0" end="10"> --%>
+				<span class="videoInfo">
+						${i+1 } 회차
+				</span>
+				</c:forEach>
+				<c:forEach var="i" begin="${classVideo.size() }" end="18">
+<%-- 				<c:forEach var="i" begin="${21-10}" end="19"> --%>
+				<span class="emptyVideoInfo">
+						${i+2 } 회차
+				</span>
 				</c:forEach>
 			</c:if>
+
 			<c:if test="${empty classVideo}">
 			영상이 없습니다
 			</c:if>
+			
 		</td>
 	</tr>
 	</c:if>	
@@ -374,20 +455,21 @@ $(function(){
 		지도
 		</th>
 		<td colspan="3">
+		<div class="classInfo">
 			<!-- 지도 섹션 -->
 			<div>
 			    <div class="col-12">
-			        <div id="map" class="w-100 border rounded" style="height:400px;"></div>
+			        <div id="map" class="w-100 border rounded" style="height:300px;"></div>
 			       </div>
 			   </div>
 			
 			<div id="map"></div>
 			
 			<div class="container mt-4">
-			    <div id="address1" data-main-address="${address.mainAddress}" data-sub-address="${address.subAddress}">
-			<h5 class="text-muted">주소: ${address.mainAddress} ${address.subAddress}</h5>
-				    </div>
+			    <div id="address1" data-main-address="${classAddress.mainAddress}" data-sub-address="${classAddress.subAddress}">
 				</div>
+				<h6>주소: ${classAddress.mainAddress } ${classAddress.subAddress}</h6>
+			</div>
 			<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 			<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7386d9c0dc5cbff30aa6aa3fde01768b&libraries=services"></script>
 			<script>
@@ -428,6 +510,7 @@ $(function(){
 			// 페이지 로드 시 지도 표시 함수 호출
 			window.onload = execDaumPostcode;
 			</script>
+			</div>
 		</td>
 	</tr>
 	</c:if>

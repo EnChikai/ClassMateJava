@@ -283,14 +283,14 @@ $(function(){
 	       }
 	       , dataType: "json"
 	       , success: function( data ) {
-	          console.log("AJAX 성공")
+// 	          console.log("AJAX 성공")
 	          
-	          alert("취소가 완료되었습니다");
+// 	          alert("취소가 완료되었습니다");
 	          location.href = '../admin/userPaymentList?userNo=${orderTb.userNo}';
 	          
 	       }
 	       , error: function(xhr, status, error) {
-	          console.log("AJAX 실패", status, error);
+// 	          console.log("AJAX 실패", status, error);
 	       }
 	    })
 	    
@@ -330,7 +330,7 @@ $(document).mouseup(function (e) {
 
 //닫기 버튼 클릭시 팝업 닫기
 $(function(){
-	  $("#closeRefundModal").click(function (e) {
+	  $("#closeRefundModal${orderList.orderNo }").click(function (e) {
 		    var modal = $(".refundModal-con");
 		      $("#refundModal${orderList.orderNo }").fadeOut(300);
 		      modal.fadeOut(300);
@@ -363,6 +363,7 @@ $(function(){
 	<th class="userListTh" width="7%">번호</th>
 	<th class="userListTh" width="20%">클래스명</th>
 	<th class="userListTh" width="10%">금액</th>
+	<th class="userListTh" width="10%">결제방식</th>
 	<th class="userListTh" width="10%">결제카드</th>
 	<th class="userListTh" width="10%">UID</th>
 	<th class="userListTh" width="10%">환불</th>
@@ -370,8 +371,8 @@ $(function(){
 
 <c:if test="${paging.totalCount <= 0}">
 <tr>
-<td colspan="5" style="text-align: center; padding-top: 20px; padding-bottom: 20px;">
-<h1>결제 내역이 없습니다</h1>
+<td colspan="5" style="text-align: center; padding-top: 20px; padding-bottom: 20px; padding-left: 220px;">
+<h3>결제 내역이 없습니다</h3>
 <p style="margin-top: 20px; padding-left: 40px"><img title="보노" alt=";;;;;;" src="/resources/img/bono.png" width="162px" height="156px"></p>
 </td>
 </tr>
@@ -393,6 +394,10 @@ $(function(){
 		<td class="userListTd">
 			<c:set var="paymentList" value="${map.paymentList[i] }" />
 			<fmt:formatNumber type="number" maxFractionDigits="3"><c:out value="${paymentList.payment }" /></fmt:formatNumber>원
+		</td>
+		<td class="userListTd">
+			<c:out value="${paymentList.provider }" />
+			
 		</td>
 		<td class="userListTd">
 			<c:out value="${paymentList.cardName }" />
@@ -475,7 +480,7 @@ $(function(){
     <p style="color: #999; font-size: 16px; padding-top: 27px;">다시 한번 확인 후 진행해주세요</p>
     
     <button class="refundOkBtn" id="btnCancel${orderList.orderNo }" data-uid="${orderList.merchantUid }" data-no="${orderList.userNo }">환불</button>
-    <a href="javascript:return false;" class="closeRefundModal" id="closeRefundModal"><button class="closeModalBtn" style="margin-top: 70px" type="button">아니오</button></a>
+    <a href="javascript:return false;" class="closeRefundModal" id="closeRefundModal${orderList.orderNo }"><button class="closeModalBtn" style="margin-top: 70px" type="button">아니오</button></a>
     
     </div>
   </div>

@@ -402,6 +402,37 @@
 	  	WHERE class_no = #{classNo}
   	</select>
   	
+  	<select id="selectClassAdress" resultType="Address" parameterType="Class">
+	  	SELECT address_no, class_no, main_address, sub_address
+		FROM address
+	  	WHERE class_no = #{classNo}
+  	</select>
+  	
+  	<update id="updateClassInfo" parameterType="Class">
+  		UPDATE class
+  		SET class_name = #{className} 
+  		, class_start = #{classStart} 
+  		, class_end = #{classEnd} 
+  		, max_count = #{maxCount} 
+  		, expense = #{expense} 
+  		, class_info = #{classInfo} 
+  		, curriculum = #{curriculum} 
+  		WHERE class_no = #{classNo}
+  	</update>
+  	
+  	<update id="updateClassAddress" parameterType="Address">
+  		UPDATE address
+  		SET main_address = #{mainAddress} 
+  			, sub_address = #{subAddress} 
+  		WHERE class_no = #{classNo}
+  	</update>
+  	
+  	<update id="classHeadImg" parameterType="Class">
+  		UPDATE class
+  		SET head_img = #{headImg} 
+  		WHERE class_no = #{classNo}
+  	</update>
+  	
   	<!-- ================================================================================================================== -->
   	<!-- 게시판 관리 -->
   	
@@ -689,4 +720,24 @@
 		WHERE free_comment_no = #{freeCommentNo}
 	</delete>
 	
+	<!-- ======================================================================================================== -->
+	<!-- 게시판 관리 > 1:1문의 -->
+	
+	<select id="qestionListCntAll" resultType="int">
+	  	SELECT count(*) FROM question
+  	</select>
+	
+	<select id="selectQuestionAll" resultType="Question" parameterType="web.util.Paging">
+  		 SELECT * FROM (
+	        SELECT rownum rnum, B.* FROM(
+	                SELECT
+	                Q.question_no, Q.user_no, Q.question_category, Q.question_name, Q.question_content, Q.question_date, Q.question_hit
+					, Q.question_exist, Q.answer, Q.answer_content, UI.user_name
+					FROM question Q
+					JOIN user_info UI ON Q.user_no = UI.user_no
+	                ORDER BY Q.question_no DESC
+	        ) B
+	    ) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+  	</select>
+  	
   </mapper>
