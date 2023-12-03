@@ -55,6 +55,9 @@ public interface UserDao {
 	public Class selectClassNameByClassNo(int classNo);
 
 	public UserInfo whoAmI(UserInfo userInfo);
+	
+    // 사용자가 탈퇴한 경우를 확인하는 메소드
+    public int isUserWithdrawn(String userId);
 
 
 }

@@ -157,4 +157,10 @@
   		</where>
   	</select>
   	
+  	<!-- 사용자가 탈퇴한 경우를 확인하는 쿼리 -->
+	<select id="isUserWithdrawn" resultType="int" parameterType="string">
+	    SELECT COUNT(*) FROM user_info WHERE USER_ID = #{userId} AND USER_SECESSION = 1
+	</select>
+  	
+  	
  </mapper>
