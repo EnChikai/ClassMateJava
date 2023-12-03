@@ -12,31 +12,32 @@
  	</select>
  	
  	<select id="ClassOrderTop" parameterType="int">
-		SELECT class_no, class_name, head_img, total_list_no
+		SELECT class_no, class_name, head_img
 		FROM (
-		    SELECT C.class_no, C.class_name, C.head_img, COUNT(CL.list_no) AS total_list_no
-		    FROM class C
-		    JOIN class_list CL ON C.class_no = CL.class_no
-		    WHERE C.on_off = #{onOff} AND C.delete_boolean = 0
-		    GROUP BY C.class_no, C.class_name, C.head_img, C.max_count
-		    HAVING count(CL.list_no) &lt; C.max_count
-		    ORDER BY count(CL.list_no) desc
+			SELECT C.class_no, C.class_name, C.head_img
+			FROM class C
+			WHERE C.on_off = #{onOff} AND C.delete_boolean = 0
+			AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.class_name, C.head_img
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY C.class_no DESC
 		)
 		WHERE ROWNUM &lt;= 5
  	</select>
  	
  	<select id="recommended" parameterType="int">
-		SELECT class_no, class_name, head_img, total_list_no
+		SELECT class_no, class_name, head_img
 		FROM (
-		    SELECT C.class_no, C.class_name, C.head_img, COUNT(CL.list_no) AS total_list_no
-		    FROM class C
-		    JOIN class_list CL ON C.class_no = CL.class_no
-		    WHERE C.on_off = #{onOff} AND C.delete_boolean = 0
-		    GROUP BY C.class_no, C.class_name, C.head_img, C.max_count, C.expense
-		    HAVING COUNT(CL.list_no) &lt; C.max_count
-		    ORDER BY expense DESC
+			SELECT C.class_no, C.class_name, C.head_img
+			FROM class C
+			WHERE C.on_off = #{onOff} AND C.delete_boolean = 0
+			AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.class_name, C.head_img, C.expense
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY expense DESC
 		)
 		WHERE ROWNUM &lt;= 5
+		
  	</select>
 	 
 	 <select id="mainCategoryList" resultType="MainCategory">
@@ -50,56 +51,54 @@
 	 	</where>
 	 </select>
 	 
-	 <select id="mainOnClassCntAll" resultType="Integer" parameterType="Class">   	  
-	    SELECT count(*), COUNT(CL.list_no) AS total_list_no
-	    FROM class C
-	    JOIN class_list CL ON C.class_no = CL.class_no
-		    WHERE C.on_off = 1 AND C.delete_boolean = 0 AND C.sub_category_no = ${subCategoryNo}
-		    GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
-		    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
-		    HAVING COUNT(CL.list_no) &lt; C.max_count
-		    ORDER BY C.class_no DESC
+	 <select id="mainOnClassCntAll" resultType="Integer" parameterType="Class">   
+	  SELECT count(*) FROM (	   
+   			SELECT count(*)	FROM class C
+			WHERE C.on_off = 1 AND C.delete_boolean = 0 AND C.sub_category_no = ${subCategoryNo} AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+		    	C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY class_no DESC
+			)
 	 </select>
 	 
 	 <select id="onClassList" resultType="Class" parameterType="Map">
 	 	SELECT * FROM (
 	 		SELECT rownum runm, B.* FROM (
 		        SELECT C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
-			    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean, COUNT(CL.list_no) AS total_list_no
-			    FROM class C
-			    JOIN class_list CL ON C.class_no = CL.class_no
-			    WHERE C.on_off = 1 AND C.delete_boolean = 0 AND C.sub_category_no = ${cLass.subCategoryNo}
-			    GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
 			    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
-			    HAVING COUNT(CL.list_no) &lt; C.max_count
-			    ORDER BY C.class_no DESC
+		    FROM class C
+			WHERE C.on_off = 1 AND C.delete_boolean = 0 AND C.sub_category_no = ${cLass.subCategoryNo} AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+		    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY class_no DESC
 	 		) B
 	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
 	 </select>	 
 	 
 	 <select id="mainOffClassCntAll" resultType="Integer" parameterType="Class">
-	    SELECT count(*), COUNT(CL.list_no) AS total_list_no
-	    FROM class C
-	    JOIN class_list CL ON C.class_no = CL.class_no
-		    WHERE C.on_off = 0 AND C.delete_boolean = 0 AND C.sub_category_no = ${subCategoryNo}
-		    GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
-		    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
-		    HAVING COUNT(CL.list_no) &lt; C.max_count
-		    ORDER BY C.class_no DESC
+	  SELECT count(*) FROM (
+   			SELECT count(*)	FROM class C
+			WHERE C.on_off = 0 AND C.delete_boolean = 0 AND C.sub_category_no = ${subCategoryNo} AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+		    	C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY class_no DESC
+			)
 	 </select>
 
 	 <select id="offClassList" resultType="Class" parameterType="Map">
 	 	SELECT * FROM (
 	 		SELECT rownum runm, B.* FROM (
 		        SELECT C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
-			    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean, COUNT(CL.list_no) AS total_list_no
-			    FROM class C
-			    JOIN class_list CL ON C.class_no = CL.class_no
-			    WHERE C.on_off = 0 AND C.delete_boolean = 0 AND C.sub_category_no = ${cLass.subCategoryNo}
-			    GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
 			    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
-			    HAVING COUNT(CL.list_no) &lt; C.max_count
-			    ORDER BY C.class_no DESC
+		    FROM class C
+			WHERE C.on_off = 0 AND C.delete_boolean = 0 AND C.sub_category_no = ${cLass.subCategoryNo} AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+		    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY class_no DESC
 	 		) B
 	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
 	 </select>
@@ -108,14 +107,13 @@
 	 	SELECT * FROM (
 	 		SELECT rownum runm, B.* FROM (
 		        SELECT C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
-			    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean, COUNT(CL.list_no) AS total_list_no
-			    FROM class C
-			    JOIN class_list CL ON C.class_no = CL.class_no
-				    WHERE C.on_off = 1 AND C.delete_boolean = 0 AND C.sub_category_no = ${cLass.subCategoryNo}
-				    GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
-				    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
-				    HAVING COUNT(CL.list_no) &lt; C.max_count
-				    ORDER BY ${sort}
+			    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+		    FROM class C
+			WHERE C.on_off = 1 AND C.delete_boolean = 0 AND C.sub_category_no = ${cLass.subCategoryNo} AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+		    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY ${sort}
 	 		) B
 	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
 	 </select>	 
@@ -124,14 +122,13 @@
 	 	SELECT * FROM (
 	 		SELECT rownum runm, B.* FROM (
 		        SELECT C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
-			    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean, COUNT(CL.list_no) AS total_list_no
-			    FROM class C
-			    JOIN class_list CL ON C.class_no = CL.class_no
-				    WHERE C.on_off = 0 AND C.delete_boolean = 0 AND C.sub_category_no = ${cLass.subCategoryNo}
-				    GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
-				    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
-				    HAVING COUNT(CL.list_no) &lt; C.max_count
-				    ORDER BY ${sort}
+			    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+		    FROM class C
+			WHERE C.on_off = 0 AND C.delete_boolean = 0 AND C.sub_category_no = ${cLass.subCategoryNo} AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+		    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY ${sort}
 	 		) B
 	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
 	 </select>

@@ -12,15 +12,15 @@ $(document).ready(function () {
 	$(".mainCategoryItem").mouseover(function () {
 	    if (!$(this).hasClass("clicked")) {
 	        $(this).css("background-color", "#F0C610");
-	        $(this).find("#mainFont").css("color", "white");
-	        $(this).find("#mainImg").css("filter", "invert(100%)");
+	        $(this).find("#mainFont").css("color", "black");
+	        $(this).find("#mainImg").css("filter", "invert(0%)");
 	    }
 	}).mouseout(function () {
 	    // 마우스를 떼면 초기 스타일로 변경
 	    if (!$(this).hasClass("clicked")) {
 	        $(this).css("background-color", "#ccc");
-	        $(this).find("#mainFont").css("color", "black");
-	        $(this).find("#mainImg").css("filter", "invert(0%)");
+	        $(this).find("#mainFont").css("color", "white");
+	        $(this).find("#mainImg").css("filter", "invert(100%)");
 	    }
 	});
 });
@@ -39,39 +39,69 @@ $(document).ready(function () {
 .mainCategoryContainer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-columns: 180px 180px 180px;
-    grid-template-rows: 180px 180px 180px;
+    grid-template-columns: 224px 224px 224px;
     align-items: center;
     justify-content: center;
     grid-column-gap: 15px;
-    grid-row-gap: 10px;
+    grid-row-gap: 15px;
 }
 
 .mainCategoryItem {
     text-align: center;
-    padding: 23px;
+    padding: 30px;
     transition: background-color 0.3s, color 0.3s;
     background-color: #ccc;
 }
 
 #mainImg {
-    width: 70px;
+    width: 80px;
 }
 
 p {
     font-size: 19px;
-    color: black;
+    color: white;
 }
 
 .mainCateTitle{
-	border: 1px solid #ccc;
 	margin-bottom: 20px;
-    padding-right: 50px;
-    margin-right: 200px;
-    margin-left: 200px;
     display: flex;
+    justify-content: center;
     align-items: center;
 }
+
+@media (min-width: 1920px) {
+	#mainName{
+	margin-left: 224px;
+		
+	}
+	.mainCateTitle {
+	border: 1px solid #ccc;
+	justify-content: unset;
+	margin-right: 200px;
+    margin-left: 200px;
+    padding-right: 50px;
+	
+	}
+	
+	}
+	
+	@media (max-width: 970px) {
+		.mainCateTitle{
+			min-width: 152px;
+			    margin-left: -75px;
+		}
+		.defaultWidth{
+	    margin-top: 60px;
+		margin-bottom: 60px;
+	}
+
+}
+	
+	
+
+
+
+
     
 </style>
 
@@ -81,69 +111,69 @@ p {
 
     <div class="mainCateTitle">
     	<img style="float: left; margin-top: -1px; margin-left: -1px;" width="50px;" height="50px;" src="/resources/img/mainCategory.png">
-    	<strong style="font-size:22px; margin-left: 260px;">카테고리</strong>
+    	<strong id="mainName" style="font-size:22px;">카테고리 대분류</strong>
     </div>
 
     <div class="mainCategoryContainer">
          <a href="/main/subCategory?mainCategoryNo=${list[0].mainCategoryNo}" class="mainCategoryNo">
     	    <div class="mainCategoryItem">
-                <img src="/resources/img/mainCategory/art.png" id="mainImg" alt="예술">
+                <img style="filter: invert(100%);" src="/resources/img/mainCategory/art.png" id="mainImg" alt="예술">
                 <p id="mainFont">예술</p>
 	        </div>
          </a>
 
          <a href="/main/subCategory?mainCategoryNo=${list[1].mainCategoryNo}" class="mainCategoryNo">
     	    <div class="mainCategoryItem">
-                <img src="/resources/img/mainCategory/sports.png" id="mainImg" alt="운동">
+                <img style="filter: invert(100%);" src="/resources/img/mainCategory/sports.png" id="mainImg" alt="운동">
                 <p id="mainFont">운동</p>
 	        </div>
          </a>
 
          <a href="/main/subCategory?mainCategoryNo=${list[2].mainCategoryNo}" class="mainCategoryNo">
     	    <div class="mainCategoryItem">
-                <img src="/resources/img/mainCategory/cook.png" id="mainImg" alt="요리">
+                <img style="filter: invert(100%);" src="/resources/img/mainCategory/cook.png" id="mainImg" alt="요리">
                 <p id="mainFont">요리</p>
 	        </div>
          </a>
 
          <a href="/main/subCategory?mainCategoryNo=${list[3].mainCategoryNo}" class="mainCategoryNo">
     	    <div class="mainCategoryItem">
-                <img src="/resources/img/mainCategory/travel.png" id="mainImg" alt="여행">
+                <img style="filter: invert(100%);" src="/resources/img/mainCategory/travel.png" id="mainImg" alt="여행">
                 <p id="mainFont">여행</p>
 	        </div>
          </a>
 
          <a href="/main/subCategory?mainCategoryNo=${list[4].mainCategoryNo}" class="mainCategoryNo">
     	    <div class="mainCategoryItem">
-                <img src="/resources/img/mainCategory/book.png" id="mainImg" alt="성장">
+                <img style="filter: invert(100%);" src="/resources/img/mainCategory/book.png" id="mainImg" alt="성장">
                 <p id="mainFont">성장</p>
 	        </div>
          </a>
 
          <a href="/main/subCategory?mainCategoryNo=${list[5].mainCategoryNo}" class="mainCategoryNo">
     	    <div class="mainCategoryItem">
-                <img src="/resources/img/mainCategory/it.png" id="mainImg" alt="IT">
+                <img style="filter: invert(100%);" src="/resources/img/mainCategory/it.png" id="mainImg" alt="IT">
                 <p id="mainFont">IT</p>
 	        </div>
          </a>
 
          <a href="/main/subCategory?mainCategoryNo=${list[6].mainCategoryNo}" class="mainCategoryNo">
     	    <div class="mainCategoryItem">
-                <img src="/resources/img/mainCategory/fashion.png" id="mainImg" alt="패션">
+                <img style="filter: invert(100%);" src="/resources/img/mainCategory/fashion.png" id="mainImg" alt="패션">
                 <p id="mainFont">패션</p>
 	        </div>
          </a>
 
          <a href="/main/subCategory?mainCategoryNo=${list[7].mainCategoryNo}" class="mainCategoryNo">
     	    <div class="mainCategoryItem">
-                <img src="/resources/img/mainCategory/creative.png" id="mainImg" alt="창작">
+                <img style="filter: invert(100%);" src="/resources/img/mainCategory/creative.png" id="mainImg" alt="창작">
                 <p id="mainFont">창작</p>
 	        </div>
          </a>
 
          <a href="/main/subCategory?mainCategoryNo=${list[8].mainCategoryNo}" class="mainCategoryNo">
         	<div class="mainCategoryItem">
-                <img src="/resources/img/mainCategory/culture.png" id="mainImg" alt="문화">
+                <img style="filter: invert(100%);" src="/resources/img/mainCategory/culture.png" id="mainImg" alt="문화">
                 <p id="mainFont">문화</p>
         	</div>
          </a>
