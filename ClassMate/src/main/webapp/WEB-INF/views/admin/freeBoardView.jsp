@@ -254,6 +254,11 @@ cursor:pointer
    border: 1px solid rgb(251,206,25);
    margin: 3.5px; 
    text-align: center;"
+   
+
+}
+#pagingNow.page-link.active {
+position: static;
 
 }
 
@@ -265,6 +270,9 @@ cursor:pointer
    margin: 3.5px; 
    text-align: center;
 }
+
+
+
 </style>
 
 <%-- <% ============================================================================= %> --%>
