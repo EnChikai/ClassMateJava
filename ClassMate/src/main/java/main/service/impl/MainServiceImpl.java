@@ -80,11 +80,10 @@ public class MainServiceImpl implements MainService{
 		map.put("cLass", cLass);
 		map.put("paging1", paging1);
 		
-//		logger.info("cLass {}", cLass);
 //		logger.info("paging1 {}", paging1);
 		
 		List<Class> list = mainDao.onClassList(map);
-		
+//		logger.info("list d뭐이써 {}", list);
 		map.put("list", list);
 		
 		
