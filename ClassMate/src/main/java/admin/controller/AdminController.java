@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,20 +49,24 @@ import web.util.Paging;
 import lecture.dto.Address;
 import lecture.dto.Class;
 
+
 @Controller
+@PropertySource("classpath:/config.properties")
 public class AdminController {
 
+	
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired private AdminService adminService;
 	
 	private IamportClient iamportClient;
 	
-	private String apiKey = "0252767752853851";
-	private String secretKey = "6o97Uw7G4fpsSIMI7CVX54BbeTDFQhoP7Az1YoroixBmK7jGK4WhS9ZYINddI6h5xbnMRoyn5RsESgK7";
+	@Value("${spring.datasource.refundApiKey}") private String refundApiKey;
+	@Value("${spring.datasource.secretKey}") private String secretKey;
 	   
 	public AdminController() {
-	      this.iamportClient = new IamportClient(apiKey, secretKey);
+	      this.iamportClient = new IamportClient(refundApiKey, secretKey);
 	}
 
 	
@@ -417,7 +423,7 @@ public class AdminController {
 		logger.info("merchantUid : {} ", merchantUid);
 		logger.info("orderTb : {} ", orderTb.getUserNo());
 
-		String token = adminService.getToken(apiKey, secretKey);
+		String token = adminService.getToken(refundApiKey, secretKey);
 		logger.info("token : {} ", token);
 		adminService.cancel(token, merchantUid);
 
@@ -573,6 +579,7 @@ public class AdminController {
 			Class classInfo
 			, Map<String, Object> map
 			, Model model
+			,@Value("${spring.datasource.apikey}") String apikey
 			
 			) {
 		logger.info("/admin/classView [GET]");
@@ -586,7 +593,7 @@ public class AdminController {
 		model.addAttribute("classListCount",map.get("classListCount"));
 		model.addAttribute("classVideo",map.get("classVideo"));
 		model.addAttribute("classAddress",map.get("address"));
-		
+		model.addAttribute("apikey", apikey);
 	}
 	
 	@GetMapping("/admin/classExist")
@@ -609,6 +616,7 @@ public class AdminController {
 			Class classInfo
 			, Map<String, Object> map
 			, Model model
+			,@Value("${spring.datasource.apikey}") String apikey
 			
 			) {
 		logger.info("/admin/classUpdate [GET]");
@@ -622,7 +630,7 @@ public class AdminController {
 		model.addAttribute("classListCount",map.get("classListCount"));
 		model.addAttribute("classVideo",map.get("classVideo"));
 		model.addAttribute("classAddress",map.get("address"));
-		
+		model.addAttribute("apikey", apikey);
 	}
 	
 	@PostMapping("/admin/classUpdate")
