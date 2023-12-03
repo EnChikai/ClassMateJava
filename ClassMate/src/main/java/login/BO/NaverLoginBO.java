@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -21,7 +22,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import login.Api.NaverLoginApi;
 
 @Component
-//@PropertySource("file:C:/Users/BaeChangHo/git/ClassMateJava/ClassMate/src/main/webapp/config/config.properties")
+@PropertySource("classpath:/config.properties")
 public class NaverLoginBO {
     /* 인증 요청문을 구성하는 파라미터 */
 	//client_id: 애플리케이션 등록 후 발급받은 클라이언트 아이디
@@ -40,12 +41,9 @@ public class NaverLoginBO {
     	    NaverLoginBO.CLIENT_ID = clientId;
     	    NaverLoginBO.CLIENT_SECRET = clientSecret;
     	    NaverLoginBO.REDIRECT_URI = "http://" + ip + "/login/callback";
-//        NaverLoginBO.CLIENT_ID = "RVjnr8TXsrnV5Sty6_3W";
-//        NaverLoginBO.CLIENT_SECRET = "lnaeH0fBun";
-//        NaverLoginBO.REDIRECT_URI = "http://localhost:8088/login/callback";
-    	    System.out.println("ClientID: " + clientId);
-    	    System.out.println("ClientSecret: " + clientSecret);
-    	    System.out.println("Redirect URI: " + "http://" + ip + "/login/callback");
+//    	    System.out.println("ClientID: " + clientId);
+//    	    System.out.println("ClientSecret: " + clientSecret);
+//    	    System.out.println("Redirect URI: " + "http://" + ip + "/login/callback");
 
     }
     private static String SESSION_STATE = "oauth_state";

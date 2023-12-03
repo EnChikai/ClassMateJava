@@ -22,12 +22,12 @@ h3 {
 }
 </style>
 <script type="text/javascript">
-	$(document).ready(function() {
-		var name = ${result}.response.name;
-		var email = ${result}.response.email;
-		$("#name").html("환영합니다. "+name+"님");
-		$("#email").html(email);
-	  });
+    $(document).ready(function() {
+        var name = "<c:out value='${userInfo.userName}'/>";
+        var email = "<c:out value='${userInfo.userEmail}'/>";
+        $("#name").html("환영합니다. " + name + "님");
+        $("#email").html(email);
+    });
 </script>
 
 </head>
@@ -40,5 +40,11 @@ h3 {
 	<h2 style="text-align: center" id="name"></h2>
 	<h4 style="text-align: center" id="email"></h4>
 
+
+<p>이메일: ${userInfo.userEmail}</p>
+<p>이름: ${userInfo.userName}</p>
+<p>성별: ${userInfo.userGender}</p>
+<p>생년월일: ${userInfo.userBirthday}</p>
+<p>전화번호: ${userInfo.userPhone}</p>
 </body>
 </html>
