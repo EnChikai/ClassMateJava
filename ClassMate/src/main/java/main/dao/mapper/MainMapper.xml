@@ -12,25 +12,32 @@
  	</select>
  	
  	<select id="ClassOrderTop" parameterType="int">
- 		SELECT * FROM (
-		    SELECT C.*, ROWNUM AS rnum
-		    FROM class C
-		    LEFT JOIN order_tb O ON C.class_no = O.class_no
-		    WHERE C.on_off = #{onOff} AND C.delete_boolean = 0
-		    ORDER BY order_no DESC
-		) WHERE rnum &lt;= 5
+		SELECT class_no, class_name, head_img
+		FROM (
+			SELECT C.class_no, C.class_name, C.head_img
+			FROM class C
+			WHERE C.on_off = #{onOff} AND C.delete_boolean = 0
+			AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.class_name, C.head_img
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY C.class_no DESC
+		)
+		WHERE ROWNUM &lt;= 5
  	</select>
  	
  	<select id="recommended" parameterType="int">
- 		SELECT * FROM (
-		    SELECT c.*, ROWNUM AS rnum
-		    FROM (
-		        SELECT *
-		        FROM class
-		        WHERE on_off = #{onOff} AND delete_boolean = 0
-		        ORDER BY expense DESC
-		    ) c
-		) WHERE rnum &lt;= 5
+		SELECT class_no, class_name, head_img
+		FROM (
+			SELECT C.class_no, C.class_name, C.head_img
+			FROM class C
+			WHERE C.on_off = #{onOff} AND C.delete_boolean = 0
+			AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.class_name, C.head_img, C.expense
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY expense DESC
+		)
+		WHERE ROWNUM &lt;= 5
+		
  	</select>
 	 
 	 <select id="mainCategoryList" resultType="MainCategory">
@@ -44,42 +51,54 @@
 	 	</where>
 	 </select>
 	 
-	 <select id="mainOnClassCntAll" resultType="int" parameterType="Class">
-		SELECT count(*) FROM class
-		WHERE delete_boolean = 0
-		   	  AND on_off = 1
-		   	  AND sub_category_no = ${subCategoryNo}
-		   	  AND max_count &gt; ${maxCount}
+	 <select id="mainOnClassCntAll" resultType="Integer" parameterType="Class">   
+	  SELECT count(*) FROM (	   
+   			SELECT count(*)	FROM class C
+			WHERE C.on_off = 1 AND C.delete_boolean = 0 AND C.sub_category_no = ${subCategoryNo} AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+		    	C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY class_no DESC
+			)
 	 </select>
 	 
 	 <select id="onClassList" resultType="Class" parameterType="Map">
 	 	SELECT * FROM (
 	 		SELECT rownum runm, B.* FROM (
-	 			SELECT * FROM class
-	 				WHERE delete_boolean = 0
-	 				
-	 				AND on_off = 1
-	 				AND sub_category_no = ${cLass.subCategoryNo}
-	 				ORDER BY class_no DESC
+		        SELECT C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+			    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+		    FROM class C
+			WHERE C.on_off = 1 AND C.delete_boolean = 0 AND C.sub_category_no = ${cLass.subCategoryNo} AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+		    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY class_no DESC
 	 		) B
 	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
 	 </select>	 
 	 
-	 <select id="mainOffClassCntAll" resultType="int" parameterType="Class">
-		SELECT count(*) FROM class
-		WHERE delete_boolean = 0
-		   	  AND on_off = 0
-		   	  AND sub_category_no = ${subCategoryNo}
+	 <select id="mainOffClassCntAll" resultType="Integer" parameterType="Class">
+	  SELECT count(*) FROM (
+   			SELECT count(*)	FROM class C
+			WHERE C.on_off = 0 AND C.delete_boolean = 0 AND C.sub_category_no = ${subCategoryNo} AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+		    	C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY class_no DESC
+			)
 	 </select>
 
 	 <select id="offClassList" resultType="Class" parameterType="Map">
 	 	SELECT * FROM (
 	 		SELECT rownum runm, B.* FROM (
-	 			SELECT * FROM class
-	 				WHERE delete_boolean = 0
-	 				AND on_off = 0
-	 				AND sub_category_no = ${cLass.subCategoryNo}
-	 				ORDER BY class_no DESC
+		        SELECT C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+			    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+		    FROM class C
+			WHERE C.on_off = 0 AND C.delete_boolean = 0 AND C.sub_category_no = ${cLass.subCategoryNo} AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+		    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY class_no DESC
 	 		) B
 	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
 	 </select>
@@ -87,14 +106,14 @@
 	 <select id="onClassSortList" resultType="Class" parameterType="Map">
 	 	SELECT * FROM (
 	 		SELECT rownum runm, B.* FROM (
-	 			SELECT c.class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start, class_end, max_count, expense,
-					class_info, curriculum, on_off, head_img, delete_boolean, order_no, user_no, o.merchant_uid
-				FROM class c
-				FULL OUTER JOIN order_tb o ON c.class_no = o.class_no
-	 				WHERE c.delete_boolean = 0
-	 				AND c.on_off = 1
-	 				AND c.sub_category_no = ${cLass.subCategoryNo}
-	 				ORDER BY ${sort}
+		        SELECT C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+			    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+		    FROM class C
+			WHERE C.on_off = 1 AND C.delete_boolean = 0 AND C.sub_category_no = ${cLass.subCategoryNo} AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+		    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY ${sort}
 	 		) B
 	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
 	 </select>	 
@@ -102,14 +121,14 @@
 	 <select id="offClassSortList" resultType="Class" parameterType="Map">
 	 	SELECT * FROM (
 	 		SELECT rownum runm, B.* FROM (
-	 			SELECT c.class_no, teacher_no, main_category_no, sub_category_no, teacher, class_name, class_date, class_start, class_end, max_count, expense,
-					class_info, curriculum, on_off, head_img, delete_boolean, order_no, user_no, o.merchant_uid
-				FROM class c
-				FULL OUTER JOIN order_tb o ON c.class_no = o.class_no
-	 				WHERE c.delete_boolean = 0
-	 				AND c.on_off = 0
-	 				AND c.sub_category_no = ${cLass.subCategoryNo}
-	 				ORDER BY ${sort}
+		        SELECT C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+			    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+		    FROM class C
+			WHERE C.on_off = 0 AND C.delete_boolean = 0 AND C.sub_category_no = ${cLass.subCategoryNo} AND C.class_date &lt; C.class_start
+			GROUP BY C.class_no, C.teacher_no, C.main_category_no, C.sub_category_no, C.teacher, C.class_name, C.class_date, C.class_start, C.class_end, C.max_count,
+		    C.expense, C.class_info, C.on_off, C.head_img, C.delete_boolean
+			HAVING COUNT(C.max_count) &lt; MAX(C.max_count)
+			ORDER BY ${sort}
 	 		) B
 	 	) WHERE runm BETWEEN #{paging1.startNo} AND #{paging1.endNo}
 	 </select>
@@ -117,7 +136,6 @@
 	 <select id="onClassViewList" resultType="Class" parameterType="Class">
 	 	SELECT * FROM class
 	 	WHERE class_no = #{classNo}
-	 	AND delete_boolean = 0
 	 </select>
 	 
 	 <select id="duplicationPayment" resultType="Integer" parameterType="Map">

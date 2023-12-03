@@ -234,17 +234,17 @@ button {
  transform: translateY(-50%);"
 }
 
-#chkCert {
-   background-color: rgb(158, 158, 158);
-   color: rgb(255, 255, 255);
-   border-radius: 4px; 
-   width: 73px; 
-   font-size: 16px; 
-   border: 1px solid #ccc; 
-   height: 30px; 
-   cursor: pointer;
-   vertical-align: middle; 
-}
+/* #chkCert { */
+/*    background-color: rgb(158, 158, 158); */
+/*    color: rgb(255, 255, 255); */
+/*    border-radius: 4px;  */
+/*    width: 73px;  */
+/*    font-size: 16px;  */
+/*    border: 1px solid #ccc;  */
+/*    height: 30px;  */
+/*    cursor: pointer; */
+/*    vertical-align: middle;  */
+/* } */
 
 #btnPost {
      background-color: rgb(158, 158, 158); 
@@ -318,8 +318,8 @@ input[type="checkbox"] {
          <input type="text" id="userPhone" name="userPhone" value="${userInfo.userPhone }"><br>
          
          <label for="userEmail">이메일</label>
-         <input type="email" id="userEmail" name="userEmail" placeholder="${userInfo.userEmail }" style="width: 200px">
-         <button id="chkCert">인증확인</button><br>
+         <input type="email" id="userEmail" name="userEmail" placeholder="${userInfo.userEmail }" style="width: 200px" disabled="disabled"><br>
+         <!-- <button id="chkCert">인증확인</button><br> -->
          
          <label for="postcode">주소</label>
          <input type="text" id="postcode" name="userPost" placeholder="${userInfo.userPost }" style="width: 200px; text-align: left;">

@@ -359,6 +359,20 @@ SELECT teacher_img FROM teacher
 
 </select>
 
+<select id="selectByMainCategoryNo" resultType="String" parameterType="int">
+	SELECT main_category_name FROM main_category
+		<where>
+			AND main_category_no = #{mainCategoryNo}
+		</where>
+</select>
+
+<select id="selectBySubCategoryNo" resultType="String" parameterType="int">
+	SELECT sub_Category_name FROM sub_category
+		<where>
+			AND sub_category_no = #{subCategoryNo}
+		</where>
+</select>
+
 <select id="selectAddressDetail" resultType="Address" parameterType="Address">
 	SELECT * FROM address
 		<where>

@@ -47,8 +47,8 @@ $(function() {
 
 #loginDiv {
     border: 1px solid #ccc;
-    width: 478px;
-    height: 370px;
+    width: 480px;
+    height: 410px;
     margin: 0 auto;
     margin-top: 9px;
     background-color: #fff;
@@ -59,13 +59,13 @@ $(function() {
 #loginDiv1 {
    border: 1px solid #ccc;
    width: 500px;
-    height: 390px;
+    height: 430px;
     margin: 90px auto 10px auto;
 }
 
 #loginh1 {
-   margin-top: 40px;
-   margin-bottom: 20px;
+   margin-top: 50px;
+   margin-bottom: 10px;
 }
 
 h1 {
@@ -103,16 +103,17 @@ h1 {
 }
 
 #btnLogin {
-    background-color: #F0C610; 
-    border-radius: 4px; 
-    color: white; 
-    font-size: 16px; 
-    text-align: center; 
-    cursor:pointer; 
-    display: inline-block; 
-    border: none; 
-    width: 20%; 
-    height: 32px;
+	background-color: #F0C610;
+    border-radius: 3px;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    border: none;
+    width: 20%;
+    height: 34px;
+    vertical-align: top;
 }
 
 button#btnLogin:hover {
@@ -122,6 +123,7 @@ button#btnLogin:hover {
 #noInputId, #noInputPw {
    font-size: 12px;
    color: red;
+   margin-bottom: 5px;
 }
 #btnNaver {
     background-color: white; 
@@ -200,20 +202,16 @@ $(function() {
             <div style="margin-bottom: 8px;"></div>
             <label><img src="/resources/img/key_1.png">
             <input type="password" id="userPw" name="userPw" placeholder="비밀번호를 입력해주세요"></label><br>
-            <div id="noInputPw"></div><br>
+            <div id="noInputPw"></div>
             ${errormsg} <!-- modal 에러메시지 -->
          </div>
       
          <div style="text-align: center;">
             <button id="btnLogin" type="button">로그인</button>
-		         <a href="${url}">
-		         	<button id="btnNaver">
-		         		<span style="color: #2DB400; font-weight: 900;">N</span>
-		         		<span>로그인</span>
-		         	</button>
-		         </a>
+		       	 <a href="${url}"><img width="20%" src="${pageContext.request.contextPath}/resources/img/btnW_축약형.png"/></a>
          </div><!-- .idpw -->
-      
+		       	 <a href="${url}"><img width="197px" height="40px" src="${pageContext.request.contextPath}/resources/img/kakao_logo_large.png"/></a>
+      	
          <div>
             <a class="join" href="/user/join">계정이 없으신가요? 가입하기</a>
          </div>

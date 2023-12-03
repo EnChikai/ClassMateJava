@@ -22,27 +22,47 @@ function submitForm() {
 </script>
 <style type="text/css">
 
+</script>
+<style type="text/css">
+
 .payTable {
 	border: 1px solid black;
-	text-align: center;	
-}
-.payTable th {
-	border: 1px solid black;
-	text-align: center;	
-}
-.payTable td {
-	border: 1px solid black;
-	text-align: center;	
+	text-align: center;
 }
 
+.payTable th{
+	border: 1px solid black;
+	text-align: center;
+	font-weight: 600;
+	font-size: large;
+	background-color: gray;
+	color: white;
+	max-width: 92px;
+	height: 50px;
+		
+}
+
+.payTable td{
+	border: 1px solid black;
+	text-align: center;
+	height: 45px;
+		
+}
+
+.tdNum {
+	color: 834683;
+	width="42"
+}
+
+</style>
 </style>
 
 
 <div class="cd1">
 <div style="width: 700px; min-height: 800px;">
-<h1>강사 정산 내역</h1><br>
+<h1 style="text-align: center; height: 60px;">강사 정산 내역</h1>
 <form id="onOffForm" action="/teacher/payDetail" method=post>
-    <div class="dropdown" style="margin-left: 550px;">
+    <div class="dropdown" style="margin-left: 600px;">
         <select name="onOff" id="onOff" onchange="submitForm()">
             <option value="99" ${allPayDetail eq 1 ? 'selected' : ''}>전체보기</option>
             <option value="1" ${onPayDetail eq 2 ? 'selected' : ''}>ON클래스</option>
@@ -52,9 +72,9 @@ function submitForm() {
 </form>
 
 
-	<table class="payTable">
+	<table class="payTable" style="border-radius: 5px; width: 700px;">
    		<tr>
-   			<th>번호</th>
+   			<th width="42">번호</th>
    			<th>강좌명</th>
    			<th>모집 현황</th>
    			<th>기간</th>
@@ -68,7 +88,7 @@ function submitForm() {
 	       		<c:forEach var="num" begin="1" end="${classStatus.count}">
 	       			<c:if test="${num == classStatus.count}">
 			  		<tr>
-			  			<td>${num}</td>
+			  			<td class="tdNum">${num}</td>
 			  			<td>${classItem.className }</td>
 			  			<td>${paymentItem.orderNo}/${classItem.maxCount }</td>
 			  			<td>${classItem.classStart}/${classItem.classEnd }</td>
@@ -91,7 +111,7 @@ function submitForm() {
 </table>
 
   
-  <div>
+  <div style="margin-top: 20px;">
 	
 	<ul class="pagination pagination-sm justify-content-center">
  		<%-- 첫 페이지로 이동 --%>

@@ -105,6 +105,9 @@ public class MainController {
 				   model.addAttribute("paging",map.get("paging1"));
 				   model.addAttribute("sort",sort);
 				   model.addAttribute("expenseNo",1);
+				   
+			       logger.info("sort 뭔데 {}",sort);
+			       logger.info("list 뭔데 {}",map.get("list"));
 				   if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
 					    model.addAttribute("error", 1);
 					}
@@ -118,6 +121,9 @@ public class MainController {
 				   model.addAttribute("paging",map.get("paging1"));
 				   model.addAttribute("sort",sort);
 				   model.addAttribute("classDescNo",2);
+				   
+			       logger.info("sort 뭔데 {}",sort);
+			       logger.info("list 뭔데 {}",map.get("list"));
 				   if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
 					    model.addAttribute("error", 1);
 					}
@@ -132,11 +138,14 @@ public class MainController {
 				   model.addAttribute("paging",map.get("paging1"));
 				   model.addAttribute("sort",sort);
 				   model.addAttribute("expenseDescNo",3);
+				   
+			       logger.info("sort 뭔데 {}",sort);
+			       logger.info("list 뭔데 {}",map.get("list"));
 				   if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
 					    model.addAttribute("error", 1);
 					}
 				   
-			   } else if(sort.equals("order_no desc") ) {
+			   } else if(sort.equals("COUNT(C.max_count) desc") ) {
 				   logger.info("sort {}", sort);
 				   map = mainService.onClassList(cLass, paging, sort);
 				   
@@ -145,6 +154,9 @@ public class MainController {
 				   model.addAttribute("paging",map.get("paging1"));
 				   model.addAttribute("sort",sort);
 				   model.addAttribute("orderNoDesc",4);
+				   
+			       logger.info("sort 뭔데 {}",sort);
+			       logger.info("list 뭔데 {}",map.get("list"));
 				   if (map.get("list") == null || ((List<?>) map.get("list")).isEmpty()) {
 					    model.addAttribute("error", 1);
 					}
@@ -210,7 +222,7 @@ public class MainController {
 					    model.addAttribute("error", 1);
 					}
 				   
-			   } else if(sort.equals("order_no desc") ) {
+			   } else if(sort.equals("COUNT(C.max_count) desc") ) {
 				   logger.info("sort {}", sort);
 				   map = mainService.offClassList(cLass, paging, sort);
 				   

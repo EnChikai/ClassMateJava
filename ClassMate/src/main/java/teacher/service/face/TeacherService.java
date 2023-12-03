@@ -223,6 +223,10 @@ public interface TeacherService {
 	 */
 	public String getTeacherImg(int userNo);
 
+	public String getMaincategory(int mainCategoryNo);
+
+	public String getSubcategory(int subCategoryNo);
+
 	
 
 
