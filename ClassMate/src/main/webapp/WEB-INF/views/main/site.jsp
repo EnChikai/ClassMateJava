@@ -7,7 +7,8 @@
 .defaultWidth{
 	margin-left: 400px;
 	margin-right: 400px;
-	margin-top: 35px;
+    margin-top: 60px;
+	margin-bottom: 60px;
 }
 
 </style>
@@ -16,10 +17,9 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <div class="defaultWidth">
 
-<div style="text-align: center; border: 1px solid gray; margin-left: 100px; margin-right: 100px;">
-<h1 style="background: black; color: white;">사이트 소개</h1>
-
-<img src="/resources/img/site.png">
-</div>
+	<div style="text-align: center; border: 1px solid gray; margin-left: 100px; margin-right: 100px;">
+		<h1 style="background: black; color: white;">사이트 소개</h1>
+		<img src="/resources/img/site.png">
+	</div>
 </div>
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

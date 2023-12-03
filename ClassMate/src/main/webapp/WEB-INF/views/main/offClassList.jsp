@@ -82,7 +82,7 @@ a:hover{
     <div class="dropdown" style="float: right;">
         <select name="sort" id="sortOrderSelect" onchange="submitForm()" style="padding: 7px; padding-right: 52px;">
             <option value="class_no desc" ${classDescNo eq 2 ? 'selected' : ''}>최신순</option>
-            <option value="order_no desc" ${orderNoDesc eq 4 ? 'selected' : ''}>인기순</option>
+            <option value="COUNT(C.max_count) desc" ${orderNoDesc eq 4 ? 'selected' : ''}>인기순</option>
             <option value="expense" ${expenseNo eq 1 ? 'selected' : ''}>낮은 금액</option>
             <option value="expense desc" ${expenseDescNo eq 3 ? 'selected' : ''}>높은 금액</option>
         </select>
