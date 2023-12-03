@@ -705,7 +705,23 @@ public class TeacherServiceImpl implements TeacherService {
 				
 				String teacherImg = teacherDao.selectByTeacherImg(userNo);
 				
-				return null;
+				return teacherImg;
+			}
+
+			@Override
+			public String getMaincategory(int mainCategoryNo) {
+				
+				String mainCategoryName = teacherDao.selectByMainCategoryNo(mainCategoryNo);
+				
+				return mainCategoryName;
+			}
+
+			@Override
+			public String getSubcategory(int subCategoryNo) {
+
+				String subCategoryName = teacherDao.selectBySubCategoryNo(subCategoryNo);
+			
+				return subCategoryName;
 			}
 
 

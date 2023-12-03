@@ -27,7 +27,6 @@ function submitForm() {
 	border: 1px solid black;
 	text-align: center;
 	width: 700px;
-	height: 500px;
 }
 
 .checkTable th{
@@ -37,12 +36,15 @@ function submitForm() {
 	font-size: large;
 	background-color: #000000;
 	color: white;
+	max-width: 92px;
+	height: 50px;
 		
 }
 
 .checkTable td{
 	border: 1px solid black;
 	text-align: center;
+	height: 45px;
 		
 }
 
@@ -66,38 +68,47 @@ function submitForm() {
 </form>
   
 
-	<table class="checkTable" style="border-radius: 5px;">
-   		<tr>
-   			<th width="42">번호</th>
-   			<th>강좌명</th>
-   			<th>모집 현황</th>
-   			<th>기간</th>
-   			<th>강의 금액</th>
-   		</tr>
-	<c:forEach var="classItem" items="${classList}" varStatus="classStatus">	        
-	       		<c:forEach var="num" begin="1" end="${classStatus.count}">
-	       			<c:if test="${num == classStatus.count}">
-			  		<tr>
-			  			<td class="tdNum">${num}</td>
-			  			<td><a href="/teacher/detail?classNo=${classItem.classNo }">${classItem.className }</a></td>
-			  			<td>${classItem.classStart}/${classItem.classEnd }</td>
-			  			<td>${classItem.expense}</td>
-			  			<td>
-			  				<c:if test="${classItem.onOff == 1}">
-			  				ON
-			  				</c:if>
-			  				<c:if test="${classItem.onOff == 0}">
-			  				OFF
-			  				</c:if>
-			  			</td>
-			  		</tr>
-	       			</c:if>
-	       		</c:forEach>
-	    </c:forEach>
-</table>
+<c:choose>
+        <c:when test="${empty classList}">
+            <div style="text-align: center; margin-top: 110px; width: 700px; height: 500px;">
+                <p style="font-size: xx-large; font-weight: bold;">클래스가 없습니다</p>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <table class="checkTable" style="border-radius: 5px;">
+                <tr>
+                    <th width="42">번호</th>
+                    <th>강좌명</th>
+                    <th>모집 현황</th>
+                    <th>기간</th>
+                    <th>강의 금액</th>
+                </tr>
+                <c:forEach var="classItem" items="${classList}" varStatus="classStatus">
+                    <c:forEach var="num" begin="1" end="${classStatus.count}">
+                        <c:if test="${num == classStatus.count}">
+                            <tr>
+                                <td class="tdNum">${num}</td>
+                                <td><a href="/teacher/detail?classNo=${classItem.classNo }">${classItem.className }</a></td>
+                                <td>${classItem.classStart}/${classItem.classEnd }</td>
+                                <td>${classItem.expense}</td>
+                                <td>
+                                    <c:if test="${classItem.onOff == 1}">
+                                        ON
+                                    </c:if>
+                                    <c:if test="${classItem.onOff == 0}">
+                                        OFF
+                                    </c:if>
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                </c:forEach>
+            </table>
+        </c:otherwise>
+    </c:choose>
 
   
-   <div style="margin-top: 20px; margin-bottom: 10px;">
+   <div id="checkPage"  style="margin-top: 20px; margin-bottom: 10px; display: ${empty classList ? 'none' : 'block'};">
 	
 	<ul class="pagination pagination-sm justify-content-center">
  		<!-- 첫 페이지로 이동 -->

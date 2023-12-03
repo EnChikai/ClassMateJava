@@ -63,6 +63,7 @@ public class TeacherController {
 		
 		session.setAttribute("userName", userName);
 		session.setAttribute("teacherImg", teacherImg);
+		logger.info("강사얼굴 {}",teacherImg);
 		
 		model.addAttribute("userName", userName);
 		model.addAttribute("teacherImg", teacherImg);
@@ -150,10 +151,12 @@ public class TeacherController {
 				model.addAttribute("allPayDetail", 1);
 			} else if (onOff.equals("1")) {
 
-				Paging onPaging = teacherService.getPaging(param, session, map, onOff);
+				Paging onPaging = teacherService.getPaging2(param, session, map, onOff);
 
+				 logger.info("paging 안에 뭐가 있어? : {}",onPaging);
 				// 강사 정산 내역
 				map = teacherService.getClassCheckDetail(lecture, map, onPaging, session, onOff);
+				logger.info("맵안에없엉{}", map);
 				model.addAttribute("classList", map.get("Class"));
 				model.addAttribute("paging", onPaging);
 				model.addAttribute("onPayDetail", 2);
@@ -196,6 +199,15 @@ public class TeacherController {
 		
 		int onOff = lectureDetail.getOnOff();
 		logger.info("와써 {}", onOff);
+		
+		int mainCategoryNo = lectureDetail.getMainCategoryNo();
+		int subCategoryNo = lectureDetail.getSubCategoryNo();
+		
+		String mainCategoryName = teacherService.getMaincategory(mainCategoryNo);
+		String subCategoryName = teacherService.getSubcategory(subCategoryNo);
+		
+		model.addAttribute("mainCategoryName", mainCategoryName);
+		model.addAttribute("subCategoryName", subCategoryName);
 		
 		model.addAttribute("detailList", lectureDetail);
 		
