@@ -12,6 +12,7 @@
 
 <c:import url="/WEB-INF/views/layout/teacherSide.jsp" />
 
+
 <script type="text/javascript">
 
 $(document).ready(function () {
@@ -206,8 +207,20 @@ function readURL(input) {
 
 <style type="text/css">
      
-    input[type="file"], input[type="number"] {
+    #dynamicTable input[type="file"] {
         display: none;
+        margin-right: 10px;
+        margin-bottom: 5px;
+    }
+
+    #dynamicTable input[type="number"] {
+        display: none;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    
+    #dynamicTable td {
+
     }
 
     #deleteTableButton {
@@ -239,9 +252,9 @@ file-input-container {
 </style>
 
 <div class="cd1">
-<div class="title">
-<h3 style="display: inline-block;">ON/OFF클래스 등록</h3>
-<div id= "all"><select name="classCheck" id="classCheck">
+<div class="title" style="width: 900px;">
+<h3 style= "text-align: center;">ON/OFF클래스 등록</h3>
+<div style="margin-left: 750px; margin-bottom: 10px;"><select name="classCheck" id="classCheck">
   <option disabled="disabled" selected="selected" value="2">--선택해주세요--</option>
   <option value="1">on클래스</option>
   <option value="0">off클래스</option>
@@ -249,11 +262,12 @@ file-input-container {
 </div>
 <hr>
 
-<form action="/teacher/regist" method="post" id="submit" name="submit" enctype="multipart/form-data">
+<form action="/teacher/regist" method="post" id="submit" name="submit" enctype="multipart/form-data" style="width: 900px;">
 <img id="preview" width="130" height="150"/>
 <div class="fileBox">
-	<label for="singleFile" style="display: block;">썸네일 등록</label>
-	<input type="file"  name="singleFile" id="singleFile" onchange="readURL(this);"> 
+	<label for="singleFile" style="display: block; margin-bottom: 5px; margin-top: 5px;">썸네일 등록</label>
+	
+	<input type="file"  name="singleFile" id="singleFile" onchange="readURL(this);" style="margin-bottom: 10px;"> 
 </div>
 <table class="table table-bordered">
 
@@ -281,7 +295,7 @@ file-input-container {
 	<option value="창작">창작</option>
 	<option value="culture">문화</option>
 	</select>
-	<img src="/resources/img/rightArrow2.png" id="rightImg" alt="더하기" width="30" height="30" style="margin-left: 5px; margin-right: 5px;">
+	<img src="/resources/img/gonext.png" id="rightImg" alt="더하기" width="30" height="30" style="margin-left: 5px; margin-right: 5px;">
 	<label for="subCategoryName">소분류 : </label>
 	<select name="subCategoryName" id="subCategoryName" disabled>
 	<option selected disabled>대분류를 먼저 선택해주세요</option>
@@ -293,20 +307,20 @@ file-input-container {
 </tr>
 <tr>
 	<td class="table-info">클래스 기간</td><td><input type="date" name= "classStart" id="classStart">
-		<img src="/resources/img/tilde.png" id="tideImg" alt="물결" width="30" height="30" style="margin-left: 5px; margin-right: 5px;">
+		<img src="/resources/img/dash.png" id="tideImg" alt="물결" width="30" height="30" style="margin-left: 5px; margin-right: 5px;">
 		 <input type="date" name="classEnd" id="classEnd"></td>
 </tr>
 <tr>
-	<td class="table-info">모집 정원</td><td><input type="number" name="maxCount" id="maxCount" style="display: block;">명</td>
+	<td class="table-info">모집 정원</td><td><input type="number" name="maxCount" id="maxCount"> 명</td>
 </tr>
 <tr>
 	<td class="table-info">비용 및 안내</td><td><input type="text" name="expense" id="expense"> 원</td>
 </tr>
 <tr>
-	<td class="table-info">클래스 소개</td><td><textarea name="classInfo" id="classInfo" style="width: 600px; height: 180px;"></textarea></td>
+	<td class="table-info">클래스 소개</td><td><textarea name="classInfo" id="classInfo" style="width: 700px; height: 180px;"></textarea></td>
 </tr>
 <tr>
-	<td class="table-info">커리큘럼</td><td><textarea name="curriculum" id="curriculum" style="width: 600px; height: 180px;"></textarea></td>
+	<td class="table-info">커리큘럼</td><td><textarea name="curriculum" id="curriculum" style="width: 700px; height: 180px;"></textarea></td>
 </tr>
 </table>
 
@@ -325,7 +339,7 @@ file-input-container {
 
 <script>
     // 함수를 호출하여 테이블 생성
-    createDynamicTable(4, 5);
+    createDynamicTable(5, 4);
 
     function createDynamicTable(rows, cols) {
         // 테이블 엘리먼트 생성
@@ -343,23 +357,34 @@ file-input-container {
                 // input 엘리먼트 생성
                 var input = document.createElement('input');
                 input.type = 'file';
-                input.id = 'fileInput_' + ((i * 5) + (j + 1)); // 고유한 id 부여
-                input.name = 'fileInput_' + ((i * 5) + (j + 1)); // name 속성 부여
+                input.id = 'fileInput_' + ((i * 4) + (j + 1)); // 고유한 id 부여
+                input.name = 'fileInput_' + ((i * 4) + (j + 1)); // name 속성 부여
+                input.style.width = '220px';
+                
+                var label = document.createElement('label');
+                label.className = "input-file-button";
+                label.htmlFor = input.id; // label과 input을 연결
+                label.style.display = 'inline-block'; // label이 옆에 표시되도록 설정
+                label.value = '값';
 
                 var input2 = document.createElement('input');
                 input2.type = 'number';
-                input2.id = 'numberInput_' + ((i * 5) + (j + 1)); // 고유한 id 부여
-                input2.name = 'numberInput_' + ((i * 5) + (j + 1)); // name 속성 부여
-                input2.value = (i * 5) + (j + 1); // 열 번호로 초기값 설정
+                input2.id = 'numberInput_' + ((i * 4) + (j + 1)); // 고유한 id 부여
+                input2.name = 'numberInput_' + ((i * 4) + (j + 1)); // name 속성 부여
+                input2.value = (i * 4) + (j + 1); // 열 번호로 초기값 설정
                 input2.readOnly = true; // 읽기 전용으로 설정
+                
+                
 
                 // input의 change 이벤트에 함수 연결
                 input.addEventListener('change', function () {
                     handleFileInput(this);
+                    label.innerText = this.value; // input 값이 변경되면 label에 반영
                 });
 
                 // cell에 input 추가
                 cell.appendChild(input);
+                cell.appendChild(input2);
                 cell.appendChild(input2);
 
                 // 첫 번째 셀인 경우 파일 입력을 보이게 처리
@@ -382,7 +407,7 @@ file-input-container {
         var row = cell.parentNode.rowIndex;
 
         // 현재 위치의 행이 마지막 행이 아니면 다음 열에 input 추가
-        if (col < 4) {
+        if (col < 3) {
             var nextCell = cell.nextElementSibling;
             var nextInput = nextCell.querySelector('input[type="file"]');
             var nextInput2 = nextCell.querySelector('input[type="number"]');
@@ -399,7 +424,7 @@ file-input-container {
         }
 
         // 현재 위치의 열이 마지막 열이 아니면 다음 행의 첫 번째 열에 input 추가
-        if (row < 5 && col === 4) {
+        if (row < 6 && col === 3) {
             var nextRow = cell.parentNode.nextElementSibling;
             if (nextRow) {
                 var firstCell = nextRow.querySelector('td');
@@ -443,7 +468,7 @@ file-input-container {
         deleteTableButton.style.display = 'none';
 
         // 테이블 내용을 1행 1열로 재생성
-        createDynamicTable(4, 5);
+        createDynamicTable(5, 4);
     }
 
 
@@ -495,7 +520,7 @@ file-input-container {
 	<div><button id="deleteTableButton" onclick="deleteTable(event)">테이블 생성</button></div>
 
 	
-   <div style="width: 700px;"><table id="dynamicTable"></table></div>
+   <div style="width: 850px;"><table id="dynamicTable"></table></div>
 
     <input type="number" id="fileCount" name="fileCount" value="1" readonly style="display:none">	
 
@@ -507,10 +532,10 @@ file-input-container {
     <input type="number" id="fileCount" name="fileCount" value="1" readonly style="display:none">	
 </div> -->
 <div id="showMap" style="display: none">
-<input type="text" id="mainAddress" name="mainAddress" placeholder="주소" readonly>
+<input type="text" id="mainAddress" name="mainAddress" placeholder="주소" readonly style="margin-left: 350px;">
 <input type="button" onclick="execDaumPostcode()" value="주소 검색"><br>
-<input type="text" id="subAddress" name="subAddress" placeholder="상세 주소 입력">
-<div id="map" style="width:90%;height:350px;margin-top:10px;display:none"></div>
+<input type="text" id="subAddress" name="subAddress" placeholder="상세 주소 입력" style="margin-left: 350px;">
+<div id="map" style="width:100%;height:350px;margin-top:10px;display:none"></div>
 </div>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
