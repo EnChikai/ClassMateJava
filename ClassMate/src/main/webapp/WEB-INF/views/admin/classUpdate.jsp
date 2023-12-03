@@ -342,7 +342,7 @@ $(function(){
 			<c:if test="${not empty classVideo}">
 				<c:forEach var="i" begin="0" end="${classVideo.size() }">
 <%-- 				<c:forEach var="i" begin="0" end="10"> --%>
-
+ 
 				</c:forEach>
 			</c:if>
 			<c:if test="${empty classVideo}">
