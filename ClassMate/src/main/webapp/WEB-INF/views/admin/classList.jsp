@@ -199,7 +199,7 @@ $(function(){
 	
 	$(".classInfo${classList.classNo }").click(function(){
 		
-		location.href = '../admin/classInfo?classNo=${classList.classNo }';
+		location.href = '../admin/classView?classNo=${classList.classNo }';
 		
 	})
 	
@@ -218,15 +218,15 @@ $(function(){
 
 <c:if test="${sort eq 0}">
 <select class="dropTag" name="sort" id="sort">
-	<option value="0">On클래스</option>
-	<option value="1">Off클래스</option>
+	<option value="0">Off클래스</option>
+	<option value="1">On클래스</option>
 </select>
 </c:if>
 
 <c:if test="${sort eq 1}">
 <select class="dropTag" name="sort" id="sort">
-	<option value="1">Off클래스</option>
-	<option value="0">On클래스</option>
+	<option value="1">On클래스</option>
+	<option value="0">Off클래스</option>
 </select>
 </c:if>
 

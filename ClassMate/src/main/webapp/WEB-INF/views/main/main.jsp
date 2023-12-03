@@ -196,8 +196,8 @@ background-color: #F0C610;
 
 /* 이전/다음 버튼에 스타일 추가 */
 #prevBtn-on, #nextBtn-on {
-    padding-right: 6;
-    padding-left: 6;
+    padding-right: 6px;
+    padding-left: 6px;
     cursor: pointer;
     background-color: white;
     border: 1px solid #ccc;
@@ -207,15 +207,14 @@ background-color: #F0C610;
 
 /* 강의 아이템 스타일 추가 */
 .lecture-item-on {
-    text-align: center;
     margin-bottom: 20px;
+    
 }
 
 .container-on {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-right: 6px;
+    justify-content: space-between;
 }
 
 /* OFF 클래스 TOP 5 */
@@ -248,15 +247,13 @@ background-color: #F0C610;
 
 /* 강의 아이템 스타일 추가 */
 .lecture-item-off {
-    text-align: center;
     margin-bottom: 20px;
 }
 
 .container-off {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-right: 3px;
+	justify-content: space-between;
 }
 
 
@@ -273,14 +270,14 @@ background-color: #F0C610;
 
 .lecture-item-onOff {
     flex: 0 0 auto;
-    width: 25%; /* 한 번에 3개의 아이템을 보여줍니다. */
+    width: 25%; /* 한 번에 4개의 아이템을 보여줍니다. */
     box-sizing: border-box;
 }
 
 /* 이전/다음 버튼에 스타일 추가 */
 #prevBtn-onOff, #nextBtn-onOff {
-    padding-right: 6;
-    padding-left: 6;
+    padding-right: 6px;
+    padding-left: 6px;
     cursor: pointer;
     background-color: white;
     border: 1px solid #ccc;
@@ -299,15 +296,135 @@ background-color: #F0C610;
     align-items: center;
     justify-content: flex-end;
     border: 1px solid #ccc;
-    margin-right: 38px;
-    margin-left: 38px;
     padding-top: 10px;
     padding-bottom: 10px;
+    margin-left: 4px;
+    margin-right: 4px;
 }
 
 a:hover{
 	color: black;
 	text-decoration: underline;
+}
+
+p{
+    text-align: center;
+}
+
+img {
+  max-width: 100%;
+}
+
+@media (max-width: 1850px) {
+
+#carouselExampleRide {
+	display: none;
+}
+
+	.lecture-item-on {
+	    flex: 0 0 auto;
+	    width: 50%; /* 한 번에 3개의 아이템을 보여줍니다. */
+	    box-sizing: border-box;
+	}
+	
+	.solid {
+		display: none;
+	}
+	
+	.lecture-item-Off {
+	    flex: 0 0 auto;
+	    width: 50%; /* 한 번에 4개의 아이템을 보여줍니다. */
+	    box-sizing: border-box;
+	}
+	
+	.lecture-item-onOff {
+	    flex: 0 0 auto;
+	    width: 50%; /* 한 번에 4개의 아이템을 보여줍니다. */
+	    box-sizing: border-box;
+	}
+	
+	.container-on {
+	text-align: center;
+	justify-content: flex-start;
+	}
+	
+	.container-Off {
+	text-align: center;
+	justify-content: flex-start;
+	}
+	
+	.container-onOff {
+	text-align: center;
+	justify-content: flex-start;
+	width: 250px;
+	}
+	
+	.onOffFlext{
+	display:flex;
+	text-align: center;
+	justify-content: center;
+	}
+
+}
+
+@media (max-width: 1535px) {
+
+.defaultWidth{
+	margin-left: 200px;
+	margin-right: 200px;
+    margin-top: 60px;
+	margin-bottom: 60px;
+}
+
+
+	.lecture-item-on {
+	    flex: 0 0 auto;
+	    width: 100%; /* 한 번에 3개의 아이템을 보여줍니다. */
+	    box-sizing: border-box;
+	}
+	
+		.lecture-item-Off {
+	    flex: 0 0 auto;
+	    width: 100%; /* 한 번에 3개의 아이템을 보여줍니다. */
+	    box-sizing: border-box;
+	}
+	
+	.TOP5{
+		min-width: 139px;
+	}
+	
+	
+	
+}
+
+@media (max-width: 950px) {
+
+		.lecture-item-onOff {
+	    flex: 0 0 auto;
+	    width: 100%; /* 한 번에 3개의 아이템을 보여줍니다. */
+	    box-sizing: border-box;
+	}
+	
+		.onOffFlext{
+	display:inline-block;
+	    margin-left: 48px;
+	}
+
+}
+
+
+@media (max-width: 780px) {
+	#carousel-container-on{
+		min-width: 358px;
+	}
+	#carousel-container-off{
+		min-width: 358px;
+	}
+	#carousel-container-onOff{
+		min-width: 358px;
+	}
+
+
 }
         
 </style>
@@ -317,7 +434,7 @@ a:hover{
 
 <div class="defaultWidth">
 
-<div class="container" style="margin-top: 60px;">
+<div style="margin-top: 60px;">
 
 <div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
     <div class="carousel-indicators">
@@ -330,11 +447,11 @@ a:hover{
 	</div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <a href="/board/eventView?eventNo=${selectByEventFileList[0].eventNo }"><img data-bs-slide-to="0" style="width: 1079px; height: 300px;" src="/upload/${selectByEventFileList[0].headImg }"></a>
+      <a href="/board/eventView?eventNo=${selectByEventFileList[0].eventNo }"><img data-bs-slide-to="0" style="width: 1103; height: 300px;" src="/upload/${selectByEventFileList[0].headImg }"></a>
     </div>
     <c:forEach var="list"  items="${selectByEventFileList }" begin="1" varStatus="status">
     	<div class="carousel-item">
-			<a href="/board/eventView?eventNo=${list.eventNo }"><img data-bs-slide-to="${status.count }" style="width: 1079px; height: 300px;" src="/upload/${list.headImg }"></a>
+			<a href="/board/eventView?eventNo=${list.eventNo }"><img data-bs-slide-to="${status.count }" style="width: 1103; height: 300px;" src="/upload/${list.headImg }"></a>
     	</div>
 	</c:forEach>
 
@@ -354,7 +471,7 @@ a:hover{
 <br><br><br>
 
 <div class="container-on">
-<span class="TOP5"><strong>인기 ON TOP5</strong></span><span style="border: 1px solid #ccc; padding-left: 775px; margin-right: 30px;"></span>
+<span class="TOP5"><strong>인기 ON TOP5</strong></span><span class="solid" style="border: 1px solid #ccc; padding-left: 869px; margin-right: 30px;"></span>
 <button id="prevBtn-on">&lt;</button>
 <button id="nextBtn-on">&gt;</button>
 </div>
@@ -365,8 +482,8 @@ a:hover{
         <c:forEach var="list" items="${onClassOrderTopList}" varStatus="status">
             <div class="lecture-item-on">
                 <a href="/main/onClassView?classNo=${list.classNo}">
-                    <img style="width: 280px; height: 280px;" src="/upload/${list.headImg}">
-                    <p style="margin-right: 44px; margin-left: 44px; background-color: #F0C610;">${list.className}</p>
+                    <img style="width: 358px; height: 270px;" src="/upload/${list.headImg}">
+                    <p style="width: 358px; background-color: #F4E399">${list.className}</p>
                 </a>
             </div>
         </c:forEach>
@@ -377,10 +494,11 @@ a:hover{
 <br><br><br>
 
 <div class="container-off">
-<span class="TOP5"><strong>인기 OFF TOP5</strong></span><span style="border: 1px solid #ccc; padding-left: 775px; margin-right: 30px;"></span>
+<span class="TOP5"><strong>인기 OFF TOP5</strong></span><span class="solid" style="border: 1px solid #ccc; padding-left: 865px; margin-right: 30px;"></span>
 <button id="prevBtn-off">&lt;</button>
 <button id="nextBtn-off">&gt;</button>
 </div>
+
 
 <div id="carousel-container-off">
     <div id="carousel-inner-off" class="lecture-list-off">
@@ -388,8 +506,8 @@ a:hover{
         <c:forEach var="list" items="${offClassOrderTopList}" varStatus="status">
             <div class="lecture-item-off">
                 <a href="/main/offClassView?classNo=${list.classNo}">
-                    <img style="width: 280px; height: 280px;" src="/upload/${list.headImg}">
-                    <p style="margin-right: 44px; margin-left: 44px; background-color: #00fff096;">${list.className}</p>
+                    <img style="width: 358px; height: 280px;" src="/upload/${list.headImg}">
+                    <p style="width: 358px; background-color: #B8DEF8">${list.className}</p>
                 </a>
             </div>
         </c:forEach>
@@ -397,11 +515,12 @@ a:hover{
 </div>
 
 <br><br><br>
-
-<div class="container-onOff">
-<span><strong style="margin-right: 77px;">추천 ON/OFF</strong></span><span style="padding-left: 310px; margin-right: 10px;"></span>
-<button id="prevBtn-onOff">&lt;</button>
-<button style="margin-right: 10px;" id="nextBtn-onOff">&gt;</button>
+<div class="onOffFlext">
+	<div class="container-onOff">
+	<span><strong style="margin-right: 111px;">추천 ON/OFF</strong></span><span class="solid" style="padding-left: 310px; margin-right: 10px;"></span>
+	<button id="prevBtn-onOff">&lt;</button>
+	<button style="margin-right: 10px;" id="nextBtn-onOff">&gt;</button>
+	</div>
 </div>
 
 <div id="carousel-container-onOff">
@@ -412,15 +531,15 @@ a:hover{
         
             <div class="lecture-item-onOff">
                 <a href="/main/onClassView?classNo=${onRecommended[i].classNo }">
-                    <img style="width: 200px; height: 142px;" src="/upload/${onRecommended[i].headImg}">
-                    <p style="margin-right: 38px; margin-left: 38px; background-color: #F0C610;">${onRecommended[i].className}</p>
+                    <img style="width: 266px; height: 200px;" src="/upload/${onRecommended[i].headImg}">
+                    <p style="margin-right: 5px; margin-left: 5px; background-color: #F4E399">${onRecommended[i].className}</p>
                 </a>
             </div>
             
             <div class="lecture-item-onOff">
                 <a href="/main/offClassView?classNo=${offRecommended[i].classNo }">
-                    <img style="width: 200px; height: 142px;" src="/upload/${offRecommended[i].headImg}">
-                    <p style="margin-right: 38px; margin-left: 38px; background-color: #00fff096;">${offRecommended[i].className}</p>
+                    <img style="width: 266px; height: 200px;" src="/upload/${offRecommended[i].headImg}">
+                    <p style="margin-right: 5px; margin-left: 5px; background-color: #B8DEF8">${offRecommended[i].className}</p>
                 </a>
             </div>
             

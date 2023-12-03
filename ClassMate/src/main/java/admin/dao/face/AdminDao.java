@@ -12,7 +12,9 @@ import board.dto.FreeBoardFile;
 import board.dto.FreeComment;
 import board.dto.Question;
 import board.dto.QuestionFile;
+import lecture.dto.Address;
 import lecture.dto.Class;
+import lecture.dto.ClassVideo;
 import payment.dto.OrderTb;
 import payment.dto.Payment;
 import teacher.dto.Teacher;
@@ -52,6 +54,8 @@ public interface AdminDao {
 	public int userInfoCntAll(int delCheckbox);
 
 	public List<UserInfo> selectUserAll(Map<String, Object> map);
+	
+	public List<TeacherApply> selectTeacherApplyByUserNo(List<UserInfo> list);
 
 	public List<UserInfo> selectDelUserAll(Map<String, Object> map);
 
@@ -101,6 +105,15 @@ public interface AdminDao {
 
 	public int deleteUserFreePost(FreeBoard freeBoard);
 	
+	public int deleteTeacherInfoByUserNo(UserInfo userInfo);
+	
+	public int deleteUserInfo(UserInfo userInfo);
+	
+	//========================================================================================================
+	//--- 유저 관리 > 환불처리 ---
+	
+	public int updateRefund(String merchantUid);
+	
 	//========================================================================================================
 	//--- 강사 심사 관리 ---
 	
@@ -135,6 +148,23 @@ public interface AdminDao {
 	
 	public List<Class> selectClassListAll(Map<String, Object> map);
 
+	public Class selectClassInfo(Class classInfo);
+
+	public int selectTakeClassListCount(Class classInfo);
+	
+	public int deleteClassList(int userNo);
+	
+	public int updateClassDeleteBoolean(Class calssInfo);
+
+	public List<ClassVideo> selectClassVideoList(Class classInfo);
+	
+	public Address selectClassAdress(Class classInfo);
+	
+	public int updateClassInfo(Class classInfo);
+	
+	public int classHeadImg(Class classInfo);
+	
+	public int updateClassAddress(Address address);
 	
 	//========================================================================================================
 	//--- 게시판 관리 ---
@@ -211,5 +241,12 @@ public interface AdminDao {
 	public List<FreeComment> selectFreeCommentList(Map<String, Object> map);
 
 	public List<UserInfo> selectUserNameList(Map<String, Object> map);
+
+	public int deleteCommentComentNo(FreeComment freeComment);
+
+	public int qestionListCntAll();
+
+	public List<Question> selectQuestionAll(Paging paging);
+
 
 }

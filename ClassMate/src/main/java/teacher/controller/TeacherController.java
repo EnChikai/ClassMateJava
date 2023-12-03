@@ -54,51 +54,181 @@ public class TeacherController {
 	private TeacherService teacherService;
 
 	@GetMapping("/main")
-	public void main(HttpSession session, Model model, UserInfo userParam, Teacher teacherParam, Class lecture, TeacherMainPaging param) {
+	public void main(HttpSession session, Model model, Class lecture, HashMap<String, Object> map, TeacherMainPaging param) {
 		
-		int userNo = (int) session.getAttribute("userNo"); //로그인 시 세션에 저장된 유저넘버
-		//int userNo = 3; // 유저번호가 2번이라는 가정 하에 진행
+		int userNo = (int) session.getAttribute("userNo"); 
 		
 		String userName = teacherService.getNameByUserNo(userNo);
+		String teacherImg = teacherService.getTeacherImg(userNo);
 		
-		
-		Teacher teacherParam2 = teacherService.getTeacherInfoByUserNo(userNo); 
-		
-		String teacherImg = teacherParam2.getTeacherImg();		
-			
 		session.setAttribute("userName", userName);
 		session.setAttribute("teacherImg", teacherImg);
-
+		logger.info("강사얼굴 {}",teacherImg);
+		
 		model.addAttribute("userName", userName);
 		model.addAttribute("teacherImg", teacherImg);
-//		
-		
+				
+		// 강사 정산 내역 페이징 계산
+		if (session.getAttribute("teacherNo") != null) {
 
-		// 페이징 계산
-		TeacherMainPaging paging = teacherService.getPaging(param, userNo);
-		logger.info("{}", paging);
+			lecture.setTeacherNo((int) session.getAttribute("teacherNo"));
+			logger.info("티처넘버 안에 뭐가 있니? : {}", lecture.getTeacherNo());
 
-		// 게시글 목록 조회
-		List<Class> list = teacherService.pageList(paging, userNo);
-		logger.info("리스트{} : ", list);
-		model.addAttribute("paging", paging);
-		model.addAttribute("list", list);
+
+			Paging paging = teacherService.getPaging3(param, session, map);
+			logger.info("페이징나와?0 {}", paging);
+			
+			// 강사 정산 내역
+			map = teacherService.getCheckMain(lecture,  map, paging, session);
+			model.addAttribute("mainList", map.get("Class"));
+			model.addAttribute("paging", paging);
+		}
 
 		
 	}
 
 	@GetMapping("/check")
-	public void check(HttpSession session, Model model) {
+	public void check(HttpSession session, Model model, Class lecture, String onOff, HashMap<String, Object> map, Paging param) {
 		
 		String userName = (String) session.getAttribute("userName");
 		String teacherImg = (String) session.getAttribute("teacherImg");
 		
 		model.addAttribute("userName", userName);
 		model.addAttribute("teacherImg", teacherImg);
+		
+		logger.info("onOff 안에 뭐가 있어? : {}", onOff);
+		
+		// 강사 정산 내역 페이징 계산
+		if (session.getAttribute("teacherNo") != null) {
+
+			lecture.setTeacherNo((int) session.getAttribute("teacherNo"));
+			logger.info("티처넘버 안에 뭐가 있니? : {}", lecture.getTeacherNo());
+			logger.info("onOff 안에 뭐가 있니? : {}", onOff);
+
+			Paging paging = teacherService.getPaging2(param, session, map, onOff);
+			logger.info("페이징나와?0 {}", paging);
+			
+			// 강사 정산 내역
+			map = teacherService.getCheckDetail(lecture,  map, paging, session, onOff);
+			model.addAttribute("classList", map.get("Class"));
+			model.addAttribute("paging", paging);
+		}
+
+		
 	}
+		
+		
+		
+	
+	@PostMapping("/check")
+	public void checkDetailProc(Model model, String onOff, Class lecture, HashMap<String, Object> map,
+			Paging param, HttpSession session) {
+		
+		String userName = (String) session.getAttribute("userName");
+		String teacherImg = (String) session.getAttribute("teacherImg");
+		
+		model.addAttribute("userName", userName);
+		model.addAttribute("teacherImg", teacherImg);
+		
+		logger.info("onOff 안에 뭐가 있어? : {}", onOff);
+
+		// 강사 정산 내역 페이징 계산
+		if (session.getAttribute("teacherNo") != null) {
+			lecture.setTeacherNo((int) session.getAttribute("teacherNo"));
+			logger.info("티처넘버 안에 뭐가 있니? : {}", lecture.getTeacherNo());
+			logger.info("onOff 안에 뭐가 있니? : {}", onOff);
+
+			if (onOff.equals("99")) {
+
+				Paging paging = teacherService.getPaging2(param, session, map, onOff);
+
+//				 logger.info("paging 안에 뭐가 있어? : {}",paging);
+
+				// 강사 정산 내역
+				map = teacherService.getCheckDetail(lecture, map, paging, session, onOff);
+				model.addAttribute("classList", map.get("Class"));
+				model.addAttribute("paging", paging);
+				model.addAttribute("allPayDetail", 1);
+			} else if (onOff.equals("1")) {
+
+				Paging onPaging = teacherService.getPaging2(param, session, map, onOff);
+
+				 logger.info("paging 안에 뭐가 있어? : {}",onPaging);
+				// 강사 정산 내역
+				map = teacherService.getClassCheckDetail(lecture, map, onPaging, session, onOff);
+				logger.info("맵안에없엉{}", map);
+				model.addAttribute("classList", map.get("Class"));
+				model.addAttribute("paging", onPaging);
+				model.addAttribute("onPayDetail", 2);
+			} else if (onOff.equals("0")) {
+
+				Paging offPaging = teacherService.getPaging2(param, session, map, onOff);
+
+				// 강사 정산 내역
+				map = teacherService.getClassCheckDetail(lecture, map, offPaging, session, onOff);
+				model.addAttribute("classList", map.get("Class"));
+				model.addAttribute("paging", offPaging);
+				model.addAttribute("offPayDetail", 3);
+
+			}
+		}
+
+	}
+	
+	@GetMapping("/detail")
+	public void detailView (HttpSession session, Model model, Teacher teacherParam, Class lecture, Address addressParam, ClassVideo videoParam) {
+		String userName = (String) session.getAttribute("userName");
+		String teacherImg = (String) session.getAttribute("teacherImg");
+		
+		logger.info("클라스 {}", lecture);
+		logger.info("강의 {}", videoParam);
+		logger.info("주소 {}", addressParam);
+		
+		model.addAttribute("userName", userName);
+		model.addAttribute("teacherImg", teacherImg);
+		
+		
+		
+		if( lecture.getClassNo() < 1 ) {
+		
+		}
+		
+		Class lectureDetail = teacherService.detailView(lecture);
+		
+		logger.info("반환됐어? {}", lectureDetail);
+		
+		int onOff = lectureDetail.getOnOff();
+		logger.info("와써 {}", onOff);
+		
+		int mainCategoryNo = lectureDetail.getMainCategoryNo();
+		int subCategoryNo = lectureDetail.getSubCategoryNo();
+		
+		String mainCategoryName = teacherService.getMaincategory(mainCategoryNo);
+		String subCategoryName = teacherService.getSubcategory(subCategoryNo);
+		
+		model.addAttribute("mainCategoryName", mainCategoryName);
+		model.addAttribute("subCategoryName", subCategoryName);
+		
+		model.addAttribute("detailList", lectureDetail);
+		
+		if (onOff == 1) {
+			
+		List <ClassVideo> videoDetail = teacherService.detailVideoView(videoParam); 
+		logger.info("비디오왔어? {} ", videoDetail);
+		model.addAttribute("videoList", videoDetail);
+		}	
+		else {
+				
+		Address addressDetail = teacherService.detailAddressView(addressParam); 
+		logger.info("주소왔어? {} ", addressDetail);
+		model.addAttribute("addressList", addressDetail);
+		}
+
+	}
+	
 
 	@GetMapping("/NewFile")
-	public void newFile(HttpSession session, Model model) {
+	public void newFile3(HttpSession session, Model model) {
 		
 		String userName = (String) session.getAttribute("userName");
 		String teacherImg = (String) session.getAttribute("teacherImg");
@@ -217,7 +347,7 @@ public class TeacherController {
 	  }
 	 
 
-	@PostMapping("/answer_ok")
+	@PostMapping(value = "/answer_ok", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String answerOk(Model model, HttpSession session, QuestionAnswer qaParam,
 			@RequestParam("answerContent") String answerContent, @RequestParam("questionNo") int questionNo) {
@@ -249,13 +379,14 @@ public class TeacherController {
 	}
 
 	@GetMapping("/apply")
-	public void apply(HttpSession session, Model model) {
+	public void apply(HttpSession session, Model model, UserInfo userParam) {
 		
-		String userName = (String) session.getAttribute("userName");
-		String teacherImg = (String) session.getAttribute("teacherImg");
+		int userNo = (int) session.getAttribute("userNo"); //로그인 시 세션에 저장된 유저넘버
+		
+		String userName = teacherService.getTeacherName(userNo);
 		
 		model.addAttribute("userName", userName);
-		model.addAttribute("teacherImg", teacherImg);
+
 	}
 
 	@PostMapping("/apply")
@@ -263,12 +394,6 @@ public class TeacherController {
 			List<MultipartFile> file, List<MultipartFile> singleFile, HttpSession session, Model model
 
 	) {
-		
-		String userName = (String) session.getAttribute("userName");
-		String teacherImg = (String) session.getAttribute("teacherImg");
-		
-		model.addAttribute("userName", userName);
-		model.addAttribute("teacherImg", teacherImg);
 
 		int userNo = (int) session.getAttribute("userNo"); //로그인 시 세션에 저장된 유저넘버
 		
@@ -277,10 +402,11 @@ public class TeacherController {
 
 		teacherParam.setUserNo(userNo);
 
-		// logger.info("insertParam {}", teacherParam);
-		// logger.info("insertLicenceParam {}", teacherLicenceParam);
-		// logger.info("insertLicenceParam {}", singleFile);
-		// logger.info("file {}", file);
+		logger.info("insertApply {}",teacherApply);
+		 logger.info("insertParam {}", teacherParam);
+		 logger.info("insertLicenceParam {}", teacherLicenceParam);
+		 logger.info("insertLicenceParam {}", singleFile);
+		 logger.info("file {}", file);
 		// logger.info("delFileno {}", Arrays.toString(delFileno));
 
 		teacherService.applyWrite(teacherParam, teacherLicenceParam, teacherApply, file, singleFile);
@@ -288,58 +414,58 @@ public class TeacherController {
 		return "redirect:../main/main";
 	}
 
-	@RequestMapping(value = { "/main", "/check" })
-	public void teacherPageGet(Class lecture, TeacherMainPaging param, Model model, HttpSession session) {
+//	@RequestMapping(value = { "/main", "/check" })
+//	public void teacherPageGet(Class lecture, TeacherMainPaging param, Model model, HttpSession session) {
+//
+//		int userNo = (int) session.getAttribute("userNo"); //로그인 시 세션에 저장된 유저넘버
+//		//int userNo = 3; // 유저번호가 2번이라는 가정 하에 진행
+//
+//		String userName = (String) session.getAttribute("userName");
+//		String teacherImg = (String) session.getAttribute("teacherImg");
+//		
+//		model.addAttribute("userName", userName);
+//		model.addAttribute("teacherImg", teacherImg);
+//		
+//		// 페이징 계산
+//		TeacherMainPaging paging = teacherService.getPaging(param, userNo);
+//		logger.info("{}", paging);
+//
+//		// 게시글 목록 조회
+//		List<Class> list = teacherService.pageList(paging, userNo);
+//
+//		model.addAttribute("paging", paging);
+//		model.addAttribute("list", list);
+//
+//	}
 
-		int userNo = (int) session.getAttribute("userNo"); //로그인 시 세션에 저장된 유저넘버
-		//int userNo = 3; // 유저번호가 2번이라는 가정 하에 진행
+//	@GetMapping("/detail")
+//	public void detail(Model model, HttpSession session) {
+//		
+//		String userName = (String) session.getAttribute("userName");
+//		String teacherImg = (String) session.getAttribute("teacherImg");
+//		
+//		model.addAttribute("userName", userName);
+//		model.addAttribute("teacherImg", teacherImg);
+//	}
 
-		String userName = (String) session.getAttribute("userName");
-		String teacherImg = (String) session.getAttribute("teacherImg");
-		
-		model.addAttribute("userName", userName);
-		model.addAttribute("teacherImg", teacherImg);
-		
-		// 페이징 계산
-		TeacherMainPaging paging = teacherService.getPaging(param, userNo);
-		logger.info("{}", paging);
-
-		// 게시글 목록 조회
-		List<Class> list = teacherService.pageList(paging, userNo);
-
-		model.addAttribute("paging", paging);
-		model.addAttribute("list", list);
-
-	}
-
-	@GetMapping("/detail")
-	public void detail(Model model, HttpSession session) {
-		
-		String userName = (String) session.getAttribute("userName");
-		String teacherImg = (String) session.getAttribute("teacherImg");
-		
-		model.addAttribute("userName", userName);
-		model.addAttribute("teacherImg", teacherImg);
-	}
-
-	@RequestMapping("/detail")
-	public String teacherClassDetailGet(Class lecture, Model model, HttpSession session) {
-		
-		String userName = (String) session.getAttribute("userName");
-		String teacherImg = (String) session.getAttribute("teacherImg");
-		
-		model.addAttribute("userName", userName);
-		model.addAttribute("teacherImg", teacherImg);
-		
-
-		if (lecture.getClassNo() < 1) {
-			return "teacher/main";
-		}
-
-		lecture = teacherService.teacherClassDetail(lecture);
-
-		return "teacher/detail";
-	}
+//	@RequestMapping("/detail")
+//	public String teacherClassDetailGet(Class lecture, Model model, HttpSession session) {
+//		
+//		String userName = (String) session.getAttribute("userName");
+//		String teacherImg = (String) session.getAttribute("teacherImg");
+//		
+//		model.addAttribute("userName", userName);
+//		model.addAttribute("teacherImg", teacherImg);
+//		
+//
+//		if (lecture.getClassNo() < 1) {
+//			return "teacher/main";
+//		}
+//
+//		lecture = teacherService.teacherClassDetail(lecture);
+//
+//		return "teacher/detail";
+//	}
 
 	@GetMapping("/regist")
 	public void regist(Model model, HttpSession session) {

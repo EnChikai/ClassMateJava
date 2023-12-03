@@ -144,8 +144,13 @@ $(function(){
 </script>	
 
 <%-- 클릭시 유저 상세보기로 --%>
-<c:forEach items="${list }" var="list"> 
-<script>
+<c:if test="${paging.totalCount > 0}">
+<c:forEach var="i" begin="${paging.startNo-1}" end="${paging.endNo-1}" >
+<c:if test="${i < paging.totalCount}">
+
+<c:set var="list" value="${map.list[i] }" />
+
+<script type="text/javascript">
 $(function(){
 	
 	$(".userInfo${list.userNo}").click(function(){
@@ -157,7 +162,9 @@ $(function(){
 	
 });
 </script>
+</c:if>
 </c:forEach>
+</c:if>
 
 <%-- <% ============================================================================= %> --%>
 
@@ -232,15 +239,68 @@ $(function(){
 	<th class="userListTh" width="10%">강사 여부<br>
 </tr>
 
-<c:forEach var="list" items="${list }"> 
+<c:if test="${delCheckbox eq 0}">
+<c:if test="${paging.totalCount > 0}">
+<c:forEach var="i" begin="${paging.startNo-1}" end="${paging.endNo-1}" >
+<c:if test="${i < paging.totalCount-1}">
+
+<c:set var="list" value="${map.list[i] }" />
+<c:set var="teacherApplylist" value="${map.teacherApplylist[i] }" />
+
 	<tr class="userListTr" >
 		<td class="userListTd userInfo${list.userNo }">${list.userNo }</td>
 		<td class="userListTd userInfo${list.userNo }">${list.userId }</td>
 		<td class="userListTd userInfo${list.userNo }">${list.userName }</td>
 		<td class="userListTd userInfo${list.userNo }">${list.userDateCreated }</td>
-		<td class="userListTd userInfo${list.userNo }"></td>
-	<tr>
+		<td class="userListTd userInfo${list.userNo }">
+			<c:if test="${empty teacherApplylist.passOrNot}">
+				일반회원
+			</c:if>
+			<c:if test="${not empty teacherApplylist.passOrNot}">
+				<c:if test="${teacherApplylist.passOrNot == 0}">
+					일반회원
+				</c:if>
+				<c:if test="${teacherApplylist.passOrNot != 0}">
+					강사회원
+				</c:if>
+			</c:if>
+		</td>
+	</tr>
+</c:if>
 </c:forEach>
+</c:if>
+</c:if>
+
+<c:if test="${delCheckbox eq 1}">
+<c:forEach var="i" begin="${paging.startNo-1}" end="${paging.endNo-1}" >
+<c:if test="${i < paging.totalCount}">
+
+<c:set var="list" value="${map.list[i] }" />
+<c:set var="teacherApplylist" value="${map.teacherApplylist[i] }" />
+
+	<tr class="userListTr" >
+		<td class="userListTd userInfo${list.userNo }">${list.userNo }</td>
+		<td class="userListTd userInfo${list.userNo }">${list.userId }</td>
+		<td class="userListTd userInfo${list.userNo }">${list.userName }</td>
+		<td class="userListTd userInfo${list.userNo }">${list.userDateCreated }</td>
+		<td class="userListTd userInfo${list.userNo }">
+			<c:if test="${empty teacherApplylist.passOrNot}">
+				일반회원
+			</c:if>
+			<c:if test="${not empty teacherApplylist.passOrNot}">
+				<c:if test="${teacherApplylist.passOrNot == 0}">
+					일반회원
+				</c:if>
+				<c:if test="${teacherApplylist.passOrNot != 0}">
+					강사회원
+				</c:if>
+			</c:if>
+		</td>
+	</tr>
+</c:if>
+</c:forEach>
+</c:if>
+	
 </table>
 
 <div style="margin-top: 30px;">

@@ -43,40 +43,66 @@ $(document).ready(function () {
 }
 
 .subCateTitle{
-	border: 1px solid #ccc;
 	margin-bottom: 20px;
-    padding-right: 50px;
-    margin-right: 200px;
-    margin-left: 200px;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .subCategoryContainer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-columns: 180px 180px 180px;
-    grid-template-rows: 180px 180px 180px;
+    grid-template-columns: 224px 224px 224px;
     align-items: center;
     justify-content: center;
     grid-column-gap: 15px;
-    grid-row-gap: 10px;
+    grid-row-gap: 15px;
 }
 
 .subCategoryItem {
     text-align: center;
-    padding: 23px;
+    padding: 30px;
     transition: background-color 0.3s, color 0.3s;
     background-color: #ccc;
 }
 
 #subImg {
-    width: 70px;
+    width: 80px;
+    
+    
 }
 
 p {
     font-size: 18px;
     color: black;
+}
+
+@media (min-width: 1920px) {
+	#subName{
+	margin-left: 224px;
+		
+	}
+	.subCateTitle {
+	border: 1px solid #ccc;
+	justify-content: unset;
+	margin-right: 200px;
+    margin-left: 200px;
+    padding-right: 50px;
+	
+	}
+	
+	}
+	
+	@media (max-width: 970px) {
+		.subCateTitle{
+			min-width: 152px;
+			    margin-left: -75px;
+		}
+		.defaultWidth{
+	    margin-top: 60px;
+		margin-bottom: 60px;
+	}
+
 }
 
 
@@ -88,7 +114,7 @@ p {
 
     <div class="subCateTitle">
     	<img style="float: left; margin-top: -1px; margin-left: -1px;" width="50px;" height="50px;" src="/resources/img/mainCategory.png">
-    	<strong style="font-size:22px; margin-left: 260px;">카테고리</strong>
+    	<strong id="subName" style="font-size:22px;">카테고리 중분류</strong>
     </div>
     
     

@@ -20,7 +20,7 @@
 	</select>	
 
 	<select id="selectClassListByBasket" parameterType="Basket" resultType="Class">
-		SELECT class_no, teacher, class_name, class_start, class_end, max_count, expense, class_info, on_off
+		SELECT class_no, teacher, class_name, class_start, class_end, max_count, expense, class_info, on_off, head_img
 		FROM class
 		WHERE class_no = #{classNo}
 	</select>

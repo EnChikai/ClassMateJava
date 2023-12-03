@@ -72,6 +72,8 @@ float: left;
 border: 1px solid #ccc;
 border-collapse:collapse;    
 padding: 0;
+text-align: center;
+
 }
 
 #helloAdmin{
@@ -88,7 +90,7 @@ margin-top: 10px;
 margin-bottom: 10px; 
 }
 
-#logout:hover:not(.active){
+#logoutText:hover:not(.active){
 	cursor:pointer
 }
 
@@ -256,7 +258,7 @@ $(function(){
 	<td class="profileTd">
 	<div id="logout">
 		<form id="logoutForm" action="./main" method="post">
-		<p id="logoutText" style="text-decoration: underline; color: red;">로그아웃</p>
+			<p id="logoutText" style="text-decoration: underline; color: red; width: 70px; margin: auto;">로그아웃</p>
 		</form>
 	</div>
 	</td>

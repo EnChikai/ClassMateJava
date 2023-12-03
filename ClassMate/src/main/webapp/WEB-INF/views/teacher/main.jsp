@@ -14,31 +14,130 @@
 
 <div class="cd1">
 <h1>강사페이지</h1>
-<div id= "all"><a href="/teacher/check" style="margin-left: 630px;">전체보기</a></div>
-    <div class="border" style="width: 700px; min-height: 800px;">
+<div id= "all"><a href="/teacher/check"><img src="/resources/img/listIcon.png" id="allImg" alt="더하기" width="30" height="30" style="margin-bottom: 5px;"></a>
+<a href="/teacher/check" style="background-color: FFF0F0">전체보기</a></div>
+  
+    <div style="width: 700px; min-height: 800px;">
     
-     <c:forEach var="list" items="${list }">
-	<div>     
-    	<table>
+
+     <c:forEach var="mainList" items="${mainList }">
+	<div style="margin-bottom: 10px;">     
+    	<table style="border: 1px #d2d2d2 solid; border-radius: 5px;">
     		<tr>
-    			<td>${list.headImg }</td>
-    			<td><div>${list.className }</div><div>${list.classInfo }</div></td>
+    			<td rowspan="2">
+    			<img alt="썸네일 이미지" src="/upload/${mainList.headImg }" width="155" height="200" style="margin-right: 5px; border-right: 1px #d2d2d2 solid;">
+    			</td>
+    			<td style="height: 50px; text-align: center;">
+    				<div style="width: 530; margin-left: 10px; font-weight:600; font-size: large;">
+    					<a href="/teacher/detail?classNo=${mainList.classNo }">${mainList.className }</a>
+    				</div>
+    			</td>
+    		</tr>
+    		<tr>
+    			<td><div style="margin-left: 10px;">${mainList.classInfo }</div></td>
     		</tr>
     	</table>
     </div>
      </c:forEach>
     
 </div>
-<hr>
 
+ 
 
+  <div style="margin-top: 10px; margin-bottom: 10px;">
+	
+	<ul class="pagination pagination-sm justify-content-center">
+ 		<!-- 첫 페이지로 이동 -->
+		<c:if test="${paging.curPage ne 1 }">
+ 		<li class="page-item">
+			<a class="page-link" href="<%= request.getContextPath() %>">&larr; 처음</a>
+ 		</li>
+		</c:if>
+		
+		
+		
+		<!-- 이전 페이지 리스트로 이동 -->
+		<c:choose>
+			<c:when test="${paging.startPage ne 1 }">
+			<li class="page-item">
+				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.startPage - paging.pageCount }">&laquo;</a>
+			</li>
+			</c:when>
+			<c:when test="${paging.startPage eq 1 }">
+			<li class="page-item">
+				<a class="page-link disabled">&laquo;</a>
+			</li>
+			</c:when>
+		</c:choose>
+		
+		
+		
+		
+		<!-- 이전 페이지로 이동 -->
+		<c:if test="${paging.curPage > 1 }">
+			<li class="page-item">
+				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage - 1 }">&lt;</a>
+			</li>
+		</c:if>
+		
+		
+		
+	
+		<!-- 페이징 번호 목록 -->
+		<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
+			<c:if test="${paging.curPage eq i }">
+			<li class="page-item">
+				<a class="page-link active" href="<%= request.getContextPath() %>?curPage=${i }">${i }</a>
+			</li>
+			</c:if>
+			
+			<c:if test="${paging.curPage ne i }">
+			<li class="page-item">
+				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${i }">${i }</a>
+			</li>
+			</c:if>
+		</c:forEach>
+		
+		
+		
+		
+		<!-- 다음 페이지로 이동 -->
+		<c:if test="${paging.curPage < paging.totalPage }">
+			<li class="page-item">
+				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage + 1 }">&gt;</a>
+			</li>
+		</c:if>
+		
+		
+		
+		
+		<!-- 다음 페이지 리스트로 이동 -->
+		<c:choose>
+			<c:when test="${paging.endPage ne paging.totalPage }">
+			<li class="page-item">
+				<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.endPage + paging.pageCount }">&raquo;</a>
+			</li>
+			</c:when>
+			<c:when test="${paging.endPage eq paging.totalPage }">
+			<li class="page-item">
+				<a class="page-link disabled">&raquo;</a>
+			</li>
+			</c:when>
+		</c:choose>
 
-
-
-
-  
-<c:import url="/WEB-INF/views/layout/pagination.jsp" />
-
+		
+		
+		
+		<!-- 끝 페이지로 이동 -->
+ 		<c:if test="${paging.curPage ne paging.totalPage }">
+ 		<li class="page-item">
+ 			<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.totalPage }">끝 &rarr;</a>
+ 		</li>
+ 		</c:if>
+		
+	</ul>
+	
+</div> 
 
 </div>	<!-- cd1 box -->
 

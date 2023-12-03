@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<!-- HTML 파일의 head 부분에 아래 스크립트를 추가하세요 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
@@ -59,9 +61,14 @@
 	font-size: 14px;
 }
 
-#freeSearch {
+#searchHead {
 	margin-top: 15px;
 	margin-left: 15px;
+}
+
+#search {
+	margin-top: 15px;
+	margin-left: 0px;
 	font-size: 14px;
 	padding-left: 5px;
 }
@@ -162,6 +169,162 @@
             return colors[Math.floor(Math.random() * colors.length)];
         }
     });
+    
+    //----------------------------------------------------------------------------------
+    
+    
+$(document).ready(function () {
+    	
+        // 검색창 입력
+    $("#search").keypress(function (e) {
+        if (e.which === 13) {
+        	submitSearch();
+        }
+    });
+
+    $("#freeSearchButton").click(function () {
+        submitSearch();
+    });
+    
+});
+    
+ //작성자 검색어 입력
+ function submitSearch(paging, searchHead, search) {
+     var searchValue = $("#search").val();
+     
+//      console.log("searchHead??", searchHead);
+//      console.log("search??", search);
+     
+     if (searchValue === "") {
+         // 검색어가 비어있을 경우 처리
+         alert("검색어를 입력하세요.");
+         return;
+     }
+     
+     var formSearch = {
+ 		searchHead: searchHead !== undefined ? searchHead : $("#searchHead").val(),
+        search: search !== undefined ? search : $("#search").val(),
+     	curPage: paging
+     };
+     
+     console.log("검색어 들어왔니?", formSearch);
+     var url = "";
+
+     if (formSearch.searchHead === "작성자") {
+         url = "./board/boardNameSearch";
+     } else if (formSearch.searchHead === "제목") {
+         url = "./board/boardTitleSearch";
+     }
+
+     $.ajax({
+         type: "POST",
+         url: url,
+         data: formSearch,
+         success: function (boardNameList) {
+             console.log("검색 성공", boardNameList);
+             var paging = boardNameList.paging;
+             console.log("searchHead??전", boardNameList.searchHead);
+             console.log("search??전", paging.search);
+             
+          // searchHead 변수 초기화
+             var searchHead = searchHead || boardNameList.searchHead || $("#searchHead").val();
+
+             // search 변수 초기화
+             var search = search || paging.search || $("#search").val();
+             
+             console.log("searchHead??후", searchHead);
+             console.log("search??후", search);
+             
+             
+             // 결과가 없을 경우 알림창 표시
+             if (boardNameList.length === 0) {
+                 alert("검색된 결과가 없습니다.");
+             } else {
+            	 var boardNameList = boardNameList.boardNameList;
+                 renderBoardNameList(boardNameList);
+                 updatePagination(paging, searchHead, search);
+             }
+         },
+         error: function (error) {
+             console.error("검색 실패", error);
+         }
+     });
+
+ }
+  
+//----------------------------------------------------------------------------------
+  
+// 검색 결과를 화면에 출력하는 함수
+function renderBoardNameList(boardNameList) {
+	var boardBody = $("#boardBody");
+	
+	boardBody.empty();
+	
+	// 여기에서 searchResult를 이용하여 동적으로 HTML 생성
+    var boardNameListHtml = "";
+
+    // 검색 결과를 돌면서 행 추가
+    for (var i = 0; i < boardNameList.length; i++) {
+        var boardName = boardNameList[i];
+        var formattedDate = moment(boardName.freeDate, "MM DD, YYYY").format("YYYY-MM-DD");
+        boardNameListHtml += '<tr id="boardFree">';
+        boardNameListHtml += '<td>' + boardName.freeNo + '</td>';
+        boardNameListHtml += '<td>' + boardName.freeHead + '</td>';
+        boardNameListHtml += '<td><a href="/board/freeView?freeNo=' + boardName.freeNo + '">' + boardName.freeName + '</a></td>';
+        boardNameListHtml += '<td>' + boardName.userName + '</td>';
+        boardNameListHtml += '<td>' + formattedDate + '</td>';
+        boardNameListHtml += '<td>' + boardName.freeHit + '</td>';
+        boardNameListHtml += '</tr>';
+    }
+
+    boardNameListHtml += '</table>';
+
+    // 생성된 HTML을 해당 위치에 추가
+   // $("#boardAllTb").html(boardNameListHtml);
+    boardBody.append(boardNameListHtml);
+	
+}
+
+function updatePagination(paging, searchHead, search) {
+    console.log("paging 뭔데 ", paging);
+    console.log("searchHead 뭔데 ", searchHead);
+    console.log("search 뭔데 ", search);
+
+    // 페이징 목록을 추가
+    var paginationHtml = '<ul class="pagination pagination-sm justify-content-center" style="margin-top: 70px;">';
+
+    // 이전 페이지로 이동
+    if (paging.curPage > 1) {
+        paginationHtml += '<li style="width: 45px;">';
+        paginationHtml += '<a class="page-link" href="javascript:" onclick="submitSearch(' + (paging.curPage - 1) + ', \'' + searchHead + '\', \'' + search + '\')" id="boardPaging6">&lt;</a>';
+        paginationHtml += '</li>';
+    }
+
+    // 페이징 번호 목록 추가
+    for (var i = paging.startPage; i <= paging.endPage; i++) {
+        if (paging.curPage === i) {
+            paginationHtml += '<li class="page-item" style="width: 45px;">';
+            paginationHtml += '<a class="page-link active" href="javascript:" onclick="submitSearch(' + i + ', \'' + searchHead + '\', \'' + search + '\')" id="boardPaging1">' + i + '</a>';
+            paginationHtml += '</li>';
+        } else {
+            paginationHtml += '<li class="page-item" style="width: 45px;">';
+            paginationHtml += '<a class="page-link" href="javascript:" onclick="submitSearch(' + i + ', \'' + searchHead + '\', \'' + search + '\')" id="boardPaging2">' + i + '</a>';
+            paginationHtml += '</li>';
+        }
+    }
+
+    // 다음 페이지로 이동
+    if (paging.curPage < paging.totalPage) {
+        paginationHtml += '<li class="page-item" style="width: 45px;">';
+        paginationHtml += '<a class="page-link" href="javascript:" onclick="submitSearch(' + (paging.curPage + 1) + ', \'' + searchHead + '\', \'' + search + '\')" id="boardPaging3">&gt;</a>';
+        paginationHtml += '</li>';
+    }
+
+    paginationHtml += '</ul>';
+
+    // 생성된 HTML을 해당 위치에 추가
+    $("#boardPagination").html(paginationHtml);
+}
 </script>
 
 
@@ -169,7 +332,7 @@
 
 <div id="boardDivOut">
 <div id="boardtitle">
-<h2 id="boardtitleh2">통합 게시판</h2>
+	<h2 id="boardtitleh2">통합 게시판</h2>
 </div><!-- #boardtitle -->
 
 <div id="boardAllTb">
@@ -204,29 +367,31 @@
         <td>${eventList.eventHit }</td>
     </tr>
 </c:forEach>
-
-<c:forEach var="freeList" items="${freeList }">
-	<tr id="boardFree">
-		<td>${freeList.freeNo }</td>
-		<td>${freeList.freeHead }</td>
-		<td><a href="/board/freeView?freeNo=${freeList.freeNo }">${freeList.freeName }</a></td>
-		<td>${freeList.userName }</td>
-		<td>${freeList.freeDate }</td>
-		<td>${freeList.freeHit }</td>
-	</tr>
-</c:forEach>
-
+<tbody id="boardBody">
+	<c:forEach var="freeList" items="${freeList }">
+		<tr id="boardFree">
+			<td>${freeList.freeNo }</td>
+			<td>${freeList.freeHead }</td>
+			<td><a href="/board/freeView?freeNo=${freeList.freeNo }">${freeList.freeName }</a></td>
+			<td>${freeList.userName }</td>
+			<td>${freeList.freeDate }</td>
+			<td>${freeList.freeHit }</td>
+		</tr>
+	</c:forEach>
+</tbody>
 </table>
-
-<form action="./board" method="post">
+	
 	<div id="wb">
-		<input type="text" id="freeSearch" name="freeSearch">
+		<select id="searchHead" name="searchHead" required="required">
+               <option value="작성자">작성자</option>
+                <option value="제목">제목</option>
+        </select>
+		<input type="text" id="search" name="search">
 		<button type="button" id="freeSearchButton" name="freeSearchButton">
 			<img id="freeSearchImg" alt="freeSearchImg" src="/resources/img/freeSearch.png" width="25" height="25">
 		</button>
+		
 		<button id="boardWritebt" type="button" onclick="location.href='./freeWrite'" style="float:right;">작성</button>
-	</div>
-</form>
 
 </div><!-- #defaultWidth -->
 

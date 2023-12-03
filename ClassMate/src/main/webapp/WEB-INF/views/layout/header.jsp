@@ -7,6 +7,7 @@
 <title>ClassMate</title>
 <link rel="shortcut icon" href="<c:url value='/resources/img/favicon.ico'/>" type="image/x-icon"/>
 <link rel="icon" href="<c:url value='/resources/img/favicon.ico'/>" type="image/x-icon"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -18,13 +19,11 @@ $(document).ready(function () {
     $("#classMateMenu").mouseover(function () {
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "white");
-            $(this).css("text-decoration", "underline");
         }
     }).mouseout(function () {
         // 마우스를 떼면 초기 스타일로 변경
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "black");
-            $(this).css("text-decoration", "none");
         }
     });
 
@@ -33,13 +32,11 @@ $(document).ready(function () {
     $("#mainMenu1").mouseover(function () {
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "white");
-            $(this).css("text-decoration", "underline");
         }
     }).mouseout(function () {
         // 마우스를 떼면 초기 스타일로 변경
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "black");
-            $(this).css("text-decoration", "none");
         }
     });
     
@@ -48,13 +45,11 @@ $(document).ready(function () {
     $("#mainMenu2").mouseover(function () {
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "white");
-            $(this).css("text-decoration", "underline");
         }
     }).mouseout(function () {
         // 마우스를 떼면 초기 스타일로 변경
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "black");
-            $(this).css("text-decoration", "none");
         }
     });
     
@@ -63,13 +58,11 @@ $(document).ready(function () {
     $("#mainMenu3").mouseover(function () {
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "white");
-            $(this).css("text-decoration", "underline");
         }
     }).mouseout(function () {
         // 마우스를 떼면 초기 스타일로 변경
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "black");
-            $(this).css("text-decoration", "none");
         }
     });
     
@@ -78,13 +71,11 @@ $(document).ready(function () {
     $("#mainMenu4").mouseover(function () {
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "white");
-            $(this).css("text-decoration", "underline");
         }
     }).mouseout(function () {
         // 마우스를 떼면 초기 스타일로 변경
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "black");
-            $(this).css("text-decoration", "none");
         }
     });
     
@@ -93,13 +84,11 @@ $(document).ready(function () {
     $("#mainMenu5").mouseover(function () {
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "#F0C610");
-            $(this).css("text-decoration", "underline");
         }
     }).mouseout(function () {
         // 마우스를 떼면 초기 스타일로 변경
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "black");
-            $(this).css("text-decoration", "none");
         }
     });
     
@@ -108,13 +97,11 @@ $(document).ready(function () {
     $("#mainMenu6").mouseover(function () {
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "#F0C610");
-            $(this).css("text-decoration", "underline");
         }
     }).mouseout(function () {
         // 마우스를 떼면 초기 스타일로 변경
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "black");
-            $(this).css("text-decoration", "none");
         }
     });
     
@@ -123,13 +110,11 @@ $(document).ready(function () {
     $("#mainMenu7").mouseover(function () {
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "#F0C610");
-            $(this).css("text-decoration", "underline");
         }
     }).mouseout(function () {
         // 마우스를 떼면 초기 스타일로 변경
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "black");
-            $(this).css("text-decoration", "none");
         }
     });
     
@@ -138,13 +123,11 @@ $(document).ready(function () {
     $("#mainMenu8").mouseover(function () {
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "#F0C610");
-            $(this).css("text-decoration", "underline");
         }
     }).mouseout(function () {
         // 마우스를 떼면 초기 스타일로 변경
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "black");
-            $(this).css("text-decoration", "none");
         }
     });
     
@@ -153,13 +136,11 @@ $(document).ready(function () {
     $("#mainMenu9").mouseover(function () {
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "#F0C610");
-            $(this).css("text-decoration", "underline");
         }
     }).mouseout(function () {
         // 마우스를 떼면 초기 스타일로 변경
         if (!$(this).hasClass("clicked")) {
             $(this).css("color", "black");
-            $(this).css("text-decoration", "none");
         }
     });
 
@@ -167,6 +148,8 @@ $(document).ready(function () {
     $("#classMateMenu").click(function () {
         $(this).toggleClass("clicked");
     });
+    
+    
     
     // ClassMateMenu 클릭 이벤트
     $("#classMateMenu").click(function () {
@@ -177,18 +160,15 @@ $(document).ready(function () {
         if ($("#yourToggleElementId").is(":visible")) {
             // ClassMateMenu 토글이 열린 경우
             $("#classMateMenu").css("color", "white");
-            $("#classMateMenu").css("text-decoration", "underline");
 
             // 검색 메뉴 숨기기
             $("#searchInput").hide();
             $("#searchIcon").hide(); // 이미지도 함께 토글
             // 검색 메뉴 스타일 초기화
             $("#mainMenu3").css("color", "black");
-            $("#mainMenu3").css("text-decoration", "none");
         } else {
             // ClassMateMenu 토글이 닫힌 경우
             $("#classMateMenu").css("color", "black");
-            $("#classMateMenu").css("text-decoration", "none");
         }
     });
 
@@ -202,17 +182,14 @@ $(document).ready(function () {
         if ($("#searchInput").is(":visible")) {
             // 검색 메뉴가 열린 경우
             $("#mainMenu3").css("color", "white");
-            $("#mainMenu3").css("text-decoration", "underline");
 
             // ClassMateMenu 숨기기
             $("#yourToggleElementId").hide();
             // ClassMateMenu 스타일 초기화
             $("#classMateMenu").css("color", "black");
-            $("#classMateMenu").css("text-decoration", "none");
         } else {
             // 검색 메뉴가 닫힌 경우
             $("#mainMenu3").css("color", "black");
-            $("#mainMenu3").css("text-decoration", "none");
         }
     });
 
@@ -225,18 +202,15 @@ $(document).ready(function () {
         if ($("#yourToggleElementId").is(":visible")) {
             // 마이페이지 메뉴가 열린 경우
             $("#mainMenu6").css("color", "#F0C610");
-            $("#mainMenu6").css("text-decoration", "underline");
 
             // 검색 메뉴 숨기기
             $("#searchInput").hide();
             $("#searchIcon").hide(); // 이미지도 함께 토글
             // 검색 메뉴 스타일 초기화
             $("#mainMenu3").css("color", "black");
-            $("#mainMenu3").css("text-decoration", "none");
         } else {
             // 마이페이지 메뉴가 닫힌 경우
             $("#mainMenu6").css("color", "black");
-            $("#mainMenu6").css("text-decoration", "none");
         }
     });
     
@@ -305,6 +279,13 @@ a{
   margin: 0;
 }
 
+@media (min-width: 1100px) {
+ .mainContainer {
+ 	margin-left: 625px;
+ }
+
+}
+
 
 
 </style>
@@ -349,7 +330,7 @@ a{
    
    
    <c:if test="${isLogin!=null && teacherNo==null}">
-   <div class="mainContainer" style="text-align: center; margin-left: 625px; margin-top: 25px; font-size: small; position:relative; z-index: 10;">
+   <div class="mainContainer" style="text-align: center; margin-top: 25px; font-size: small; position:relative; z-index: 10;">
       <span class="mainCol"><strong><a href="/user/mypageMain" id="mainMenu6" style="color: black; text-decoration: none;">마이페이지</a></strong></span>
       <span class="mainCol"><strong><a href="/teacher/apply" id="mainMenu7" style="color: black; text-decoration: none;">강사신청</a></strong></span>
       <span class="mainCol"><strong><a href="/board/question" id="mainMenu8" style="color: black; text-decoration: none;">1:1문의</a></strong></span>
@@ -358,7 +339,7 @@ a{
    </c:if>
    
    <c:if test="${isLogin!=null && teacherNo!=null}">
-   <div class="mainContainer" style="text-align: center; margin-left: 625px; margin-top: 25px; font-size: small; position:relative; z-index: 10;">
+   <div class="mainContainer" style="text-align: center; margin-top: 25px; font-size: small; position:relative; z-index: 10;">
       <span class="mainCol"><strong><a href="/user/mypageMain" id="mainMenu6" style="color: black; text-decoration: none;">마이페이지</a></strong></span>
       <span class="mainCol"><strong><a href="/teacher/main" id="mainMenu7" style="color: black; text-decoration: none;">강사페이지</a></strong></span>
       <span class="mainCol"><strong><a href="/board/question" id="mainMenu8" style="color: black; text-decoration: none;">1:1문의</a></strong></span>

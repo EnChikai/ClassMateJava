@@ -16,12 +16,13 @@ h3 {
 }
 
 input {
-   border: 1px solid #ccc;
-   height: 40px;
+    border: 1px solid #ccc;
+    height: 20px;
     margin-left: -6px;
     margin-top: 30px;
     width: 250px;
     border-radius: 3px;
+    padding: 10px;
 }
 
 button {
@@ -29,21 +30,20 @@ button {
     margin: 0 auto;
     margin-top: 40px;
     background-color: #F1C40F;
-    font-size: 17px;
+    font-size: 15px;
     color: rgb(255, 255, 255);
     text-align: center;
-    line-height: 2em;
     border: none;
     border-radius: 4px;
-    width: 100px;
+    padding: 8px;
 }
 
 .searchUserId label {
    border: 1px solid black;
-    border-radius: 4px;
+    border-radius: 3px;
     background-color: black;
     color: white;
-    padding: 9px 21px;
+    padding: 9px 15px;
     vertical-align: middle;
 }
 
@@ -54,9 +54,11 @@ button {
 
 <h1>아이디 확인</h1>
 <h3>회원님께서 찾으시는 정보는 아래와 같습니다</h3>
-
+	
+<div>
    <label for="userId">아이디</label>
    <input type="text" id="userId" name="userId" value="${userId}" readonly><br>
+</div>
    
    
    

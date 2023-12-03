@@ -247,7 +247,7 @@ $(".eventInfo${eventBoardList.eventNo }").click(function(){
 <div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
 <button style="margin-left: 1px;" class="topMenuBtn checked">공지/이벤트</button>
 <a href="../admin/freeBoardList"><button class="topMenuBtn">자유게시판</button></a>
-<button class="topMenuBtn">1:1문의</button>
+<a href="../admin/questionList"><button class="topMenuBtn">1:1문의</button></a>
 </div>
 
 <div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px;">

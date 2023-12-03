@@ -63,7 +63,13 @@ public class MainServiceImpl implements MainService{
 		System.out.println(cLass.getSubCategoryNo());
 		
 	    //총 게시글 수 조회
-	    int totalCount = mainDao.mainOnClassCntAll(cLass);
+		Integer totalCount = mainDao.mainOnClassCntAll(cLass);
+		
+	    // totalCount가 null인 경우 0으로 초기화
+	    if (totalCount == null) {
+	        totalCount = 0;
+	    }
+		
 	    
 //	    logger.info("totalCount {}", totalCount);
 	    
@@ -74,11 +80,10 @@ public class MainServiceImpl implements MainService{
 		map.put("cLass", cLass);
 		map.put("paging1", paging1);
 		
-//		logger.info("cLass {}", cLass);
 //		logger.info("paging1 {}", paging1);
 		
 		List<Class> list = mainDao.onClassList(map);
-		
+//		logger.info("list d뭐이써 {}", list);
 		map.put("list", list);
 		
 		
@@ -90,7 +95,12 @@ public class MainServiceImpl implements MainService{
 		System.out.println(cLass.getSubCategoryNo());
 		
 	    //총 게시글 수 조회
-	    int totalCount = mainDao.mainOffClassCntAll(cLass);
+		Integer totalCount = mainDao.mainOffClassCntAll(cLass);
+		
+	    // totalCount가 null인 경우 0으로 초기화
+	    if (totalCount == null) {
+	        totalCount = 0;
+	    }
 	    
 //	    logger.info("totalCount {}", totalCount);
 	      

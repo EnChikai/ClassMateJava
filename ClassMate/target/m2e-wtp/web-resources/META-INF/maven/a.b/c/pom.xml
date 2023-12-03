@@ -12,8 +12,50 @@
 		<org.springframework-version>5.3.30</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
-	</properties>
-	<dependencies>
+		</properties>
+		
+		<repositories>
+		   <repository>
+		       <id>jitpack.io</id>
+		       <url>https://jitpack.io</url>
+		   </repository>
+		</repositories>
+		
+		<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${org.springframework-version}</version> 
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.activation</groupId>
+			<artifactId>javax.activation</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		
+		
+		<!-- 포트원 토큰값 가져오는 라이브러리 -->
+		<dependency>
+		    <groupId>com.github.iamport</groupId>
+		    <artifactId>iamport-rest-client-java</artifactId>
+		    <version>0.2.23</version>
+		</dependency>
 		
 		<dependency>
         	<groupId>com.fasterxml.jackson.core</groupId>

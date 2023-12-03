@@ -1,5 +1,6 @@
 package admin.service.face;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +11,10 @@ import board.dto.AnnounceBoardFile;
 import board.dto.EventBoard;
 import board.dto.EventBoardFile;
 import board.dto.FreeBoard;
+import board.dto.FreeComment;
 import board.dto.Question;
 import board.dto.QuestionFile;
+import lecture.dto.Address;
 import lecture.dto.Class;
 import payment.dto.OrderTb;
 import teacher.dto.TeacherApply;
@@ -46,7 +49,7 @@ public interface AdminService {
 	 */
 	public Paging getUserPaging(Paging param, int delCheckbox);
 	
-	public List<UserInfo> userInfoList(Paging param, int sort, int delCheckbox);
+	public Map<String, Object> userInfoList(Paging param, int sort, int delCheckbox);
 
 	public UserInfo userInfo(UserInfo userdata);
 
@@ -70,6 +73,18 @@ public interface AdminService {
 	
 	public void freePostDel(FreeBoard freeBoard);
 	
+	public void deleteUserInfo(UserInfo userInfo);
+	
+	//========================================================================================================
+	//--- 유저 관리 > 환불 처리 ---
+	
+	public String getToken(String apiKey, String secretKey) throws IOException;
+
+	public void cancel(String token, String merchantUid) throws IOException;
+
+	public void updateRefund(int userNo, String merchantUid);
+
+	
 	//========================================================================================================
 	//--- 강사 심사 관리 ---
 	
@@ -86,6 +101,10 @@ public interface AdminService {
 	
 	public List<Class> getClassList(Paging paging, int sort, int delCheckbox);
 	
+	public void updateClassExist(Class calssInfo);
+	
+	public void classUpdate(Class classInfo, MultipartFile file, Address address);
+
 	//========================================================================================================
 	//--- 게시판 관리 ---
 	
@@ -135,5 +154,17 @@ public interface AdminService {
 	public void deleteChecked(int[] freePostNo);
 
 	public Map<String, Object> freeBoardView(FreeBoard freeBoard, Paging paging);
+
+	public void deleteFreeComment(FreeComment freeComment);
+
+	public Map<String, Object> classInfo(Class classInfo);
+
+	//========================================================================================================
+	//--- 게시판 관리 > 1:1문의 ---
+	
+	public Paging getQuestionListPaging(Paging paging);
+
+	public List<Question> selectQuestionList(Paging paging);
+
 
 }

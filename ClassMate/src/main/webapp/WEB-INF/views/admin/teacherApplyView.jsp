@@ -233,6 +233,7 @@ $(function(){
 		    
 	});
 });
+
 </script>
 <%-- <% ============================================================================= %> --%>
 <div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 70px;">
@@ -321,10 +322,11 @@ $(function(){
 </div>
 
 <div style="margin-top: 72px; margin-bottom: 15px;">
-<a href="javascript:openPassModal('passModal');" class="terms" style="text-decoration: none;"><button id="passBtn">합격</button></a>
-<a href="javascript:openFailModal('failModal');" class="terms" style="text-decoration: none;"><button id="failBtn">탈락</button></a>
+	<c:if test="${teacherApply.passOrNot == 0}">
+	<a href="javascript:openPassModal('passModal');" class="terms" style="text-decoration: none;"><button id="passBtn">합격</button></a>
+	<a href="javascript:openFailModal('failModal');" class="terms" style="text-decoration: none;"><button id="failBtn">탈락</button></a>
+	</c:if>
 </div>
-
 </div>
 
 <%-- <% ============================================================================= %> --%>

@@ -45,14 +45,38 @@ SELECT class_no FROM class
 	</where>
 </select>
 
-<select id="selectPageList" resultType="Class">
-	SELECT * FROM class
-		<where>
-				AND teacher_no = #{teacherNo}
-		</where>
-				ORDER BY class_start DESC
+<select id="selectByTeacherImg" resultType="String" parameterType="int">
+SELECT teacher_img FROM teacher
+	<where>
+		AND user_no = #{userNo}
+	</where>
+
+</select>
 
 
+<select id="selectMainCntAll" resultType="int" parameterType="HashMap">
+	
+	SELECT count(*) FROM(
+		SELECT *
+		FROM class 
+		WHERE teacher_no = #{teacherNo}
+		ANd delete_boolean = 0
+		ORDER BY class_no DESC
+		)
+
+</select>
+
+<select id="getMainList" resultType="Class" parameterType="HashMap">
+	SELECT * FROM (
+    SELECT rownum rnum, B.*
+    FROM(
+	SELECT *
+	FROM class
+		WHERE teacher_no = #{teacherNo}
+		AND delete_boolean = 0
+		ORDER BY class_no DESC
+		    ) B
+	) WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
 </select>
 
 <select id="selectCntAll" resultType="int" parameterType="int">
@@ -200,6 +224,19 @@ SELECT class_no FROM class
 	) WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
 </select>
 
+<select id="getClassList2" resultType="Class" parameterType="HashMap">
+	SELECT * FROM (
+    SELECT rownum rnum, B.*
+    FROM(
+	SELECT *
+	FROM class
+		WHERE teacher_no = #{teacherNo}
+		AND delete_boolean = 0
+		ORDER BY class_no DESC
+		    ) B
+	) WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+</select>
+
 <select id="getPaymentList" resultType="Payment" parameterType="HashMap">
 	SELECT * FROM (
     SELECT rownum rnum, B.*
@@ -230,6 +267,20 @@ SELECT class_no FROM class
 		AND C.on_off = #{onOff}
 		GROUP BY C.class_name, C.class_no, C.class_start, C.class_end, C.max_count, C.on_off, C.expense
 		ORDER BY orderNo DESC
+	) B
+	) WHERE rnum BETWEEN #{onPaging.startNo} AND #{onPaging.endNo}
+</select>
+
+<select id="getOnOffClassList2" resultType="Class" parameterType="HashMap">
+	SELECT * FROM (
+    SELECT rownum rnum, B.*
+    FROM (
+	SELECT *
+	FROM class 
+		WHERE teacher_no = #{teacherNo}
+		AND on_off = #{onOff}
+		ANd delete_boolean = 0
+		ORDER BY class_no DESC
 	) B
 	) WHERE rnum BETWEEN #{onPaging.startNo} AND #{onPaging.endNo}
 </select>
@@ -266,6 +317,16 @@ SELECT class_no FROM class
 	)
 </select>
 
+<select id="selectpayDetailCntAll2" resultType="int" parameterType="HashMap">
+	SELECT count(*) FROM(
+		SELECT *
+	FROM class 
+		WHERE teacher_no = #{teacherNo}
+		AND delete_boolean = 0
+		ORDER BY class_no DESC
+	)
+</select>
+
 <select id="selectClassPayDetailCntAll" resultType="int" parameterType="HashMap">
 	SELECT count(*) FROM(
 		SELECT C.class_name, C.class_no, COUNT(DISTINCT O.order_no) AS orderNo, SUM(P.payment) AS total_payment, C.class_start, C.class_end, C.max_count, C.on_off, C.expense
@@ -279,6 +340,52 @@ SELECT class_no FROM class
 	)
 </select>
 
+<select id="selectClassPayDetailCntAll2" resultType="int" parameterType="HashMap">
+	SELECT count(*) FROM(
+		SELECT *
+	FROM class 
+		WHERE teacher_no = #{teacherNo}
+		AND on_off = #{onOff}
+		ANd delete_boolean = 0
+		ORDER BY class_no DESC
+	)
+</select>
+
+<select id="selectpayLectureDetail" resultType="Class" parameterType="int">
+	SELECT * FROM class
+		<where>
+			AND class_no = #{classNo}
+		</where>
+
+</select>
+
+<select id="selectByMainCategoryNo" resultType="String" parameterType="int">
+	SELECT main_category_name FROM main_category
+		<where>
+			AND main_category_no = #{mainCategoryNo}
+		</where>
+</select>
+
+<select id="selectBySubCategoryNo" resultType="String" parameterType="int">
+	SELECT sub_Category_name FROM sub_category
+		<where>
+			AND sub_category_no = #{subCategoryNo}
+		</where>
+</select>
+
+<select id="selectAddressDetail" resultType="Address" parameterType="Address">
+	SELECT * FROM address
+		<where>
+			AND class_no = #{classNo}
+		</where>
+</select>
+
+<select id="selectVideoDetail" resultType="ClassVideo" parameterType="ClassVideo">
+	SELECT * FROM class_video
+		<where>
+			AND class_no = #{classNo}
+		</where>
+</select>
 
 
 </mapper>

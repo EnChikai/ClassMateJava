@@ -186,13 +186,28 @@ public interface TeacherDao {
 
 	public List<Class> getClassList(HashMap<String, Object> map);
 
+	public List<Class> getClassList2(HashMap<String, Object> map);
+
 	public List<Payment> getPaymentList(HashMap<String, Object> map);
 
 	public int selectpayDetailCntAll(HashMap<String, Object> map);
 
+	public int selectpayDetailCntAll2(HashMap<String, Object> map);
+
+	/**
+	 * 메인 페이지 클래스 총 수를 확인한다
+	 * @param map 전달된 클래스 객체 정보
+	 * @return
+	 */
+	public int selectMainCntAll(HashMap<String, Object> map);
+
 	public int selectClassPayDetailCntAll(HashMap<String, Object> map);
 
+	public int selectClassPayDetailCntAll2(HashMap<String, Object> map);
+
 	public List<Class> getOnOffClassList(HashMap<String, Object> map);
+
+	public List<Class> getOnOffClassList2(HashMap<String, Object> map);
 
 	public List<Payment> getOnOffPaymentList(HashMap<String, Object> map);
 
@@ -212,6 +227,49 @@ public interface TeacherDao {
 	 * @return teacher 정보 객체
 	 */
 	public Teacher getTeacherInfoByUserNoYo(int userNo);
+
+	/**
+	 * 전달된 클래스 번호로 클래스 번호가 동일한 강의 정보를 가져온다
+	 * 
+	 * @param classNo
+	 * @return
+	 */
+	public Class selectpayLectureDetail(int classNo);
+
+	/**
+	 * 
+	 * 전달된 주소 객체 안 클래스 번호
+	 * @param addressParam
+	 * @return
+	 */
+	public Address selectAddressDetail(Address addressParam);
+
+	/**
+	 * 전달된 비디오 객체 안 클래스 번호
+	 * 
+	 * @param videoParam
+	 * @return
+	 */
+	public List<ClassVideo> selectVideoDetail(ClassVideo videoParam);
+	/**
+	 * 메인 페이지의 클래스 리스트를 불러온다
+	 * 
+	 * @param 전달된 HashMap 객체
+	 * @return 클래스 리스트
+	 */
+	public List<Class> getMainList(HashMap<String, Object> map);
+
+	/** 
+	 * 강사 이미지를 가져온다
+	 * 
+	 * @param userNo 전달된 유저 번호
+	 * @return
+	 */
+	public String selectByTeacherImg(int userNo);
+
+	public String selectByMainCategoryNo(int mainCategoryNo);
+
+	public String selectBySubCategoryNo(int subCategoryNo);
 
 	
 

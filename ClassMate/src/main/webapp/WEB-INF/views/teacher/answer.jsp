@@ -30,13 +30,43 @@ $(document).ready(function() {
 	        var textareaId = "textarea" + index;
 	        var registerButtonId = "registerButton" + index;
 	        var registerInput = "registerInput" + index;
+	        var uncorrectId = "uncorrect" + index;
 	        
 	        if (answer === "1") {
 	            $("#" + buttonId).text("답변수정");
+	            $("#" + buttonId).css({
+                    'background-color': '#FDE1B4',
+                    'border-radius': '5px',
+                    'margin': '2px',
+                    'padding': '1px',
+                    'border': 'none' 
+                });
 	            $("#" + registerButtonId).text("수정");
+	            $("#" + registerButtonId).css({
+                    'background-color': '#FDE1B4',
+                    'border-radius': '5px',
+                    'margin': '2px',
+                    'padding': '1px',
+                    'border': 'none' 
+                });
 	        } else {
 	            $("#" + buttonId).text("답변하기");
+	            $("#" + buttonId).css({
+                    'background-color': '#c8c8c8',
+                    'border-radius': '5px',
+                    'margin': '2px',
+                    'padding': '1px',
+                    'border': 'none' 
+                });
 	            $("#" + registerButtonId).text("등록");
+	            $("#" + registerButtonId).css({
+                    'background-color': '#c8c8c8',
+                    'border-radius': '5px',
+                    'margin': '2px',
+                    'padding': '1px',
+                    'border': 'none' 
+                });
+            
 	        }
 
 	        $("#" + buttonId).click(function(event) {
@@ -61,10 +91,24 @@ $(document).ready(function() {
 	                type: "POST",
 	                url: "/teacher/answer_ok", // 실제 서블릿의 URL로 변경
 	                data: formData,
+
 	                success: function(res) {
 	                    // 서버에서의 처리가 성공하면 이 부분에 원하는 화면 업데이트 로직 추가
 	                    console.log("Success:", res);
 	                    $("#" + textareaId).val(res); // 예를 들어, 서버에서의 응답을 해당 div에 넣어주는 등의 작업
+	                    $("#" + buttonId).text("답변수정");
+	                    $("#" + buttonId).css({
+	                        'background-color': '#FDE1B4'
+	                    });
+	    	            $("#" + registerButtonId).text("수정");
+	    	            $("#" + registerButtonId).css({
+	                        'background-color': '#FDE1B4'
+	                    });
+	    	            $("#" + uncorrectId).text("답변완료");
+	    	            $("#" + uncorrectId).css({
+	                        'background-color': '#FDE1B4'
+	                    });
+	                    
 	                },
 	                error: function(error) {
 	                    console.error("Error:", error);
@@ -91,32 +135,33 @@ $(document).ready(function() {
     textarea {
         display: none;
     }
+
 </style>
 
 
-<div class="cd1">
-    <div class="border" style="width: 700px; min-height: 800px;">
-        <div id="all">
-            <h3 style="display: inline-block;">ONF클래스 질문/답변 조회</h3>
-            <span style="margin-left: 30px;">
-                <div id="dropdownContainer">
+<div class="cd1" style="margin-bottom: 20px;">
+    <div style="width: 700px; min-height: 750px; border-top: 1px #d2d2d2 solid; border-radius: 5px;">
+	<div style="border-left: 1px #d2d2d2 solid; border-right: 1px #d2d2d2 solid; height: 25px;"></div>
+        <div style="border-left: 1px #d2d2d2 solid; border-right: 1px #d2d2d2 solid;">
+            <div style="font-weight: 700; font-size: xx-large; text-align: center; margin-bottom: 20px;">
+            	ON클래스 질문/답변 조회</div>
+                <div id="dropdownContainer" style="margin-left: 490px;">
                     <form action="/teacher/answer" method="post" id="dropSubmit" name="dropSubmit">
-                        <select class="dropTag" name="classNo" id="classNo" onchange="changeSelection()" style="width: 100px;">
-                            <option selected disabled> --선택-- </option>
+                        <select class="dropTag" name="classNo" id="classNo" onchange="changeSelection()" style="width: 180px;">
+                            <option selected disabled style="text-align: center;"> ----선택---- </option>
                             <c:forEach var="dl" items="${dropList }">
                                 <option value="${dl.classNo }">${dl.className }</option>
                             </c:forEach>
                         </select>
                     </form>
-                </div>
-            </span>
-            <hr>
+                </div>   
+        	<div style="height: 10px; background-color: #FDE1B4; margin-top: 10px; margin-bottom: 10px;"></div>
         </div>
                
-
+	<c:if test="${not empty list}">
             <c:forEach var="list" items="${list }" varStatus="loop">
                 <form id="form${loop.index}">
-        <table style="width: 700px;">
+        <table style="width: 700px; margin-top: 15px; border: 1px #d2d2d2 solid; border-radius: 3px;">
             <colgroup>
                 <col style="width: 12%;">
                 <col style="width: 68%;">
@@ -128,36 +173,50 @@ $(document).ready(function() {
                             <div>
                                 <c:choose>
                                     <c:when test="${list.answer == '1'}">
-                                        <span>답변완료</span>
+                                        <span id="correct${loop.index}" style="border-radius: 5px; background-color: #FDE1B4; margin: 2px; padding: 1px;">답변완료</span>
                                     </c:when>
                                     <c:otherwise>
-                                        <span>미답변</span>
+                                        <span id="uncorrect${loop.index}" style="border-radius: 5px; background-color: #c8c8c8; margin: 2px; padding: 1px;">미답변</span>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2"><div>${list.questionName }</div></td>
+                        <td colspan="2"><div style="margin-top: 10px; font-size: large;">${list.questionName }</div></td>
                     </tr>
                     <tr>
                         <td rowspan="2" colspan="2"><div>${list.questionContent }</div></td>
+                        <td>
                     </tr>
                     <tr>
-                        <td><span style="width: 10px;"><button id="questionButton${loop.index}" style="width: 90px; height: 40px;"></button></span></td>
+                        <td><div style="text-align: center;"><button id="questionButton${loop.index}" style="width: 90px; height: 40px;"></button></div></td>
                     </tr>
                     <tr>
-                        <td rowspan="2" colspan="2"><div><textarea id="textarea${loop.index}" placeholder="본문 내용을 입력해주세요">${list.answerContent }</textarea></div></td>
+                        <td rowspan="2" colspan="2"><div style="background-color:dcdcdc"><textarea id="textarea${loop.index}" style="height: 130px; width: 560px;"  placeholder="본문 내용을 입력해주세요">${list.answerContent }</textarea></div></td>
                     </tr>
                     <tr>
-                        <td><div>
-                            <button class="registButton" id="registerButton${loop.index}"></button>
-                            <input type="number" id="registerInput${loop.index}" style="display: none;" value="${list.questionNo }">
-                        </div></td>
+                        <td style="background-color:dcdcdc;"><div style="text-align: center;">
+                            <button class="registButton" id="registerButton${loop.index}" style="width: 70px; height: 30px;"></button>
+                            <input type="number" id="registerInput${loop.index}" style="display: none; " value="${list.questionNo }">
+                        </div>
+                    		</td>
                     </tr>
         </table>
                 </form>
             </c:forEach>
+ 	</c:if>
+ 	
+ 	<c:if test="${empty list}">
+    <!-- ${list}가 없을 때 보여줄 div 영역 -->
+    <div style="height: 600px; text-align: center;  border:1px #d2d2d2 solid; border-radius: 5px; ">
+    <div style="margin-top: 280px;"></div>
+   
+    <p style="font-size: xx-large; font-weight: bold;">질문이 없습니다</p>
+  		
+    </div>
+</c:if>
+    
     </div>
 
     

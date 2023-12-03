@@ -21,11 +21,11 @@ public interface MainDao {
 
 	public List<SubCategory> subCategoryList(SubCategory subCategory);
 
-	public int mainOnClassCntAll(Class cLass);
+	public Integer mainOnClassCntAll(Class cLass);
 	
 	public List<Class> onClassList(Map<String, Object> map);
 	
-	public int mainOffClassCntAll(Class cLass);
+	public Integer mainOffClassCntAll(Class cLass);
 	
 	public List<Class> offClassList(Map<String, Object> map);
 
@@ -44,6 +44,7 @@ public interface MainDao {
 	public Address getAddress(Class cLass);
 
 	public void endClass();
+
 
 
 

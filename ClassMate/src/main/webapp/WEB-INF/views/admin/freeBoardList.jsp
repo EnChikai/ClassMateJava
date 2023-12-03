@@ -378,7 +378,7 @@ $(function(){
 <div style="margin-top: 25px; margin-left: 72px; font-size: 6px;">
 <a href="../admin/board"><button style="margin-left: 1px;" class="topMenuBtn">공지/이벤트</button></a>
 <button class="topMenuBtn checked">자유게시판</button>
-<button class="topMenuBtn">1:1문의</button>
+<a href="../admin/questionList"><button class="topMenuBtn">1:1문의</button></a>
 </div>
 
 <div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px;">
@@ -445,7 +445,7 @@ $(function(){
 <c:forEach var="freeBoardList" items="${freeBoardList }"> 
 	<tr class="freeBoardListTr" >
 		<td class="freeBoardListTd freeBoardInfo${freeBoardList.freeNo }">${freeBoardList.freeNo }</td>
-		<td class="freeBoardListTd freeBoardInfo${freeBoardList.freeNo }">${freeBoardList.freeName }</td>
+		<td class="freeBoardListTd freeBoardInfo${freeBoardList.freeNo }">[${freeBoardList.freeHead }] ${freeBoardList.freeName }</td>
 		<td class="freeBoardListTd freeBoardInfo${freeBoardList.freeNo }">${freeBoardList.freeDate }</td>
 		<td class="freeBoardListTd freeBoardInfo${freeBoardList.freeNo }">${freeBoardList.userName }</td>
 		<td class="freeBoardListTd"><input id="delCheckbox${freeBoardList.freeNo }" class="delCheckbox" type="checkbox" value="${freeBoardList.freeNo }"></td>

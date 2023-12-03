@@ -12,6 +12,7 @@
 
 <c:import url="/WEB-INF/views/layout/teacherSide.jsp" />
 
+
 <script type="text/javascript">
 
 $(document).ready(function () {
@@ -123,7 +124,7 @@ $(document).ready(function() {
 function categoryUchange() {
 	
 	var 예술 = ["음악", "영화", "사진", "회화", "뮤지컬", "공예", "연기", "게임", "무용"];
-	var 운동 = ["헬스", "무술", "런닝", "수영", "사이클링", "레저", "체조", "요가", "크로스핏"];
+	var 운동 = ["헬스", "무술", "러닝", "수영", "사이클링", "레저", "체조", "요가", "크로스핏"];
 	var 요리 = ["중식", "양식", "한식", "채식", "디저트", "베이킹", "퓨전", "건강식", "간편식"];
 	var 여행 = ["백패킹", "휴양지", "도보", "음식", "문화", "도심", "로드 트립", "정글", "섬",];
 	var 성장 = ["직업", "창업", "금융", "건강", "자기개발", "기술", "비즈니스", "교육", "독서"];
@@ -204,6 +205,42 @@ function readURL(input) {
 
 </script>
 
+<style type="text/css">
+     
+    #dynamicTable input[type="file"] {
+        display: none;
+        margin-right: 10px;
+        margin-bottom: 5px;
+    }
+
+    #dynamicTable input[type="number"] {
+        display: none;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    
+    #dynamicTable td {
+
+    }
+
+    #deleteTableButton {
+        cursor: pointer;
+        color: blue;
+        font-weight: bold;
+        margin-top: 10px;
+        display: none;
+    }
+    
+    
+file-input-container {
+        width: 140px; /* 파일 입력 필드의 원하는 너비 설정 */
+        overflow: hidden; /* 초과된 부분을 감출 수 있도록 설정 */
+    }
+
+    .file-input {
+        width: 100%; /* 부모 요소의 100% 너비를 차지하도록 설정 */
+    }
+</style>
 
 <style type="text/css">
 
@@ -215,9 +252,9 @@ function readURL(input) {
 </style>
 
 <div class="cd1">
-<div class="title">
-<h3 style="display: inline-block;">ON/OFF클래스 등록</h3>
-<div id= "all"><select name="classCheck" id="classCheck">
+<div class="title" style="width: 900px;">
+<h3 style= "text-align: center;">ON/OFF클래스 등록</h3>
+<div style="margin-left: 750px; margin-bottom: 10px;"><select name="classCheck" id="classCheck">
   <option disabled="disabled" selected="selected" value="2">--선택해주세요--</option>
   <option value="1">on클래스</option>
   <option value="0">off클래스</option>
@@ -225,13 +262,14 @@ function readURL(input) {
 </div>
 <hr>
 
-<form action="/teacher/regist" method="post" id="submit" name="submit" enctype="multipart/form-data">
-<table class="table table-bordered">
-	<img id="preview" width="130" height="150"/>
-	<div class="fileBox">
-	<label for="singleFile" style="display: block;">썸네일 등록</label>
-	<input type="file"  name="singleFile" id="singleFile" onchange="readURL(this);"> 
+<form action="/teacher/regist" method="post" id="submit" name="submit" enctype="multipart/form-data" style="width: 900px;">
+<img id="preview" width="130" height="150"/>
+<div class="fileBox">
+	<label for="singleFile" style="display: block; margin-bottom: 5px; margin-top: 5px;">썸네일 등록</label>
+	
+	<input type="file"  name="singleFile" id="singleFile" onchange="readURL(this);" style="margin-bottom: 10px;"> 
 </div>
+<table class="table table-bordered">
 
 
 <colgroup>
@@ -239,14 +277,14 @@ function readURL(input) {
 	<col style="width: 80%;">
 </colgroup>
 <tr>
-	<td class="table-info">강사</td><td>${userName}</td>
+	<td class="table-info">강사</td><td>${userName }</td>
 </tr>
 <tr>
 	<td class="table-info">카테고리</td>
 	<td>
 	 <label for="mainCategoryName">대분류 : </label>
 	<select name="mainCategoryName" id="mainCategoryName" onchange="categoryUchange()">
-	<option selected disabled>--대분류를 선택해주세요--</option>
+	<option selected disabled>선택해주세요</option>
 	<option value="예술">예술</option>
 	<option value="운동">스포츠</option>
 	<option value="요리">요리</option>
@@ -257,10 +295,10 @@ function readURL(input) {
 	<option value="창작">창작</option>
 	<option value="culture">문화</option>
 	</select>
-	>
+	<img src="/resources/img/gonext.png" id="rightImg" alt="더하기" width="30" height="30" style="margin-left: 5px; margin-right: 5px;">
 	<label for="subCategoryName">소분류 : </label>
 	<select name="subCategoryName" id="subCategoryName" disabled>
-	<option selected disabled>--대분류를 먼저 선택해주세요--</option>
+	<option selected disabled>대분류를 먼저 선택해주세요</option>
 	</select>
 	</td>
 </tr>
@@ -268,41 +306,40 @@ function readURL(input) {
 	<td class="table-info">클래스명</td><td><input type="text" name="className" id="className"></td>
 </tr>
 <tr>
-	<td class="table-info">클래스 기간</td><td><input type="date" name= "classStart" id="classStart"> ~
+	<td class="table-info">클래스 기간</td><td><input type="date" name= "classStart" id="classStart">
+		<img src="/resources/img/dash.png" id="tideImg" alt="물결" width="30" height="30" style="margin-left: 5px; margin-right: 5px;">
 		 <input type="date" name="classEnd" id="classEnd"></td>
 </tr>
 <tr>
-	<td class="table-info">모집 정원</td><td><input type="number" name="maxCount" id="maxCount" style="display: block;"> 명</td>
+	<td class="table-info">모집 정원</td><td><input type="number" name="maxCount" id="maxCount"> 명</td>
 </tr>
 <tr>
 	<td class="table-info">비용 및 안내</td><td><input type="text" name="expense" id="expense"> 원</td>
 </tr>
 <tr>
-	<td class="table-info">클래스 소개</td><td><textarea name="classInfo" id="classInfo"></textarea></td>
+	<td class="table-info">클래스 소개</td><td><textarea name="classInfo" id="classInfo" style="width: 700px; height: 180px;"></textarea></td>
 </tr>
 <tr>
-	<td class="table-info">커리큘럼</td><td><textarea name="curriculum" id="curriculum"></textarea></td>
-	<td><input type="hidden" name="onOff" id="onOff" value=""></td>
+	<td class="table-info">커리큘럼</td><td><textarea name="curriculum" id="curriculum" style="width: 700px; height: 180px;"></textarea></td>
 </tr>
+</table>
 
-<style type="text/css">
-     
-    input[type="file"], input[type="number"] {
-        display: none;
-    }
+	<input type="hidden" name="onOff" id="onOff" value="">
 
-    #deleteTableButton {
-        cursor: pointer;
-        color: blue;
-        font-weight: bold;
-        margin-top: 10px;
-        display: none;
-    }
-</style>
+
+<!-- <tr>
+
+	<td><button id="deleteTableButton" onclick="deleteTable(event)">테이블 삭제</button><td>
+</tr>
+<tr>	
+    <td colspan="2"><table id="dynamicTable"></table></td>>
+</tr>
+    <input type="number" id="fileCount" name="fileCount" value="1" readonly style="display:none">	
+    추가: 파일 개수를 입력하는 input -->
 
 <script>
     // 함수를 호출하여 테이블 생성
-    createDynamicTable(4, 5);
+    createDynamicTable(5, 4);
 
     function createDynamicTable(rows, cols) {
         // 테이블 엘리먼트 생성
@@ -320,23 +357,34 @@ function readURL(input) {
                 // input 엘리먼트 생성
                 var input = document.createElement('input');
                 input.type = 'file';
-                input.id = 'fileInput_' + ((i * 5) + (j + 1)); // 고유한 id 부여
-                input.name = 'fileInput_' + ((i * 5) + (j + 1)); // name 속성 부여
+                input.id = 'fileInput_' + ((i * 4) + (j + 1)); // 고유한 id 부여
+                input.name = 'fileInput_' + ((i * 4) + (j + 1)); // name 속성 부여
+                input.style.width = '220px';
+                
+                var label = document.createElement('label');
+                label.className = "input-file-button";
+                label.htmlFor = input.id; // label과 input을 연결
+                label.style.display = 'inline-block'; // label이 옆에 표시되도록 설정
+                label.value = '값';
 
                 var input2 = document.createElement('input');
                 input2.type = 'number';
-                input2.id = 'numberInput_' + ((i * 5) + (j + 1)); // 고유한 id 부여
-                input2.name = 'numberInput_' + ((i * 5) + (j + 1)); // name 속성 부여
-                input2.value = (i * 5) + (j + 1); // 열 번호로 초기값 설정
+                input2.id = 'numberInput_' + ((i * 4) + (j + 1)); // 고유한 id 부여
+                input2.name = 'numberInput_' + ((i * 4) + (j + 1)); // name 속성 부여
+                input2.value = (i * 4) + (j + 1); // 열 번호로 초기값 설정
                 input2.readOnly = true; // 읽기 전용으로 설정
+                
+                
 
                 // input의 change 이벤트에 함수 연결
                 input.addEventListener('change', function () {
                     handleFileInput(this);
+                    label.innerText = this.value; // input 값이 변경되면 label에 반영
                 });
 
                 // cell에 input 추가
                 cell.appendChild(input);
+                cell.appendChild(input2);
                 cell.appendChild(input2);
 
                 // 첫 번째 셀인 경우 파일 입력을 보이게 처리
@@ -359,7 +407,7 @@ function readURL(input) {
         var row = cell.parentNode.rowIndex;
 
         // 현재 위치의 행이 마지막 행이 아니면 다음 열에 input 추가
-        if (col < 4) {
+        if (col < 3) {
             var nextCell = cell.nextElementSibling;
             var nextInput = nextCell.querySelector('input[type="file"]');
             var nextInput2 = nextCell.querySelector('input[type="number"]');
@@ -376,7 +424,7 @@ function readURL(input) {
         }
 
         // 현재 위치의 열이 마지막 열이 아니면 다음 행의 첫 번째 열에 input 추가
-        if (row < 5 && col === 4) {
+        if (row < 6 && col === 3) {
             var nextRow = cell.parentNode.nextElementSibling;
             if (nextRow) {
                 var firstCell = nextRow.querySelector('td');
@@ -406,11 +454,9 @@ function readURL(input) {
         event.preventDefault();
     	
     	// 테이블 엘리먼트 찾기
-        var table = document.getElementById('dynamicTable');
+        var table = document.getElementById('dynamicTable'); 
     	
-        var button = document.getElementById('deleteTableButton');
-        button.innerHTML = '테이블 삭제';
-        button.style.color = 'red';
+        $('#deleteTableButton').text('삭제').css('color', 'red');
         
         // 테이블 내의 모든 파일 값 초기화 및 셀 삭제
         for (var i = table.rows.length - 1; i >= 0; i--) {
@@ -422,7 +468,7 @@ function readURL(input) {
         deleteTableButton.style.display = 'none';
 
         // 테이블 내용을 1행 1열로 재생성
-        createDynamicTable(1, 5);
+        createDynamicTable(5, 4);
     }
 
 
@@ -469,20 +515,27 @@ function readURL(input) {
     
 </script>
 
-</table> 
+<!-- </table>  -->
 
-<div>
+	<div><button id="deleteTableButton" onclick="deleteTable(event)">테이블 생성</button></div>
+
+	
+   <div style="width: 850px;"><table id="dynamicTable"></table></div>
+
+    <input type="number" id="fileCount" name="fileCount" value="1" readonly style="display:none">	
+
+<!-- <div>
 	<div id="deleteTableButtonDiv"><button id="deleteTableButton" onclick="deleteTable(event)">테이블 생성</button></div>
     <div id="dynamicTableDiv"><table id="dynamicTable"></table></div>
 
-    <!-- 추가: 파일 개수를 입력하는 input -->
+    추가: 파일 개수를 입력하는 input
     <input type="number" id="fileCount" name="fileCount" value="1" readonly style="display:none">	
-</div>
+</div> -->
 <div id="showMap" style="display: none">
-<input type="text" id="mainAddress" name="mainAddress" placeholder="주소" readonly>
+<input type="text" id="mainAddress" name="mainAddress" placeholder="주소" readonly style="margin-left: 350px;">
 <input type="button" onclick="execDaumPostcode()" value="주소 검색"><br>
-<input type="text" id="subAddress" name="subAddress" placeholder="상세 주소 입력">
-<div id="map" style="width:90%;height:350px;margin-top:10px;display:none"></div>
+<input type="text" id="subAddress" name="subAddress" placeholder="상세 주소 입력" style="margin-left: 350px;">
+<div id="map" style="width:100%;height:350px;margin-top:10px;display:none"></div>
 </div>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
