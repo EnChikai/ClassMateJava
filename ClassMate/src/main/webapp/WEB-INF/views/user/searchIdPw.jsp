@@ -109,9 +109,11 @@ button {
 </style>
 
 <script type="text/javascript">
-   var isPassworCoincide = ${isPassworCoincide}
-   console.log(isPassworCoincide)
-   if(isPassworCoincide == false) {
+$(document).ready(function() {
+	
+   var isPasswordCoincide = ${isPasswordCoincide}
+   console.log(isPasswordCoincide)
+   if(isPasswordCoincide == false) {
       alert('회원 정보가 일치하지않습니다')
    } 
    var isIdCoincide = ${isIdCoincide}
@@ -121,10 +123,10 @@ button {
    } 
    var isOutUser = ${isOutUser}
    console.log(isOutUser)
-   if(isOutUser == false) {
+   if(isOutUser == true) {
       alert('탈퇴한 회원입니다.')
    } 
-
+});
 
 </script>
 

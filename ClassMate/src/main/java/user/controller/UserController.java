@@ -150,16 +150,17 @@ public class UserController {
             if(userInfo.getUserSecession() == 0) { // 사용자가 정상:0 탈퇴자:1 
                //정상 사용자 처리
                modelAndView.addObject("userInfo", userInfo);
-               modelAndView.setViewName("user/resetPw"); // 업데이트 완료 페이지로 이동               
+               modelAndView.setViewName("user/resetPw"); // 업데이트 완료 페이지로 이동
+               modelAndView.addObject("isOutUser", false); // 사용자가 탈퇴하지 않았으므로 false
             }else {
                //탈퇴자 처리
                modelAndView.addObject("errorMessage", "탈퇴한 회원입니다.");
-               modelAndView.addObject("isOutUser", false );
-               modelAndView.setViewName("user/searchIdPw"); // 업데이트 완료 페이지로 이동
+               modelAndView.addObject("isOutUser", true );
+               modelAndView.setViewName("redirect:/user/searchIdPw"); // 업데이트 완료 페이지로 이동
             }
          } else {
              modelAndView.addObject("errorMessage", "비밀번호 재설정에 실패했습니다.");
-             modelAndView.addObject("isPassworCoincide", false );
+             modelAndView.addObject("isPasswordCoincide", false );
              modelAndView.setViewName("user/searchIdPw"); // 실패 시 비밀번호 재설정 페이지로 다시 이동
          }
          return modelAndView;

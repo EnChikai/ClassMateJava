@@ -7,41 +7,46 @@
 <script type="text/javascript">
 //이메일 인증
 $(document).ready(function () {
-		$('#mail-Check-Btn').click(function() {
-			const eamil = $('#userEmail').val(); // 이메일 주소값 얻어오기!
-			console.log('완성된 이메일 : ' + eamil); // 이메일 오는지 확인
-			const checkInput = $('.mail-check-input') // 인증번호 입력하는곳 
-			
-			$.ajax({
-				type : 'get',
-				url : '<c:url value ="/user/mailCheck?email="/>'+eamil, // GET방식이라 Url 뒤에 email을 뭍힐수있다.
-				success : function (data) {
-					console.log("data : " +  data);
-					checkInput.attr('disabled',false);
-					code =data;
-					alert('인증번호가 전송되었습니다.')
-				}			
-			}); // end ajax
-		}); // end send eamil
-		// 인증번호 비교 
-		// blur -> focus가 벗어나는 경우 발생
-	$('.mail-check-input').blur(function () {
-		const inputCode = $(this).val();
-		const $resultMsg = $('#mail-check-warn');
-		
-		if(inputCode === code){
-			$resultMsg.html('인증번호가 일치합니다.');
-			$resultMsg.css('color','green');
-			$('#mail-Check-Btn').attr('disabled',true);
-			$('#userEamil1').attr('readonly',true);
-			$('#userEamil2').attr('readonly',true);
-			$('#userEmail2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
-	         $('#userEmail2').attr('onChange', 'this.selectedIndex = this.initialSelect');
-		}else{
-			$resultMsg.html('인증번호가 일치하지않습니다. 다시 확인해주세요!');
-			$resultMsg.css('color','red');
-		}
-	});
+      $('#mail-Check-Btn').click(function() {
+         const email = $('#userEmail').val(); // 이메일 주소값 얻어오기!
+         // 이메일 주소가 비어 있는지 확인
+         if (!email) {
+             alert('이메일 주소를 입력하세요.');
+             return;
+         }
+         console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
+         const checkInput = $('.mail-check-input') // 인증번호 입력하는곳 
+         
+         $.ajax({
+            type : 'get',
+            url : '<c:url value ="/user/mailCheck?email="/>'+email, // GET방식이라 Url 뒤에 email을 뭍힐수있다.
+            success : function (data) {
+               console.log("data : " +  data);
+               checkInput.attr('disabled',false);
+               code =data;
+               alert('인증번호가 전송되었습니다.')
+            }         
+         }); // end ajax
+      }); // end send eamil
+      // 인증번호 비교 
+      // blur -> focus가 벗어나는 경우 발생
+   $('.mail-check-input').blur(function () {
+      const inputCode = $(this).val();
+      const $resultMsg = $('#mail-check-warn');
+      
+      if(inputCode === code){
+         $resultMsg.html('인증번호가 일치합니다.');
+         $resultMsg.css('color','green');
+         $('#mail-Check-Btn').attr('disabled',true);
+         $('#userEamil1').attr('readonly',true);
+         $('#userEamil2').attr('readonly',true);
+         $('#userEmail2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
+            $('#userEmail2').attr('onChange', 'this.selectedIndex = this.initialSelect');
+      }else{
+         $resultMsg.html('인증번호가 일치하지않습니다. 다시 확인해주세요!');
+         $resultMsg.css('color','red');
+      }
+   });
 });
 $(function(){
     $(document).on('click', "input[type='checkbox']", function(){
@@ -130,21 +135,27 @@ function validateForm() {
     // 약관 동의 여부를 가져옵니다.
     var agree = $("#cb3:checked").length;
     
+    // 이메일 인증번호가 일치하는지 확인
+    if (emailCheckResult !== '인증번호가 일치합니다.') {
+        alert("이메일 인증번호가 일치하지 않습니다. 다시 확인해주세요.");
+        return false; // 폼 제출 방지
+    }
+    
     // 모든 필수 필드가 비어 있는지 확인
    if (   userId === "" ||
-      userPw === "" ||
-      userPwChk === "" ||
-      userGender === 0 ||
-        userBirthday === "" ||
-        userPhone === "" ||
-        userName === "" ||
-        userEmail === "" ||
-        postcode === "" ||
-        address === "" ||
-        detailAddress === ""
-        || agree === 0
+	      userPw === "" ||
+	      userPwChk === "" ||
+	      userGender === 0 ||
+	      userBirthday === "" ||
+	      userPhone === "" ||
+	      userName === "" ||
+	      userEmail === "" ||
+	      postcode === "" ||
+	      address === "" ||
+	      detailAddress === ""|| 
+	      agree === 0 
     ) {
-        alert("모든 필수 항목을 입력하세요.");
+        alert("모든 항목을 확인하세요.");
         return false; // 폼 제출 방지
     }else{
         // 추가 유효성 검사
@@ -191,7 +202,7 @@ function registerButtonClick() {
 .joinDiv {
    border: 1px solid #ccc;
    width: 900px;
-   height: 1130px;
+   height: 1230px;
    margin: 120px auto;
    margin-bottom: 160px;
 }
@@ -315,10 +326,12 @@ button {
             border-radius: 4px;
             width: 73px; font-size: 16px;
             border: 1px solid #ccc; 
-            margin-top: 6px; height: 30px; cursor: pointer;"  id="mail-Check-Btn">인증확인</button><br>
+            margin-top: 6px; height: 30px; cursor: pointer;" id="mail-Check-Btn">인증확인</button><br>
       <label>인증번호</label>
       <input class="form-control mail-check-input" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
-      <span id="mail-check-warn"></span>
+      <div style="margin-left: 120px; font-size: 13px;">
+      	<span id="mail-check-warn"></span>
+      </div>
       <label for="postcode">주소</label>
       <input type="text" id="postcode" name="userPost" placeholder="우편번호"
             style="width: 200px; text-align: left;">
@@ -349,8 +362,8 @@ button {
              cursor: pointer;">자세히 보기</button></a><br><br>
       
       <div class="Btn" style="text-align:center;">
-	      <button type="button" style="background-color: #929292;" onclick="window.history.back();">취소</button>
-	      <button id="registerButton" style="background-color: #F1C40F;" type="button">등록</button>
+         <button type="button" style="background-color: #929292;" onclick="window.history.back();">취소</button>
+         <button id="registerButton" style="background-color: #F1C40F;" type="button">등록</button>
       </div>
       
       

@@ -122,7 +122,14 @@ public class UserServiceImpl implements UserService{
         System.out.println("Received password: " + chkPassword);
         // 가져온 비밀번호가 null이 아닌지 확인
         if ( chkPassword != null ) { // 입력한 유저 정보가 일치해서 pw가 조회될때 
-            return true;
+        	// 탈퇴한 사용자인지 확인
+            if (userDao.isUserWithdrawn(userInfo.getUserId()) > 0) {
+                // 탈퇴한 사용자라면 비밀번호 찾기를 거부
+                System.out.println("This user has withdrawn");
+                return false;
+            } else {
+                return true;
+            }
         } else {
             // 비밀번호가 null이거나 비어있으면 업데이트 실패로 처리
             return false;
