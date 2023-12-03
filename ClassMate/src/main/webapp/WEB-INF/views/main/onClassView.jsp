@@ -89,8 +89,8 @@ $(document).ready(function () {
                 for (var i = 0; i < data.length; i++) {
                     var htmlContent =
                         '<div style="display: flex;">' +
-                        '<div style="background-color: #F0C610; font-size: 30px; color: black; flex: auto; width: 551px;">' +
-                            '<div style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px;">' +
+                        '<div style="background-color: black; font-size: 30px; color: white; flex: auto; width: 551px;">' +
+                            '<div style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px; font-size: 20px;">' +
                                 '강사명 : ' + data[i].teacher + '<br><br>' +
                                 '강의기간<br>' + data[i].classStart + '~' + data[i].classEnd + '<br><br>' +
                                 '모집기간<br>' + data[i].classDate + '~' + data[i].classStart + '<br><br>' +
@@ -152,8 +152,8 @@ $(document).ready(function () {
                 for (var i = 0; i < data.length; i++) {
                     var htmlContent =
                         '<div style="display: flex;">' +
-                        '<div style="background-color: #F0C610; font-size: 30px; color: black; flex: auto; width: 551px;">' +
-                            '<div style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px;">' +
+                        '<div style="background-color: black; font-size: 30px; color: white; flex: auto; width: 551px;">' +
+                            '<div style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px; font-size: 20px;">' +
                                 '강사명 : ' + data[i].teacher + '<br><br>' +
                                 '강의기간<br>' + data[i].classStart + '~' + data[i].classEnd + '<br><br>' +
                                 '모집기간<br>' + data[i].classDate + '~' + data[i].classStart + '<br><br>' +
