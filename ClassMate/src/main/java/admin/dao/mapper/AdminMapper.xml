@@ -411,6 +411,7 @@
 	  	SELECT video_no, class_no, video_lesson, origin_name, stored_name
 	  	FROM class_video
 	  	WHERE class_no = #{classNo}
+	  	ORDER BY video_no 
   	</select>
   	
   	<select id="selectClassAdress" resultType="Address" parameterType="Class">
