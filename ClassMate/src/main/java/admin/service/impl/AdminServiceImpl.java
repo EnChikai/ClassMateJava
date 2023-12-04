@@ -177,13 +177,15 @@ public class AdminServiceImpl implements AdminService{
 			logger.info("list : {}",list);
 		}
 		
-		if(list != null) {
+		if(list == null) {
 			logger.info("조회성공");
 		}else {
 			logger.info("조회실패");
 		}
 		
-		teacherApplylist = adminDao.selectTeacherApplyByUserNo(list);
+		if(list == null) {
+			teacherApplylist = adminDao.selectTeacherApplyByUserNo(list);
+		}
 		logger.info("teacherTeacherApplylist : {}",teacherApplylist);
 
 		map.put("teacherApplylist", teacherApplylist);
@@ -208,7 +210,13 @@ public class AdminServiceImpl implements AdminService{
 		
 		int result = 0;
 		if(userdata != null) {
-			result = adminDao.updateUser(userdata);
+			
+			if(userdata.getUserNo() != 0) {
+				result = adminDao.updateUser(userdata);
+			}else if(userdata.getUserNo() == 0){
+				result = adminDao.updateAdmin(userdata);
+			}
+			
 		}
 		logger.info("updata result : {}", result);
 		
@@ -834,13 +842,77 @@ public class AdminServiceImpl implements AdminService{
 			result = adminDao.updateClassAddress(address);
 			logger.info("updateClassAddress():{}",result);
 		}
-		EventBoard eventBoard = new EventBoard();//파라메터 처리용
-		result = headImgSave(file, eventBoard, classInfo);
+		
+		result = classHeadImgSave(file, classInfo);
 			logger.info("클래스 해드 result : {}", result);
 		
 		
 	
 	}
+	
+	public int classHeadImgSave(MultipartFile file, Class classInfo) {
+		logger.info("filesave()");
+		
+		int result = 0;
+		
+		if(file.getSize() <= 0) {
+			logger.info("파일의 크기가 0이다, 처리 중단!");
+			
+			//filesave() 메소드 중단
+			return result;
+		}
+		
+		String path = context.getRealPath("upload");
+		logger.info("path : {}", path);
+		
+		
+		//폴더 만들기
+		File storedFolder = new File(path);
+		storedFolder.mkdir();
+				
+		//업로드된 파일이 저장될 이름
+		String uploadFileName = null;
+		
+		//저장될 파일 객체
+		File dest = null;
+		
+		//저장될 파일명이 중복되지 않도록 반복
+		do {
+			uploadFileName = file.getOriginalFilename();	//원본 파일명
+			uploadFileName += UUID.randomUUID().toString().split("-")[4];	//UUID 추가
+			logger.info("storedName : {}",uploadFileName);
+		
+			dest = new File(storedFolder,uploadFileName);
+		}while(dest.exists());
+		
+		try {
+			
+			//업로드된 파일을 upload폴더에 저장하기
+			(file).transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		
+		if(classInfo != null) {
+			//DB에 기록하기
+			classInfo.setHeadImg(uploadFileName);
+			
+			result = adminDao.classHeadImg(classInfo);
+			
+			if(result!=0) {
+				logger.info("클래스 썸네일 업로드 성공 : {}", result);
+				
+			}else {
+				logger.info("클래스 썸네일 업로드 실패 : {}", result);
+	
+			}
+		}
+		
+		return result;
+	} 
 	
 	//================================================================================
 	//--- 게시판 관리 ---
@@ -984,8 +1056,7 @@ public class AdminServiceImpl implements AdminService{
 			logger.info("eventBoard : {}", eventBoard);
 			logger.info("이벤트 정보 result : {}", result);
 			
-			Class classInfo = new Class();//파라메터 처리용
-			result = headImgSave(file, eventBoard, classInfo);
+			result = headImgSave(file, eventBoard);
 			logger.info("이벤트 해드 result : {}", result);
 			
 			//첨부파일이 없을 경우 처리
@@ -1074,7 +1145,7 @@ public class AdminServiceImpl implements AdminService{
 		return result;
 	}
 
-	public int headImgSave(MultipartFile file, EventBoard eventBoard, Class classInfo) {
+	public int headImgSave(MultipartFile file, EventBoard eventBoard) {
 		logger.info("filesave()");
 		
 		int result = 0;
@@ -1127,23 +1198,10 @@ public class AdminServiceImpl implements AdminService{
 			result = adminDao.headImg(eventBoard);
 			
 			if(result!=0) {
-				logger.info("파일 업로드 성공 : {}", result);
+				logger.info("이벤트 썸네일 업로드 성공 : {}", result);
 				
 			}else {
-				logger.info("파일 업로드 실패 : {}", result);
-	
-			}
-		}else if(classInfo != null) {
-			//DB에 기록하기
-			classInfo.setHeadImg(uploadFileName);
-			
-			result = adminDao.classHeadImg(classInfo);
-			
-			if(result!=0) {
-				logger.info("파일 업로드 성공 : {}", result);
-				
-			}else {
-				logger.info("파일 업로드 실패 : {}", result);
+				logger.info("이벤트 썸네일 업로드 실패 : {}", result);
 	
 			}
 		}
@@ -1203,8 +1261,7 @@ public class AdminServiceImpl implements AdminService{
 		logger.info("이벤트 정보 result : {}", result);
 		
 		if(file.getSize() != 0) {
-			Class classInfo = new Class();//파라메터 처리용
-			result = headImgSave(file, eventBoard, classInfo);
+			result = headImgSave(file, eventBoard);
 			logger.info("이벤트 해드 result : {}", result);
 		}
 		

@@ -309,7 +309,7 @@ input[type="checkbox"] {
          <label for="cb2" style="text-align: left; width: 40px" >여성</label><br>
             
          <label for="userBirthday">생년월일</label>
-         <input type="date" id="userBirthday" name="userBirthday" placeholder="${userInfo.userBirthday }"><br>
+         <input type="date" id="userBirthday" name="userBirthday" value="${userInfo.userBirthday }"><br>
          
          <label for="userName">이름</label>
          <input type="text" id="userName" name="userName" value="${userInfo.userName }"><br>

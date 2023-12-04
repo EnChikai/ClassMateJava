@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import payment.service.face.PaymentService;
 
 @Controller
+@PropertySource("classpath:/config.properties")
 public class PaymentController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -29,6 +32,7 @@ public class PaymentController {
 			Model model
 			, HttpSession session
 			, Map<String, Object> map
+			, @Value("${spring.datasource.init}") String init
 			
 			) {
 		logger.info("/payment/basket [GET]");
@@ -47,6 +51,7 @@ public class PaymentController {
 			model.addAttribute("classList",map.get("classList"));
 			model.addAttribute("paymentSum",map.get("paymentSum"));
 			model.addAttribute("classListSize",map.get("classListSize"));
+			model.addAttribute("init", init);
 		}
 		
 	}

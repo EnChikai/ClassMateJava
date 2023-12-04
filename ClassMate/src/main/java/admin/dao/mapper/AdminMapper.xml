@@ -46,8 +46,7 @@
 			user_no, user_id, user_pw, user_gender, user_birthday, user_phone
 			, user_name, user_email, main_address, sub_address, user_post, user_secession, user_date_created
 	        FROM user_info
-	        WHERE user_no > 0
-	        	AND user_secession = 0
+	        WHERE user_secession = 0
 	        <choose>
 		      <when test="sort == 1">
 		        ORDER BY user_no DESC
@@ -66,8 +65,7 @@
 			user_no, user_id, user_pw, user_gender, user_birthday, user_phone
 			, user_name, user_email, main_address, sub_address, user_post, user_secession, user_date_created
 	        FROM user_info
-	        WHERE user_no > 0
-	        	AND user_secession = 1
+	        WHERE user_secession = 1
 	        <choose>
 		      <when test="sort == 1">
 		        ORDER BY user_no DESC
@@ -103,6 +101,19 @@
   			, user_birthday = #{userBirthday}
   			, user_phone = #{userPhone}
   			, user_name = #{userName}
+  			, user_post = #{userPost}
+  			, main_address = #{mainAddress}
+  			, sub_address = #{subAddress}
+  		WHERE user_no = #{userNo}
+  	</update>
+  	
+  	 <update id="updateAdmin" parameterType="UserInfo">
+  		UPDATE user_info
+  		SET user_gender = #{userGender} 
+  			, user_birthday = #{userBirthday}
+  			, user_phone = #{userPhone}
+  			, user_name = #{userName}
+  			, user_email = #{userEmail}
   			, user_post = #{userPost}
   			, main_address = #{mainAddress}
   			, sub_address = #{subAddress}

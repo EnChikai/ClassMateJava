@@ -282,7 +282,7 @@ $(function(){
 	    
 <%-- 전체결제버튼 클릭 --%>	
 <%--가맹점 코드 초기화 --%>
-IMP.init('imp04411553')	
+IMP.init('${init}')	
 	$("#paymentBtn").click(function(){
 		
 		if($("#checkboxAll").is(":checked") || $(".checkBoxes").is(":checked")){
@@ -516,7 +516,7 @@ $(function(){
 <script type="text/javascript">
 
 <%--가맹점 코드 초기화 --%>
-IMP.init('imp04411553')
+IMP.init('${init}')
 $(function(){
 	$("#OneBtn${classList.classNo}").click(function(){
 		

@@ -62,6 +62,8 @@ public interface AdminDao {
 	public UserInfo selectUser(UserInfo userdata);
 
 	public int updateUser(UserInfo userdata);
+	
+	public int updateAdmin(UserInfo userdata);
 
 	public int setSecessionUser(UserInfo userdata);
 

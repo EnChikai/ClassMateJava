@@ -263,7 +263,12 @@ $(function(){
 	
 	<tr>
 		<th>이메일</th>
+		<c:if test="${userdata.userNo != 0}">
 			<td style="padding-bottom: 32px;"><input type="text" readonly="readonly" style="color: #999; width: 410px;" value="${userdata.userEmail}"></td>
+		</c:if>
+		<c:if test="${userdata.userNo == 0}">
+			<td style="padding-bottom: 32px;"><input type="text" name="userEmail" style="width: 410px;" value="${userdata.userEmail}"></td>
+		</c:if>
 	</tr>		
 	
 	<tr>

@@ -337,7 +337,9 @@ $(function(){
 <c:if test="${userdata.userSecession eq 0}">
 <div style="margin-top: 72px; margin-bottom: 15px;">
 <a href="../admin/userInfoUpdate?userNo=${userdata.userNo}"><button id="updateBtn" type="button">수정</button></a>
+<c:if test="${userdata.userNo != 0}">
 <a href="javascript:openSecessionModal('secessionModal');" class="terms" style="text-decoration: none; color: black;"><button id="secessionBtn">탈퇴</button></a>
+</c:if>
 </div>
 </c:if>
 
@@ -346,6 +348,7 @@ $(function(){
 <a href="javascript:openDelModal('delModal');" class="terms" style="text-decoration: none; color: black;"><button id="delBtn">삭제</button></a>
 </div>
 </c:if>
+
 
 </div>
 

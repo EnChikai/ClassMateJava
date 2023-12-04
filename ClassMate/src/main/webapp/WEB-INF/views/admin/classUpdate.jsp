@@ -7,7 +7,7 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7386d9c0dc5cbff30aa6aa3fde01768b&libraries=services"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey}"></script>
 			
 <%-- <% ============================================================================= %> --%>
 <style type="text/css">
@@ -350,7 +350,6 @@ $(function(){
 			</c:if>
 		</td>
 	</tr>
-	</c:if>	
 	
 	<tr>
 		<th>
@@ -364,6 +363,7 @@ $(function(){
 		</label>	
 		</td>
 	</tr>
+	</c:if>	
 
 	<c:if test="${classInfo.onOff eq 0}">
 	<tr>

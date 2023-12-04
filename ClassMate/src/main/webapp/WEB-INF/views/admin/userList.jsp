@@ -242,7 +242,7 @@ $(function(){
 <c:if test="${delCheckbox eq 0}">
 <c:if test="${paging.totalCount > 0}">
 <c:forEach var="i" begin="${paging.startNo-1}" end="${paging.endNo-1}" >
-<c:if test="${i < paging.totalCount-1}">
+<c:if test="${i < paging.totalCount}">
 
 <c:set var="list" value="${map.list[i] }" />
 <c:set var="teacherApplylist" value="${map.teacherApplylist[i] }" />
@@ -253,8 +253,11 @@ $(function(){
 		<td class="userListTd userInfo${list.userNo }">${list.userName }</td>
 		<td class="userListTd userInfo${list.userNo }">${list.userDateCreated }</td>
 		<td class="userListTd userInfo${list.userNo }">
-			<c:if test="${empty teacherApplylist.passOrNot}">
+			<c:if test="${empty teacherApplylist.passOrNot && list.userNo != 0}">
 				일반회원
+			</c:if>
+			<c:if test="${empty teacherApplylist.passOrNot && list.userNo == 0}">
+				관리자
 			</c:if>
 			<c:if test="${not empty teacherApplylist.passOrNot}">
 				<c:if test="${teacherApplylist.passOrNot == 0}">
@@ -272,6 +275,7 @@ $(function(){
 </c:if>
 
 <c:if test="${delCheckbox eq 1}">
+<c:if test="${paging.totalCount > 0}">
 <c:forEach var="i" begin="${paging.startNo-1}" end="${paging.endNo-1}" >
 <c:if test="${i < paging.totalCount}">
 
@@ -299,6 +303,7 @@ $(function(){
 	</tr>
 </c:if>
 </c:forEach>
+</c:if>
 </c:if>
 	
 </table>
