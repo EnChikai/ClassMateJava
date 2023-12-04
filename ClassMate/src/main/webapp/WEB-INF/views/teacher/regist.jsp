@@ -539,7 +539,7 @@ file-input-container {
 </div>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7386d9c0dc5cbff30aa6aa3fde01768b&libraries=services"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey}&libraries=services"></script>
 <script>
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
