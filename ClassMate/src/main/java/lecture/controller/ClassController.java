@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,7 @@ import lecture.dto.ClassVideo;
 import lecture.dto.QuestionAnswer;
 
 @Controller
+@PropertySource("classpath:/config.properties")
 @RequestMapping("/class")
 public class ClassController {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
@@ -78,7 +81,8 @@ public class ClassController {
 			Class viewClass
 			, Model model
 			, Map<String, Object> map
-			, HttpSession session) {
+			, HttpSession session
+			,@Value("${spring.datasource.apikey}") String apikey) {
 		logger.info("/class/offClass");
 		
 		UserInfo userInfo = classService.userCk(session);
@@ -86,6 +90,7 @@ public class ClassController {
 		map = classService.lectureOff(viewClass);
 		
 		logger.info("map : {}", map);
+		model.addAttribute("apikey", apikey);
 		model.addAttribute("address", map.get("address"));
 		model.addAttribute("lecture", map.get("lecture"));
 		
