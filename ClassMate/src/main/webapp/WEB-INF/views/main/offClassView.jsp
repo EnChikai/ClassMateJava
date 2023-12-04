@@ -81,7 +81,7 @@
             });
         });
         
-
+       
 
         function displayClassInfo(data) {
             // 클릭 상태에 따라 토글 처리
@@ -91,16 +91,24 @@
                 $("#classInfoContainer").empty();
                 if (data && data.length > 0) {
                     for (var i = 0; i < data.length; i++) {
-                    	var formattedStartDate = moment(data[i].classStart).format('YYYY-MM-DD');
-                    	var formattedEndDate = moment(data[i].classEnd).format('YYYY-MM-DD');
-                    	var formattedRecruitStartDate = moment(data[i].classDate).format('YYYY-MM-DD');
+                    	 var date = new Date(data[i].freeDate);
+                         
+                    	 var classDate = new Date(data[i].classDate);
+                         var classStart = new Date(data[i].classStart);
+                         var classEnd = new Date(data[i].classEnd);
+
+                         var classDateFormatted = classDate.toISOString().split('T')[0];
+                         var classStartFormatted = classStart.toISOString().split('T')[0];
+                         var classEndFormatted = classEnd.toISOString().split('T')[0];
+
+
                         var htmlContent =
                             '<div style="display: flex;">' +
-                            '<div style="background-color: black; font-size: 30px; color: white; flex: auto; width: 551px;">' +
+                            '<div style="background-color: black; font-size: 30px; color: white; flex: auto; width: 551px; height: 550px;">' +
                                 '<div style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px; font-size: 20px;">' +
                                     '강사명 : ' + data[i].teacher + '<br><br>' +
-                                    '강의기간<br>' + formattedStartDate + '~' + formattedEndDate + '<br><br>' +
-                                    '모집기간<br>' + formattedRecruitStartDate + '~' + formattedStartDate + '<br><br>' +
+                                    '강의기간<br>' + classStartFormatted + '~' + classEndFormatted + '<br><br>' +
+                                    '모집기간<br>' + classDateFormatted + '~' + classStartFormatted + '<br><br>' +
                                     '모집인원 : ' + data[i].maxCount + '<br>' +
                                     '금액 : ' + parseInt(data[i].expense) + '<br>' +
                                 '</div>' +
@@ -159,16 +167,22 @@
                 $("#classCurriculumContainer").empty();
                 if (data && data.length > 0) {
                     for (var i = 0; i < data.length; i++) {
-                    	var formattedStartDate = moment(data[i].classStart).format('YYYY-MM-DD');
-                    	var formattedEndDate = moment(data[i].classEnd).format('YYYY-MM-DD');
-                    	var formattedRecruitStartDate = moment(data[i].classDate).format('YYYY-MM-DD');
+                    	 var classDate = new Date(data[i].classDate);
+                         var classStart = new Date(data[i].classStart);
+                         var classEnd = new Date(data[i].classEnd);
+
+                         var classDateFormatted = classDate.toISOString().split('T')[0];
+                         var classStartFormatted = classStart.toISOString().split('T')[0];
+                         var classEndFormatted = classEnd.toISOString().split('T')[0];
+
+
                         var htmlContent =
                             '<div style="display: flex;">' +
-                            '<div style="background-color: black; font-size: 30px; color: white; flex: auto; width: 551px;">' +
+                            '<div style="background-color: black; font-size: 30px; color: white; flex: auto; width: 551px; height: 550px;">' +
                                 '<div style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px; font-size: 20px;">' +
                                     '강사명 : ' + data[i].teacher + '<br><br>' +
-                                    '강의기간<br>' + formattedStartDate + '~' + formattedEndDate + '<br><br>' +
-                                    '모집기간<br>' + formattedRecruitStartDate + '~' + formattedStartDate + '<br><br>' +
+                                    '강의기간<br>' + classStartFormatted + '~' + classEndFormatted + '<br><br>' +
+                                    '모집기간<br>' + classDateFormatted + '~' + classStartFormatted + '<br><br>' +
                                     '모집인원 : ' + data[i].maxCount + '<br>' +
                                     '금액 : ' + parseInt(data[i].expense) + '<br>' +
                                 '</div>' +
@@ -243,7 +257,7 @@ function redirectToLogin() {
 		   		</div>
 	   		</div>
         	<div style="background-color: black; font-size: 35px; color: white; flex: auto; width: 551px; height: 550px;">
-        		<div style="display: flex; justify-content: flex-end;"><img style=" height:100px; width: 60px; margin-right: 20px; margin-top: 20px;" src="/resources/img/on.png"></div>
+        		<div style="display: flex; justify-content: flex-end;"><img style=" height:100px; width: 60px; margin-right: 20px; margin-top: 20px;" src="/resources/img/offLogo.png"></div>
         		<div style="margin-left: 25px;"><strong>${list.className }</strong></div>
         	</div>
 	    </div>

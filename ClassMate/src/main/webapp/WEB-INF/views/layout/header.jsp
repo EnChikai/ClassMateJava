@@ -264,11 +264,12 @@ a{
 }
 
 #searchInput {
-  width: 100%;
-  border: 1px solid #bbb;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 14px;
+	width: 100%;
+    margin-top: 3px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
 }
 
 #searchIcon {
@@ -316,7 +317,7 @@ a{
 </table>
 <div style="text-align: -webkit-center;">
 	<div class="search">
-	    	<input id="searchInput" name="search" type="text" style=" display: none;" placeholder="검색어 입력">
+	    	<input id="searchInput" name="search" type="text" style=" display: none;" placeholder="카테고리 입력">
 	    	<img id="searchIcon" style="width: 25px; margin-bottom: 5px; display: none; cursor: pointer;" src="/resources/img/search1.png">
 	</div>
 </div>
