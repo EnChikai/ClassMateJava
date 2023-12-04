@@ -35,7 +35,7 @@ $(document).ready(function() {
 	        if (answer === "1") {
 	            $("#" + buttonId).text("답변수정");
 	            $("#" + buttonId).css({
-                    'background-color': '#FDE1B4',
+                    'background-color': '#F0C610',
                     'border-radius': '5px',
                     'margin': '2px',
                     'padding': '1px',
@@ -43,16 +43,17 @@ $(document).ready(function() {
                 });
 	            $("#" + registerButtonId).text("수정");
 	            $("#" + registerButtonId).css({
-                    'background-color': '#FDE1B4',
+                    'background-color': '#8c8c8c',
                     'border-radius': '5px',
                     'margin': '2px',
                     'padding': '1px',
-                    'border': 'none' 
+                    'border': 'none',
+                    'color': 'white'
                 });
 	        } else {
 	            $("#" + buttonId).text("답변하기");
 	            $("#" + buttonId).css({
-                    'background-color': '#c8c8c8',
+                    'background-color': '#F0C610',
                     'border-radius': '5px',
                     'margin': '2px',
                     'padding': '1px',
@@ -60,11 +61,12 @@ $(document).ready(function() {
                 });
 	            $("#" + registerButtonId).text("등록");
 	            $("#" + registerButtonId).css({
-                    'background-color': '#c8c8c8',
+                    'background-color': '#8c8c8c',
                     'border-radius': '5px',
                     'margin': '2px',
                     'padding': '1px',
-                    'border': 'none' 
+                    'border': 'none',
+                    'color': 'white'
                 });
             
 	        }
@@ -98,15 +100,15 @@ $(document).ready(function() {
 	                    $("#" + textareaId).val(res); // 예를 들어, 서버에서의 응답을 해당 div에 넣어주는 등의 작업
 	                    $("#" + buttonId).text("답변수정");
 	                    $("#" + buttonId).css({
-	                        'background-color': '#FDE1B4'
+	                        'background-color': '#F0C610'
 	                    });
 	    	            $("#" + registerButtonId).text("수정");
 	    	            $("#" + registerButtonId).css({
-	                        'background-color': '#FDE1B4'
+	                        'background-color': '#8c8c8c'
 	                    });
 	    	            $("#" + uncorrectId).text("답변완료");
 	    	            $("#" + uncorrectId).css({
-	                        'background-color': '#FDE1B4'
+	                        'background-color': '#F0C610'
 	                    });
 	                    
 	                },
@@ -155,7 +157,7 @@ $(document).ready(function() {
                         </select>
                     </form>
                 </div>   
-        	<div style="height: 10px; background-color: #FDE1B4; margin-top: 10px; margin-bottom: 10px;"></div>
+        	<div style="height: 10px; background-color: #FFF0B1; margin-top: 10px; margin-bottom: 10px;"></div>
         </div>
                
 	<c:if test="${not empty list}">
@@ -163,30 +165,30 @@ $(document).ready(function() {
                 <form id="form${loop.index}">
         <table style="width: 700px; margin-top: 15px; border: 1px #d2d2d2 solid; border-radius: 3px;">
             <colgroup>
-                <col style="width: 12%;">
-                <col style="width: 68%;">
+                <col style="width: 14%;">
+                <col style="width: 66%;">
                 <col style="width: 20%;">
             </colgroup>
                     <tr>
                         <td>
                             <div class="answer" style="display: none;">${list.answer }</div>
-                            <div>
+                            <div style="margin-top: 19px; margin-left: 11px; ">
                                 <c:choose>
                                     <c:when test="${list.answer == '1'}">
-                                        <span id="correct${loop.index}" style="border-radius: 5px; background-color: #FDE1B4; margin: 2px; padding: 1px;">답변완료</span>
+                                        <span id="correct${loop.index}" style="border-radius: 5px; background-color: #F0C610; margin: 2px; padding: 6px;">답변완료</span>
                                     </c:when>
                                     <c:otherwise>
-                                        <span id="uncorrect${loop.index}" style="border-radius: 5px; background-color: #c8c8c8; margin: 2px; padding: 1px;">미답변</span>
+                                        <span id="uncorrect${loop.index}" style="border-radius: 5px; background-color: #8c8c8c; margin: 2px; padding: 6px; color: white;">미답변</span>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2"><div style="margin-top: 10px; font-size: large;">${list.questionName }</div></td>
+                        <td colspan="2"><div style="margin-top: 15px; margin-left: 11px;  font-size: large;">${list.questionName }</div></td>
                     </tr>
                     <tr>
-                        <td rowspan="2" colspan="2"><div>${list.questionContent }</div></td>
+                        <td rowspan="2" colspan="2"><div style="margin-left: 11px; margin-top: 5px;">${list.questionContent }</div></td>
                         <td>
                     </tr>
                     <tr>
