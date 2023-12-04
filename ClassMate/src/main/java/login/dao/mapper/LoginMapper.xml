@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="login.dao.face.LoginDao">
+	<select id="selectUserByEmail" resultType="UserInfo" parameterType="UserInfo">
+		SELECT * FROM user_info
+		<where>
+			user_email = #{userEmail}
+		</where>
+	</select>
+	
+	<insert id="insertUser" parameterType="UserInfo">
+		INSERT INTO
+		user_info(user_no, user_gender, user_birthday, user_phone, user_name, user_email, user_date_created)
+		VALUES(user_info_seq.nextval, #{userGender}, #{userBirthday}, #{userPhone}, #{userName}, #{userEmail}, sysdate)
+	</insert>
+
+	<select id="selectUser" parameterType="UserInfo" resultType="UserInfo">
+		SELECT  * FROM user_info
+		<where>
+			user_email = #{userEmail}
+		</where>
+	</select>
+</mapper>

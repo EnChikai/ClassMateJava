@@ -22,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lecture.dto.Class;
 import lecture.service.face.ClassService;
+import login.BO.KakaoLoginBO;
+import login.BO.NaverLoginBO;
 import payment.dto.OrderTb;
 import teacher.dto.Teacher;
 import user.dto.UserInfo;
@@ -36,6 +38,8 @@ public class UserController {
    @Autowired UserService userService;
    @Autowired ClassService classService;
    @Autowired MailSendService mailService;
+   @Autowired NaverLoginBO naverLoginBO;
+   @Autowired KakaoLoginBO kakaoLoginBO;
    
  //이메일 인증
  	@GetMapping("/mailCheck")
@@ -330,8 +334,22 @@ public class UserController {
    }
    
    @GetMapping("/login")
-   public void login() {
+   public void login(Model model, HttpSession session) {
 //      logger.info("test");
+	   
+		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+		
+//		System.out.println("네이버:" + naverAuthUrl);
+		// 네이버
+		model.addAttribute("naverUrl", naverAuthUrl);
+
+		String kakaoAuthUrl = kakaoLoginBO.getKakaoAuthUrl();
+		
+//		System.out.println("카카오:" + kakaoAuthUrl);
+		// 카카오
+		model.addAttribute("kakaoUrl", kakaoAuthUrl);
+	   
    }
    
    @PostMapping("/login")

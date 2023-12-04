@@ -253,7 +253,7 @@ file-input-container {
 
 <div class="cd1">
 <div class="title" style="width: 900px;">
-<h3 style= "text-align: center;">ON/OFF클래스 등록</h3>
+<h3 style= "text-align: center; font-weight: bold;">ON/OFF클래스 등록</h3>
 <div style="margin-left: 750px; margin-bottom: 10px;"><select name="classCheck" id="classCheck">
   <option disabled="disabled" selected="selected" value="2">--선택해주세요--</option>
   <option value="1">on클래스</option>
@@ -277,10 +277,10 @@ file-input-container {
 	<col style="width: 80%;">
 </colgroup>
 <tr>
-	<td class="table-info">강사</td><td>${userName }</td>
+	<td class="table-primary">강사</td><td>${userName }</td>
 </tr>
 <tr>
-	<td class="table-info">카테고리</td>
+	<td class="table-primary">카테고리</td>
 	<td>
 	 <label for="mainCategoryName">대분류 : </label>
 	<select name="mainCategoryName" id="mainCategoryName" onchange="categoryUchange()">
@@ -303,24 +303,24 @@ file-input-container {
 	</td>
 </tr>
 <tr>
-	<td class="table-info">클래스명</td><td><input type="text" name="className" id="className"></td>
+	<td class="table-primary">클래스명</td><td><input type="text" name="className" id="className"></td>
 </tr>
 <tr>
-	<td class="table-info">클래스 기간</td><td><input type="date" name= "classStart" id="classStart">
+	<td class="table-primary">클래스 기간</td><td><input type="date" name= "classStart" id="classStart">
 		<img src="/resources/img/dash.png" id="tideImg" alt="물결" width="30" height="30" style="margin-left: 5px; margin-right: 5px;">
 		 <input type="date" name="classEnd" id="classEnd"></td>
 </tr>
 <tr>
-	<td class="table-info">모집 정원</td><td><input type="number" name="maxCount" id="maxCount"> 명</td>
+	<td class="table-primary">모집 정원</td><td><input type="number" name="maxCount" id="maxCount"> 명</td>
 </tr>
 <tr>
-	<td class="table-info">비용 및 안내</td><td><input type="text" name="expense" id="expense"> 원</td>
+	<td class="table-primary">비용 및 안내</td><td><input type="text" name="expense" id="expense"> 원</td>
 </tr>
 <tr>
-	<td class="table-info">클래스 소개</td><td><textarea name="classInfo" id="classInfo" style="width: 700px; height: 180px;"></textarea></td>
+	<td class="table-primary">클래스 소개</td><td><textarea name="classInfo" id="classInfo" style="width: 700px; height: 180px;"></textarea></td>
 </tr>
 <tr>
-	<td class="table-info">커리큘럼</td><td><textarea name="curriculum" id="curriculum" style="width: 700px; height: 180px;"></textarea></td>
+	<td class="table-primary">커리큘럼</td><td><textarea name="curriculum" id="curriculum" style="width: 700px; height: 180px;"></textarea></td>
 </tr>
 </table>
 
@@ -595,8 +595,8 @@ file-input-container {
 <br>
 
 <div class="text-center">
-	<button class="btn btn-primary" id="btnRegist">등록</button>
-	<button type="reset" class="btn btn-danger" id="btnCancel">취소</button>
+	<button class="btn btn-warning" id="btnRegist">등록</button>
+	<button type="reset" class="btn btn-secondary" id="btnCancel">취소</button>
 </div>
 </form>
 
