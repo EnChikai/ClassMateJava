@@ -444,6 +444,25 @@
   		WHERE class_no = #{classNo}
   	</update>
   	
+  	<delete id="deleteClassFiles" parameterType="int[]">
+		DELETE class_video
+		<where>
+			video_no IN
+			<foreach collection="array" item="no" open="(" close=")" separator=",">
+				#{no }
+			</foreach>
+		</where>
+	</delete>
+	
+	<insert id="insertClassFile" parameterType="ClassVideo">
+		<selectKey order="BEFORE" resultType="int" keyProperty="videoNo">
+			SELECT class_video_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO class_video ( video_no, class_no, video_lesson, origin_name, stored_name )
+		VALUES ( #{videoNo}, #{classNo}, #{videoLesson} , #{originName}, #{storedName} )
+	</insert>
+	
   	<!-- ================================================================================================================== -->
   	<!-- 게시판 관리 -->
   	

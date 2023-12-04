@@ -161,12 +161,6 @@ background: rgb(50,50,50);
     }
 </style>
 
-<script>
-    function displayFileName(input) {
-        var fileNameDisplay = document.getElementById('fileNameDisplay');
-        fileNameDisplay.innerText = input.files[0].name;
-    }
-</script>
 <%-- <% ============================================================================= %> --%>
 <script type="text/javascript">
 $(function(){
@@ -181,6 +175,20 @@ $(function(){
    
 });
 </script>
+
+<script type="text/javascript">
+$(() => {
+	
+	$(".del").click(e => {
+		$(e.target).prev().toggleClass("text-decoration-line-through").css("color"
+				, $(e.target).prev().hasClass("text-decoration-line-through") ? "red" : "rgb(13,110,253)");
+		
+		$(e.target).next().prop("checked", ()=>{return !$(e.target).next().prop("checked");})
+	})
+	
+})
+</script>
+
 <%-- <% ============================================================================= %> --%>
 
 <div style="border: 1px solid #ccc; text-align: center; width: 820px; margin-left: 72px; margin-bottom: 20px; margin-top: 78px;">
@@ -340,10 +348,17 @@ $(function(){
 		</th>
 		<td colspan="3">
 			<c:if test="${not empty classVideo}">
-				<c:forEach var="i" begin="0" end="${classVideo.size() }">
-<%-- 				<c:forEach var="i" begin="0" end="10"> --%>
- 
+				<c:set var="classVideo" value="${classVideo }"></c:set>
+				<c:forEach var="i" begin="0" end="${classVideo.size()-1 }">
+				
+				<span class="videoInfo" style="width: 620px;" >
+				<a style="color: rgb(13,110,253); text-decoration: underline;">${i+1}회차: ${classVideo[i].originName }</a>
+				<span style="font-size: 14px;" class="del fw-bold text-danger">X</span>		
+				<input type="checkbox" class="d-none" name="delFileno" value="${classVideo[i].videoNo }">
+				</span>
+				
 				</c:forEach>
+				
 			</c:if>
 			<c:if test="${empty classVideo}">
 			영상이 없습니다
@@ -357,10 +372,46 @@ $(function(){
 		동영상
 		</th>
 		<td colspan="3">
-		<label for="fileInput${i }">파일 업로드:
-			<input onchange="displayFileName(this)" style="display: none;" id="fileInput" type="file" name="classVideo" class="file">
-			<span id="fileNameDisplay"></span>
-		</label>	
+			    
+		<c:forEach var="i" begin="1" end="20">
+		    <label id="label${i}" class="emptyVideoInfo" for="fileInput${i}" style="width: 620px; ${i > 1 ? 'display: none;' : ''}">
+		        ${i}회차
+		        <input onchange="displayFileName(this, ${i})" style="display: none;" id="fileInput${i}" type="file" name="classVideo" class="file">
+		        <span id="fileNameDisplay${i}"></span>
+		        <input style="display: none;" id="fileUp${i}" type="checkbox" name="videoLesson" value="${i}">
+		    </label>
+		    <script type="text/javascript">
+		        function displayFileName(input, index) {
+		            var fileNameDisplay = document.getElementById('fileNameDisplay' + index);
+		            var labelElement = document.getElementById('label' + index);
+		
+		            if (input.files.length > 0) {
+		                fileNameDisplay.innerText = input.files[0].name;
+		                labelElement.classList.remove('emptyVideoInfo');
+		                labelElement.classList.add('videoInfo');
+		            } else {
+		                fileNameDisplay.innerText = '';
+		                labelElement.classList.remove('videoInfo');
+		                labelElement.classList.add('emptyVideoInfo');
+		            }
+		
+		            // 파일이 없어질 때 체크 해제
+		            if (input.files.length === 0) {
+		                $("#fileUp" + index).prop("checked", false);
+		            } else {
+		                $("#fileUp" + index).prop("checked", true);
+		            }
+		
+		            // 다음 레이블 보이기
+		            var nextIndex = index + 1;
+		            var nextLabel = document.getElementById('label' + nextIndex);
+		            if (nextLabel) {
+		                nextLabel.style.display = 'block';
+		            }
+		        }
+		    </script>
+		</c:forEach>
+		
 		</td>
 	</tr>
 	</c:if>	

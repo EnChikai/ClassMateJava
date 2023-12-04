@@ -291,8 +291,10 @@ $(function(){
             <th class="userListTh" width="7%">번호</th>
             <th class="userListTh" width="20%">클래스명</th>
             <th class="userListTh" width="10%">금액</th>
+            <th class="userListTh" width="10%">결제방식</th>
             <th class="userListTh" width="10%">결제카드</th>
             <th class="userListTh" width="10%">UID</th>
+            <th class="userListTh" width="10%">환불</th>
          </tr>
          
          <c:if test="${paging.totalCount <= 0}">
@@ -317,13 +319,47 @@ $(function(){
                            type="number" maxFractionDigits="3">
                            <c:out value="${paymentList.payment }" />
                         </fmt:formatNumber>원</td>
+                     <td class="userListTd">
+						<c:choose>
+						<c:when test="${paymentList.payMethod eq 'point'}">카카오페이</c:when>
+						<c:when test="${paymentList.payMethod eq 'card'}">신용카드</c:when>
+						<c:when test="${paymentList.payMethod eq 'samsung'}">삼성페이</c:when>
+						<c:when test="${paymentList.payMethod eq 'kakaopay'}">카카오페이</c:when>
+						<c:when test="${paymentList.payMethod eq 'ssgpay'}">SSG페이</c:when>
+						<c:when test="${paymentList.payMethod eq 'chai'}">차이페이</c:when>
+						<c:when test="${paymentList.payMethod eq 'trans'}">실시간 계좌이체</c:when>
+						<c:when test="${paymentList.payMethod eq 'vbank'}">가상계좌</c:when>
+						<c:when test="${paymentList.payMethod eq 'phone'}">휴대폰소액결제</c:when>
+						<c:when test="${paymentList.payMethod eq 'payco'}">페이코</c:when>
+						<c:when test="${paymentList.payMethod eq 'tosspay'}">토스간편결제 </c:when>
+						<c:when test="${paymentList.payMethod eq 'lpay'}">L페이</c:when>
+						<c:when test="${paymentList.payMethod eq 'naverpay'}">네이버페이</c:when>
+						<c:when test="${paymentList.payMethod eq 'cultureland'}">문화상품권</c:when>
+						<c:when test="${paymentList.payMethod eq 'smartculture'}">스마트문상</c:when>
+						<c:when test="${paymentList.payMethod eq 'happymoney'}">해피머니</c:when>
+						<c:when test="${paymentList.payMethod eq 'booknlife'}">도서문화상품권</c:when>
+						<c:when test="${paymentList.payMethod eq 'free'}">무료</c:when>
+						<c:otherwise>${paymentList.payMethod }</c:otherwise>
+						</c:choose>
+					</td>
                      <td class="userListTd"><c:set var="paymentList"
                            value="${map.paymentList[i] }" /> <c:out
                            value="${paymentList.cardName }" /></td>
                      <td class="userListTd"><c:set var="orderList"
                            value="${map.orderList[i] }" /> <c:out
                            value="${orderList.merchantUid }" /></td>
+                     <td class="userListTd">
+						<c:if test="${orderList.refund != 0}">
+							환불 완료
+						</c:if>
+					
+						<c:if test="${orderList.refund == 0}">
+							결제 완료
+						</c:if>
+						
+					</td>
                   </tr>
+                  
                   </c:if>
                </c:forEach>
             </c:if>

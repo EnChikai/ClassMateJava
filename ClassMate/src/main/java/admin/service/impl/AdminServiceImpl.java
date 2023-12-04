@@ -816,7 +816,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public void classUpdate(Class classInfo, MultipartFile file, Address address) {
+	public void classUpdate(Class classInfo, MultipartFile file, Address address, int[] delFileno, int[] videoLesson, List<MultipartFile> classVideo) {
 		logger.info("classUpdate()");
 
 		if( classInfo.getClassName() == null || classInfo.getClassName().equals("") ) {
@@ -846,8 +846,74 @@ public class AdminServiceImpl implements AdminService{
 		result = classHeadImgSave(file, classInfo);
 			logger.info("클래스 해드 result : {}", result);
 		
+		//삭제할 첨부 파일 처리
+		if( delFileno != null ) {
+			result = adminDao.deleteClassFiles( delFileno );
+		}
+			
+		//첨부파일이 없을 경우 처리
+		if( videoLesson == null) {
+			return;
+		}else {
+			ClassVideo videoInfo = new ClassVideo();
+			for(int i = 0; i<videoLesson.length; i++) {
+				videoInfo.setVideoNo(videoLesson[i]);
+				logger.info(i+". videoInfo : {}", videoInfo);
+				result = this.insertClassFile( classVideo.get(i), classInfo.getClassNo(), videoInfo);
+				logger.info("클래스 동영상 파일 result : {}", result);
+				
+			}
+		}
 		
+
+	}
 	
+	private int insertClassFile(MultipartFile file, int classNo, ClassVideo videoInfo) {
+		logger.info("insertFile()");
+		
+		int result = 0;
+		
+		//빈 파일 처리
+		if( file.getSize() <= 0 ) {
+			return result;
+		}
+		
+		//파일이 저장될 경로
+		String storedPath = context.getRealPath("upload");
+		
+		//upload 폴더 생성
+		File storedFolder = new File(storedPath);
+		storedFolder.mkdir();
+		
+		
+		//저장될 파일 이름
+		String originName = file.getOriginalFilename();
+		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+		
+		
+		//저장할 파일 객체
+		File dest = new File(storedFolder, storedName);
+	
+		
+		try {
+			file.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//---------------------------------------------------------------------------
+		
+			
+		videoInfo.setClassNo( classNo );
+		videoInfo.setOriginName( originName );
+		videoInfo.setStoredName( storedName );
+		
+		result = adminDao.insertClassFile(videoInfo);
+		logger.info("insertClassFile : {}", result);
+		
+		return result;
 	}
 	
 	public int classHeadImgSave(MultipartFile file, Class classInfo) {
