@@ -3,6 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<!-- Moment.js CDN -->
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -89,13 +91,16 @@
                 $("#classInfoContainer").empty();
                 if (data && data.length > 0) {
                     for (var i = 0; i < data.length; i++) {
+                    	var formattedStartDate = moment(data[i].classStart).format('YYYY-MM-DD');
+                    	var formattedEndDate = moment(data[i].classEnd).format('YYYY-MM-DD');
+                    	var formattedRecruitStartDate = moment(data[i].classDate).format('YYYY-MM-DD');
                         var htmlContent =
                             '<div style="display: flex;">' +
                             '<div style="background-color: black; font-size: 30px; color: white; flex: auto; width: 551px;">' +
                                 '<div style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px; font-size: 20px;">' +
                                     '강사명 : ' + data[i].teacher + '<br><br>' +
-                                    '강의기간<br>' + data[i].classStart + '~' + data[i].classEnd + '<br><br>' +
-                                    '모집기간<br>' + data[i].classDate + '~' + data[i].classStart + '<br><br>' +
+                                    '강의기간<br>' + formattedStartDate + '~' + formattedEndDate + '<br><br>' +
+                                    '모집기간<br>' + formattedRecruitStartDate + '~' + formattedStartDate + '<br><br>' +
                                     '모집인원 : ' + data[i].maxCount + '<br>' +
                                     '금액 : ' + parseInt(data[i].expense) + '<br>' +
                                 '</div>' +
@@ -154,13 +159,16 @@
                 $("#classCurriculumContainer").empty();
                 if (data && data.length > 0) {
                     for (var i = 0; i < data.length; i++) {
+                    	var formattedStartDate = moment(data[i].classStart).format('YYYY-MM-DD');
+                    	var formattedEndDate = moment(data[i].classEnd).format('YYYY-MM-DD');
+                    	var formattedRecruitStartDate = moment(data[i].classDate).format('YYYY-MM-DD');
                         var htmlContent =
                             '<div style="display: flex;">' +
                             '<div style="background-color: black; font-size: 30px; color: white; flex: auto; width: 551px;">' +
                                 '<div style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px; font-size: 20px;">' +
                                     '강사명 : ' + data[i].teacher + '<br><br>' +
-                                    '강의기간<br>' + data[i].classStart + '~' + data[i].classEnd + '<br><br>' +
-                                    '모집기간<br>' + data[i].classDate + '~' + data[i].classStart + '<br><br>' +
+                                    '강의기간<br>' + formattedStartDate + '~' + formattedEndDate + '<br><br>' +
+                                    '모집기간<br>' + formattedRecruitStartDate + '~' + formattedStartDate + '<br><br>' +
                                     '모집인원 : ' + data[i].maxCount + '<br>' +
                                     '금액 : ' + parseInt(data[i].expense) + '<br>' +
                                 '</div>' +
@@ -263,7 +271,7 @@ function redirectToLogin() {
 	</div>
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7386d9c0dc5cbff30aa6aa3fde01768b&libraries=services"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey}&libraries=services"></script>
 <script>
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div
     var address1 = document.getElementById('address1');
