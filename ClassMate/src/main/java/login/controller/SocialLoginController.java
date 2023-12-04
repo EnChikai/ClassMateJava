@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 
 import login.BO.KakaoLoginBO;
 import login.BO.NaverLoginBO;
+import login.service.face.LoginService;
 import user.dto.UserInfo;
 
 @Controller
@@ -30,7 +32,7 @@ public class SocialLoginController {
 	private NaverLoginBO naverLoginBO;
 	private KakaoLoginBO kakaoLoginBO;
 	private String apiResult = null;
-
+	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
 		this.naverLoginBO = naverLoginBO;
@@ -40,6 +42,7 @@ public class SocialLoginController {
 	private void setKakaoLoginBO(KakaoLoginBO kakaoLoginBO) {
 	    this.kakaoLoginBO = kakaoLoginBO;
 	}
+	@Autowired LoginService loginService;
 	
 	// 로그인 첫 화면 요청 메소드
 	@RequestMapping("/login")
@@ -95,13 +98,25 @@ public class SocialLoginController {
 	        Date birthDate = new Date(dateFormat.parse(birthDateStr).getTime());
 	        userInfo.setUserBirthday(birthDate);
 	    }
-	    model.addAttribute("userInfo", userInfo);
-
-	    return "login/naverSuccess";
+//	    model.addAttribute("userInfo", userInfo);
+	    
+	    //유저중에 이메일 같은사람 있는지 확인
+	    boolean result = loginService.isOurClient(userInfo);
+	    //없으면 회원가입(insert)
+	    if(!result) {
+	    	loginService.socialJoin(userInfo);
+	    }
+	    //로그인
+	    userInfo = loginService.getUserData(userInfo);
+	    session.setAttribute("isLogin", true);
+	    session.setAttribute("userNo", userInfo.getUserNo());
+//	    return "login/kakaoSuccess";
+	    return "redirect:/main/main";
+//	    return "login/naverSuccess";
 	}
 
 	@RequestMapping(value = "/callback2", method = RequestMethod.GET)
-	public String kakaoCallback(@RequestParam("code") String code, Model model) {
+	public String kakaoCallback(@RequestParam("code") String code, Model model, HttpSession session) {
 	    // 액세스 토큰 획득
 	    String accessToken = kakaoLoginBO.getAccessToken(code);
 //	    System.out.println(accessToken);
@@ -146,9 +161,20 @@ public class SocialLoginController {
 	        }
 	    }
 
-	    model.addAttribute("userInfo", userInfo);
-
-	    return "login/kakaoSuccess";
+//	    model.addAttribute("userInfo", userInfo);
+	    
+	    //유저중에 이메일 같은사람 있는지 확인
+	    boolean result = loginService.isOurClient(userInfo);
+	    //없으면 회원가입(insert)
+	    if(!result) {
+	    	loginService.socialJoin(userInfo);
+	    }
+	    //로그인
+	    userInfo = loginService.getUserData(userInfo);
+	    session.setAttribute("isLogin", true);
+	    session.setAttribute("userNo", userInfo.getUserNo());
+//	    return "login/kakaoSuccess";
+	    return "redirect:/main/main";
 	}
-
+	
 }
