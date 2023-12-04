@@ -12,6 +12,8 @@ import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,7 @@ import main.dto.SubCategory;
 import payment.dto.Payment;
 
 @Controller
+@PropertySource("classpath:/config.properties")
 @RequestMapping("/teacher")
 public class TeacherController {
 
@@ -176,14 +179,16 @@ public class TeacherController {
 	}
 	
 	@GetMapping("/detail")
-	public void detailView (HttpSession session, Model model, Teacher teacherParam, Class lecture, Address addressParam, ClassVideo videoParam) {
+	public void detailView (HttpSession session, Model model, Teacher teacherParam, Class lecture, Address addressParam, ClassVideo videoParam, @Value("${spring.datasource.apikey}") String apikey ) {
 		String userName = (String) session.getAttribute("userName");
 		String teacherImg = (String) session.getAttribute("teacherImg");
+
 		
 		logger.info("클라스 {}", lecture);
 		logger.info("강의 {}", videoParam);
 		logger.info("주소 {}", addressParam);
 		
+		model.addAttribute("apikey", apikey);
 		model.addAttribute("userName", userName);
 		model.addAttribute("teacherImg", teacherImg);
 		
@@ -468,11 +473,12 @@ public class TeacherController {
 //	}
 
 	@GetMapping("/regist")
-	public void regist(Model model, HttpSession session) {
+	public void regist(Model model, HttpSession session, @Value("${spring.datasource.apikey}") String apikey) {
 		
 		String userName = (String) session.getAttribute("userName");
 		String teacherImg = (String) session.getAttribute("teacherImg");
 		
+		model.addAttribute("apikey", apikey);
 		model.addAttribute("userName", userName);
 		model.addAttribute("teacherImg", teacherImg);
 
@@ -482,7 +488,7 @@ public class TeacherController {
 	public String teacherClassRegistPost(Teacher teacherParam, UserInfo userParam, Class classParam,
 			Address addressParam, ClassVideo classVideoParam, MainCategory mainCategoryParam,
 			SubCategory subCategoryParam, MultipartHttpServletRequest request, @RequestParam("fileCount") int fileCount,
-			List<MultipartFile> singleFile, HttpSession session, Model model) {
+			List<MultipartFile> singleFile, HttpSession session, Model model, @Value("${spring.datasource.apikey}") String apikey) {
 
 		logger.info("classParam {}", classParam);
 		logger.info("addressParam {}", addressParam);
@@ -490,6 +496,8 @@ public class TeacherController {
 		logger.info("categoryDParam {}", subCategoryParam);
 		logger.info("싱글파일 {}", singleFile);
 
+		model.addAttribute("apikey", apikey);
+		
 		teacherService.classRegist(teacherParam, userParam, classParam, addressParam, classVideoParam,
 				mainCategoryParam, subCategoryParam, request, fileCount, singleFile, session);
 
