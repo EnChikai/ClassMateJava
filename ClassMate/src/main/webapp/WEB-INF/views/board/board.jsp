@@ -2,9 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-<!-- HTML 파일의 head 부분에 아래 스크립트를 추가하세요 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 
@@ -237,7 +234,7 @@ $(document).ready(function () {
              
              
              // 결과가 없을 경우 알림창 표시
-             if (boardNameList.length === 0) {
+             if (boardNameList.boardNameList.length === 0) {
                  alert("검색된 결과가 없습니다.");
              } else {
             	 var boardNameList = boardNameList.boardNameList;
@@ -253,6 +250,11 @@ $(document).ready(function () {
  }
   
 //----------------------------------------------------------------------------------
+
+// 날짜의 달과 일이 한 자리 수일 경우 앞에 0을 붙이는 함수
+function padZero(num) {
+    return num < 10 ? '0' + num : num;
+}
   
 // 검색 결과를 화면에 출력하는 함수
 function renderBoardNameList(boardNameList) {
@@ -266,7 +268,15 @@ function renderBoardNameList(boardNameList) {
     // 검색 결과를 돌면서 행 추가
     for (var i = 0; i < boardNameList.length; i++) {
         var boardName = boardNameList[i];
-        var formattedDate = moment(boardName.freeDate, "MM DD, YYYY").format("YYYY-MM-DD");
+//         var formattedDate = moment(boardName.freeDate, "MM DD, YYYY").format("YYYY-MM-DD");
+
+		var date = new Date(boardName.freeDate);
+		
+		var year = date.getFullYear();
+		var month = ('0' + (date.getMonth() + 1)).slice(-2);  // 월은 0부터 시작하므로 1을 더하고 2자리로 포맷팅
+		var day = ('0' + date.getDate()).slice(-2);  // 일도 2자리로 포맷팅
+		var formattedDate = year + '-' + month + '-' + day;
+
         boardNameListHtml += '<tr id="boardFree">';
         boardNameListHtml += '<td>' + boardName.freeNo + '</td>';
         boardNameListHtml += '<td>' + boardName.freeHead + '</td>';

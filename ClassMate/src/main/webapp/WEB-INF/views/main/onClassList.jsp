@@ -74,16 +74,16 @@ a:hover{
 <div class="classMenu">
     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
     <input type="button" onclick="location.href='/main/onClassList?subCategoryNo=${subCategoryNo}'" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-    <label style="font-size: 30px; background-color: #F0C610; color: black;" class="btn btn-outline-warning" for="btnradio1" id="onClass"><strong>ON</strong></label>
+    <label style="font-size: 18px; padding: 11px 40px 11px 40px; background-color: #F0C610; color: black;" class="btn btn-outline-warning" for="btnradio1" id="onClass">ON 클래스</label>
 
  	<input type="button" onclick="location.href='/main/offClassList?subCategoryNo=${subCategoryNo}'" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-    <label style="font-size: 30px; color: black; background-color: #00000059; border: none;" class="btn btn-secondary" for="btnradio2" id="offClass"><strong>OFF</strong></label>
+    <label style="font-size: 18px; padding: 11px 40px 11px 40px; color: black; background-color: #0000003d; border: none;" class="btn btn-secondary" for="btnradio2" id="offClass">OFF 클래스</label>
     </div>
         
 <form id="sortForm" action="/main/onClassList" method="get">
     <div class="dropdown" style="float: right;">
-        <select name="sort" id="sortOrderSelect" onchange="submitForm()" style="padding: 7px; padding-right: 52px;">
-            <option value="class_no desc" ${classDescNo eq 2 ? 'selected' : ''}>최신순</option>
+        <select name="sort" id="sortOrderSelect" onchange="submitForm()" style="border-radius: 4px; padding: 7px; padding-right: 52px;">
+            <option style="" value="class_no desc" ${classDescNo eq 2 ? 'selected' : ''}>등록일순</option>
             <option value="COUNT(C.max_count) desc" ${orderNoDesc eq 4 ? 'selected' : ''}>인기순</option>
             <option value="expense" ${expenseNo eq 1 ? 'selected' : ''}>낮은 금액</option>
             <option value="expense desc" ${expenseDescNo eq 3 ? 'selected' : ''}>높은 금액</option>
