@@ -639,12 +639,19 @@ public class AdminController {
 			Class classInfo
 			, MultipartFile file
 			, Address address
+			, int[] delFileno
+			, int[] videoLesson
+			, List<MultipartFile> classVideo
+			
 			) {
 		logger.info("/admin/classUpdate [POST]");
 		logger.info("classInfo : {}", classInfo);
 		logger.info("file : {}", file);
+		logger.info("delFileno : {}",Arrays.toString(delFileno));
+		logger.info("videoLesson : {}",Arrays.toString(videoLesson));
+		logger.info("classVideo : {}",classVideo);
 		
-		adminService.classUpdate(classInfo, file, address);
+		adminService.classUpdate(classInfo, file, address, delFileno, videoLesson, classVideo);
 		
 		
 		

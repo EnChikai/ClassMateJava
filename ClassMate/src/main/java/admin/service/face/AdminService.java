@@ -103,7 +103,7 @@ public interface AdminService {
 	
 	public void updateClassExist(Class calssInfo);
 	
-	public void classUpdate(Class classInfo, MultipartFile file, Address address);
+	public void classUpdate(Class classInfo, MultipartFile file, Address address, int[] delFileno, int[] videoLesson, List<MultipartFile> classVideo);
 
 	//========================================================================================================
 	//--- 게시판 관리 ---

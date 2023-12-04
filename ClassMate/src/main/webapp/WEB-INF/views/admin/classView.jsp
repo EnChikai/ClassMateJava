@@ -427,13 +427,13 @@ $(function(){
 		</th>
 		<td colspan="3">
 			<c:if test="${not empty classVideo}">
-				<c:forEach var="i" begin="0" end="${classVideo.size() }">
+				<c:forEach var="i" begin="0" end="${classVideo.size()-1 }">
 <%-- 				<c:forEach var="i" begin="0" end="10"> --%>
 				<span class="videoInfo">
 						${i+1 } 회차
 				</span>
 				</c:forEach>
-				<c:forEach var="i" begin="${classVideo.size() }" end="18">
+				<c:forEach var="i" begin="${classVideo.size()-1 }" end="18">
 <%-- 				<c:forEach var="i" begin="${21-10}" end="19"> --%>
 				<span class="emptyVideoInfo">
 						${i+2 } 회차

@@ -168,6 +168,11 @@ public interface AdminDao {
 	
 	public int updateClassAddress(Address address);
 	
+	public int deleteClassFiles(int[] delFileno);
+	
+	public int insertClassFile(ClassVideo videoInfo);
+
+	
 	//========================================================================================================
 	//--- 게시판 관리 ---
 	
