@@ -208,9 +208,9 @@ $(function() {
       
          <div style="text-align: center;">
             <button id="btnLogin" type="button">로그인</button>
-		       	 <a href="${url}"><img width="20%" src="${pageContext.request.contextPath}/resources/img/btnW_축약형.png"/></a>
+		       	 <a href="${naverUrl}"><img width="20%" src="${pageContext.request.contextPath}/resources/img/btnW_축약형.png"/></a>
          </div><!-- .idpw -->
-		       	 <a href="${url}"><img width="197px" height="40px" src="${pageContext.request.contextPath}/resources/img/kakao_logo_large.png"/></a>
+		       	 <a href="${kakaoUrl}"><img width="197px" height="40px" src="${pageContext.request.contextPath}/resources/img/kakao_logo_large.png"/></a>
       	
          <div>
             <a class="join" href="/user/join">계정이 없으신가요? 가입하기</a>
