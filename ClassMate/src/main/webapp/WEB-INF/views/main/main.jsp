@@ -435,7 +435,7 @@ img {
 <div class="defaultWidth">
 
 <div style="margin-top: 60px;">
-
+<c:if test="${not empty selectByEventFileList or selectByEventFileList.size() != 0}">
 <div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
     <div class="carousel-indicators">
 		<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -454,7 +454,6 @@ img {
 			<a href="/board/eventView?eventNo=${list.eventNo }"><img data-bs-slide-to="${status.count }" style="width: 1103; height: 300px;" src="/upload/${list.headImg }"></a>
     	</div>
 	</c:forEach>
-
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -467,9 +466,10 @@ img {
 </div>
 
 </div>
+</c:if>
 
 <br><br><br>
-
+<c:if test="${not empty onClassOrderTopList or onClassOrderTopList.size() != 0}">
 <div class="container-on">
 <span class="TOP5"><strong>인기 ON TOP5</strong></span><span class="solid" style="border: 1px solid #ccc; padding-left: 869px; margin-right: 30px;"></span>
 <button id="prevBtn-on">&lt;</button>
@@ -489,10 +489,10 @@ img {
         </c:forEach>
     </div>
 </div>
-
+</c:if>
 
 <br><br><br>
-
+<c:if test="${not empty offClassOrderTopList or offClassOrderTopList.size() != 0}">
 <div class="container-off">
 <span class="TOP5"><strong>인기 OFF TOP5</strong></span><span class="solid" style="border: 1px solid #ccc; padding-left: 865px; margin-right: 30px;"></span>
 <button id="prevBtn-off">&lt;</button>
@@ -513,8 +513,9 @@ img {
         </c:forEach>
     </div>
 </div>
-
+</c:if>
 <br><br><br>
+<c:if test="${not empty onRecommended[i].classNo or onRecommended[i].classNo.size() != 0}">
 <div class="onOffFlext">
 	<div class="container-onOff">
 	<span><strong style="margin-right: 111px;">추천 ON/OFF</strong></span><span class="solid" style="padding-left: 310px; margin-right: 10px;"></span>
@@ -546,7 +547,7 @@ img {
         </c:forEach>
     </div>
 </div>
-
+</c:if>
 
 </div>
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,7 @@ import main.service.face.MainService;
 import web.util.Paging;
 
 @Controller
+@PropertySource("classpath:/config.properties")
 @RequestMapping("/main")
 public class MainController {
 	
@@ -243,7 +246,7 @@ public class MainController {
 	   @GetMapping("/onClassView")
 	   public void onClassView( Class cLass, Model model, HttpSession session) {
 		   List<Class> list = mainService.ClassViewList(cLass);
-//		   logger.info("list : {}", list);
+		   logger.info("list : {}", list);
 //	       logger.info("로그인안에 뭐가 있어? : {}", session.getAttribute("isLogin"));
 
 		   model.addAttribute("list",list);
@@ -252,10 +255,11 @@ public class MainController {
 	   }
 	   
 	   @GetMapping("/offClassView")
-	   public void offClassView( Class cLass, Model model, HttpSession session) {
+	   public void offClassView( Class cLass, Model model, HttpSession session,@Value("${spring.datasource.apikey}") String apikey) {
 		   List<Class> list = mainService.ClassViewList(cLass);
 		   Address address = mainService.getAddress(cLass);
-//		   logger.info("address : {}", address);
+		   logger.info("address : {}", list);
+		   model.addAttribute("apikey", apikey);
 		   model.addAttribute("address",address);
 		   model.addAttribute("list",list);
 		   model.addAttribute("isLogin", session.getAttribute("isLogin"));

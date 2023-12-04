@@ -335,7 +335,7 @@ $(document).ready(function () {
 }
 
 .terms{
-	font-size: 13px;
+	font-size: 14px;
 }
 
 .closeModal{
@@ -349,7 +349,7 @@ $(document).ready(function () {
 </body>
 
 <hr>
-<div class="footer" style="margin-left: 20px; margin-bottom: 70px;">
+<div class="footer" style="margin-left: 180px; margin-bottom: 70px;">
 
 <div id="modal" class="close"></div>
   <div class="modal-con modal1" style="border-radius: 8px;">
@@ -413,9 +413,12 @@ $(document).ready(function () {
 	</tr>
 </table>
 <br><br>
-<span><small>문의 전화 : 010-9318-5539</small></span><br>
-<span><small>광고 제휴 : yeah0203@naver.com</small></span><br>
-<span><small>소재지 : XXX XXXX XXXX XX</small></span>
+<span style="color: #464646;"><small>사업자등록번호 : xxx-81-00277</small></span><br>
+<span style="color: #464646;"><small>이메일 : ask@101.inc</small></span><br>
+<span style="color: #464646;"><small>대표전화 : 1800-2109</small></span><br>
+<span style="color: #464646;"><small>광고 제휴 : yeah0203@naver.com</small></span><br>
+<span style="color: #464646;"><small>서울특별시 강남구 테헤란로 xxx, 1-11층, 13층(역삼동, 호산빌딩)</small></span>
+
 
 
 
