@@ -41,7 +41,7 @@
 </script>
 
 <div class="cd1" style= margin-left: 700px;">
-<div style="width: 700px;"><h3 style="text-align: center;">ON/OFF클래스 상세 조회</h3></div>
+<div style="width: 700px;"><h3 style="text-align: center; font-weight: bold;">ON/OFF클래스 상세 조회</h3></div>
 <div><c:choose>
     <c:when test="${detailList.onOff eq 1}">
         <p style="text-align: right; font-weight: bold; color:orange;">온라인</p>
@@ -63,31 +63,31 @@
 </colgroup>
 
 <tr>
-	<td class="table-info">강사</td><td>${detailList.teacher }</td>
+	<td class="table-primary">강사</td><td>${detailList.teacher }</td>
 </tr>
 <tr>
-	<td class="table-info">클래스명</td><td>${detailList.className }</td>
+	<td class="table-primary">클래스명</td><td>${detailList.className }</td>
 </tr>
 <tr>
-	<td class="table-info">카테고리</td><td>${mainCategoryName }
+	<td class="table-primary">카테고리</td><td>${mainCategoryName }
 	<img src="/resources/img/gonext.png" id="rightImg" alt="더하기" width="20" height="20" style="margin-left: 5px; margin-right: 5px;">
 	 ${subCategoryName }</td>
 </tr>
 <tr>
-	<td class="table-info">클래스 기간</td><td><fmt:formatDate value="${detailList.classStart }" pattern="yyyy - MM - dd"/> ~
+	<td class="table-primary">클래스 기간</td><td><fmt:formatDate value="${detailList.classStart }" pattern="yyyy - MM - dd"/> ~
 		 <fmt:formatDate value="${detailList.classEnd }" pattern="yyyy - MM - dd"/></td>
 </tr>
 <tr>
-	<td class="table-info">모집 정원</td><td>${detailList.maxCount } 명</td>
+	<td class="table-primary">모집 정원</td><td>${detailList.maxCount } 명</td>
 </tr>
 <tr>
-	<td class="table-info">비용 및 안내</td><td>${detailList.expense } 원</td>
+	<td class="table-primary">비용 및 안내</td><td>${detailList.expense } 원</td>
 </tr>
 <tr>
-	<td class="table-info">클래스 소개</td><td>${detailList.classInfo }</td>
+	<td class="table-primary">클래스 소개</td><td>${detailList.classInfo }</td>
 </tr>
 <tr>
-	<td class="table-info">커리큘럼</td><td>${detailList.curriculum }</td>
+	<td class="table-primary">커리큘럼</td><td>${detailList.curriculum }</td>
 </tr>
 
 </table> 
@@ -99,12 +99,14 @@
             <c:forEach begin="0" end="3" varStatus="innerLoop">
                 <td>
                 <c:if test="${not empty videoList[outerLoop.index * 4 + innerLoop.index].videoLesson}">
+                <div style="width: 190px;">
                 <div style="margin-top: 20px; font-size: large;">   
                             ${videoList[outerLoop.index * 4 + innerLoop.index].videoLesson}<span>강</span>
                 </div>
-                <div><img src="/resources/img/videoImg2.png" id="videoImg" alt="영상" width="175" height="140"></div>
+                <div><img src="/resources/img/videoImg2.png" id="videoImg" alt="영상" width="100" height="100"></div>
                         </c:if>
                 <div>${videoList[outerLoop.index * 4 + innerLoop.index].originName}</div>
+                </div>
                 </td>
             </c:forEach>
         </tr>
@@ -167,7 +169,7 @@
     window.onload = execDaumPostcode;
 </script>
 
-<div style="text-align: center; margin-top: 20px;"><a href="/teacher/check"><button class="btn btn-secondary">목록</button></a></div>
+<div style="text-align: center; margin-top: 30px; margin-bottom: 20px;"><a href="/teacher/check"><button class="btn btn-secondary">목록</button></a></div>
 
 
 

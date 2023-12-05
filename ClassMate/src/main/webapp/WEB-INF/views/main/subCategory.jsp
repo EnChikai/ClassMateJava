@@ -113,7 +113,7 @@ p {
 
 
     <div class="subCateTitle">
-    	<img style="float: left; margin-top: -1px; margin-left: -1px;" width="50px;" height="50px;" src="/resources/img/mainCategory.png">
+    	<img style="float: left; margin-top: -1px; margin-left: -1px;" width="55px;" height="45px;" src="/resources/img/mainCategory.png">
     	<strong id="subName" style="font-size:22px;">카테고리 중분류</strong>
     </div>
     

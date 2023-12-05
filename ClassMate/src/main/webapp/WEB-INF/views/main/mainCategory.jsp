@@ -18,7 +18,7 @@ $(document).ready(function () {
 	}).mouseout(function () {
 	    // 마우스를 떼면 초기 스타일로 변경
 	    if (!$(this).hasClass("clicked")) {
-	        $(this).css("background-color", "#ccc");
+	        $(this).css("background-color", "#21252987");
 	        $(this).find("#mainFont").css("color", "white");
 	        $(this).find("#mainImg").css("filter", "invert(100%)");
 	    }
@@ -50,7 +50,7 @@ $(document).ready(function () {
     text-align: center;
     padding: 30px;
     transition: background-color 0.3s, color 0.3s;
-    background-color: #ccc;
+    background-color: #21252987;
 }
 
 #mainImg {
@@ -110,7 +110,7 @@ p {
 <div class="defaultWidth">
 
     <div class="mainCateTitle">
-    	<img style="float: left; margin-top: -1px; margin-left: -1px;" width="50px;" height="50px;" src="/resources/img/mainCategory.png">
+    	<img style="float: left; margin-top: -1px; margin-left: -1px;" width="55px;" height="45px;" src="/resources/img/mainCategory.png">
     	<strong id="mainName" style="font-size:22px;">카테고리 대분류</strong>
     </div>
 
