@@ -49,59 +49,21 @@ public class SearchController {
 		
 		
 		//서브
-		List<Class> list1 = searchService.subList(paging);
+		List<Class> list1 = searchService.subList(param);
 		
-		model.addAttribute("paging", paging);
-		model.addAttribute("list1", list1);
 		
 		logger.info("list1 : {}", list1);
 		paging = searchService.getClassTitlePaging(param);
 		logger.info("{}", paging);
 		
-		
-		
-		
-		
-		
-		//클래스 제목
-		List<Class> list2 = searchService.classTitleList(paging);
-		
 		model.addAttribute("paging", paging);
-		model.addAttribute("list2", list2);
-		
-		paging = searchService.getNickPaging(param);
-		logger.info("list2 {}", list2);
+		model.addAttribute("list1", list1);
 		
 		
 		
 		
 		
-		
-		
-		//닉네임
-		List<FreeBoard> list3 = searchService.nickList(paging);
-		logger.info("FreeBoardList : {}", list3);
-		
-		model.addAttribute("paging", paging);
-		model.addAttribute("list3", list3);
-		
-		paging = searchService.getTitlePaging(param);
-		logger.info("list3 {}", list3);
-		
-		
-		
-		
-		
-		
-		
-		//게시글 제목
-		List<FreeBoard> list4 = searchService.titleList(paging);
-		logger.info("FreeBoardList : {}", list);
-		
-		model.addAttribute("paging", paging);
-		model.addAttribute("list4", list4);
-		logger.info("list4 {}", list4);
-		
+	
 		
 		
 	}
