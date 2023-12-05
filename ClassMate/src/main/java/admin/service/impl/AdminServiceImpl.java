@@ -857,8 +857,8 @@ public class AdminServiceImpl implements AdminService{
 		}else {
 			ClassVideo videoInfo = new ClassVideo();
 			for(int i = 0; i<videoLesson.length; i++) {
-				videoInfo.setVideoNo(videoLesson[i]);
-				logger.info(i+". videoInfo : {}", videoInfo);
+				videoInfo.setVideoLesson(videoLesson[i]);
+				logger.info(i+". videoInfo : {}", videoInfo.getVideoLesson());
 				result = this.insertClassFile( classVideo.get(i), classInfo.getClassNo(), videoInfo);
 				logger.info("클래스 동영상 파일 result : {}", result);
 				
