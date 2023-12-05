@@ -85,7 +85,7 @@ margin-bottom: 0px;
 #existBtn{
 border-radius: 3px; 
 border-style: hidden;
-width: 65px; 
+width: 70px; 
 height: 33px;
 color: white;
 font-weight:bold;
