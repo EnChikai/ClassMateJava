@@ -90,7 +90,12 @@
             var translateValue = -currentIndex * itemWidth;
             $("#carousel-inner-onOff").css("transform", "translateX(" + translateValue + "px)");
         }
+        
     });
+    
+
+    
+
 </script>
 
 
@@ -303,8 +308,7 @@ background-color: #F0C610;
 }
 
 a:hover{
-	color: black;
-	text-decoration: underline;
+	color: #F0C610;
 }
 
 p{
@@ -426,6 +430,7 @@ img {
 
 
 }
+
         
 </style>
 
@@ -447,11 +452,11 @@ img {
 	</div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <a href="/board/eventView?eventNo=${selectByEventFileList[0].eventNo }"><img data-bs-slide-to="0" style="width: 1103; height: 300px;" src="/upload/${selectByEventFileList[0].headImg }"></a>
+      <a style="text-decoration: none;" href="/board/eventView?eventNo=${selectByEventFileList[0].eventNo }"><img data-bs-slide-to="0" style="width: 1103; height: 300px;" src="/upload/${selectByEventFileList[0].headImg }"></a>
     </div>
     <c:forEach var="list"  items="${selectByEventFileList }" begin="1" varStatus="status">
     	<div class="carousel-item">
-			<a href="/board/eventView?eventNo=${list.eventNo }"><img data-bs-slide-to="${status.count }" style="width: 1103; height: 300px;" src="/upload/${list.headImg }"></a>
+			<a style="text-decoration: none;" href="/board/eventView?eventNo=${list.eventNo }"><img data-bs-slide-to="${status.count }" style="width: 1103; height: 300px;" src="/upload/${list.headImg }"></a>
     	</div>
 	</c:forEach>
   </div>
@@ -481,9 +486,9 @@ img {
         <!-- 강의 목록은 서버에서 가져와 동적으로 생성되어야 합니다. 여기서는 간단히 하드코딩으로 생성합니다. -->
         <c:forEach var="list" items="${onClassOrderTopList}" varStatus="status">
             <div class="lecture-item-on">
-                <a href="/main/onClassView?classNo=${list.classNo}">
+                <a style="text-decoration: none;" href="/main/onClassView?classNo=${list.classNo}">
                     <img style="width: 358px; height: 270px;" src="/upload/${list.headImg}">
-                    <p style="width: 358px; background-color: #F4E399">${list.className}</p>
+                    <p class="className" style="width: 358px; background-color: #F4E399">${list.className}</p>
                 </a>
             </div>
         </c:forEach>
@@ -505,9 +510,9 @@ img {
         <!-- 강의 목록은 서버에서 가져와 동적으로 생성되어야 합니다. 여기서는 간단히 하드코딩으로 생성합니다. -->
         <c:forEach var="list" items="${offClassOrderTopList}" varStatus="status">
             <div class="lecture-item-off">
-                <a href="/main/offClassView?classNo=${list.classNo}">
+                <a style="text-decoration: none;" href="/main/offClassView?classNo=${list.classNo}">
                     <img style="width: 358px; height: 280px;" src="/upload/${list.headImg}">
-                    <p style="width: 358px; background-color: #B8DEF8">${list.className}</p>
+                    <p class="className" style="width: 358px; background-color: #B8DEF8">${list.className}</p>
                 </a>
             </div>
         </c:forEach>
@@ -531,16 +536,16 @@ img {
         <c:forEach var="i" begin="0" end="4">
         
             <div class="lecture-item-onOff">
-                <a href="/main/onClassView?classNo=${onRecommended[i].classNo }">
+                <a style="text-decoration: none;" href="/main/onClassView?classNo=${onRecommended[i].classNo }">
                     <img style="width: 266px; height: 200px;" src="/upload/${onRecommended[i].headImg}">
-                    <p style="margin-right: 5px; margin-left: 5px; background-color: #F4E399">${onRecommended[i].className}</p>
+                    <p class="className" style="margin-right: 5px; margin-left: 5px; background-color: #F4E399">${onRecommended[i].className}</p>
                 </a>
             </div>
             
             <div class="lecture-item-onOff">
-                <a href="/main/offClassView?classNo=${offRecommended[i].classNo }">
+                <a style="text-decoration: none;" href="/main/offClassView?classNo=${offRecommended[i].classNo }">
                     <img style="width: 266px; height: 200px;" src="/upload/${offRecommended[i].headImg}">
-                    <p style="margin-right: 5px; margin-left: 5px; background-color: #B8DEF8">${offRecommended[i].className}</p>
+                    <p class="className"style="margin-right: 5px; margin-left: 5px; background-color: #B8DEF8">${offRecommended[i].className}</p>
                 </a>
             </div>
             

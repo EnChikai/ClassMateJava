@@ -23,18 +23,14 @@ $(document).ready(function () {
 	        $(this).find("#subImg").css("filter", "invert(0%)");
 	    }
 	});
-	
 });
 
-function submitForm() {
-    document.getElementById('sortForm').submit();
-}
 </script>
 
 
-</script>
 
 <style type="text/css">
+
 .subCategoryNo{
 	text-decoration: none;
 	color: black;
@@ -44,39 +40,38 @@ function submitForm() {
 	margin-left: 400px;
 	margin-right: 400px;
     margin-top: 60px;
+	text-align: center;
 	margin-bottom: 60px;
 }
 
 .subCateTitle{
-	border: 1px solid #ccc;
 	margin-bottom: 20px;
-    padding-right: 50px;
-    margin-right: 200px;
-    margin-left: 200px;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .subCategoryContainer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-columns: 180px 180px 180px;
-    grid-template-rows: 180px 180px 180px;
+    grid-template-columns: 224px 224px 224px;
     align-items: center;
     justify-content: center;
     grid-column-gap: 15px;
-    grid-row-gap: 10px;
+    grid-row-gap: 15px;
 }
 
 .subCategoryItem {
     text-align: center;
-    padding: 23px;
+    padding: 30px;
     transition: background-color 0.3s, color 0.3s;
     background-color: #ccc;
 }
 
 #subImg {
-    width: 70px;
+    width: 80px;
+    
+    
 }
 
 p {
@@ -84,48 +79,32 @@ p {
     color: black;
 }
 
-.page-link.active{
-
-	background: rgb(250,224,120);
-	border: 1px solid rgb(230,204,100);
+@media (min-width: 1920px) {
+	#subName{
+	margin-left: 224px;
+		
+	}
+	.subCateTitle {
+	border: 1px solid #ccc;
+	justify-content: unset;
+	margin-right: 200px;
+    margin-left: 200px;
+    padding-right: 50px;
 	
-}
+	}
+	
+	}
+	
+	@media (max-width: 970px) {
+		.subCateTitle{
+			min-width: 152px;
+			    margin-left: -75px;
+		}
+		.defaultWidth{
+	    margin-top: 60px;
+		margin-bottom: 60px;
+	}
 
-a:hover{
-	color: #F0C610;
-}
-
-.classMenu{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-#onClassPaging1 {
-	background-color: rgb(241, 196, 15);
-	border-color: rgb(241, 196, 15);
-	border-radius: 4px;
-	margin: 3.5px;
-	text-align: center;
-	color: white;
-}
-
-#onClassPaging2 {
-	border-radius: 4px;
-	color: black;
-	background-color: #f1f3f5;
-	border-color: #f1f3f5;
-	margin: 3.5px;
-	text-align: center;
-}
-
-#onClassPaging3,#onClassPaging4,#onClassPaging5,#onClassPaging6 {
-	border-radius: 4px;
-	color: black;
-	background-color: #f1f3f5;
-	border-color: #f1f3f5;
-	margin: 3.5px;
-	text-align: center;
 }
 
 </style>
@@ -137,9 +116,9 @@ a:hover{
     
 	            <th><h1 style="text-align: center;">${search }에 대한 카테고리 검색결과</h1></th>
 	            
-	            <div class="subCateTitle">
-    	<img style="float: left; margin-top: -1px; margin-left: -1px;" width="50px;" height="50px;" src="/resources/img/mainCategory.png">
-    	<strong style="font-size:22px; margin-left: 260px;">카테고리</strong>
+    <div class="subCateTitle">
+    	<img style="float: left; margin-top: -1px; margin-left: -1px;" width="55px;" height="45px;" src="/resources/img/mainCategory.png">
+    	<strong id="subName" style="font-size:22px;">카테고리 중분류</strong>
     </div>
     
     
@@ -191,177 +170,19 @@ a:hover{
 
 <br><br><br>
 </c:if>
+<script>
+    <c:if test="${not empty list1}">
+        var subCategoryNo = "${list1[0].subCategoryNo}";
+        window.location.href = '/main/onClassList?subCategoryNo=' + subCategoryNo;
+    </c:if>
+</script>
 
-<c:if test="${not empty list1}">
-    <h1 style="text-align: center;">서브 카테고리 ${search }에 대한 클래스 목록 검색결과</h1>
-   
-	<div id="defaultOnClassList">
-		<c:forEach var="c" items="${list1}">
-		    	<c:if test="${c.deleteBoolean == 0}">
-		    		<a href="/main/onClassView?classNo=${c.classNo }">
-		    			<div style="display: flex; margin-top: 35px;">
-		    				<div><img style="width: 250px; height: 177px;" src="/upload/${c.headImg }"></div>
-			    			<div style="margin-left: 15px; width: 1103px;">
-						        <span style="font-size: 25px;"><strong>${c.className }</strong></span>
-						        <span style="margin-left: 350px; font-size: 25px; float: right;"><fmt:formatNumber value="${c.expense }" pattern="#,###" />원</strong></span>
-						        <div>${c.classInfo }</div><br>
-						        <div style="margin-top: margin-top: 33px;">
-							        <div style="float: right;">모집인원 : ${c.maxCount }명</div><br>
-							        <div style="float: right;">모집기간 : ${c.classStart }~${c.classEnd }</div>
-						        </div>
-					        </div>
-				        </div><br>
-			        </a><hr>
-		    	</c:if>
-		</c:forEach>
- 		<div id="onClassPagination">
-    	<ul class="pagination pagination-sm justify-content-center" style="margin-top: 80px;">
-			
-			<%-- 이전 페이지로 이동 --%>
-			<c:if test="${paging.curPage > 1 }">
-				<li class="page-item" style="width: 45px;">
-					<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage - 1 }subCategoryNo=${subCategoryNo}" id="onClassPaging6">&lt;</a>
-				</li>
-			</c:if>			
-		
-			<%-- 페이징 번호 목록 --%>
-			<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
-				<c:if test="${paging.curPage eq i }">
-				<li class="page-item" style="width: 45px;">
-					<a class="page-link active" href="<%= request.getContextPath() %>?curPage=${i }&subCategoryNo=${subCategoryNo}" id="onClassPaging1">${i }</a>
-				</li>
-				</c:if>
-				
-				<c:if test="${paging.curPage ne i }">
-				<li class="page-item" style="width: 45px;">
-					<a class="page-link" href="<%= request.getContextPath() %>?curPage=${i }&subCategoryNo=${subCategoryNo}" id="onClassPaging2">${i }</a>
-				</li>
-				</c:if>
-			</c:forEach>
-					
-			<%-- 다음 페이지로 이동 --%>
-			<c:if test="${paging.curPage < paging.totalPage }">
-				<li class="page-item" style="width: 45px;">
-					<a class="page-link" href="<%= request.getContextPath() %>?curPage=${paging.curPage + 1 }&subCategoryNo=${subCategoryNo}" id="onClassPaging3">&gt;</a>
-				</li>
-			</c:if>
-		</ul>
-   	</div>
-   </div>
+
+
+    <c:if test="${empty list1 && empty list}">
+        <h1>"${search }"에 대한 검색 결과가 없습니다.</h1>
+    </c:if>
 </div>
-<br><br><br>
-</c:if>
 
-<c:if test="${not empty list2}">
-    <h1 style="text-align: center;">클래스 제목 ${search }에 대한 클래스 목록 검색결과</h1>
-    
-    <table class="table">
-    	<thead class="table-dark">
-	        <tr>
-	            <th>Class No</th>
-	            <th>Teacher No</th>
-	            <th>Main Category No</th>
-	            <th>Sub Category No</th>
-	            <th>Teacher</th>
-	            <th>Class Name</th>
-	            <th>Class Date</th>
-	            <th>Class Start</th>
-	            <th>Class End</th>
-	            <th>Max Count</th>
-	            <th>Expense</th>
-	            <th>Class Info</th>
-	            <th>Curriculum</th>
-	            <th>On/Off</th>
-	            <th>Head Img</th>
-	            <th>Delete Boolean</th>
-	        </tr>
-        </thead>
-	        <c:forEach items="${list2}" var="lecture">
-	            <tr>
-	                <td>${lecture.classNo}</td>
-	                <td>${lecture.teacherNo}</td>
-	                <td>${lecture.mainCategoryNo}</td>
-	                <td>${lecture.subCategoryNo}</td>
-	                <td>${lecture.teacher}</td>
-	                <td>${lecture.className}</td>
-	                <td>${lecture.classDate}</td>
-	                <td>${lecture.classStart}</td>
-	                <td>${lecture.classEnd}</td>
-	                <td>${lecture.maxCount}</td>
-	                <td>${lecture.expense}</td>
-	                <td>${lecture.classInfo}</td>
-	                <td>${lecture.curriculum}</td>
-	                <td>${lecture.onOff}</td>
-	                <td>${lecture.headImg}</td>
-	                <td>${lecture.deleteBoolean}</td>
-	            </tr>
-	        </c:forEach>
-	    </table>
-<br><br><br>
-</c:if>
 
-<c:if test="${not empty list3}">
-    <h1 style="text-align: center;">${search }에 대한 작성자 제목 검색결과</h1>
-    
-    <table class="table">
-    	<thead class="table-dark">
-	        <tr>
-	            <th>FREE_NO</th>
-	            <th>USER_NO</th>
-	            <th>FREE_HEAD</th>
-	            <th>FREE_DATE</th>
-	            <th>FREE_HIT</th>
-	            <th>FREE_NAME</th>
-	            <th>FREE_CONTENT</th>
-	            <th>FREE_USERNAME</th>
-	        </tr>
-	    </thead>
-	        <c:forEach items="${list3}" var="free">
-	            <tr>
-	                <td>${free.freeNo}</td>
-	                <td>${free.userNo}</td>
-	                <td>${free.freeHead}</td>
-	                <td>${free.freeDate}</td>
-	                <td>${free.freeHit}</td>
-	                <td>${free.freeName}</td>
-	                <td>${free.freeContent}</td>
-	                <td>${free.userName}</td>
-	            </tr>
-	        </c:forEach>
-    	</table>
-<br><br><br>
-</c:if>
-
-<c:if test="${not empty list4}">
-    <h1 style="text-align: center;">${search }에 대한 게시글 검색결과</h1>
-
-        <table class="table">
-    	<thead class="table-dark">
-	        <tr>
-	            <th>FREE_NO</th>
-	            <th>USER_NO</th>
-	            <th>FREE_HEAD</th>
-	            <th>FREE_DATE</th>
-	            <th>FREE_HIT</th>
-	            <th>FREE_NAME</th>
-	            <th>FREE_CONTENT</th>
-	            <th>FREE_USERNAME</th>
-	        </tr>
-	    </thead>
-	        <c:forEach items="${list4}" var="free">
-	            <tr>
-	                <td>${free.freeNo}</td>
-	                <td>${free.userNo}</td>
-	                <td>${free.freeHead}</td>
-	                <td>${free.freeDate}</td>
-	                <td>${free.freeHit}</td>
-	                <td>${free.freeName}</td>
-	                <td>${free.freeContent}</td>
-	                <td>${free.userName}</td>
-	            </tr>
-	        </c:forEach>
-    </table>
-<br><br><br>
-</c:if>
-</div>
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

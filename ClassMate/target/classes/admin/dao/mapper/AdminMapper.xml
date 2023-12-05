@@ -30,6 +30,7 @@
 	        SUM(payment) AS payment
 	    FROM payment
 	    WHERE TRUNC(pay_date, 'MONTH') = TRUNC(ADD_MONTHS(SYSDATE, -#{monthCount}), 'MONTH')
+	    AND ORDER_NO IN (SELECT ORDER_NO FROM ORDER_TB WHERE REFUND = 0)
 	    GROUP BY TRUNC(pay_date, 'MONTH')
 	</select>
 
@@ -411,6 +412,7 @@
 	  	SELECT video_no, class_no, video_lesson, origin_name, stored_name
 	  	FROM class_video
 	  	WHERE class_no = #{classNo}
+	  	ORDER BY video_no 
   	</select>
   	
   	<select id="selectClassAdress" resultType="Address" parameterType="Class">

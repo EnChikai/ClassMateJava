@@ -299,7 +299,7 @@ $(function(){
          
          <c:if test="${paging.totalCount <= 0}">
          <tr>
-         <td colspan="5" style="text-align: center; padding-top: 20px; padding-bottom: 20px;">
+         <td colspan="5" style="text-align: center; padding-top: 20px; padding-bottom: 20px; padding-left: 220px;">
          <h1>결제 내역이 없습니다</h1>
          <p style="margin-top: 20px; padding-left: 40px"><img title="보노" alt=";;;;;;" src="/resources/img/bono.png" width="162px" height="156px"></p>
          </td>
