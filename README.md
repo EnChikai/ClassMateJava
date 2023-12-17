@@ -11,3 +11,5 @@ https://docs.google.com/spreadsheets/d/1BCLKEguZrt-U3T4kXzM44-XOJiKWQ0fN0x4idTFR
 
 화면구성
 https://ovenapp.io/
+
+결과물 링크http://54.180.104.89/main/main
