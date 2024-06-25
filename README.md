@@ -14,4 +14,4 @@ https://ovenapp.io/
 
 결과물 링크http://54.180.104.89/main/main
 
-[Uploading 2조 Class Mate.pptx…]()
+[Uploading 2조 Class Mate.pptx]()
